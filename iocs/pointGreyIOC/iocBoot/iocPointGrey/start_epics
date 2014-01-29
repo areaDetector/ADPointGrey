@@ -1,0 +1,3 @@
+medm -x -macro "P=13PR1:, R=cam1:" pixirad.adl &
+../../bin/linux-x86_64-gcc45/pixiradApp st.cmd
+

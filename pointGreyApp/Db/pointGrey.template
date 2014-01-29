@@ -1,0 +1,571 @@
+# Database for the records specific to the Pixirad driver
+# Mark Rivers
+# Jan. 9, 2014
+
+# We redefine the states for the TriggerMode and FrameType records defined in ADBase.template
+record(mbbo,"$(P)$(R)TriggerMode") {
+    field(DESC,"Acquire mode")
+    field(ZRVL,"0")
+    field(ZRST,"Internal")
+    field(ONVL,"1")
+    field(ONST,"External")
+    field(TWVL,"2")
+    field(TWST,"Bulb")
+}
+
+record(mbbi,"$(P)$(R)TriggerMode_RBV") {
+    field(DESC,"Acquire mode")
+    field(ZRVL,"0")
+    field(ZRVL,"0")
+    field(ZRST,"Internal")
+    field(ONVL,"1")
+    field(ONST,"External")
+    field(TWVL,"2")
+    field(TWST,"Bulb")
+}
+
+record(mbbo,"$(P)$(R)FrameType") {
+    field(ZRVL, "0")
+    field(ZRST, "1 color low")
+    field(ONVL, "1")
+    field(ONST, "1 color high")
+    field(TWVL, "2")
+    field(TWST, "2 color")
+    field(THVL, "3")
+    field(THST, "4 color")
+    field(FRVL, "4")
+    field(FRST, "1 color DTF")
+    field(FVVL, "5")
+    field(FVST, "2 color DTF")
+}
+
+record(mbbi,"$(P)$(R)FrameType_RBV") {
+    field(ZRVL, "0")
+    field(ZRST, "1 color low")
+    field(ONVL, "1")
+    field(ONST, "1 color high")
+    field(TWVL, "2")
+    field(TWST, "2 color")
+    field(THVL, "3")
+    field(THST, "4 color")
+    field(FRVL, "4")
+    field(FRST, "1 color DTF")
+    field(FVVL, "5")
+    field(FVST, "2 color DTF")
+}
+
+# Set the precision of the temperature records to 1
+record(ai, "$(P)$(R)TemperatureActual") { field(PREC, "1") }
+record(ai, "$(P)$(R)Temperature_RBV")   { field(PREC, "1") }
+record(ao, "$(P)$(R)Temperature")       { field(PREC, "1") }
+
+#
+# These are the records that are new to the Pixirad driver
+#
+# Threshold energies
+record(ao, "$(P)$(R)Threshold1")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD1")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(VAL, "10.000")
+}
+
+record(ai, "$(P)$(R)Threshold1_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD1")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)Threshold2")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD2")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(VAL, "10.000")
+}
+
+record(ai, "$(P)$(R)Threshold2_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD2")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)Threshold3")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD3")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(VAL, "10.000")
+}
+
+record(ai, "$(P)$(R)Threshold3_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD3")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)Threshold4")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD4")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(VAL, "10.000")
+}
+
+record(ai, "$(P)$(R)Threshold4_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD4")
+    field(DESC, "Energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)ThresholdActual1_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD_ACTUAL1")
+    field(DESC, "Actual energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)ThresholdActual2_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD_ACTUAL2")
+    field(DESC, "Actual energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)ThresholdActual3_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD_ACTUAL3")
+    field(DESC, "Actual energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)ThresholdActual4_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD_ACTUAL4")
+    field(DESC, "Actual energy threshold")
+    field(EGU,  "keV")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)ColorsCollected_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))COLORS_COLLECTED")
+    field(DESC, "Colors collected")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)UDPBuffersRead_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))UDP_BUFFERS_READ")
+    field(DESC, "UDP buffers read")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)UDPBuffersMax_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))UDP_BUFFERS_MAX")
+    field(DESC, "UDP buffers total")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)UDPBuffersFree_RBV")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))UDP_BUFFERS_FREE")
+    field(DESC, "UDP buffers free")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)UDPSpeed_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))UDP_SPEED")
+    field(DESC, "UDP speed")
+    field(EGU,  "MB/s")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(busy,"$(P)$(R)AutoCalibrate") {
+    field(DESC, "Auto calibrate")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))AUTO_CALIBRATE")
+    field(ZNAM, "Done")
+    field(ONAM, "Calibrate")
+}
+
+record(busy,"$(P)$(R)SystemReset") {
+    field(DESC, "System reset")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYSTEM_RESET")
+    field(ZNAM, "Done")
+    field(ONAM, "Reset")
+}
+
+record(ao, "$(P)$(R)HVValue")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_VALUE")
+    field(DESC, "High voltage value")
+    field(EGU,  "V")
+    field(DRVL, "0")
+    field(LOPR, "0")
+    field(DRVH, "400")
+    field(HOPR, "400")
+    field(PREC, "1")
+}
+
+record(ai, "$(P)$(R)HVValue_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_VALUE")
+    field(DESC, "High voltage value")
+    field(EGU,  "V")
+    field(LOPR, "0")
+    field(HOPR, "400")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo,"$(P)$(R)HVState") {
+    field(DESC, "High voltage state")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_STATE")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(bi,"$(P)$(R)HVState_RBV") {
+    field(DESC, "High voltage state")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_STATE")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo,"$(P)$(R)HVMode") {
+    field(DESC, "High voltage mode")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_MODE")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+}
+
+record(bi,"$(P)$(R)HVMode_RBV") {
+    field(DESC, "High voltage mode")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_MODE")
+    field(ZNAM, "Manual")
+    field(ONAM, "Auto")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)HVActual_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_ACTUAL")
+    field(DESC, "High voltage actual")
+    field(EGU,  "V")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)HVCurrent_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HV_CURRENT")
+    field(DESC, "High voltage current")
+    field(EGU,  "nA")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo,"$(P)$(R)SyncInPolarity") {
+    field(DESC, "Sync in polarity")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYNC_IN_POLARITY")
+    field(ZNAM, "Pos.")
+    field(ONAM, "Neg.")
+}
+
+record(bi,"$(P)$(R)SyncInPolarity_RBV") {
+    field(DESC, "Sync in polarity")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYNC_IN_POLARITY")
+    field(ZNAM, "Pos.")
+    field(ONAM, "Neg.")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo,"$(P)$(R)SyncOutPolarity") {
+    field(DESC, "Sync out polarity")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYNC_OUT_POLARITY")
+    field(ZNAM, "Pos.")
+    field(ONAM, "Neg.")
+}
+
+record(bi,"$(P)$(R)SyncOutPolarity_RBV") {
+    field(DESC, "Sync out polarity")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYNC_OUT_POLARITY")
+    field(ZNAM, "Pos.")
+    field(ONAM, "Neg.")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo,"$(P)$(R)SyncOutFunction") {
+    field(DESC, "Sync out function")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYNC_OUT_FUNCTION")
+    field(ZRVL, "0")
+    field(ZRST, "Shutter")
+    field(ONVL, "1")
+    field(ONST, "Read done")
+    field(TWVL, "2")
+    field(TWST, "Read")
+}
+
+record(mbbi,"$(P)$(R)SyncOutFunction_RBV") {
+    field(DESC, "Sync out function")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SYNC_OUT_FUNCTION")
+    field(ZRVL, "0")
+    field(ZRST, "Shutter")
+    field(ONVL, "1")
+    field(ONST, "Read done")
+    field(TWVL, "2")
+    field(TWST, "Read")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo,"$(P)$(R)CoolingState") {
+    field(DESC, "Cooling state")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))COOLING_STATE")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(bi,"$(P)$(R)CoolingState_RBV") {
+    field(DESC, "Cooling state")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))COOLING_STATE")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)HotTemperature_RBV")
+{
+    field(DESC, "Hot temperature")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))HOT_TEMPERATURE")
+    field(EGU,  "C")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)BoxTemperature_RBV")
+{
+    field(DESC, "Box temperature")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))BOX_TEMPERATURE")
+    field(EGU,  "C")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)BoxHumidity_RBV")
+{
+    field(DESC, "Box humidity")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))BOX_HUMIDITY")
+    field(EGU,  "%")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)DewPoint_RBV")
+{
+    field(DESC, "Detector dew point")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))DEW_POINT")
+    field(EGU,  "C")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)PeltierPower_RBV")
+{
+    field(DESC, "Peltier power")
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PELTIER_POWER")
+    field(EGU,  "%")
+    field(PREC, "1")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbi,"$(P)$(R)CoolingStatus_RBV") {
+    field(DESC, "Temperature status")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))COOLING_STATUS")
+    field(ZRVL, "0")
+    field(ZRST, "OK")
+    field(ZRSV, "NO_ALARM")
+    field(ONVL, "1")
+    field(ONST, "Dew Pt Warning")
+    field(ONSV, "MINOR")
+    field(TWVL, "2")
+    field(TWST, "Dew Pt Error")
+    field(TWSV, "MAJOR")
+    field(THVL, "3")
+    field(THST, "T Hot Warning")
+    field(THSV, "MINOR")
+    field(FRVL, "4")
+    field(FRST, "T Hot Error")
+    field(FRSV, "MAJOR")
+    field(FVVL, "5")
+    field(FVST, "T Cold Warning")
+    field(FVSV, "MINOR")
+    field(SXVL, "6")
+    field(SXST, "T Cold Error")
+    field(SXSV, "MAJOR")
+    field(SCAN, "I/O Intr")
+}
+
+
+# Set DISA for PVs in ADBase that do not apply to Pixirad
+
+record(mbbo, "$(P)$(R)DataType")
+{
+    field(DISA, "1")
+}
+record(mbbi, "$(P)$(R)DataType_RBV")
+{
+    field(DISA, "1")
+}
+record(mbbo, "$(P)$(R)ColorMode")
+{
+    field(DISA, "1")
+}
+record(mbbi, "$(P)$(R)ColorMode_RBV")
+{
+    field(DISA, "1")
+}
+record(longout, "$(P)$(R)BinX")
+{
+    field(DISA, "1")
+}
+record(longin, "$(P)$(R)BinX_RBV")
+{
+    field(DISA, "1")
+}
+record(longout, "$(P)$(R)BinY")
+{
+    field(DISA, "1")
+}
+record(longin, "$(P)$(R)BinY_RBV")
+{
+    field(DISA, "1")
+}
+record(longout, "$(P)$(R)MinX")
+{
+    field(DISA, "1")
+}
+record(longin, "$(P)$(R)MinX_RBV")
+{
+    field(DISA, "1")
+}
+record(longout, "$(P)$(R)MinY")
+{
+    field(DISA, "1")
+}
+record(longin, "$(P)$(R)MinY_RBV")
+{
+    field(DISA, "1")
+}
+record(longout, "$(P)$(R)SizeX")
+{
+    field(DISA, "1")
+}
+record(longin, "$(P)$(R)SizeX_RBV")
+{
+    field(DISA, "1")
+}
+record(longout, "$(P)$(R)SizeY")
+{
+    field(DISA, "1")
+}
+record(longin, "$(P)$(R)SizeY_RBV")
+{
+    field(DISA, "1")
+}
+record(bo, "$(P)$(R)ReverseX")
+{
+    field(DISA, "1")
+}
+record(bi, "$(P)$(R)ReverseX_RBV")
+{
+    field(DISA, "1")
+}
+record(bo, "$(P)$(R)ReverseY")
+{
+    field(DISA, "1")
+}
+record(bi, "$(P)$(R)ReverseY_RBV")
+{
+    field(DISA, "1")
+}
+

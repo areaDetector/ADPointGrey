@@ -7,7 +7,7 @@ ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
   LIBRARY_IOC += pointGrey
 endif
 
-#LIB_SRCS += pointGrey.cpp
+LIB_SRCS += pointGrey.cpp
 
 DBD += pointGreySupport.dbd
 

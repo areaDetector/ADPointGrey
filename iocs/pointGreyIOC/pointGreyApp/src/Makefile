@@ -4,7 +4,9 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
 PROD_NAME = pointGreyApp
-PROD_IOC += $(PROD_NAME)
+ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+  PROD_IOC += $(PROD_NAME)
+endif
 
 # <name>.dbd will be created from <name>Include.dbd
 DBD += $(PROD_NAME).dbd

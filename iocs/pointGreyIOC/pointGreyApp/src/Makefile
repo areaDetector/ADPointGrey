@@ -15,6 +15,7 @@ PROD_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp $(PROD_NAME)Main.cpp
 
 # Add locally compiled object code
 PROD_LIBS += pointGrey
+PROD_LIBS += FlyCapture2
 
 include $(ADCORE)/ADApp/commonDriverMakefile
 

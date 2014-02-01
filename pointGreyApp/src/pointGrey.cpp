@@ -69,6 +69,7 @@ private:
     PGRGuid *pGuid_;
     Camera *pCamera_;
     BusManager *pBusMgr_;
+    Format7Info *pFormat7Info_;
     int exiting_;
     epicsEventId startEvent_;
 };
@@ -151,15 +152,15 @@ pointGrey::pointGrey(const char *portName, int cameraId, int maxBuffers,
     pBusMgr_ = new BusManager;
     pCamera_ = new Camera;
     pGuid_   = new PGRGuid;
-
-    // Call report() to get a list of available cameras
-    report(stdout, 1);
+    pFormat7Info_ = new Format7Info;
 
     status = connectCamera();
     if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s:%s:  camera connection failed (%d)\n",
             driverName, functionName, status);
+        // Call report() to get a list of available cameras
+        report(stdout, 1);
         return;
     }
 
@@ -229,6 +230,26 @@ void pointGrey::report(FILE *fp, int details)
             camInfo.firmwareVersion,
             camInfo.firmwareBuildTime);
     }
+    
+    fprintf(fp, "Currently connected camera Format7 information\n"
+                "  mode: %d\n"
+                "  maxWidth:  %d\n"
+                "  maxHeight: %d\n"
+                "  offsetHStepSize: %d\n"
+                "  offsetVStepSize: %d\n"
+                "  imageHStepSize:  %d\n"
+                "  imageVStepSize:  %d\n"
+                "  pixelFormatBitField       0x%x\n" 
+                "  vendorPixelFormatBitField 0x%x\n",
+                pFormat7Info_->mode,
+                pFormat7Info_->maxWidth,
+                pFormat7Info_->maxHeight,
+                pFormat7Info_->offsetHStepSize,
+                pFormat7Info_->offsetVStepSize,
+                pFormat7Info_->imageHStepSize,
+                pFormat7Info_->imageVStepSize,
+                pFormat7Info_->pixelFormatBitField,
+                pFormat7Info_->vendorPixelFormatBitField);
 
     if (details < 1) return;
     ADDriver::report(fp, details);
@@ -377,6 +398,9 @@ void pointGrey::imageTask()
                     driverName, functionName, dataSize, dataSizePG);
                 continue;
             }
+            setIntegerParam(NDArraySizeX, nCols);
+            setIntegerParam(NDArraySizeY, nRows);
+            setIntegerParam(NDArraySize, (int)dataSize);
             setIntegerParam(NDDataType,dataType);
             setIntegerParam(NDColorMode, colorMode);
             pImage = pNDArrayPool->alloc(nDims, dims, dataType, 0, NULL);
@@ -419,13 +443,11 @@ asynStatus pointGrey::readStatus()
         status = asynError;
     else if (tempProp.present)
         setDoubleParam(ADTemperatureActual, tempProp.absValue);
-printf("%s:%s: temp=%f\n", driverName, functionName, tempProp.absValue);
     error = pCamera_->GetStats(&camStats);
     if (checkError(error, functionName, "GetStats")) 
         status = asynError;
     else
         setIntegerParam(PGImagesDropped_, camStats.imageDropped);
-printf("%s:%s: dropped=%d\n", driverName, functionName, camStats.imageDropped);
     return status;
 }
 
@@ -475,8 +497,9 @@ asynStatus pointGrey::connectCamera(void)
     asynStatus status = asynSuccess;
     Error error;
     CameraInfo camInfo;
-    int sizeX, sizeY;
+    Format7Info f7Info;
     FC2Version version;
+    bool format7ModeSupported;
     unsigned int numCameras;
     char tempString[sk_maxStringLength];
     static const char *functionName = "connectCamera";
@@ -512,9 +535,17 @@ asynStatus pointGrey::connectCamera(void)
     Utilities::GetLibraryVersion(&version);
     sprintf(tempString, "%d.%d.%d", version.major, version.minor, version.type);
     setStringParam(PGSoftwareVersion_, tempString);
-    sscanf(camInfo.sensorResolution, "%dx%d", &sizeX, &sizeY);
-    setIntegerParam(ADMaxSizeX, sizeX);
-    setIntegerParam(ADMaxSizeY, sizeY);
+    //sscanf(camInfo.sensorResolution, "%dx%d", &sizeX, &sizeY);
+    //setIntegerParam(ADMaxSizeX, sizeX);
+    //setIntegerParam(ADMaxSizeY, sizeY);
+    
+    // Get the Format7 capabilities
+    pFormat7Info_->mode = MODE_0;
+    error = pCamera_->GetFormat7Info(pFormat7Info_, &format7ModeSupported);
+    if (checkError(error, functionName, "GetFormat7Info")) return asynError;
+    setIntegerParam(ADMaxSizeX, pFormat7Info_->maxWidth);
+    setIntegerParam(ADMaxSizeY, pFormat7Info_->maxHeight);
+    
     return asynSuccess;
 }
 

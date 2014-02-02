@@ -3,11 +3,12 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
-ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
+#ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
   LIBRARY_IOC += pointGrey
-endif
+#endif
 
-LIB_SRCS += pointGrey.cpp
+LIB_SRCS_WIN32 += pointGrey.cpp
+LIB_SRCS_Linux += pointGrey.cpp
 
 DBD += pointGreySupport.dbd
 

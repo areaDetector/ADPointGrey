@@ -3,6 +3,9 @@
  *
  * This is a driver for PointGrey GigE, Firewire, and USB3 cameras using their FlyCapture2 SDK
  *
+ * It is based on the FirewireWin areaDetector driver, which also supports Firewire DCAM drivers on Windows.
+ * However, because this driver uses the PointGrey SDK it also supports USB3 cameras, which FirewireWin does not.
+ *
  * Author: Mark Rivers
  *         Univerity of Chicago
  *
@@ -35,52 +38,158 @@ using namespace FlyCapture2;
 
 static const char *driverName = "pointGrey";
 
-class pointGrey : public ADDriver {
+#define MAX(x,y) ((x)>(y)?(x):(y))
+
+/* PointGrey driver specific parameters */
+#define PGSerialNumberString          "PG_SERIAL_NUMBER"     /* asynInt32    ro */
+#define PGFirmwareVersionString       "PG_FIRMWARE_VERSION"  /* asynOctet    ro */
+#define PGSoftwareVersionString       "PG_SOFTWARE_VERSION"  /* asynOctet    ro */
+#define PGPropertyValueString         "PG_PROP_VAL"
+#define PGPropertyValueMaxString      "PG_PROP_VAL_MAX"
+#define PGPropertyValueMinString      "PG_PROP_VAL_MIN"
+#define PGPropertyValueAbsString      "PG_PROP_VAL_ABS"
+#define PGPropertyValueAbsMaxString   "PG_PROP_VAL_ABS_MAX"
+#define PGPropertyValueAbsMinString   "PG_PROP_VAL_ABS_MIN"
+#define PGPropertyModeString          "PG_PROP_MODE"
+#define PGPropertyAvailableString     "PG_PROP_AVAILABLE"
+#define PGPropertyAbsoluteString      "PG_PROP_ABSOLUTE"
+#define PGVideoModeString             "PG_VIDEO_MODE"
+#define PGFormat7ModeString           "PG_FORMAT7_MODE"
+#define PGFrameRateString             "PG_FRAME_RATE"
+#define PGPixelFormatString           "PG_PIXEL_FORMAT"
+#define PGValidVideoModeString        "PG_VALID_VIDEO_MODE"
+#define PGValidFrameRateString        "PG_VALID_FRAMERATE"
+#define PGValidPixelFormatString      "PG_VALID_PIXEL_FORMAT"
+#define PGHasFormatString             "PG_HAS_FORMAT"
+#define PGHasVideoModeString          "PG_HAS_VIDEO_MODE"
+#define PGHasFrameRateString          "PG_HAS_FRAMERATE"
+#define PGHasPixelFormatString        "PG_HAS_PIXEL_FORMAT"
+#define PGCurrentFormatString         "PG_CURRENT_FORMAT"
+#define PGCurrentVideoModeString      "PG_CURRENT_VIDEO_MODE"
+#define PGCurrentFrameRateString      "PG_CURRENT_FRAMERATE"
+#define PGCurrentPixelFormatString    "PG_CURRENT_PIXEL_FORMAT"
+#define PGReadoutTimeString           "PG_READOUT_TIME"
+#define PGDroppedFramesString         "PG_DROPPED_FRAMES"
+
+// Point Grey does not define a NUM_PROPERTIES constant, but it can be set as follows
+#define NUM_PROPERTIES UNSPECIFIED_PROPERTY_TYPE
+
+// The maximum value of the asyn "addr" is the largest of NUM_PROPERTIES, NUM_PIXEL_FORMATS, NUM_MODES, NUM_VIDEO_MODES
+#define MAX_ADDR NUM_MODES
+
+/** Main driver class inherited from areaDetectors ADDriver class.
+ * One instance of this class will control one firewire camera on the bus.
+ */
+class pointGrey : public ADDriver
+{
 public:
-    pointGrey(const char *portName, int cameraId, int maxBuffers, 
-              size_t maxMemory, int priority, int stackSize);
+    pointGrey(const char *portName, int cameraId,
+                 int maxBuffers, size_t maxMemory,
+                 int priority, int stackSize);
 
-    /* Override ADDriver methods */ 
-    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-    virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
-    virtual void report(FILE *fp, int details);
-
-    /* "private methods" that need to be called from C */
+    /* virtual methods to override from ADDriver */
+    virtual asynStatus writeInt32( asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus writeFloat64( asynUser *pasynUser, epicsFloat64 value);
+    void report(FILE *fp, int details);
+    /**< These should be private but are called from C callback functions, must be public. */
+    void imageGrabTask();
     void shutdown();
-    void imageTask();
 
 protected:
-    int PGFrameRate_;
-    #define FIRST_PG_PARAM PGFrameRate_
-    int PGImagesDropped_;
     int PGSerialNumber_;
+    #define FIRST_PG_PARAM PGSerialNumber_
     int PGFirmwareVersion_;
     int PGSoftwareVersion_;
-    #define LAST_PG_PARAM PGSoftwareVersion_
+    int PGPropertyValue;          /** Property value (int32 read/write) addr: 0-17 */
+    int PGPropertyValueMax;       /** Property maximum boundry value (int32 read) addr: 0-17 */
+    int PGPropertyValueMin;       /** Property minimum boundry value (int32 read)  addr: 0-17*/
+    int PGPropertyValueAbs;       /** Property absolute value (float64 read/write) addr: 0-17 */
+    int PGPropertyValueAbsMax;    /** Property absolute maximum boundry value (float64 read) addr: 0-17 */
+    int PGPropertyValueAbsMin;    /** Property absolute minimum boundry value (float64 read) addr: 0-17 */
+    int PGPropertyMode;           /** Property control mode: 0:manual or 1:automatic (camera controlled) (int32 read/write)*/
+    int PGPropertyAvailable;      /** Is a given property available in the camera 1=available 0=not available (int32, read) */
+    int PGPropertyAbsolute;       /** Property has absolute (floating point) controls available 1=available 0=not available (int32 read) */
+    int PGVideoMode;              /** Set and read back the video mode (int32 (enums) read/write)*/
+    int PGFormat7Mode;            /** Set and read back the format7 mode (int32 (enums) read/write)*/
+    int PGFrameRate;              /** Set and read back the frame rate (int32 (enums) read/write)*/
+    int PGPixelFormat;            /** Set and read back the color code (int32 (enums) read/write)*/
+    int PGValidVideoMode;         /** Read back the valid video modes (octet, read)*/
+    int PGValidFrameRate;         /** Read back the valid frame rates (octet, read)*/
+    int PGValidPixelFormat;       /** Read back the valid color codes (octet, read)*/
+    int PGHasVideoMode;           /** Read back whether video mode is supported (int32, read)*/
+    int PGHasFrameRate;           /** Read back whether video framerate is supported (int32, read)*/
+    int PGHasPixelFormat;         /** Read back whether color code is supported (int32, read)*/
+    int PGCurrentFormat;          /** Read back the current video format (octet, read)*/
+    int PGCurrentVideoMode;       /** Read back the current video mode (octet, read)*/
+    int PGCurrentFrameRate;       /** Read back the current frame rate (octet, read)*/
+    int PGCurrentPixelFormat;     /** Read back the pixel format (octet, read)*/
+    int PGReadoutTime;            /** Readout time (float64, read/write)*/
+    int PGDroppedFrames;          /** Number of dropped frames (int32, read)*/
+    #define LAST_PG_PARAM PGDroppedFrames
+
 private:
+    /* Local methods to this class */
+    int grabImage();
+    asynStatus startCapture();
+    asynStatus stopCapture();
+
     inline asynStatus checkError(Error error, const char *functionName, const char *message);
     asynStatus connectCamera();
     asynStatus disconnectCamera();
-    asynStatus setROI();
-    asynStatus getROI();
     asynStatus readStatus();
-    asynStatus setPropertyDouble(PropertyType propertyType, double value);
+
+    /* camera property control functions */
+    asynStatus setPropertyValue(PropertyType propType, epicsInt32 value);
+    asynStatus setPropertyAbsValue(PropertyType propType, epicsFloat64 value);
+    asynStatus setPropertyMode(PropertyType propType, epicsInt32 value);
+    asynStatus setVideoMode(epicsInt32 mode);
+    asynStatus setFrameRate(epicsInt32 rate);
+    asynStatus setVideoModeAndFrameRate(epicsInt32 mode, epicsInt32 frameRate);
+    asynStatus setFormat7Params();
+    asynStatus formatFormat7Modes();
+    asynStatus formatValidModes();
+    asynStatus getAllProperties();
+    int getPixelFormatIndex(PixelFormat pixelFormat);
+
+    /* Data */
     int cameraId_;
+    Property *allProperties_[NUM_PROPERTIES];
+    PropertyInfo *allPropInfos_[NUM_PROPERTIES];
     PGRGuid *pGuid_;
     Camera *pCamera_;
     BusManager *pBusMgr_;
     Format7Info *pFormat7Info_;
     int exiting_;
-    epicsEventId startEvent_;
+    epicsEventId startEventId_;
+    NDArray *pRaw_;
 };
+/* end of pointGrey class description */
+
+/** Number of asyn parameters (asyn commands) this driver supports. */
 #define NUM_PG_PARAMS ((int)(&LAST_PG_PARAM - &FIRST_PG_PARAM + 1))
 
-/* PointGrey driver specific parameters */
-#define PGFrameRateString        "PG_FRAME_RATE"        /* asynFloat64  rw */
-#define PGImagesDroppedString    "PG_IMAGES_DROPPED"    /* asynInt32    ro */
-#define PGSerialNumberString     "PG_SERIAL_NUMBER"     /* asynInt32    ro */
-#define PGFirmwareVersionString  "PG_FIRMWARE_VERSION"  /* asynOctet    ro */
-#define PGSoftwareVersionString  "PG_SOFTWARE_VERSION"  /* asynOctet    ro */
+/** Configuration function to configure one camera.
+ *
+ * This function need to be called once for each camera to be used by the IOC. A call to this
+ * function instanciates one object from the pointGrey class.
+ * \param[in] portName Asyn port name to assign to the camera.
+ * \param[in] camid The camera ID or serial number in a hexadecimal string. Lower case and
+ *            upper case letters can be used. This is used to identify a specific camera
+ *            on the bus. For instance: "0x00b09d01007139d0".  If this parameter is empty ("")
+ *            then the first camera found on the Firewire bus will be used.
+ * \param[in] maxBuffers Maxiumum number of NDArray objects (image buffers) this driver is allowed to allocate.
+ *            This driver requires 2 buffers, and each queue element in a plugin can require one buffer
+ *            which will all need to be added up in this parameter. Use -1 for unlimited.
+ * \param[in] maxMemory Maximum memory (in bytes) that this driver is allowed to allocate. So if max. size = 1024x768 (8bpp)
+ *            and maxBuffers is, say 14. maxMemory = 1024x768x14 = 11010048 bytes (~11MB). Use -1 for unlimited.
+ * \param[in] priority The EPICS thread priority for this driver.  0=use asyn default.
+ * \param[in] stackSize The size of the stack for the EPICS port thread. 0=use asyn default.
+ */
+extern "C" int pointGreyConfig(const char *portName, int cameraId, int maxBuffers, size_t maxMemory, int priority, int stackSize)
+{
+    new pointGrey( portName, cameraId, maxBuffers, maxMemory, priority, stackSize);
+    return asynSuccess;
+}
 
 static void c_shutdown(void *arg)
 {
@@ -88,58 +197,183 @@ static void c_shutdown(void *arg)
   p->shutdown();
 }
 
-static void c_imageTask(void *arg)
+static const char *videoModeStrings[NUM_VIDEOMODES] = {
+    "160x120 YUV444",  
+    "320x240 YUV422", 
+    "640x480 YUV411", 
+    "640X480 YUV422",   
+    "640x480 RGB",   
+    "640x480 Mono8",   
+    "640x480 Mono16",
+    "800x600 YUV422",  
+    "800x600 RGB",    
+    "800x600 Mono8",  
+    "1024x768 YUV422",  
+    "1024x768 RGB",  
+    "1024x768 Mono8",  
+    "800x600 Mono16",  
+    "1024x768 Mono16",
+    "1280x960 YUV422", 
+    "1280x960 RGB",   
+    "1280x960 Mono8", 
+    "1600x1200 YUV422", 
+    "1600x1200 RGB", 
+    "1600x1200 Mono8", 
+    "1280x960 Mono16", 
+    "1600x1200 Mono16",
+    "Format7"
+};
+
+// These are built at run time by formatFormat7Modes
+static const char *f7VideoModeStrings[NUM_MODES];
+
+static const char *frameRateStrings[NUM_FRAMERATES] = {
+    "1.875",
+    "3.75",
+    "7.5",
+    "15",
+    "30",
+    "60",
+    "120",
+    "240"
+};
+
+static const char *pixelFormatStrings[NUM_PIXEL_FORMATS] = {
+    "Mono8",
+    "YUV411",
+    "YUV422",
+    "YUV444",
+    "RGB8",
+    "Mono16",
+    "RGB16",
+    "Mono16_Signed",
+    "RGB16_Signed",
+    "Raw8",
+    "Raw16",
+    "Mono12",
+    "Raw12",
+    "BGR",
+    "BGRU",
+    "BGR16",
+    "BGRU16",
+    "YUV422_JPEG"
+};
+
+static PixelFormat pixelFormatValues[NUM_PIXEL_FORMATS] = {
+    PIXEL_FORMAT_MONO8,
+    PIXEL_FORMAT_411YUV8,
+    PIXEL_FORMAT_422YUV8,
+    PIXEL_FORMAT_444YUV8,
+    PIXEL_FORMAT_RGB8,
+    PIXEL_FORMAT_MONO16,
+    PIXEL_FORMAT_RGB16,
+    PIXEL_FORMAT_S_MONO16,
+    PIXEL_FORMAT_S_RGB16,
+    PIXEL_FORMAT_RAW8,
+    PIXEL_FORMAT_RAW16,
+    PIXEL_FORMAT_MONO12,
+    PIXEL_FORMAT_RAW12,
+    PIXEL_FORMAT_BGR,
+    PIXEL_FORMAT_BGRU,
+    PIXEL_FORMAT_RGB,
+    PIXEL_FORMAT_RGBU,
+    PIXEL_FORMAT_BGR16,
+    PIXEL_FORMAT_BGRU16,
+    PIXEL_FORMAT_422YUV8_JPEG
+};
+
+static const char *propertyTypeStrings[NUM_PROPERTIES] = {
+    "Brightness",
+    "AutoExposuure",
+    "Sharpness",
+    "WhiteBalance",
+    "Hue",
+    "Saturation",
+    "Gamma",
+    "Iris",
+    "Focus",
+    "Zoom",
+    "Pan",
+    "Tilt",
+    "Shutter",
+    "Gain",
+    "TriggerMode",
+    "TriggerDelay",
+    "FrameRate",
+    "Temperature"
+};
+
+static void imageGrabTaskC(void *drvPvt)
 {
-  pointGrey *p = (pointGrey *)arg;
-  p->imageTask();
+    pointGrey *pPvt = (pointGrey *)drvPvt;
+
+    pPvt->imageGrabTask();
 }
 
-extern "C" int pointGreyConfig(const char *portName, int cameraId, int maxBuffers,
-                               size_t maxMemory, int priority, int stackSize)
-{
-    new pointGrey(portName, cameraId, maxBuffers, maxMemory, priority, stackSize);
-    return(asynSuccess);
-}
-
-/** Constructor for PointGrey driver; most parameters are simply passed to
-  * ADDriver::ADDriver.
-  *
-  * After calling the base class constructor this method creates a thread to
-  * collect the images from the detector and sets reasonable default values for
-  * the parameters defined in this class, asynNDArrayDriver, and ADDriver.
-  *
-  * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] cameraId The id number of the PointGrey camera (see listdevices
-  *            example for number).
-  * \param[in] maxBuffers The maximum number of NDArray buffers that the
-  *            NDArrayPool for this driver is allowed to allocate. Set this to
-  *            -1 to allow an unlimited number of buffers.
-  * \param[in] maxMemory The maximum amount of memory that the NDArrayPool for
-  *            this driver is allowed to allocate. Set this to -1 to allow an
-  *            unlimited amount of memory.
-  * \param[in] priority The thread priority for the asyn port driver thread
-  *            if ASYN_CANBLOCK is set in asynFlags.
-  * \param[in] stackSize The stack size for the asyn port driver thread if
-  *            ASYN_CANBLOCK is set in asynFlags.
-  */
-pointGrey::pointGrey(const char *portName, int cameraId, int maxBuffers,
-                     size_t maxMemory, int priority, int stackSize)
-    : ADDriver(portName, 1, NUM_PG_PARAMS, maxBuffers, maxMemory,
-               asynEnumMask, asynEnumMask, 
-               ASYN_CANBLOCK,  /* ASYN_CANBLOCK=1 ASYN_MULTIDEVICE=0 */
-               1,              /* autoConnect=1 */
-               priority, stackSize),
-      cameraId_(cameraId), pGuid_(0), exiting_(0)
+/** Constructor for the pointGrey class
+ * Initialises the camera object by setting all the default parameters and initializing
+ * the camera hardware with it. This function also reads out the current settings of the
+ * camera and prints out a selection of parameters to the shell.
+ * \param[in] portName Asyn port name to assign to the camera driver.
+ * \param[in] cameraId The camera index or serial number.
+ * \param[in] maxBuffers Maxiumum number of NDArray objects (image buffers) this driver is allowed to allocate.
+ *            This driver requires 2 buffers, and each queue element in a plugin can require one buffer
+ *            which will all need to be added up in this parameter. Use -1 for unlimited.
+ * \param[in] maxMemory Maximum memory (in bytes) that this driver is allowed to allocate. So if max. size = 1024x768 (8bpp)
+ *            and maxBuffers is, say 14. maxMemory = 1024x768x14 = 11010048 bytes (~11MB). Use -1 for unlimited.
+ * \param[in] priority The EPICS thread priority for this asyn port driver.  0=use asyn default.
+ * \param[in] stackSize The size of the stack for the asyn port thread. 0=use asyn default.
+ */
+pointGrey::pointGrey(const char *portName, int cameraId, 
+                    int maxBuffers, size_t maxMemory, int priority, int stackSize )
+    : ADDriver(portName, MAX_ADDR, NUM_PG_PARAMS, maxBuffers, maxMemory, 0, 0,
+               ASYN_CANBLOCK | ASYN_MULTIDEVICE, 1, priority, stackSize),
+    cameraId_(cameraId), pGuid_(0), exiting_(0), pRaw_(NULL)
 {
     static const char *functionName = "pointGrey";
+    int i;
+    PropertyType propType;
     asynStatus status;
 
-    /* create PointGrey specific parameters */
-    createParam(PGFrameRateString,        asynParamFloat64, &PGFrameRate_);
-    createParam(PGImagesDroppedString,    asynParamInt32,   &PGImagesDropped_);
-    createParam(PGSerialNumberString,     asynParamInt32,   &PGSerialNumber_);
-    createParam(PGFirmwareVersionString,  asynParamOctet,   &PGFirmwareVersion_);
-    createParam(PGSoftwareVersionString,  asynParamOctet,   &PGSoftwareVersion_);
+    createParam(PGSerialNumberString,           asynParamInt32,   &PGSerialNumber_);
+    createParam(PGFirmwareVersionString,        asynParamOctet,   &PGFirmwareVersion_);
+    createParam(PGSoftwareVersionString,        asynParamOctet,   &PGSoftwareVersion_);
+    createParam(PGPropertyValueString,          asynParamInt32,   &PGPropertyValue);
+    createParam(PGPropertyValueMaxString,       asynParamInt32,   &PGPropertyValueMax);
+    createParam(PGPropertyValueMinString,       asynParamInt32,   &PGPropertyValueMin);
+    createParam(PGPropertyValueAbsString,       asynParamFloat64, &PGPropertyValueAbs);
+    createParam(PGPropertyValueAbsMaxString,    asynParamFloat64, &PGPropertyValueAbsMax);
+    createParam(PGPropertyValueAbsMinString,    asynParamFloat64, &PGPropertyValueAbsMin);
+    createParam(PGPropertyModeString,           asynParamInt32,   &PGPropertyMode);
+    createParam(PGPropertyAvailableString,      asynParamInt32,   &PGPropertyAvailable);
+    createParam(PGPropertyAbsoluteString,       asynParamInt32,   &PGPropertyAbsolute);
+    createParam(PGVideoModeString,              asynParamInt32,   &PGVideoMode);
+    createParam(PGFormat7ModeString,            asynParamInt32,   &PGFormat7Mode);
+    createParam(PGFrameRateString,              asynParamInt32,   &PGFrameRate);
+    createParam(PGPixelFormatString,            asynParamInt32,   &PGPixelFormat);
+    createParam(PGValidVideoModeString,         asynParamOctet,   &PGValidVideoMode);
+    createParam(PGValidFrameRateString,         asynParamOctet,   &PGValidFrameRate);
+    createParam(PGValidPixelFormatString,       asynParamOctet,   &PGValidPixelFormat);
+    createParam(PGHasVideoModeString,           asynParamInt32,   &PGHasVideoMode);
+    createParam(PGHasFrameRateString,           asynParamInt32,   &PGHasFrameRate);
+    createParam(PGHasPixelFormatString,         asynParamInt32,   &PGHasPixelFormat);
+    createParam(PGCurrentFormatString,          asynParamOctet,   &PGCurrentFormat);
+    createParam(PGCurrentVideoModeString,       asynParamOctet,   &PGCurrentVideoMode);
+    createParam(PGCurrentFrameRateString,       asynParamOctet,   &PGCurrentFrameRate);
+    createParam(PGCurrentPixelFormatString,     asynParamOctet,   &PGCurrentPixelFormat);
+    createParam(PGReadoutTimeString,            asynParamFloat64, &PGReadoutTime);
+    createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
+
+    printf("Creating Format 7 mode strings...                 ");
+    formatFormat7Modes();
+    formatValidModes();
+    // Create an array of property objects, one for each property
+    for (i=0; i<NUM_PROPERTIES; i++) {
+        propType = (PropertyType) i;
+        allProperties_[i] = new Property(propType);
+        allPropInfos_[i]  = new PropertyInfo(propType);
+    }
+    getAllProperties();
 
     /* set read-only parameters */
     setIntegerParam(NDDataType, NDUInt16);
@@ -164,17 +398,17 @@ pointGrey::pointGrey(const char *portName, int cameraId, int maxBuffers,
         return;
     }
 
-    startEvent_ = epicsEventCreate(epicsEventEmpty);
+    startEventId_ = epicsEventCreate(epicsEventEmpty);
 
     /* launch image read task */
     epicsThreadCreate("PointGreyImageTask", 
                       epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackMedium),
-                      c_imageTask, this);
+                      imageGrabTaskC, this);
 
     /* shutdown on exit */
     epicsAtExit(c_shutdown, this);
-
+    return;
 }
 
 inline asynStatus pointGrey::checkError(Error error, const char *functionName, const char *PGRFunction)
@@ -188,73 +422,6 @@ inline asynStatus pointGrey::checkError(Error error, const char *functionName, c
     return asynSuccess;
 }
 
-void pointGrey::report(FILE *fp, int details)
-{
-    unsigned int numCameras;
-    Error error;
-    Camera cam;
-    CameraInfo camInfo;
-    static const char *functionName = "report";
-    
-    error = pBusMgr_->GetNumOfCameras(&numCameras);
-    if (checkError(error, functionName, "GetNumOfCameras")) return;
-
-    fprintf(fp, "  Number of cameras detected: %u\n", numCameras);
-
-    for (unsigned int i=0; i<numCameras; i++) {
-        PGRGuid guid;
-        error = pBusMgr_->GetCameraFromIndex(i, &guid);
-        if (checkError(error, functionName, "GetCameraFromIndex")) return;
-
-        // Connect to camera
-        error = cam.Connect(&guid);
-        if (checkError(error, functionName, "cam.Connect")) return;
-
-        // Get the camera information
-        error = cam.GetCameraInfo(&camInfo);
-        if (checkError(error, functionName, "GetCameraInfo")) return;
-
-        fprintf(fp, 
-            "Serial number - %u\n"
-            "Camera model - %s\n"
-            "Camera vendor - %s\n"
-            "Sensor - %s\n"
-            "Resolution - %s\n"
-            "Firmware version - %s\n"
-            "Firmware build time - %s\n\n",
-            camInfo.serialNumber,
-            camInfo.modelName,
-            camInfo.vendorName,
-            camInfo.sensorInfo,
-            camInfo.sensorResolution,
-            camInfo.firmwareVersion,
-            camInfo.firmwareBuildTime);
-    }
-    
-    fprintf(fp, "Currently connected camera Format7 information\n"
-                "  mode: %d\n"
-                "  maxWidth:  %d\n"
-                "  maxHeight: %d\n"
-                "  offsetHStepSize: %d\n"
-                "  offsetVStepSize: %d\n"
-                "  imageHStepSize:  %d\n"
-                "  imageVStepSize:  %d\n"
-                "  pixelFormatBitField       0x%x\n" 
-                "  vendorPixelFormatBitField 0x%x\n",
-                pFormat7Info_->mode,
-                pFormat7Info_->maxWidth,
-                pFormat7Info_->maxHeight,
-                pFormat7Info_->offsetHStepSize,
-                pFormat7Info_->offsetVStepSize,
-                pFormat7Info_->imageHStepSize,
-                pFormat7Info_->imageVStepSize,
-                pFormat7Info_->pixelFormatBitField,
-                pFormat7Info_->vendorPixelFormatBitField);
-
-    if (details < 1) return;
-    ADDriver::report(fp, details);
-}    
-
 void pointGrey::shutdown(void)
 {
     exiting_ = 1;
@@ -263,238 +430,8 @@ void pointGrey::shutdown(void)
     }
 }
 
-void pointGrey::imageTask()
-{
-    epicsTimeStamp imageStamp;
-    Image *pPGImage = new(Image);
-    Error error;
-    unsigned int nRows, nCols, stride;
-    PixelFormat pixelFormat;
-    BayerTileFormat bayerFormat;
-    int acquire;
-    int total;
-    int number;
-    int count;
-    int imageMode;
-    int callback;
-    NDArray *pImage;
-    size_t dims[3];
-    int pixelSize;
-    size_t dataSize, dataSizePG;
-    NDDataType_t dataType;
-    NDColorMode_t colorMode;
-    void *pData;
-    int nDims;
-
-    static const char *functionName = "imageTask";
-
-    lock();
-    while(!exiting_) {
-
-        getIntegerParam(ADAcquire, &acquire);
-        if (!acquire) {
-            unlock();
-            epicsEventWait(startEvent_);
-            lock();
-            error = pCamera_->StartCapture();
-            if (checkError(error, functionName, "StartCapture")) continue;
-        }
-        
-        unlock();
-        error = pCamera_->RetrieveBuffer(pPGImage);
-        lock();
-        if (error == PGRERROR_ISOCH_NOT_STARTED) {
-            // This is an expected error if acquisition was stopped externally
-            setIntegerParam(ADAcquire, 0);
-            callParamCallbacks();
-        } else {
-            if (checkError(error, functionName, "RetrieveBuffer")) continue;
-        }
-        epicsTimeGetCurrent(&imageStamp);
-
-        getIntegerParam(ADNumImagesCounter, &number);
-        number++;
-        setIntegerParam(ADNumImagesCounter, number);
-        getIntegerParam(NDArrayCounter, &count);
-        count++;
-        setIntegerParam(NDArrayCounter, count);
-        callParamCallbacks();
-        
-        pPGImage->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);
-
-        getIntegerParam(NDArrayCallbacks, &callback);
-        if (callback) {
-            switch (pixelFormat) {
-                case PIXEL_FORMAT_MONO8:
-                    dataType = NDUInt8;
-                    colorMode = NDColorModeMono;            
-                    dims[0] = nCols;
-                    dims[1] = nRows;
-                    nDims = 2;
-                    pixelSize = 1;
-                    break;
-                    
-                case PIXEL_FORMAT_RGB8:
-                    dataType = NDUInt8;
-                    colorMode = NDColorModeRGB1;
-                    dims[0] = 3;
-                    dims[1] = nCols;
-                    dims[2] = nRows;
-                    nDims = 3;
-                    pixelSize = 1;
-                    break;
-
-                case PIXEL_FORMAT_MONO16:
-                    dataType = NDUInt16;
-                    colorMode = NDColorModeMono;            
-                    dims[0] = nCols;
-                    dims[1] = nRows;
-                    nDims = 2;
-                    pixelSize = 2;
-                    break;
-                    
-                case PIXEL_FORMAT_S_MONO16:
-                    dataType = NDInt16;
-                    colorMode = NDColorModeMono;            
-                    dims[0] = nCols;
-                    dims[1] = nRows;
-                    nDims = 2;
-                    pixelSize = 2;
-                    break;
-                    
-                case PIXEL_FORMAT_RGB16:
-                    dataType = NDUInt16;
-                    colorMode = NDColorModeRGB1;
-                    dims[0] = 3;
-                    dims[1] = nCols;
-                    dims[2] = nRows;
-                    nDims = 3;
-                    pixelSize = 2;
-                    break;
-
-                case PIXEL_FORMAT_S_RGB16:
-                    dataType = NDInt16;
-                    colorMode = NDColorModeRGB1;
-                    dims[0] = 3;
-                    dims[1] = nCols;
-                    dims[2] = nRows;
-                    nDims = 3;
-                    pixelSize = 2;
-                    break;
-                    
-                default:
-                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                        "%s:%s: unsupported pixel format=%d\n",
-                        driverName, functionName, pixelFormat);
-                    continue;
-            }
-
-            dataSize = dims[0] * dims[1] * pixelSize;
-            if (nDims == 3) dataSize *= dims[2];
-            dataSizePG = pPGImage->GetDataSize();
-            if (dataSize != dataSizePG) {
-                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                    "%s:%s: data size mismatch: calculated=%u, reported=%u\n",
-                    driverName, functionName, dataSize, dataSizePG);
-                continue;
-            }
-            setIntegerParam(NDArraySizeX, nCols);
-            setIntegerParam(NDArraySizeY, nRows);
-            setIntegerParam(NDArraySize, (int)dataSize);
-            setIntegerParam(NDDataType,dataType);
-            setIntegerParam(NDColorMode, colorMode);
-            pImage = pNDArrayPool->alloc(nDims, dims, dataType, 0, NULL);
-            pImage->uniqueId = count;
-            pImage->timeStamp = imageStamp.secPastEpoch + (imageStamp.nsec / 1.0e9);
-            updateTimeStamp(&pImage->epicsTS);
-            pData = pPGImage->GetData();
-            memcpy(pImage->pData, pData, dataSize);
-            getAttributes(pImage->pAttributeList);
-
-            unlock();
-            doCallbacksGenericPointer(pImage, NDArrayData, 0);
-            lock();
-
-            pImage->release();
-        }
-        getIntegerParam(ADImageMode, &imageMode);
-        getIntegerParam(ADNumImages, &total);
-        if ((imageMode == ADImageSingle) ||
-            ((imageMode == ADImageMultiple) && number == total)) {
-            setShutter(0);
-            error = pCamera_->StopCapture();
-            checkError(error, functionName, "StopCapture");
-            setIntegerParam(ADAcquire, 0);
-        }
-        callParamCallbacks();
-    }
-}
-
-asynStatus pointGrey::readStatus()
-{
-    asynStatus status = asynSuccess;
-    Property tempProp(TEMPERATURE);
-    CameraStats camStats;
-    Error error;
-    static const char *functionName = "readStatus";
-
-    error = pCamera_->GetProperty(&tempProp);
-    if (checkError(error, functionName, "GetProperty")) 
-        status = asynError;
-    else if (tempProp.present)
-        setDoubleParam(ADTemperatureActual, tempProp.absValue);
-    error = pCamera_->GetStats(&camStats);
-    if (checkError(error, functionName, "GetStats")) 
-        status = asynError;
-    else
-        setIntegerParam(PGImagesDropped_, camStats.imageDropped);
-    return status;
-}
-
-asynStatus pointGrey::setROI()
-{
-    asynStatus status=asynSuccess;
-    int minX, sizeX, binX;
-    int minY, sizeY, binY;
-    static const char *functionName = "setAOI";
-
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-        "%s:%s: entry\n",
-        driverName, functionName);
-
-    getIntegerParam(ADSizeX, &sizeX);
-    getIntegerParam(ADSizeY, &sizeY);
-    getIntegerParam(ADBinX, &binX);
-    getIntegerParam(ADBinY, &binY);
-    getIntegerParam(ADMinX, &minX);
-    getIntegerParam(ADMinY, &minY);
-    return status;
-}
-
-asynStatus pointGrey::getROI()
-{
-    asynStatus status=asynSuccess;
-    int minX, sizeX, binX;
-    int minY, sizeY, binY;
-    static const char *functionName = "getROI";
-
-    setIntegerParam(ADBinX, binX);
-    setIntegerParam(ADBinY, binY);
-    setIntegerParam(ADSizeX, (int)(sizeX*binX));
-    setIntegerParam(ADMinX,  (int)minX);
-    setIntegerParam(ADSizeY, (int)(sizeY*binY));
-    setIntegerParam(ADMinY,  (int)minY);
-
-    /* Set NDArray parameters */
-    setIntegerParam(NDArraySizeX, sizeX);
-    setIntegerParam(NDArraySizeY, sizeY);
-    callParamCallbacks();
-    return status;
-}
-
 asynStatus pointGrey::connectCamera(void)
 {
-    asynStatus status = asynSuccess;
     Error error;
     CameraInfo camInfo;
     Format7Info f7Info;
@@ -561,169 +498,1118 @@ asynStatus pointGrey::disconnectCamera(void)
     return asynSuccess;
 }
 
-asynStatus pointGrey::writeInt32(asynUser *pasynUser, epicsInt32 value)
+
+/** Task to grab images off the camera and send them up to areaDetector
+ *
+ */
+void pointGrey::imageGrabTask()
 {
-    asynStatus status;
-    int function = pasynUser->reason;
-    const char *paramName;
-    Error error;
-    static const char *functionName = "writeInt32";
+    int status = asynSuccess;
+    int imageCounter;
+    int numImages, numImagesCounter;
+    int imageMode;
+    int arrayCallbacks;
+    epicsTimeStamp startTime;
+    int acquire;
+    static const char *functionName = "imageGrabTask";
 
-    getParamName(function, &paramName);
+    printf("pointGrey::imageGrabTask: Got the image grabbing thread started!\n");
 
-    /* Set parameter from value */
-    setIntegerParam(function, value);
+    lock();
 
-    if (function == ADAcquire) {
-        if (value) {
+    while (1) /* ... round and round and round we go ... */
+    {
+        /* Is acquisition active? */
+        getIntegerParam(ADAcquire, &acquire);
+
+        /* If we are not acquiring then wait for a semaphore that is given when acquisition is started */
+        if (!acquire)
+        {
+            setIntegerParam(ADStatus, ADStatusIdle);
+            callParamCallbacks();
+
+            /* Wait for a signal that tells this thread that the transmission
+             * has started and we can start asking for image buffers...     */
+            asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
+                "%s::%s waiting for acquire to start\n", 
+                driverName, functionName);
+            /* Release the lock while we wait for an event that says acquire has started, then lock again */
+            unlock();
+            status = epicsEventWait(startEventId_);
+            lock();
+            asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
+                "%s::%s started!\n", 
+                driverName, functionName);
             setIntegerParam(ADNumImagesCounter, 0);
-            setShutter(1);
-            epicsEventSignal(startEvent_);
-        } else {
-            setShutter(0);
-            error = pCamera_->StopCapture();
-            if (checkError(error, functionName, "StopCapture")) status = asynError;
+            setIntegerParam(ADAcquire, 1);
         }
-    }
 
-    else if (function == ADTriggerMode) {
-        // Need to implement
-    }
-    else if (function == ADNumImages) {
-        // Does the SDK support acquiring a fixed number of images?
-    }
-    else if 
-       ((function == ADBinX)  ||
-        (function == ADMinX)  ||
-        (function == ADSizeX) ||
-        (function == ADBinY)  ||
-        (function == ADMinY)  ||
-        (function == ADSizeY)) {
-        status = setROI();
-    }
-    else if (function == ADReadStatus) {
-        status = readStatus();
-    }
-    else {
-        if (function < FIRST_PG_PARAM) {
-            status = ADDriver::writeInt32(pasynUser, value);
+        /* Get the current time */
+        epicsTimeGetCurrent(&startTime);
+        /* We are now waiting for an image  */
+        setIntegerParam(ADStatus, ADStatusWaiting);
+        /* Call the callbacks to update any changes */
+        callParamCallbacks();
+
+        status = grabImage();        /* #### GET THE IMAGE FROM CAMERA HERE! ##### */
+        if (status == asynError)         /* check for error */
+        {
+            /* remember to release the NDArray back to the pool now
+             * that we are not using it (we didn't get an image...) */
+            if(pRaw_) pRaw_->release();
+            /* We abort if we had some problem with grabbing an image...
+             * This is perhaps not always the desired behaviour but it'll do for now. */
+            setIntegerParam(ADStatus, ADStatusAborting);
+            setIntegerParam(ADAcquire, 0);
+            continue;
         }
-    }
 
-    /* Do callbacks so higher layers see any changes */
-    callParamCallbacks();
+        /* Set a bit of image/frame statistics... */
+        getIntegerParam(NDArrayCounter, &imageCounter);
+        getIntegerParam(ADNumImages, &numImages);
+        getIntegerParam(ADNumImagesCounter, &numImagesCounter);
+        getIntegerParam(ADImageMode, &imageMode);
+        getIntegerParam(NDArrayCallbacks, &arrayCallbacks);
+        imageCounter++;
+        numImagesCounter++;
+        setIntegerParam(NDArrayCounter, imageCounter);
+        setIntegerParam(ADNumImagesCounter, numImagesCounter);
+        /* Put the frame number into the buffer */
+        pRaw_->uniqueId = imageCounter;
+        /* Set a timestamp in the buffer */
+        pRaw_->timeStamp = startTime.secPastEpoch + startTime.nsec / 1.e9;
+        updateTimeStamp(&pRaw_->epicsTS);
 
-    if (status) {
-        asynPrint(pasynUser, ASYN_TRACE_ERROR,
-            "%s:%s: error, status=%d param=%s(%d) value=%d\n",
-            driverName, functionName, status, paramName, function, value);
-    } else {
-        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER,
-            "%s:%s: param=%s(%d) value=%d\n",
-            driverName, functionName, paramName, function, value);
-    }
-    return (asynStatus)status;
+        /* Get any attributes that have been defined for this driver */        
+        getAttributes(pRaw_->pAttributeList);
+
+        /* Call the callbacks to update any changes */
+        callParamCallbacks();
+
+        if (arrayCallbacks)
+        {
+            /* Call the NDArray callback */
+            /* Must release the lock here, or we can get into a deadlock, because we can
+             * block on the plugin lock, and the plugin can be calling us */
+            unlock();
+            doCallbacksGenericPointer(pRaw_, NDArrayData, 0);
+            lock();
+        }
+        /* Release the NDArray buffer now that we are done with it.
+         * After the callback just above we don't need it anymore */
+        pRaw_->release();
+        pRaw_ = NULL;
+
+        /* See if acquisition is done if we are in single or multiple mode */
+        if ((imageMode == ADImageSingle) || ((imageMode == ADImageMultiple) && (numImagesCounter >= numImages)))
+        {
+            /* command the camera to stop acquiring.. */
+            setIntegerParam(ADAcquire, 0);
+        }
+        getIntegerParam(ADAcquire, &acquire);
+        if (!acquire)
+        {
+            /* Acquisition has been turned off.  This could be because it was done by setting ADAcquire=0 from CA, or
+             * because the requested number of frames is done, or because of an error.  Stop capture. */
+            status = stopCapture();
+            if (status == asynError)
+            {
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                    "%s::%s Stopping transmission failed...\n",
+                    driverName, functionName);
+            }
+            callParamCallbacks();
+        }
+    }/* back to the top... */
+    return;
 }
 
-asynStatus pointGrey::setPropertyDouble(PropertyType propertyType, double value)
+/** Grabs one image off the dc1394 queue, notifies areaDetector about it and
+ * finally clears the buffer off the dc1394 queue.
+ * This function expects the driver to be locked already by the caller!
+ */
+int pointGrey::grabImage()
+{
+    int status = asynSuccess;
+    Image *pPGImage = new(Image);
+    Error error;
+    unsigned int nRows, nCols, stride;
+    PixelFormat pixelFormat;
+    BayerTileFormat bayerFormat;
+    NDDataType_t dataType;
+    NDColorMode_t colorMode;
+    int numColors;
+    size_t dims[3];
+    int pixelSize;
+    size_t dataSize, dataSizePG;
+    void *pData;
+    int nDims;
+    static const char *functionName = "grabImage";
+
+    /* unlock the driver while we wait for a new image to be ready */
+    unlock();
+    error = pCamera_->RetrieveBuffer(pPGImage);
+    lock();
+    if (error == PGRERROR_ISOCH_NOT_STARTED) {
+        // This is an expected error if acquisition was stopped externally
+        setIntegerParam(ADAcquire, 0);
+        callParamCallbacks();
+        return asynError;
+    } else {
+        if (checkError(error, functionName, "RetrieveBuffer"))
+            return asynError;
+    }
+    pPGImage->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);
+
+    switch (pixelFormat) {
+        case PIXEL_FORMAT_MONO8:
+            dataType = NDUInt8;
+            colorMode = NDColorModeMono;
+            numColors = 1;
+            pixelSize = 1;
+            break;
+
+        case PIXEL_FORMAT_RGB8:
+            dataType = NDUInt8;
+            colorMode = NDColorModeRGB1;
+            numColors = 3;
+            pixelSize = 1;
+            break;
+
+        case PIXEL_FORMAT_MONO16:
+            dataType = NDUInt16;
+            colorMode = NDColorModeMono;
+            numColors = 1;
+            pixelSize = 2;
+            break;
+
+        case PIXEL_FORMAT_S_MONO16:
+            dataType = NDInt16;
+            colorMode = NDColorModeMono;
+            numColors = 1;
+            pixelSize = 2;
+            break;
+
+        case PIXEL_FORMAT_RGB16:
+            dataType = NDUInt16;
+            colorMode = NDColorModeRGB1;
+            numColors = 1;
+            pixelSize = 2;
+            break;
+
+        case PIXEL_FORMAT_S_RGB16:
+            dataType = NDInt16;
+            colorMode = NDColorModeRGB1;
+            numColors = 1;
+            pixelSize = 2;
+            break;
+
+        default:
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: unsupported pixel format=0x%x\n",
+                driverName, functionName, pixelFormat);
+            return asynError;
+    }
+
+    if (numColors == 1) {
+        nDims = 2;
+        dims[0] = nCols;
+        dims[1] = nRows;
+    } else {
+        nDims = 3;
+        dims[0] = 3;
+        dims[1] = nCols;
+        dims[2] = nRows;
+    }
+    dataSize = dims[0] * dims[1] * pixelSize;
+    if (nDims == 3) dataSize *= dims[2];
+    dataSizePG = pPGImage->GetDataSize();
+    if (dataSize != dataSizePG) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s:%s: data size mismatch: calculated=%lu, reported=%lu\n",
+            driverName, functionName, (long)dataSize, (long)dataSizePG);
+        return asynError;
+    }
+    setIntegerParam(NDArraySizeX, nCols);
+    setIntegerParam(NDArraySizeY, nRows);
+    setIntegerParam(NDArraySize, (int)dataSize);
+    setIntegerParam(NDDataType,dataType);
+    if (nDims == 3) {
+        colorMode = NDColorModeRGB1;
+    } else {
+        /* If the color mode is currently set to Bayer leave it alone */
+        getIntegerParam(NDColorMode, (int *)&colorMode);
+        if (colorMode != NDColorModeBayer) colorMode = NDColorModeMono;
+    }
+    setIntegerParam(NDColorMode, colorMode);
+
+    pRaw_ = pNDArrayPool->alloc(nDims, dims, dataType, 0, NULL);
+    if (pRaw_) {
+        /* If we didn't get a valid buffer from the NDArrayPool we must abort
+         * the acquisition as we have nowhere to dump the data...       */
+        setIntegerParam(ADStatus, ADStatusAborting);
+        callParamCallbacks();
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s [%s] ERROR: Serious problem: not enough buffers left! Aborting acquisition!\n",
+            driverName, functionName, portName);
+        setIntegerParam(ADAcquire, 0);
+        return(asynError);
+    }
+    pData = pPGImage->GetData();
+    memcpy(pRaw_->pData, pData, dataSize);
+    
+    /* Change the status to be readout... */
+    setIntegerParam(ADStatus, ADStatusReadout);
+    callParamCallbacks();
+
+    pRaw_->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
+
+    return status;
+}
+
+
+/** Sets an int32 parameter.
+  * \param[in] pasynUser asynUser structure that contains the function code in pasynUser->reason. 
+  * \param[in] value The value for this parameter 
+  *
+  * Takes action if the function code requires it.  ADAcquire, ADSizeX, and many other
+  * function codes make calls to the Firewire library from this function. */
+asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
+{
+    asynStatus status = asynSuccess;
+    int function = pasynUser->reason;
+    int adstatus;
+    int addr, tmpVal;
+    PropertyType propType;
+    static const char *functionName = "writeInt32";
+
+    pasynManager->getAddr(pasynUser, &addr);
+    if (addr < 0) addr=0;
+    propType = (PropertyType) addr;
+
+    /* Set the value in the parameter library.  This may change later but that's OK */
+    status = setIntegerParam(addr, function, value);
+
+    if (function == ADAcquire) {
+        getIntegerParam(ADStatus, &adstatus);
+        if (value && (adstatus == ADStatusIdle))
+        {
+            /* start acquisition */
+            status = startCapture();
+        } else 
+        {
+            /* Nothing to do when acquire is turned off, just setting ADAcquire=0 above is enough */
+        }
+    } else if ( (function == ADSizeX) ||
+                (function == ADSizeY) ||
+                (function == ADMinX)  ||
+                (function == ADMinY)  ||
+                (function == PGPixelFormat)) {
+        status = setFormat7Params();
+    } else if (function == PGPropertyValue) {
+        /* First check if the camera is set for manual control... */
+        getIntegerParam(addr, PGPropertyMode, &tmpVal);
+        /* if it is not set to 'manual' (0) then we do set it to manual */
+        if (tmpVal != 0) status = setPropertyMode(propType, 0);
+        if (status == asynError) goto done;
+
+        /* now send the propertyType value to the camera */
+        status = setPropertyValue(propType, value);
+
+        /* update all propertyType values to check if any settings have changed */
+        status = getAllProperties();
+    } else if (function == PGPropertyMode) {
+        status = setPropertyMode(propType, value);
+    } else if (function == PGVideoMode) {
+        status = setVideoMode(value);
+    } else if (function == PGFrameRate) {
+        status = setFrameRate(value);
+    } else {
+        /* If this parameter belongs to a base class call its method */
+        if (function < FIRST_PG_PARAM) status = ADDriver::writeInt32(pasynUser, value);
+    }
+
+    done:
+    
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+        "%s::%s function=%d, value=%d, status=%d\n",
+        driverName, functionName, function, value, status);
+            
+    callParamCallbacks(addr);
+    return status;
+}
+
+/** Sets an float64 parameter.
+  * \param[in] pasynUser asynUser structure that contains the function code in pasynUser->reason. 
+  * \param[in] value The value for this parameter 
+  *
+  * Takes action if the function code requires it.  The PGPropertyValueAbs
+  * function code makes calls to the Firewire library from this function. */
+asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
+{
+    asynStatus status = asynSuccess;
+    int function = pasynUser->reason;
+    int addr, tmpVal;
+    PropertyType propertyType;
+    static const char *functionName = "writeFloat64";
+    
+    pasynManager->getAddr(pasynUser, &addr);
+    if (addr < 0) addr=0;
+    propertyType = (PropertyType)addr;
+
+    /* Set the value in the parameter library.  This may change later but that's OK */
+    status = setDoubleParam(addr, function, value);
+
+    if ((function == PGPropertyValueAbs) || (function == ADAcquireTime)) {
+        if (function == ADAcquireTime) propertyType = SHUTTER;
+        /* First check if the camera is set for manual control... */
+        getIntegerParam(propertyType, PGPropertyMode, &tmpVal);
+        /* if it is not set to 'manual' (0) then we do set it to manual */
+        if (tmpVal != 0) status = setPropertyMode(propertyType, 0);
+
+        status = setPropertyAbsValue(propertyType, value);
+        /* update all propertyType values to check if any settings have changed */
+        status = getAllProperties();
+    } else {
+        /* If this parameter belongs to a base class call its method */
+        if (function < FIRST_PG_PARAM) status = ADDriver::writeFloat64(pasynUser, value);
+    }
+
+    asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
+        "%s::%s function=%d, value=%f, status=%d\n",
+        driverName, functionName, function, value, status);
+    callParamCallbacks(addr);
+    return status;
+}
+
+
+asynStatus pointGrey::setPropertyMode(PropertyType propType, epicsInt32 value)
 {
     Error error;
-    Property property(propertyType);
-    PropertyInfo propertyInfo(propertyType);
-    static const char *functionName = "setPropertyDouble";
+    Property *pProperty = allProperties_[propType];
+    PropertyInfo *pPropInfo = allPropInfos_[propType];
+    static const char *functionName = "setPropertyMode";
     
-    error = pCamera_->GetPropertyInfo(&propertyInfo);
-    if (!propertyInfo.present) 
-        return asynSuccess;
-    // For now we force the property On and Manual
-    property.onOff = true;
-    property.autoManualMode = false;
-    property.absControl = true;
-    property.absValue = (float)value;
-    error = pCamera_->SetProperty(&property);
+    /* First check if the propertyType is valid for this camera */
+    if (!pProperty->present) return asynError;
+
+    /* Check if the desired mode is even supported by the camera on this propertyType */
+    if (value == 0) {
+        if (!pPropInfo->manualSupported) return asynError;
+    } else {
+        if (!pPropInfo->autoSupported) return asynError;
+    }
+
+    /* Send the propertyType mode to the cam */
+    pProperty->autoManualMode = value;
+    error = pCamera_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
     return asynSuccess;
 }
 
-asynStatus pointGrey::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
+
+asynStatus pointGrey::setPropertyValue(PropertyType propType, epicsInt32 value)
+{
+    Error error;
+    Property *pProperty = allProperties_[propType];
+    PropertyInfo *pPropInfo = allPropInfos_[propType];
+    static const char *functionName = "setPropertyValue";
+
+    /* First check if the propertyType is valid for this camera */
+    if (!pProperty->present) return asynError;
+
+    /* Disable absolute mode control for this propertyType */
+    pProperty->absControl = false;
+
+    /* Set the propertyType value in the camera */
+    /* Check the value is within the expected boundaries */
+    if (value < (epicsInt32)pPropInfo->min || value > (epicsInt32)pPropInfo->max)
+    {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error setting propertyType %s, value %d is out of range [%d..%d]\n",
+            driverName, functionName, propertyTypeStrings[propType], value, pPropInfo->min, pPropInfo->max);
+        return asynError;
+    }
+
+    pProperty->valueA = value;
+    error = pCamera_->SetProperty(pProperty);
+    if (checkError(error, functionName, "SetProperty")) 
+        return asynError;
+    return asynSuccess;
+}
+
+
+asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 value)
+{
+    Error error;
+    Property *pProperty = allProperties_[propType];
+    PropertyInfo *pPropInfo = allPropInfos_[propType];
+    static const char *functionName = "setPropertyAbsValue";
+
+    /* First check if the propertyType is valid for this camera */
+    if (!pProperty->present) return asynError;
+
+    /* Check if the specific propertyType supports absolute values */
+    if (!pPropInfo->absValSupported) { 
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error setting propertyType %s: No absolute control for this propertyType\n",
+            driverName, functionName, propertyTypeStrings[propType]);
+        return asynError;
+    }
+
+    /* Check the value is within the expected boundaries */
+    if (value < pPropInfo->absMin || value > pPropInfo->absMax)
+    {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error setting propertyType %s, value %.5f is out of range [%.3f..%.3f]\n",
+            driverName, functionName, propertyTypeStrings[propType], value, pPropInfo->absMin, pPropInfo->absMax);
+        return asynError;
+    }
+
+    /* Enable absolute mode control for this propertyType */
+    pProperty->absControl = true;
+
+    /* Finally set the propertyType value in the camera */
+    pProperty->absValue = value;
+    error = pCamera_->SetProperty(pProperty);
+    if (checkError(error, functionName, "SetProperty")) 
+        return asynError;
+    return asynSuccess;
+}
+
+asynStatus pointGrey::setVideoMode(epicsInt32 mode)
+{
+    int frameRate;
+    /* Get the frame rate */
+    getIntegerParam(PGFrameRate, &frameRate);
+    return setVideoModeAndFrameRate(mode, frameRate);
+}
+ 
+asynStatus pointGrey::setFrameRate(epicsInt32 frameRate)
+{
+    int videoMode;
+    /* Get the video mode */
+    getIntegerParam(PGVideoMode, &videoMode);
+    return setVideoModeAndFrameRate(videoMode, frameRate);
+}
+ 
+asynStatus pointGrey::setVideoModeAndFrameRate(epicsInt32 videoMode, epicsInt32 frameRate)
 {
     asynStatus status = asynSuccess;
-    const char *paramName;
-    int function = pasynUser->reason;
-    static const char *functionName = "writeFloat64";
+    Error error;
+    int wasAcquiring;
+    bool supported;
+    static const char *functionName = "setVideoModeAndFrameRate";
 
-    getParamName(function, &paramName);
-
-    /* set parameter from value */
-    setDoubleParam(function, value);
-
-    if (function == ADTemperature) {
-        status = setPropertyDouble(TEMPERATURE, value);
+    getIntegerParam(ADAcquire, &wasAcquiring);
+    if (wasAcquiring) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error, must stop acquisition before changing video mode\n",
+            driverName, functionName);
+       return(asynError);
     }
-    else if (function == ADAcquireTime) {
-        // Point Grey units are ms
-        status = setPropertyDouble(SHUTTER, value*1000.);
-    }
-    else if (function == ADAcquirePeriod) {
-        double temp = value ? 1.0/value : 0;
-        setDoubleParam(PGFrameRate_, temp);
-        status = setPropertyDouble(FRAME_RATE, temp);
-    }
-    else if (function == ADGain) {
-        status = setPropertyDouble(GAIN, value);
-    }
-    else if (function == PGFrameRate_) {
-        setDoubleParam(ADAcquirePeriod, value ? 1./value : 0);
-        status = setPropertyDouble(FRAME_RATE, value);
-    }
-    else {    
-        if (function < FIRST_PG_PARAM) {
-            status = ADDriver::writeFloat64(pasynUser, value);
-        }
+    /* Get the frame rate */
+    getIntegerParam(PGFrameRate, &frameRate);
+    error = pCamera_->GetVideoModeAndFrameRateInfo((VideoMode)videoMode, (FrameRate)frameRate, &supported);
+    if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+        return asynError;
+    if (!supported) {
+         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s camera does not support mode %d with framerate %d\n",
+            driverName, functionName, videoMode, frameRate);
+       status = asynError;
+       goto done;
     }
 
-    /* Do callbacks so higher layers see any changes */
-    callParamCallbacks();
+    /* attempt to write the mode to camera */
+    error = pCamera_->SetVideoModeAndFrameRate((VideoMode)videoMode, (FrameRate)frameRate);
+    if (checkError(error, functionName, "SetVideoModeAndFrameRate")) 
+        return asynError;
 
-    if (status) {
-        asynPrint(pasynUser, ASYN_TRACE_ERROR,
-            "%s:%s: error, status=%d param=%s(%d) value=%f\n",
-            driverName, functionName, status, paramName, function, value);
-    } else {
-        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER,
-            "%s:%s: param=%s(%d) value=%f\n",
-            driverName, functionName, paramName, function, value);
-    }
+    done:
+    /* If the new format is format 7 then set the parameters */
+    if (videoMode == VIDEOMODE_FORMAT7) setFormat7Params();
+
+    /* When the mode changes the supported values of frame rate change */
+    formatValidModes();
+    /* When the mode changes the available properties can also change */
+    getAllProperties();
+
     return status;
 }
 
-/* Code for iocsh registration */
-static const iocshArg pointGreyConfigArg0 = {"Port name", iocshArgString};
-static const iocshArg pointGreyConfigArg1 = {"CameraId", iocshArgInt};
-static const iocshArg pointGreyConfigArg2 = {"maxBuffers", iocshArgInt};
-static const iocshArg pointGreyConfigArg3 = {"maxMemory", iocshArgInt};
-static const iocshArg pointGreyConfigArg4 = {"priority", iocshArgInt};
-static const iocshArg pointGreyConfigArg5 = {"stackSize", iocshArgInt};
-static const iocshArg * const pointGreyConfigArgs[] =  {&pointGreyConfigArg0,
-                                                        &pointGreyConfigArg1,
-                                                        &pointGreyConfigArg2,
-                                                        &pointGreyConfigArg3,
-                                                        &pointGreyConfigArg4,
-                                                        &pointGreyConfigArg5};
-static const iocshFuncDef configPointGrey = {"pointGreyConfig", 6, pointGreyConfigArgs};
-static void configPointGreyCallFunc(const iocshArgBuf *args)
+int pointGrey::getPixelFormatIndex(PixelFormat pixelFormat)
 {
-    pointGreyConfig(args[0].sval, args[1].ival, args[2].ival,  args[3].ival, 
-                    args[4].ival, args[5].ival);
+    int i;
+    // Find the pixel format index corresponding to the actual pixelFormat
+    for(i=0; i<(int)NUM_PIXEL_FORMATS; i++) {
+        if (pixelFormatValues[i] == pixelFormat) return i;
+    }
+    return -1;
 }
 
-static void pointGreyRegister(void)
+asynStatus pointGrey::setFormat7Params()
 {
+    int wasAcquiring;
+    Error error;
+    VideoMode videoMode;
+    FrameRate frameRate;
+    Format7Info f7Info;
+    Format7ImageSettings f7Settings;
+    Format7PacketInfo f7PacketInfo;
+    PixelFormat pixelFormat;
+    int pixelFormatIndex;
+    bool supported;
+    bool f7SettingsValid;
+    int f7Mode;
+    float percentage;
+    unsigned int packetSize;
+    int sizeX, sizeY, minX, minY;
+    unsigned short hsMax, vsMax, hsUnit, vsUnit;
+    unsigned short hpMax, vpMax, hpUnit, vpUnit;
+    static const char *functionName = "setFormat7Params";
 
-    iocshRegister(&configPointGrey, configPointGreyCallFunc);
+    getIntegerParam(ADAcquire, &wasAcquiring);
+    if (wasAcquiring) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error, must stop acquisition before changing format 7 params\n",
+            driverName, functionName);
+       return(asynError);
+    }
+
+    /* Get the current video mode */
+    error = pCamera_->GetVideoModeAndFrameRate(&videoMode, &frameRate);
+    if (checkError(error, functionName, "GetVideoModeAndFrameRate")) 
+        return asynError;
+    /* If not format 7 then silently exit */
+    if (videoMode != VIDEOMODE_FORMAT7) return asynSuccess;
+    
+    getIntegerParam(PGFormat7Mode, &f7Mode);
+    /* Get the format7 info */
+    f7Info.mode = (Mode)f7Mode;
+    error = pCamera_->GetFormat7Info(&f7Info, &supported);
+    if (checkError(error, functionName, "GetFormat7Info")) 
+        return asynError;
+    if (!supported) {
+         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s camera does not support mode Format7 mode %d\n",
+            driverName, functionName, f7Mode);
+       return asynError;
+    }
+    
+    getIntegerParam(ADSizeX, &sizeX);
+    getIntegerParam(ADSizeY, &sizeY);
+    getIntegerParam(ADMinX, &minX);
+    getIntegerParam(ADMinY, &minY);
+    getIntegerParam(PGPixelFormat, &pixelFormatIndex);
+    pixelFormat = pixelFormatValues[pixelFormatIndex];
+
+    /* Set the size limits */
+    hsMax = f7Info.maxWidth;
+    vsMax = f7Info.maxHeight;
+    setIntegerParam(ADMaxSizeX, hsMax);
+    setIntegerParam(ADMaxSizeY, vsMax);
+    /* Set the size units (minimum increment) */
+    hsUnit = f7Info.imageHStepSize;
+    vsUnit = f7Info.imageVStepSize;
+    /* Set the offset units (minimum increment) */
+    hpUnit = f7Info.offsetHStepSize;
+    vpUnit = f7Info.offsetVStepSize;
+    
+    // This logic probably needs work!!!
+    hpMax = hsMax;
+    vpMax = vsMax;
+ 
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+        "%s:%s hsMax=%d, vsMax=%d, hsUnit=%d, vsUnit=%d, hpMax=%d, vpMax=%d, hpUnit=%d, vpUnit=%d\n", 
+        driverName, functionName, hsMax, vsMax, hsUnit, vsUnit,  hpMax, vpMax, hpUnit, vpUnit);
+
+    /* Force the requested values to obey the increment and range */
+    if (sizeX % hsUnit) sizeX = (sizeX/hsUnit) * hsUnit;
+    if (sizeY % vsUnit) sizeY = (sizeY/vsUnit) * vsUnit;
+    if (minX % hpUnit)  minX  = (minX/hpUnit)  * hpUnit;
+    if (minY % vpUnit)  minY  = (minY/vpUnit)  * vpUnit;
+    
+    if (sizeX < hsUnit) sizeX = hsUnit;
+    if (sizeX > hsMax)  sizeX = hsMax;
+    if (sizeY < vsUnit) sizeY = vsUnit;
+    if (sizeY > vsMax)  sizeY = vsMax;
+    
+    if (minX < 0) minX = 0;
+    if (minX > hpMax)  minX = hpMax;
+    if (minY < 0) minY = 0;
+    if (minY > vpMax)  minY = vpMax;
+    
+    f7Settings.mode    = (Mode)f7Mode;
+    f7Settings.offsetX = minX;
+    f7Settings.offsetY = minY;
+    f7Settings.width   = sizeX;
+    f7Settings.height  = sizeY;
+    f7Settings.pixelFormat = pixelFormat;
+ 
+    error = pCamera_->ValidateFormat7Settings(&f7Settings, &f7SettingsValid, &f7PacketInfo);
+    if (checkError(error, functionName, "ValidateFormat7Settings")) 
+        return asynError;
+
+    /* Attempt to write the parameters to camera */
+    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
+        "%s::%s setting format 7 parameters sizeX=%d, sizeY=%d, minX=%d, minY=%d, pixelFormat=0x%x\n",
+        driverName, functionName, sizeX, sizeY, minX, minY, pixelFormat);
+
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+        "%s:%s bytes per packet: min=%d, max=%d, recommended=%d, actually setting=%d\n", 
+        driverName, functionName, f7PacketInfo.unitBytesPerPacket, f7PacketInfo.maxBytesPerPacket, 
+        f7PacketInfo.recommendedBytesPerPacket, f7PacketInfo.recommendedBytesPerPacket);
+
+    error = pCamera_->SetFormat7Configuration(&f7Settings, f7PacketInfo.recommendedBytesPerPacket);
+    if (checkError(error, functionName, "SetFormat7Configuration")) 
+        return asynError;
+
+    /* Read back the actual values */
+    error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
+    if (checkError(error, functionName, "GetFormat7Configuration")) 
+        return asynError;
+    setIntegerParam(ADMinX, f7Settings.offsetX);
+    setIntegerParam(ADMinY, f7Settings.offsetY);
+    setIntegerParam(ADSizeX, f7Settings.width);
+    setIntegerParam(ADSizeY, f7Settings.height);
+    pixelFormatIndex = getPixelFormatIndex(f7Settings.pixelFormat);
+    setIntegerParam(PGPixelFormat, pixelFormatIndex);
+    setStringParam(PGCurrentPixelFormat, pixelFormatStrings[pixelFormatIndex]);
+    callParamCallbacks();
+
+    return asynSuccess;
+}
+
+
+asynStatus pointGrey::formatValidModes()
+{
+    int i;
+    Error error;
+    VideoMode videoMode, currentVideoMode;
+    FrameRate frameRate, currentFrameRate;
+    Format7Info f7Info;
+    Format7ImageSettings f7Settings;
+    unsigned int packetSize;
+    float percentage;
+    bool supported;
+    int addr;
+    char str[40];
+    static const char *functionName = "setFormat7Params";
+ 
+    /* This function writes strings for all valid video formats,
+     * the valid video modes for the current video format, and the
+     * valid frame rates for the current video format and video mode. */
+     
+    error = pCamera_->GetVideoModeAndFrameRate(&currentVideoMode, &currentFrameRate);
+    if (checkError(error, functionName, "GetVideoModeAndFrameRate"))
+        return asynError;
+    setIntegerParam(PGVideoMode, currentVideoMode);
+    sprintf(str, "%s", videoModeStrings[currentVideoMode]);
+    setStringParam(PGCurrentVideoMode, str);
+    setIntegerParam(PGFrameRate, currentFrameRate);
+    sprintf(str, "%s", frameRateStrings[currentFrameRate]);
+    setStringParam(PGCurrentFrameRate, str);
+
+    /* Format all valid video modes for this frame rate */
+    for (i=0; i<NUM_VIDEOMODES; i++) {
+        videoMode = (VideoMode)i;
+        error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, currentFrameRate, &supported);
+        if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+            return asynError;
+        if (supported) {
+            sprintf(str, "%d %s", videoMode, videoModeStrings[videoMode]);
+            setIntegerParam(videoMode, PGHasVideoMode, 1);
+        } else {
+            sprintf(str, "%d N.A.", videoMode);
+            setIntegerParam(videoMode, PGHasVideoMode, 0);
+        }
+        setStringParam(videoMode, PGValidVideoMode, str);
+    }
+
+    /* Format all valid frame rates for this video mode */
+    for (i=0; i<NUM_FRAMERATES; i++) {
+        frameRate = (FrameRate)i;
+        error = pCamera_->GetVideoModeAndFrameRateInfo(currentVideoMode, frameRate, &supported);
+        if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+            return asynError;
+        if (supported) {
+            sprintf(str, "%d %s", frameRate, frameRateStrings[frameRate]);
+            setIntegerParam(frameRate, PGHasFrameRate, 1);
+        } else {
+            sprintf(str, "%d N.A.", frameRate);
+            setIntegerParam(frameRate, PGHasFrameRate, 0);
+        }
+        setStringParam(frameRate, PGValidFrameRate, str);
+    }
+
+    /* If the current video mode is Format7 then format all valid format 7 pixel formats */
+    if (currentVideoMode == VIDEOMODE_FORMAT7) {
+        error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
+        if (checkError(error, functionName, "GetFormat7Configuration")) 
+            return asynError;
+        f7Info.mode = f7Settings.mode;
+        error = pCamera_->GetFormat7Info(&f7Info, &supported);
+        if (checkError(error, functionName, "GetFormat7Info")) 
+            return asynError;
+        for (i=0; i<(int)NUM_PIXEL_FORMATS; i++) {
+            if ((f7Info.pixelFormatBitField & pixelFormatValues[i]) == pixelFormatValues[i]) {
+                sprintf(str, "%d %s", i, pixelFormatStrings[i]);
+                setIntegerParam(i, PGHasPixelFormat, 1);
+            } else {
+                sprintf(str, "%d N.A.", i);
+                setIntegerParam(i, PGHasPixelFormat, 0);
+            }
+            setStringParam(i, PGValidPixelFormat, str);
+        }
+        i = getPixelFormatIndex(f7Settings.pixelFormat);
+        setIntegerParam(PGPixelFormat, i);
+        sprintf(str, "%s", pixelFormatStrings[i]);
+        setStringParam(PGCurrentPixelFormat, str);
+    }
+
+    for (addr=0; addr<MAX_ADDR; addr++) callParamCallbacks(addr);
+
+    return asynSuccess;
+}
+
+asynStatus pointGrey::formatFormat7Modes()
+{
+    Format7Info f7Info;
+    Error error;
+    bool supported;
+    int i;
+    char str[100];
+    static const char* functionName="formatFormat7Modes";
+ 
+    /* This function changes the camera to each valid Format 7 mode and
+     * inquires about its properties to produce an informative string */
+
+    /* Loop over modes */   
+    for (i=0; i<NUM_MODES; i++) {
+        f7Info.mode = (Mode)i;
+        error = pCamera_->GetFormat7Info(&f7Info, &supported);
+        if (checkError(error, functionName, "GetFormat7Info")) 
+            return asynError;
+        if (supported) {
+            sprintf(str, "%dx%d (%d,%d)(%d,%d)",
+                f7Info.maxWidth,
+                f7Info.maxHeight,
+                f7Info.imageHStepSize,
+                f7Info.imageVStepSize,
+                f7Info.offsetHStepSize,
+                f7Info.offsetVStepSize);
+            f7VideoModeStrings[i] = epicsStrDup(str);
+        } else {
+            f7VideoModeStrings[i] = epicsStrDup("N.A.");
+        }
+    }
+    return asynSuccess;
+}
+
+/** Read all the propertyType settings and values from the camera.
+ * This function will collect all the current values and settings from the camera,
+ * and set the appropriate integer/double parameters in the param lib. If a certain propertyType
+ * is not available in the given camera, this function will set all the parameters relating to that
+ * propertyType to -1 or -1.0 to indicate it is not available.
+ * Note the caller is responsible for calling any update callbacks if I/O interrupts
+ * are to be processed after calling this function.
+ * Returns asynStatus asynError or asynSuccess as an int.
+ */
+asynStatus pointGrey::getAllProperties()
+{
+    PropertyInfo propInfo;
+    Property property;
+    int addr;
+    double dtmp;
+    static const char *functionName="getAllPropertys";
+
+    /* Iterate through all of the available properties and update their values and settings  */
+    for (addr=0; addr<NUM_PROPERTIES; addr++) {
+        propInfo.type = (PropertyType)addr;
+        property.type = (PropertyType)addr;
+        pCamera_->GetPropertyInfo(&propInfo);
+        pCamera_->GetProperty(&property);
+        asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
+            "%s:%s: checking propertyType %d\n",
+            driverName, functionName, addr);
+
+        /* If the propertyType is not available in the camera, we just set
+         * all the parameters to -1 to indicate this is not available to the user. */
+        if (propInfo.present) {
+            setIntegerParam(addr, PGPropertyAvailable, 1);
+            setIntegerParam(addr, PGPropertyValue, property.valueA);
+            setIntegerParam(addr, PGPropertyValueMin, propInfo.min);
+            setIntegerParam(addr, PGPropertyValueMax, propInfo.max);
+            setIntegerParam(addr, PGPropertyMode, property.absControl);
+        } else {
+            setIntegerParam(addr, PGPropertyAvailable, 0);
+            setIntegerParam(addr, PGPropertyValue, -1);
+            setIntegerParam(addr, PGPropertyValueMin, -1);
+            setIntegerParam(addr, PGPropertyValueMax, -1);
+            setIntegerParam(addr, PGPropertyMode, -1);
+        }
+
+        /* If the propertyType does not support 'absolute' control then we just
+         * set all the absolute values to -1.0 to indicate it is not available to the user */
+        if (propInfo.autoSupported) { 
+            setIntegerParam(addr, PGPropertyAbsolute, property.absControl);
+            setDoubleParam(addr, PGPropertyValueAbs, property.absValue);
+            setDoubleParam(addr, PGPropertyValueAbsMin, propInfo.absMin);
+            setDoubleParam(addr, PGPropertyValueAbsMax, propInfo.absMax);
+        } else {
+            dtmp = -1.0;
+            setIntegerParam(addr, PGPropertyAbsolute, 0);
+            setDoubleParam(addr, PGPropertyValueAbs, dtmp);
+            setDoubleParam(addr, PGPropertyValueAbsMax, dtmp);
+            setDoubleParam(addr, PGPropertyValueAbsMin, dtmp);
+        }
+    }
+
+    /* Finally map a few of the AreaDetector parameters on to the camera 'properties' */
+    for (addr=0; addr<NUM_PROPERTIES; addr++) {
+        if (allProperties_[addr]->type == SHUTTER) break;
+    }
+    getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
+    setDoubleParam(ADAcquireTime, dtmp);
+
+    for (addr=0; addr<NUM_PROPERTIES; addr++) {
+        if (allProperties_[addr]->type == GAIN) break;
+    }
+    getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
+    setDoubleParam(ADGain, dtmp);
+    /* Do callbacks for each propertyType */
+    for (addr=0; addr<NUM_PROPERTIES; addr++) callParamCallbacks(addr);
+
+    return asynSuccess;
+}
+
+
+
+asynStatus pointGrey::startCapture()
+{
+    Error error;
+    static const char *functionName = "startCapture";
+
+    /* Start the camera transmission... */
+    setIntegerParam(ADNumImagesCounter, 0);
+    setShutter(1);
+    error = pCamera_->StartCapture();
+    if (checkError(error, functionName, "StartCapture")) return asynError;
+    epicsEventSignal(startEventId_);
+    return asynSuccess;
+}
+
+
+asynStatus pointGrey::stopCapture()
+{
+    Error error;
+    static const char *functionName = "stopCapture";
+
+    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
+        "%s::%s Stopping firewire transmission\n",
+        driverName, functionName);
+
+    setShutter(0);
+    error = pCamera_->StopCapture();
+    if (checkError(error, functionName, "StopCapture")) return asynError;
+    return asynSuccess;
+}
+
+
+/** Print out a report; calls ADDriver::report to get base class report as well.
+  * \param[in] fp File pointer to write output to
+  * \param[in] details Level of detail desired.  If >1 prints information about 
+               supported video formats and modes, etc.
+ */
+void pointGrey::report(FILE *fp, int details)
+{
+    unsigned int numCameras;
+    Error error;
+    Camera cam;
+    CameraInfo camInfo;
+    int mode, rate;
+    VideoMode videoMode;
+    FrameRate frameRate;
+    bool supported;
+    int property;
+    Property *pProperty;
+    PropertyInfo *pPropInfo;
+    int pixelFormatIndex;
+    unsigned int packetSize;
+    float percentage;
+    Format7ImageSettings f7Settings;
+    static const char *functionName = "report";
+    
+    error = pBusMgr_->GetNumOfCameras(&numCameras);
+    if (checkError(error, functionName, "GetNumOfCameras")) return;
+
+    fprintf(fp, "  Number of cameras detected: %u\n", numCameras);
+
+    for (unsigned int i=0; i<numCameras; i++) {
+        PGRGuid guid;
+        error = pBusMgr_->GetCameraFromIndex(i, &guid);
+        if (checkError(error, functionName, "GetCameraFromIndex")) return;
+
+        // Connect to camera
+        error = cam.Connect(&guid);
+        if (checkError(error, functionName, "cam.Connect")) return;
+
+        // Get the camera information
+        error = cam.GetCameraInfo(&camInfo);
+        if (checkError(error, functionName, "GetCameraInfo")) return;
+
+        fprintf(fp, 
+            "Serial number - %u\n"
+            "Camera model - %s\n"
+            "Camera vendor - %s\n"
+            "Sensor - %s\n"
+            "Resolution - %s\n"
+            "Firmware version - %s\n"
+            "Firmware build time - %s\n\n",
+            camInfo.serialNumber,
+            camInfo.modelName,
+            camInfo.vendorName,
+            camInfo.sensorInfo,
+            camInfo.sensorResolution,
+            camInfo.firmwareVersion,
+            camInfo.firmwareBuildTime);
+    }
+    
+    fprintf(fp, "Currently connected camera Format7 information\n"
+                "  mode: %d\n"
+                "  maxWidth:  %d\n"
+                "  maxHeight: %d\n"
+                "  offsetHStepSize: %d\n"
+                "  offsetVStepSize: %d\n"
+                "  imageHStepSize:  %d\n"
+                "  imageVStepSize:  %d\n"
+                "  pixelFormatBitField       0x%x\n" 
+                "  vendorPixelFormatBitField 0x%x\n",
+                pFormat7Info_->mode,
+                pFormat7Info_->maxWidth,
+                pFormat7Info_->maxHeight,
+                pFormat7Info_->offsetHStepSize,
+                pFormat7Info_->offsetVStepSize,
+                pFormat7Info_->imageHStepSize,
+                pFormat7Info_->imageVStepSize,
+                pFormat7Info_->pixelFormatBitField,
+                pFormat7Info_->vendorPixelFormatBitField);
+
+    if (details < 1) return;
+    
+    fprintf(fp, "Supported video modes and rates:\n");
+    for (mode=0; mode<NUM_VIDEOMODES; mode++) {
+        videoMode = (VideoMode)mode;
+        for (rate=0; rate<NUM_FRAMERATES; rate++) {
+            frameRate = (FrameRate)rate;
+            error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, frameRate, &supported);
+            if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+                return;
+            if (supported) {
+                fprintf(fp, "    Video mode %d (%s) and frame rate %d (%s) supported\n", 
+                mode, videoModeStrings[mode], rate, frameRateStrings[rate]);
+            }
+        }
+    }
+    /* Iterate through all of the available properties and report on them  */
+    fprintf(fp, "Supported properties\n");
+    for (property = 0; property < NUM_PROPERTIES; property++) {
+        pProperty = allProperties_[property];
+        pPropInfo = allPropInfos_[property];
+        pCamera_->GetProperty(pProperty);
+        if (checkError(error, functionName, "GetProperty")) 
+            return;
+        if (pProperty->present) {
+            fprintf(fp, "Property %s \n"
+                        " min           = %d\n"
+                        " max           = %d\n"
+                        " value         = %d\n"
+                        " hasAutoMode   = %d     status=%d\n" 
+                        " hasManualMode = %d     status=%d\n"
+                        " hasOnOff      = %d     status=%d\n"
+                        " hasOnePush    = %d     status=%d\n"
+                        " hasReadout    = %d\n"
+                        " hasAbsControl = %d     status=%d\n",
+                propertyTypeStrings[property],
+                pPropInfo->min,
+                pPropInfo->max,
+                pProperty->valueA,
+                pPropInfo->autoSupported, pProperty->autoManualMode,
+                pPropInfo->manualSupported, !pProperty->autoManualMode,
+                pPropInfo->onOffSupported,  pProperty->onOff,
+                pPropInfo->onePushSupported, pProperty->onePush,
+                pPropInfo->readOutSupported,
+                pPropInfo->absValSupported,  pProperty->absControl);
+            if (pPropInfo->absValSupported) { 
+                fprintf(fp, "  units        = %s    abbreviated=%s\n"
+                            "  min          = %f\n"
+                            "  max          = %f\n" 
+                            "  value        = %f\n", 
+                pPropInfo->pUnits, pPropInfo->pUnitAbbr,
+                pPropInfo->absMin,
+                pPropInfo->absMax,
+                pProperty->absValue);
+            }
+        }
+    }
+    pCamera_->GetVideoModeAndFrameRate(&videoMode, &frameRate);
+    if (checkError(error, functionName, "GetVideoModeAndFrameRate")) 
+        return;
+    fprintf(fp, "Current settings\n");
+    fprintf(fp, "  Mode: %d (%s)\n", videoMode, videoModeStrings[videoMode]);
+    fprintf(fp, "  Rate: %d (%s)\n", frameRate, frameRateStrings[frameRate]);
+    if (videoMode == VIDEOMODE_FORMAT7) {
+        pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
+        if (checkError(error, functionName, "GetFormat7Configuration")) 
+            return;
+        pixelFormatIndex = getPixelFormatIndex(f7Settings.pixelFormat);     
+        fprintf(fp, "  Format7 video format currently selected\n"
+                    "    Packet size: %d\n"
+                    "    Bandwidth percentage: %f\n"
+                    "    Mode: %d\n"
+                    "    Offset: %d %d\n"
+                    "    Size: %d %d\n"
+                    "    PixelFormat: %d [%s]\n",
+            packetSize,
+            percentage,
+            f7Settings.mode,
+            f7Settings.offsetX, f7Settings.offsetY,
+            f7Settings.width, f7Settings.height,
+            f7Settings.pixelFormat, pixelFormatStrings[pixelFormatIndex]);
+    }
+                    
+    ADDriver::report(fp, details);
+    return;
+}
+
+static const iocshArg configArg0 = {"Port name", iocshArgString};
+static const iocshArg configArg1 = {"cameraId", iocshArgInt};
+static const iocshArg configArg2 = {"maxBuffers", iocshArgInt};
+static const iocshArg configArg3 = {"maxMemory", iocshArgInt};
+static const iocshArg configArg4 = {"priority", iocshArgInt};
+static const iocshArg configArg5 = {"stackSize", iocshArgInt};
+static const iocshArg * const configArgs[] = {&configArg0,
+                                              &configArg1,
+                                              &configArg2,
+                                              &configArg3,
+                                              &configArg4,
+                                              &configArg5};
+static const iocshFuncDef configpointGrey = {"pointGreyConfig", 6, configArgs};
+static void configCallFunc(const iocshArgBuf *args)
+{
+    pointGreyConfig(args[0].sval, args[1].ival, args[2].ival, 
+                    args[3].ival, args[4].ival, args[5].ival);
+}
+
+
+static void firewireWinDCAMRegister(void)
+{
+    iocshRegister(&configpointGrey, configCallFunc);
 }
 
 extern "C" {
-epicsExportRegistrar(pointGreyRegister);
+epicsExportRegistrar(firewireWinDCAMRegister);
 }
+

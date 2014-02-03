@@ -1,0 +1,206 @@
+## pointGreyDCAM.template
+## Template database file to control the features of a DCAM camera.
+## See the detailled description for information about macros and how features 
+## can be controlled and read out: 
+##
+
+## VideoMode
+record(mbbo, "$(P)$(R)VideoMode") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_VIDEO_MODE")
+  field(ZRST, "0")
+  field(ONST, "1")
+  field(TWST, "2")
+  field(THST, "3")
+  field(FRST, "4")
+  field(FVST, "5")
+  field(SXST, "6")
+  field(SVST, "7")
+  field(ZRVL, "0x0")
+  field(ONVL, "0x1")
+  field(TWVL, "0x2")
+  field(THVL, "0x3")
+  field(FRVL, "0x4")
+  field(FVVL, "0x5")
+  field(SXVL, "0x6")
+  field(SVVL, "0x7")
+}
+
+record(mbbi, "$(P)$(R)VideoMode_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_VIDEO_MODE")
+  field(ZRST, "0")
+  field(ONST, "1")
+  field(TWST, "2")
+  field(THST, "3")
+  field(FRST, "4")
+  field(FVST, "5")
+  field(SXST, "6")
+  field(SVST, "7")
+  field(ZRVL, "0x0")
+  field(ONVL, "0x1")
+  field(TWVL, "0x2")
+  field(THVL, "0x3")
+  field(FRVL, "0x4")
+  field(FVVL, "0x5")
+  field(SXVL, "0x6")
+  field(SVVL, "0x7")
+}
+
+## Framerate when the camera is not in the ROI/format7 mode
+record(mbbo, "$(P)$(R)FrameRate") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE")
+  field(ZRST, "1.875")
+  field(ONST, "3.75")
+  field(TWST, "7.5")
+  field(THST, "15")
+  field(FRST, "30")
+  field(FVST, "60")
+  field(SXST, "120")
+  field(SVST, "240")
+  field(ZRVL, "0x0")
+  field(ONVL, "0x1")
+  field(TWVL, "0x2")
+  field(THVL, "0x3")
+  field(FRVL, "0x4")
+  field(FVVL, "0x5")
+  field(SXVL, "0x6")
+  field(SVVL, "0x7")
+}
+
+record(mbbi, "$(P)$(R)FrameRate_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_FRAME_RATE")
+  field(ZRST, "1.875")
+  field(ONST, "3.75")
+  field(TWST, "7.5")
+  field(THST, "15")
+  field(FRST, "30")
+  field(FVST, "60")
+  field(SXST, "120")
+  field(SVST, "240")
+  field(ZRVL, "0x0")
+  field(ONVL, "0x1")
+  field(TWVL, "0x2")
+  field(THVL, "0x3")
+  field(FRVL, "0x4")
+  field(FVVL, "0x5")
+  field(SXVL, "0x6")
+  field(SVVL, "0x7")
+}
+
+## Format 7 pixel format
+record(mbbo, "$(P)$(R)PixelFormat") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
+  field(ZRST, "0")
+  field(ONST, "1")
+  field(TWST, "2")
+  field(THST, "3")
+  field(FRST, "4")
+  field(FVST, "5")
+  field(SXST, "6")
+  field(SVST, "7")
+  field(EIST, "8")
+  field(NIST, "9")
+  field(TEST, "10")
+  field(ZRVL, "0x0")
+  field(ONVL, "0x1")
+  field(TWVL, "0x2")
+  field(THVL, "0x3")
+  field(FRVL, "0x4")
+  field(FVVL, "0x5")
+  field(SXVL, "0x6")
+  field(SVVL, "0x7")
+  field(EIVL, "0x8")
+  field(NIVL, "0x9")
+  field(TEVL, "0xA")
+}
+
+record(mbbi, "$(P)$(R)PixelFormat_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
+  field(ZRST, "0")
+  field(ONST, "1")
+  field(TWST, "2")
+  field(THST, "3")
+  field(FRST, "4")
+  field(FVST, "5")
+  field(SXST, "6")
+  field(SVST, "7")
+  field(EIST, "8")
+  field(NIST, "9")
+  field(TEST, "10")
+  field(ZRVL, "0x0")
+  field(ONVL, "0x1")
+  field(TWVL, "0x2")
+  field(THVL, "0x3")
+  field(FRVL, "0x4")
+  field(FVVL, "0x5")
+  field(SXVL, "0x6")
+  field(SVVL, "0x7")
+  field(EIVL, "0x8")
+  field(NIVL, "0x9")
+  field(TEVL, "0xA")
+}
+
+# Current mode string
+record(stringin, "$(P)$(R)CurrentVideoMode") {
+  field(DTYP, "asynOctetRead")
+  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_VIDEO_MODE")
+  field(SCAN, "I/O Intr")
+}
+
+# Current frame rate string
+record(stringin, "$(P)$(R)CurrentFrameRate") {
+  field(DTYP, "asynOctetRead")
+  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_FRAME_RATE")
+  field(SCAN, "I/O Intr")
+}
+
+# Current pixel format string
+record(stringin, "$(P)$(R)CurrentPixelFormat") {
+  field(DTYP, "asynOctetRead")
+  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_PIXEL_FORMAT")
+  field(SCAN, "I/O Intr")
+}
+
+# Dropped frames
+record(longout, "$(P)$(R)DroppedFrames") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_DROPPED_FRAMES")
+}
+
+# Dropped frames
+record(longin, "$(P)$(R)DroppedFrames_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_DROPPED_FRAMES")
+  field(SCAN, "I/O Intr")
+}
+
+# Readout time
+record(ao, "$(P)$(R)ReadoutTime") {
+  field(PINI, "YES")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)PG_READOUT_TIME")
+  field(PREC, "1")
+  field(VAL, "1.0")
+}
+
+record(ai, "$(P)$(R)ReadoutTime_RBV") {
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)PG_READOUT_TIME")
+  field(PREC, "1")
+  field(SCAN, "I/O Intr")
+}

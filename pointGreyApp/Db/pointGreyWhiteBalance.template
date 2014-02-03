@@ -1,0 +1,3 @@
+# pointGreyWhiteBalance.template
+# White balance.  
+# This needs work because we need to write to both Property.valueA and Property.valueB

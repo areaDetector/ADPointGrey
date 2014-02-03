@@ -100,282 +100,266 @@ text {
 	textix="$(P)$(R)Point Grey Video Modes"
 	align="horiz. centered"
 }
-composite {
+text {
+	object {
+		x=640
+		y=70
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frame rate"
+	align="horiz. centered"
+}
+"text update" {
+	object {
+		x=660
+		y=45
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)CurrentFrameRate"
+		clr=53
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=96
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_0"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=121
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_1"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=146
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_2"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=171
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_3"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=196
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_4"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=221
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_5"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=246
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_6"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=271
+		width=75
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidFrameRate_7"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"message button" {
 	object {
 		x=635
-		y=45
-		width=105
-		height=246
+		y=94
+		width=20
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=640
-				y=70
-				width=100
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Frame rate"
-			align="horiz. centered"
-		}
-		"text update" {
-			object {
-				x=660
-				y=45
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)CurrentFrameRate"
-				clr=53
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=96
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_0"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=121
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_1"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=146
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_2"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=171
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_3"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=196
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_4"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=221
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_5"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=246
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_6"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=271
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ValidFrameRate_7"
-				clr=53
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"message button" {
-			object {
-				x=635
-				y=94
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="0"
-		}
-		"message button" {
-			object {
-				x=635
-				y=119
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="1"
-		}
-		"message button" {
-			object {
-				x=635
-				y=144
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="2"
-		}
-		"message button" {
-			object {
-				x=635
-				y=169
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="3"
-		}
-		"message button" {
-			object {
-				x=635
-				y=194
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="4"
-		}
-		"message button" {
-			object {
-				x=635
-				y=219
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="5"
-		}
-		"message button" {
-			object {
-				x=635
-				y=244
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="6"
-		}
-		"message button" {
-			object {
-				x=635
-				y=269
-				width=20
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			press_msg="7"
-		}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
 	}
-	"dynamic attribute" {
-		vis="calc"
-		calc="A#7"
-		chan="$(P)$(R)VideoMode.RVAL"
+	press_msg="0"
+}
+"message button" {
+	object {
+		x=635
+		y=119
+		width=20
+		height=20
 	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="1"
+}
+"message button" {
+	object {
+		x=635
+		y=144
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="2"
+}
+"message button" {
+	object {
+		x=635
+		y=169
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="3"
+}
+"message button" {
+	object {
+		x=635
+		y=194
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="4"
+}
+"message button" {
+	object {
+		x=635
+		y=219
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="5"
+}
+"message button" {
+	object {
+		x=635
+		y=244
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="6"
+}
+"message button" {
+	object {
+		x=635
+		y=269
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=51
+	}
+	press_msg="7"
 }
 text {
 	object {
@@ -822,20 +806,6 @@ text {
 	}
 	press_msg="6"
 }
-"message button" {
-	object {
-		x=210
-		y=268
-		width=20
-		height=20
-	}
-	control {
-		chan="$(P)$(R)VideoMode"
-		clr=14
-		bclr=51
-	}
-	press_msg="7"
-}
 text {
 	object {
 		x=260
@@ -857,7 +827,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_0"
+		chan="$(P)$(R)ValidVideoMode_0"
 		clr=53
 		bclr=4
 	}
@@ -872,7 +842,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_1"
+		chan="$(P)$(R)ValidVideoMode_1"
 		clr=53
 		bclr=4
 	}
@@ -887,7 +857,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_2"
+		chan="$(P)$(R)ValidVideoMode_2"
 		clr=53
 		bclr=4
 	}
@@ -902,7 +872,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_3"
+		chan="$(P)$(R)ValidVideoMode_3"
 		clr=53
 		bclr=4
 	}
@@ -917,7 +887,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_4"
+		chan="$(P)$(R)ValidVideoMode_4"
 		clr=53
 		bclr=4
 	}
@@ -932,7 +902,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_5"
+		chan="$(P)$(R)ValidVideoMode_5"
 		clr=53
 		bclr=4
 	}
@@ -947,22 +917,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ValidMode_6"
-		clr=53
-		bclr=4
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=235
-		y=271
-		width=375
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)ValidMode_7"
+		chan="$(P)$(R)ValidVideoMode_6"
 		clr=53
 		bclr=4
 	}
@@ -983,4 +938,73 @@ text {
 	}
 	limits {
 	}
+}
+composite {
+	object {
+		x=210
+		y=268
+		width=400
+		height=23
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=235
+				y=271
+				width=375
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ValidVideoMode_7"
+				clr=53
+				bclr=4
+			}
+			limits {
+			}
+		}
+		"message button" {
+			object {
+				x=210
+				y=268
+				width=20
+				height=20
+			}
+			control {
+				chan="$(P)$(R)VideoMode"
+				clr=14
+				bclr=51
+			}
+			press_msg="7"
+		}
+	}
+}
+"text update" {
+	object {
+		x=234
+		y=296
+		width=375
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ValidVideoMode_23"
+		clr=53
+		bclr=4
+	}
+	limits {
+	}
+}
+"message button" {
+	object {
+		x=209
+		y=293
+		width=20
+		height=20
+	}
+	control {
+		chan="$(P)$(R)VideoMode"
+		clr=14
+		bclr=51
+	}
+	press_msg="23"
 }

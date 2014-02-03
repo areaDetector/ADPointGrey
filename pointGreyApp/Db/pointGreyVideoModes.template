@@ -1,14 +1,14 @@
 ## pointGreyVideoModes.template
 
-# Valid format strings
-record(stringin, "$(P)$(R)ValidFormat_$(N)") {
+# Valid pixel format strings
+record(stringin, "$(P)$(R)ValidPixelFormat_$(N)") {
   field(DTYP, "asynOctetRead")
   field(INP, "@asyn($(PORT) $(N))PG_VALID_PIXEL_FORMAT")
   field(SCAN, "I/O Intr")
 }
 
-# Has format bi
-record(bi, "$(P)$(R)HasFormat_$(N)") {
+# Has pixel format bi
+record(bi, "$(P)$(R)HasPixelFormat_$(N)") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_HAS_PIXEL_FORMAT")
   field(ZNAM, "No")
@@ -16,16 +16,16 @@ record(bi, "$(P)$(R)HasFormat_$(N)") {
   field(SCAN, "I/O Intr")
 }
 
-# Valid mode strings
-record(stringin, "$(P)$(R)ValidMode_$(N)") {
+# Valid video mode strings
+record(stringin, "$(P)$(R)ValidVideoMode_$(N)") {
   field(DTYP, "asynOctetRead")
   field(INP, "@asyn($(PORT) $(N))PG_VALID_VIDEO_MODE")
   field(SCAN, "I/O Intr")
 }
 #
 
-# Has mode bi
-record(bi, "$(P)$(R)HasMode_$(N)") {
+# Has video mode bi
+record(bi, "$(P)$(R)HasVideoMode_$(N)") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_HAS_VIDEO_MODE")
   field(ZNAM, "No")
@@ -35,14 +35,14 @@ record(bi, "$(P)$(R)HasMode_$(N)") {
 
 
 # Valid frame rate strings
-record(stringin, "$(P)$(R)ValidRate_$(N)") {
+record(stringin, "$(P)$(R)ValidFrameRate_$(N)") {
   field(DTYP, "asynOctetRead")
   field(INP, "@asyn($(PORT) $(N))PG_VALID_FRAMERATE")
   field(SCAN, "I/O Intr")
 }
 
-# Has rate bi
-record(bi, "$(P)$(R)HasRate_$(N)") {
+# Has frame rate bi
+record(bi, "$(P)$(R)HasFrameRate_$(N)") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_HAS_FRAMERATE")
   field(ZNAM, "No")

@@ -41,9 +41,9 @@ static const char *driverName = "pointGrey";
 #define MAX(x,y) ((x)>(y)?(x):(y))
 
 /* PointGrey driver specific parameters */
-#define PGSerialNumberString          "PG_SERIAL_NUMBER"     /* asynInt32    ro */
-#define PGFirmwareVersionString       "PG_FIRMWARE_VERSION"  /* asynOctet    ro */
-#define PGSoftwareVersionString       "PG_SOFTWARE_VERSION"  /* asynOctet    ro */
+#define PGSerialNumberString          "PG_SERIAL_NUMBER"
+#define PGFirmwareVersionString       "PG_FIRMWARE_VERSION"
+#define PGSoftwareVersionString       "PG_SOFTWARE_VERSION"
 #define PGPropertyValueString         "PG_PROP_VAL"
 #define PGPropertyValueMaxString      "PG_PROP_VAL_MAX"
 #define PGPropertyValueMinString      "PG_PROP_VAL_MIN"
@@ -55,7 +55,7 @@ static const char *driverName = "pointGrey";
 #define PGPropertyAbsoluteString      "PG_PROP_ABSOLUTE"
 #define PGVideoModeString             "PG_VIDEO_MODE"
 #define PGFormat7ModeString           "PG_FORMAT7_MODE"
-#define PGFrameRateString             "PG_FRAME_RATE"
+#define PGFrameRateString             "PG_FRAMERATE"
 #define PGPixelFormatString           "PG_PIXEL_FORMAT"
 #define PGValidVideoModeString        "PG_VALID_VIDEO_MODE"
 #define PGValidFrameRateString        "PG_VALID_FRAMERATE"
@@ -78,7 +78,7 @@ static const char *driverName = "pointGrey";
 #define MAX_ADDR NUM_MODES
 
 /** Main driver class inherited from areaDetectors ADDriver class.
- * One instance of this class will control one firewire camera on the bus.
+ * One instance of this class will control one camera.
  */
 class pointGrey : public ADDriver
 {
@@ -96,35 +96,36 @@ public:
     void shutdown();
 
 protected:
-    int PGSerialNumber_;
+    int PGSerialNumber_;          /** Camera serial number (int32 read) */
     #define FIRST_PG_PARAM PGSerialNumber_
-    int PGFirmwareVersion_;
-    int PGSoftwareVersion_;
-    int PGPropertyValue;          /** Property value (int32 read/write) addr: 0-17 */
-    int PGPropertyValueMax;       /** Property maximum boundry value (int32 read) addr: 0-17 */
-    int PGPropertyValueMin;       /** Property minimum boundry value (int32 read)  addr: 0-17*/
-    int PGPropertyValueAbs;       /** Property absolute value (float64 read/write) addr: 0-17 */
-    int PGPropertyValueAbsMax;    /** Property absolute maximum boundry value (float64 read) addr: 0-17 */
-    int PGPropertyValueAbsMin;    /** Property absolute minimum boundry value (float64 read) addr: 0-17 */
-    int PGPropertyMode;           /** Property control mode: 0:manual or 1:automatic (camera controlled) (int32 read/write)*/
-    int PGPropertyAvailable;      /** Is a given property available in the camera 1=available 0=not available (int32, read) */
+    int PGFirmwareVersion_;       /** Camera firmware version (octet read) */
+    int PGSoftwareVersion_;       /** Camera software version (octet read) */
+                                  /** The following PGProperty parameters all have addr: 0-NUM_PROPERTIES-1 */
+    int PGPropertyValue;          /** Property value (int32 read/write) */
+    int PGPropertyValueMax;       /** Property maximum value (int32 read) */
+    int PGPropertyValueMin;       /** Property minimum value (int32 read) */
+    int PGPropertyValueAbs;       /** Property absolute value (float64 read/write) */
+    int PGPropertyValueAbsMax;    /** Property absolute maximum value (float64 read) */
+    int PGPropertyValueAbsMin;    /** Property absolute minimum value (float64 read) */
+    int PGPropertyMode;           /** Property control mode: 0:manual or 1:automatic (camera controlled) (int32 read/write) */
+    int PGPropertyAvailable;      /** Property is available in the camera 1=available 0=not available (int32, read) */
     int PGPropertyAbsolute;       /** Property has absolute (floating point) controls available 1=available 0=not available (int32 read) */
-    int PGVideoMode;              /** Set and read back the video mode (int32 (enums) read/write)*/
-    int PGFormat7Mode;            /** Set and read back the format7 mode (int32 (enums) read/write)*/
-    int PGFrameRate;              /** Set and read back the frame rate (int32 (enums) read/write)*/
-    int PGPixelFormat;            /** Set and read back the color code (int32 (enums) read/write)*/
-    int PGValidVideoMode;         /** Read back the valid video modes (octet, read)*/
-    int PGValidFrameRate;         /** Read back the valid frame rates (octet, read)*/
-    int PGValidPixelFormat;       /** Read back the valid color codes (octet, read)*/
-    int PGHasVideoMode;           /** Read back whether video mode is supported (int32, read)*/
-    int PGHasFrameRate;           /** Read back whether video framerate is supported (int32, read)*/
-    int PGHasPixelFormat;         /** Read back whether color code is supported (int32, read)*/
-    int PGCurrentFormat;          /** Read back the current video format (octet, read)*/
-    int PGCurrentVideoMode;       /** Read back the current video mode (octet, read)*/
-    int PGCurrentFrameRate;       /** Read back the current frame rate (octet, read)*/
-    int PGCurrentPixelFormat;     /** Read back the pixel format (octet, read)*/
-    int PGReadoutTime;            /** Readout time (float64, read/write)*/
-    int PGDroppedFrames;          /** Number of dropped frames (int32, read)*/
+    int PGVideoMode;              /** Video mode (int32 read/write) enum VideoMode, 0-NUM_VIDEOMODES-1 */
+    int PGFormat7Mode;            /** Format7 mode (int32 read/write) enum Mode, 0-NUM_MODES-1 */
+    int PGFrameRate;              /** Frame rate (int32 read/write) enum FrameRate, 0-NUM_FRAMERATES-1 */
+    int PGPixelFormat;            /** The pixel format when VideoFormat=Format7 (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
+    int PGValidVideoMode;         /** Valid video mode strings (octet, read) addr: 0-NUM_VIDEOMODES-1 */
+    int PGValidFrameRate;         /** Valid frame rate strings (octet, read) addr: 0-NUM_FRAMERATES-1 */
+    int PGValidPixelFormat;       /** The valid pixel format strings (octet, read) addr: 0-NUM_PIXEL_FORMATS-1 */
+    int PGHasVideoMode;           /** Is video mode is supported (int32, read) addr: 0-NUM_VIDEOMODES-1 */
+    int PGHasFrameRate;           /** Is video framerate is supported (int32, read) addr: 0-NUM_FRAMERATES-1 */
+    int PGHasPixelFormat;         /** Is pixel format is supported (int32, read)  addr: 0-NUM_PIXEL_FORMATS-1 */
+    int PGCurrentFormat;          /** Current video format string (octet, read) */
+    int PGCurrentVideoMode;       /** Current video mode string (octet, read) */
+    int PGCurrentFrameRate;       /** Current frame rate string (octet, read) */
+    int PGCurrentPixelFormat;     /** Current pixel format string (octet, read) */
+    int PGReadoutTime;            /** Readout time (float64, read/write) */
+    int PGDroppedFrames;          /** Number of dropped frames (int32, read) */
     #define LAST_PG_PARAM PGDroppedFrames
 
 private:
@@ -173,9 +174,7 @@ private:
  * This function need to be called once for each camera to be used by the IOC. A call to this
  * function instanciates one object from the pointGrey class.
  * \param[in] portName Asyn port name to assign to the camera.
- * \param[in] camid The camera ID or serial number in a hexadecimal string. Lower case and
- *            upper case letters can be used. This is used to identify a specific camera
- *            on the bus. For instance: "0x00b09d01007139d0".  If this parameter is empty ("")
+ * \param[in] cameraId The camera index or serial number.
  *            then the first camera found on the Firewire bus will be used.
  * \param[in] maxBuffers Maxiumum number of NDArray objects (image buffers) this driver is allowed to allocate.
  *            This driver requires 2 buffers, and each queue element in a plugin can require one buffer
@@ -364,17 +363,6 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGReadoutTimeString,            asynParamFloat64, &PGReadoutTime);
     createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
 
-    printf("Creating Format 7 mode strings...                 ");
-    formatFormat7Modes();
-    formatValidModes();
-    // Create an array of property objects, one for each property
-    for (i=0; i<NUM_PROPERTIES; i++) {
-        propType = (PropertyType) i;
-        allProperties_[i] = new Property(propType);
-        allPropInfos_[i]  = new PropertyInfo(propType);
-    }
-    getAllProperties();
-
     /* set read-only parameters */
     setIntegerParam(NDDataType, NDUInt16);
     setIntegerParam(NDColorMode, NDColorModeMono);
@@ -398,6 +386,16 @@ pointGrey::pointGrey(const char *portName, int cameraId,
         return;
     }
 
+    formatFormat7Modes();
+    formatValidModes();
+    // Create an array of property objects, one for each property
+    for (i=0; i<NUM_PROPERTIES; i++) {
+        propType = (PropertyType) i;
+        allProperties_[i] = new Property(propType);
+        allPropInfos_[i]  = new PropertyInfo(propType);
+    }
+    getAllProperties();
+
     startEventId_ = epicsEventCreate(epicsEventEmpty);
 
     /* launch image read task */
@@ -415,8 +413,8 @@ inline asynStatus pointGrey::checkError(Error error, const char *functionName, c
 {
     if (error != PGRERROR_OK) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s:%s: error calling %s = %s\n",
-            driverName, functionName, PGRFunction, error.GetDescription());
+            "%s:%s: error calling %s Type=%d Description=%s\n",
+            driverName, functionName, PGRFunction, error.GetType(), error.GetDescription());
         return asynError;
     }
     return asynSuccess;
@@ -901,7 +899,7 @@ asynStatus pointGrey::setPropertyMode(PropertyType propType, epicsInt32 value)
     }
 
     /* Send the propertyType mode to the cam */
-    pProperty->autoManualMode = value;
+    pProperty->autoManualMode = value ? true : false;
     error = pCamera_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
@@ -971,7 +969,7 @@ asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 va
     pProperty->absControl = true;
 
     /* Finally set the propertyType value in the camera */
-    pProperty->absValue = value;
+    pProperty->absValue = (float)value;
     error = pCamera_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
@@ -994,11 +992,13 @@ asynStatus pointGrey::setFrameRate(epicsInt32 frameRate)
     return setVideoModeAndFrameRate(videoMode, frameRate);
 }
  
-asynStatus pointGrey::setVideoModeAndFrameRate(epicsInt32 videoMode, epicsInt32 frameRate)
+asynStatus pointGrey::setVideoModeAndFrameRate(epicsInt32 videoModeIn, epicsInt32 frameRateIn)
 {
     asynStatus status = asynSuccess;
     Error error;
     int wasAcquiring;
+    FrameRate frameRate = (FrameRate)frameRateIn;
+    VideoMode videoMode = (VideoMode)videoModeIn;
     bool supported;
     static const char *functionName = "setVideoModeAndFrameRate";
 
@@ -1009,31 +1009,36 @@ asynStatus pointGrey::setVideoModeAndFrameRate(epicsInt32 videoMode, epicsInt32 
             driverName, functionName);
        return(asynError);
     }
-    /* Get the frame rate */
-    getIntegerParam(PGFrameRate, &frameRate);
-    error = pCamera_->GetVideoModeAndFrameRateInfo((VideoMode)videoMode, (FrameRate)frameRate, &supported);
-    if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
-        return asynError;
-    if (!supported) {
-         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s camera does not support mode %d with framerate %d\n",
-            driverName, functionName, videoMode, frameRate);
-       status = asynError;
-       goto done;
+
+printf("%s::%s entry, videoMode=%d, frameRate=%d\n",
+driverName, functionName, videoMode, frameRate);
+    // VIDEOMODE_FORMAT7 must be treated differently
+    if (videoMode == VIDEOMODE_FORMAT7) {
+        /* Attempt to write the video mode to camera */
+        error = pCamera_->SetVideoModeAndFrameRate(videoMode, FRAMERATE_FORMAT7);
+        if (checkError(error, functionName, "SetVideoModeAndFrameRate"))
+            return asynError;
+printf("Calling setFormat7Params\n");
+        setFormat7Params();
+    } else {
+        error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, frameRate, &supported);
+        if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+            return asynError;
+        if (!supported) {
+             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                "%s::%s camera does not support mode %d with framerate %d\n",
+                driverName, functionName, videoMode, frameRate);
+            status = asynError;
+            return asynError;
+        }
+        /* Attempt to write the video mode to camera */
+        error = pCamera_->SetVideoModeAndFrameRate(videoMode, frameRate);
+        if (checkError(error, functionName, "SetVideoModeAndFrameRate")) 
+            return asynError;
     }
-
-    /* attempt to write the mode to camera */
-    error = pCamera_->SetVideoModeAndFrameRate((VideoMode)videoMode, (FrameRate)frameRate);
-    if (checkError(error, functionName, "SetVideoModeAndFrameRate")) 
-        return asynError;
-
-    done:
-    /* If the new format is format 7 then set the parameters */
-    if (videoMode == VIDEOMODE_FORMAT7) setFormat7Params();
-
-    /* When the mode changes the supported values of frame rate change */
+    /* When the video mode changes the supported values of frame rate change */
     formatValidModes();
-    /* When the mode changes the available properties can also change */
+    /* When the video mode changes the available properties can also change */
     getAllProperties();
 
     return status;
@@ -1053,8 +1058,7 @@ asynStatus pointGrey::setFormat7Params()
 {
     int wasAcquiring;
     Error error;
-    VideoMode videoMode;
-    FrameRate frameRate;
+    int videoMode;
     Format7Info f7Info;
     Format7ImageSettings f7Settings;
     Format7PacketInfo f7PacketInfo;
@@ -1070,6 +1074,7 @@ asynStatus pointGrey::setFormat7Params()
     unsigned short hpMax, vpMax, hpUnit, vpUnit;
     static const char *functionName = "setFormat7Params";
 
+printf("%s::%s entry\n", driverName, functionName);
     getIntegerParam(ADAcquire, &wasAcquiring);
     if (wasAcquiring) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -1078,10 +1083,9 @@ asynStatus pointGrey::setFormat7Params()
        return(asynError);
     }
 
-    /* Get the current video mode */
-    error = pCamera_->GetVideoModeAndFrameRate(&videoMode, &frameRate);
-    if (checkError(error, functionName, "GetVideoModeAndFrameRate")) 
-        return asynError;
+    /* Get the current video mode from EPICS.  It may have just been changed */
+    getIntegerParam(PGVideoMode, &videoMode);
+printf("%s::%s videoMode=%d\n", driverName, functionName);
     /* If not format 7 then silently exit */
     if (videoMode != VIDEOMODE_FORMAT7) return asynSuccess;
     
@@ -1196,7 +1200,7 @@ asynStatus pointGrey::formatValidModes()
     bool supported;
     int addr;
     char str[40];
-    static const char *functionName = "setFormat7Params";
+    static const char *functionName = "formatValidModes";
  
     /* This function writes strings for all valid video formats,
      * the valid video modes for the current video format, and the
@@ -1215,6 +1219,7 @@ asynStatus pointGrey::formatValidModes()
     /* Format all valid video modes for this frame rate */
     for (i=0; i<NUM_VIDEOMODES; i++) {
         videoMode = (VideoMode)i;
+        if (videoMode == VIDEOMODE_FORMAT7) continue;
         error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, currentFrameRate, &supported);
         if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
             return asynError;
@@ -1229,23 +1234,25 @@ asynStatus pointGrey::formatValidModes()
     }
 
     /* Format all valid frame rates for this video mode */
-    for (i=0; i<NUM_FRAMERATES; i++) {
-        frameRate = (FrameRate)i;
-        error = pCamera_->GetVideoModeAndFrameRateInfo(currentVideoMode, frameRate, &supported);
-        if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
-            return asynError;
-        if (supported) {
-            sprintf(str, "%d %s", frameRate, frameRateStrings[frameRate]);
-            setIntegerParam(frameRate, PGHasFrameRate, 1);
-        } else {
-            sprintf(str, "%d N.A.", frameRate);
-            setIntegerParam(frameRate, PGHasFrameRate, 0);
+    if (currentVideoMode != VIDEOMODE_FORMAT7) {
+        for (i=0; i<NUM_FRAMERATES; i++) {
+            frameRate = (FrameRate)i;
+            if (frameRate == FRAMERATE_FORMAT7) continue;
+            error = pCamera_->GetVideoModeAndFrameRateInfo(currentVideoMode, frameRate, &supported);
+            if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+                return asynError;
+            if (supported) {
+                sprintf(str, "%d %s", frameRate, frameRateStrings[frameRate]);
+                setIntegerParam(frameRate, PGHasFrameRate, 1);
+            } else {
+                sprintf(str, "%d N.A.", frameRate);
+                setIntegerParam(frameRate, PGHasFrameRate, 0);
+            }
+            setStringParam(frameRate, PGValidFrameRate, str);
         }
-        setStringParam(frameRate, PGValidFrameRate, str);
-    }
-
-    /* If the current video mode is Format7 then format all valid format 7 pixel formats */
-    if (currentVideoMode == VIDEOMODE_FORMAT7) {
+    } 
+    else {
+      /* If the current video mode is Format7 then format all valid format 7 pixel formats */
         error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
         if (checkError(error, functionName, "GetFormat7Configuration")) 
             return asynError;
@@ -1283,9 +1290,6 @@ asynStatus pointGrey::formatFormat7Modes()
     char str[100];
     static const char* functionName="formatFormat7Modes";
  
-    /* This function changes the camera to each valid Format 7 mode and
-     * inquires about its properties to produce an informative string */
-
     /* Loop over modes */   
     for (i=0; i<NUM_MODES; i++) {
         f7Info.mode = (Mode)i;
@@ -1454,7 +1458,7 @@ void pointGrey::report(FILE *fp, int details)
 
         // Connect to camera
         error = cam.Connect(&guid);
-        if (checkError(error, functionName, "cam.Connect")) return;
+        if (checkError(error, functionName, "Connect")) return;
 
         // Get the camera information
         error = cam.GetCameraInfo(&camInfo);
@@ -1502,8 +1506,10 @@ void pointGrey::report(FILE *fp, int details)
     fprintf(fp, "Supported video modes and rates:\n");
     for (mode=0; mode<NUM_VIDEOMODES; mode++) {
         videoMode = (VideoMode)mode;
+        if (videoMode == VIDEOMODE_FORMAT7) continue;
         for (rate=0; rate<NUM_FRAMERATES; rate++) {
             frameRate = (FrameRate)rate;
+            if (frameRate == FRAMERATE_FORMAT7) continue;
             error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, frameRate, &supported);
             if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
                 return;
@@ -1521,6 +1527,9 @@ void pointGrey::report(FILE *fp, int details)
         pCamera_->GetProperty(pProperty);
         if (checkError(error, functionName, "GetProperty")) 
             return;
+        pCamera_->GetPropertyInfo(pPropInfo);
+        if (checkError(error, functionName, "GetPropertyInfo")) 
+            return;
         if (pProperty->present) {
             fprintf(fp, "Property %s \n"
                         " min           = %d\n"
@@ -1536,9 +1545,9 @@ void pointGrey::report(FILE *fp, int details)
                 pPropInfo->min,
                 pPropInfo->max,
                 pProperty->valueA,
-                pPropInfo->autoSupported, pProperty->autoManualMode,
-                pPropInfo->manualSupported, !pProperty->autoManualMode,
-                pPropInfo->onOffSupported,  pProperty->onOff,
+                pPropInfo->autoSupported,    pProperty->autoManualMode,
+                pPropInfo->manualSupported,  !pProperty->autoManualMode,
+                pPropInfo->onOffSupported,   pProperty->onOff,
                 pPropInfo->onePushSupported, pProperty->onePush,
                 pPropInfo->readOutSupported,
                 pPropInfo->absValSupported,  pProperty->absControl);
@@ -1604,12 +1613,12 @@ static void configCallFunc(const iocshArgBuf *args)
 }
 
 
-static void firewireWinDCAMRegister(void)
+static void pointGreyRegister(void)
 {
     iocshRegister(&configpointGrey, configCallFunc);
 }
 
 extern "C" {
-epicsExportRegistrar(firewireWinDCAMRegister);
+epicsExportRegistrar(pointGreyRegister);
 }
 

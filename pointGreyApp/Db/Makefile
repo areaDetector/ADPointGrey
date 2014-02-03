@@ -11,7 +11,11 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 
-DB += pointGrey.template
+DB += pointGreyDCAM.template
+DB += pointGreyProperty.template
+DB += pointGreyPixelFormat.template
+DB += pointGreyVideoMode.template
+DB += pointGreyWhiteBalance.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

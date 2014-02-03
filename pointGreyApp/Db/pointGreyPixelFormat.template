@@ -10,7 +10,7 @@ record(stringin, "$(P)$(R)ValidPixelFormat_$(N)") {
 # Has pixel format bi
 record(bi, "$(P)$(R)HasPixelFormat_$(N)") {
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(N))PG_HAS_PIXELFORMAT")
+  field(INP, "@asyn($(PORT) $(N))PG_HAS_PIXEL_FORMAT")
   field(ZNAM, "No")
   field(ONAM, "Yes")
   field(SCAN, "I/O Intr")

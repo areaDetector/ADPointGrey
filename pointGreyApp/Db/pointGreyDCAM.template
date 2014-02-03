@@ -204,3 +204,47 @@ record(ai, "$(P)$(R)ReadoutTime_RBV") {
   field(PREC, "1")
   field(SCAN, "I/O Intr")
 }
+
+record(ao, "$(P)$(R)F7FrameRate")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_F7_FRAME_RATE")  
+   field(VAL,  "10")
+}
+
+record(ai, "$(P)$(R)F7FrameRate_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_F7_FRAME_RATE")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)SerialNumber")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_SERIAL_NUMBER")
+}
+
+record(longin, "$(P)$(R)ImagesDropped")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_IMAGES_DROPPED")
+   field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)$(R)FirmwareVersion")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_FIRMWARE_VERSION")
+}
+
+record(stringin, "$(P)$(R)SoftwareVersion")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_SOFTWARE_VERSION")
+}

@@ -1,7 +1,6 @@
-Packet size looks wrong in report()
-Frame rate not working
-Exposure time not working
-Integer property changes all give errors
-Abs property changes are ignored?
+Camera is only taking 9 images
+Packet size looks wrong in report()?
+Add packetsize and percent bandwidth parameters
+PointGrey auto_settings.req
 Get triggering working
 

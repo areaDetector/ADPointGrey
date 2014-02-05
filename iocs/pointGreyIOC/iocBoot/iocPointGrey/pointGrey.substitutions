@@ -6,11 +6,17 @@
 # if they are both YES the results are unpredictable, depending
 # on which happens last.
 
+file "$(ADPOINTGREY)/db/pointGreyDCAM.template"
+{ 
+pattern
+{     P,     R,   PORT}
+{13PG1:, cam1:,    PG1}
+}
+
 file "$(ADPOINTGREY)/db/pointGreyProperty.template" 
 { 
 pattern
-{     P,     R,   PORT,    PROPERTY,      N, PINI, PINI_ABS, DESC}
-
+{     P,     R,   PORT,       PROPERTY,     N, PINI, PINI_ABS, DESC}
 {13PG1:, cam1:,    PG1,   BrightnessPG,     0,  YES,       NO, "Brightness"}
 {13PG1:, cam1:,    PG1, AutoExposurePG,     1,  YES,       NO, "Auto Exposure"}
 {13PG1:, cam1:,    PG1,    SharpnessPG,     2,   NO,       NO, "Sharpness"}
@@ -35,52 +41,115 @@ file "$(ADPOINTGREY)/db/pointGreyWhiteBalance.template"
 { 
 pattern
 {     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_ABS, DESC}
-
 {13PG1:, cam1:,    PG1,       WHITEB,     3,  YES,       NO, "White balance"}
 }
 
-file "$(ADPOINTGREY)/db/pointGreyVideoMode.template" 
+file "$(ADPOINTGREY)/db/pointGreyXXXMode.template" 
 { 
 pattern
-{     P,     R,   PORT,    N}
-
-{13PG1:, cam1:,    PG1,  0}
-{13PG1:, cam1:,    PG1,  1}
-{13PG1:, cam1:,    PG1,  2}
-{13PG1:, cam1:,    PG1,  3}
-{13PG1:, cam1:,    PG1,  4}
-{13PG1:, cam1:,    PG1,  5}
-{13PG1:, cam1:,    PG1,  6}
-{13PG1:, cam1:,    PG1,  7}
-{13PG1:, cam1:,    PG1,  8}
-{13PG1:, cam1:,    PG1,  9}
-{13PG1:, cam1:,    PG1, 10}
-{13PG1:, cam1:,    PG1, 11}
-{13PG1:, cam1:,    PG1, 12}
-{13PG1:, cam1:,    PG1, 13}
-{13PG1:, cam1:,    PG1, 14}
-{13PG1:, cam1:,    PG1, 15}
-{13PG1:, cam1:,    PG1, 16}
-{13PG1:, cam1:,    PG1, 17}
-{13PG1:, cam1:,    PG1, 18}
-{13PG1:, cam1:,    PG1, 19}
+{     P,     R,        RMODE,      PMODE, PORT,  N}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  0}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  1}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  2}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  3}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  4}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  5}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  6}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  7}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  8}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1,  9}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 10}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 11}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 12}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 13}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 14}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 15}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 16}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 17}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 18}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 19}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 20}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 21}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 22}
+{13PG1:, cam1:,    VideoMode,  VIDEO_MODE, PG1, 23}
 }
 
-
-file "$(ADPOINTGREY)/db/pointGreyPixelFormat.template" 
+file "$(ADPOINTGREY)/db/pointGreyXXXMode.template" 
 { 
 pattern
-{     P,     R,   PORT,    N}
-
-{13PG1:, cam1:,    PG1,  0}
-{13PG1:, cam1:,    PG1,  1}
-{13PG1:, cam1:,    PG1,  2}
-{13PG1:, cam1:,    PG1,  3}
-{13PG1:, cam1:,    PG1,  4}
-{13PG1:, cam1:,    PG1,  5}
-{13PG1:, cam1:,    PG1,  6}
-{13PG1:, cam1:,    PG1,  7}
-{13PG1:, cam1:,    PG1,  8}
-{13PG1:, cam1:,    PG1,  9}
-{13PG1:, cam1:,    PG1, 10}
+{     P,     R,        RMODE,      PMODE, PORT,  N}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  0}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  1}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  2}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  3}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  4}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  5}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  6}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  7}
+{13PG1:, cam1:,    FrameRate,  FRAME_RATE, PG1,  8}
 }
+
+file "$(ADPOINTGREY)/db/pointGreyXXXMode.template" 
+{ 
+pattern
+{     P,     R,          RMODE,        PMODE, PORT,  N}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  0}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  1}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  2}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  3}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  4}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  5}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  6}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  7}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  8}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1,  9}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 10}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 11}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 12}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 13}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 14}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 15}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 16}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 17}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 18}
+{13PG1:, cam1:,    PixelFormat,  PIXEL_FORMAT, PG1, 19}
+}
+
+file "$(ADPOINTGREY)/db/pointGreyXXXMode.template" 
+{ 
+pattern
+{     P,     R,          RMODE,        PMODE, PORT,  N}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  0}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  1}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  2}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  3}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  4}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  5}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  6}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  7}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  8}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1,  9}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 10}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 11}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 12}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 13}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 14}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 15}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 16}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 17}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 18}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 19}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 20}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 21}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 22}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 23}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 24}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 25}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 26}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 27}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 28}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 28}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 30}
+{13PG1:, cam1:,    Format7Mode,  FORMAT7_MODE, PG1, 31}
+}
+

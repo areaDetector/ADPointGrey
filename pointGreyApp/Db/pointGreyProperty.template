@@ -1,99 +1,141 @@
 ## pointGreyProperty.template
 
-# Set the value (int32)
-record(ao, "$(P)$(R)$(PROPERTY)") {
+## Read whether the camera supports this feature
+record(bi, "$(P)$(R)$(PROPERTY)Avail") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_AVAIL")
+  field(ZNAM, "not available")
+  field(ONAM, "available")
+  field(SCAN, "I/O Intr")
+}
+
+## Read whether the camera supports auto mode
+record(bi, "$(P)$(R)$(PROPERTY)AutoAvail") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_AUTO_AVAIL")
+  field(ZNAM, "not available")
+  field(ONAM, "available")
+  field(SCAN, "I/O Intr")
+}
+
+## Read whether the camera supports manual mode
+record(bi, "$(P)$(R)$(PROPERTY)ManAvail") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_MAN_AVAIL")
+  field(ZNAM, "not available")
+  field(ONAM, "available")
+  field(SCAN, "I/O Intr")
+}
+
+## Set the manual/auto mode
+record(bo, "$(P)$(R)$(PROPERTY)AutoMode") {
+  field(PINI, "$(PINI)")
+  field(DTYP, "asynInt32")
+  field(OUT, "@asyn($(PORT) $(N))PG_PROP_AUTO_MODE")
+  field(ZNAM, "Manual")
+  field(ONAM, "Auto")
+}
+
+## Read back the manual/auto mode 
+record(bi, "$(P)$(R)$(PROPERTY)AutoModeRbv") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_AUTO_MODE")
+  field(ZNAM, "Manual")
+  field(ONAM, "Auto")
+  field(SCAN, "I/O Intr")
+}
+
+## Read whether the camera supports absolute mode
+record(bi, "$(P)$(R)$(PROPERTY)AbsAvail") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_ABS_AVAIL")
+  field(ZNAM, "not available")
+  field(ONAM, "available")
+  field(SCAN, "I/O Intr")
+}
+
+## Read back the absolute mode 
+record(bi, "$(P)$(R)$(PROPERTY)AbsModeRbv") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_ABS_MODE")
+  field(ZNAM, "Manual")
+  field(ONAM, "Auto")
+  field(SCAN, "I/O Intr")
+}
+
+# Set the valueA (int32)
+record(ao, "$(P)$(R)$(PROPERTY)Val") {
   field(PINI, "$(PINI)")
   field(DTYP, "asynInt32")
   field(DESC, "$(DESC)")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL")
 }
 
-# Read the value (int32)
-record(ai, "$(P)$(R)$(PROPERTY)_RBV") {
+# Read the valueA (int32)
+record(ai, "$(P)$(R)$(PROPERTY)ValRbv") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL")
   field(SCAN, "I/O Intr")
 }
 
-## Set the control mode (manual = user configured /auto = camera sets values)
-record(bo, "$(P)$(R)$(PROPERTY)_CTRL") {
+# Set the valueB (int32)
+record(ao, "$(P)$(R)$(PROPERTY)ValB") {
   field(PINI, "$(PINI)")
   field(DTYP, "asynInt32")
-  field(OUT, "@asyn($(PORT) $(N))PG_PROP_MODE")
-  field(ZNAM, "Manual")
-  field(ONAM, "Auto")
+  field(DESC, "$(DESC)")
+  field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL_B")
 }
 
-## Read back the control mode 
-record(bi, "$(P)$(R)$(PROPERTY)_CTRL_RBV") {
+# Read the valueB (int32)
+record(ai, "$(P)$(R)$(PROPERTY)ValBRbv") {
   field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(N))PG_PROP_MODE")
-  field(ZNAM, "Manual")
-  field(ONAM, "Auto")
-  field(SCAN, "I/O Intr")
-}
-
-## Read whether the camera supports this feature
-record(bi, "$(P)$(R)$(PROPERTY)_AVL") {
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(N))PG_PROP_AVAILABLE")
-  field(ZNAM, "not available")
-  field(ONAM, "available")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_B")
   field(SCAN, "I/O Intr")
 }
 
 # Read value boundaries
-record(ai, "$(P)$(R)$(PROPERTY)_MIN") {
+record(ai, "$(P)$(R)$(PROPERTY)ValMin") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_MIN")
   field(SCAN, "I/O Intr")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_DRVL")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvl")
 }
 
 # Set DRLV field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_DRVL") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_MIN NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValDrvl") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY).DRVL NPP NMS")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_LOPR")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVL NPP NMS")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValLopr")
 }
 # Set LOPR field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_LOPR") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_MIN NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValLopr") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY).LOPR NPP NMS")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.LOPR NPP NMS")
 }
-record(ai, "$(P)$(R)$(PROPERTY)_MAX") {
+record(ai, "$(P)$(R)$(PROPERTY)ValMax") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_MAX")
   field(SCAN, "I/O Intr")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_DRVH")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvh")
 }
 # Set DRLH field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_DRVH") {
+record(ao, "$(P)$(R)$(PROPERTY)ValDrvh") {
   field(DOL, "$(P)$(R)$(PROPERTY)_MAX NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY).DRVH NPP NMS")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_HOPR")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVH NPP NMS")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValHopr")
 }
 # Set HOPR field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_HOPR") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_MAX NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValHopr") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMax NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY).HOPR NPP NMS")
-}
-
-## Read whether the camera supports absolute (floating point) control of this feature 
-record(bi, "$(P)$(R)$(PROPERTY)_ABS_AVL") {
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT) $(N))PG_PROP_ABSOLUTE")
-  field(ZNAM, "not available")
-  field(ONAM, "available")
-  field(SCAN, "I/O Intr")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.HOPR NPP NMS")
 }
 
 # Set the feature absolute value (floating point)
-record(ao, "$(P)$(R)$(PROPERTY)_ABS") {
+record(ao, "$(P)$(R)$(PROPERTY)ValAbs") {
   field(PINI, "$(PINI_ABS)")
   field(DTYP, "asynFloat64")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL_ABS")
@@ -101,7 +143,7 @@ record(ao, "$(P)$(R)$(PROPERTY)_ABS") {
 }
 
 # Read the feature absolute value
-record(ai, "$(P)$(R)$(PROPERTY)_ABS_RBV") {
+record(ai, "$(P)$(R)$(PROPERTY)ValAbsRbv") {
   field(DTYP, "asynFloat64")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_ABS")
   field(PREC, "3")
@@ -109,48 +151,48 @@ record(ai, "$(P)$(R)$(PROPERTY)_ABS_RBV") {
 }
 
 # Read the feature absolute value max boundary
-record(ai, "$(P)$(R)$(PROPERTY)_ABS_MAX") {
+record(ai, "$(P)$(R)$(PROPERTY)ValAbsMax") {
   field(DTYP, "asynFloat64")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_ABS_MAX")
   field(PREC, "3")
   field(SCAN, "I/O Intr")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_ABS_DRVH")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValAbsDrvh")
 }
 # Set DRLH field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_ABS_DRVH") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_ABS_MAX NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValAbsDrvh") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValAbsMax NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)_ABS.DRVH NPP NMS")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_ABS_HOPR")
+  field(OUT, "$(P)$(R)$(PROPERTY)ValAbs.DRVH NPP NMS")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValAbsHopr")
 }
 # Set HOPR field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_ABS_HOPR") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_ABS_MAX NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValAbsHopr") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValAbsMax NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)_ABS.HOPR NPP NMS")
+  field(OUT, "$(P)$(R)$(PROPERTY)ValAbs.HOPR NPP NMS")
 }
 
 # Read the feature absolute value min boundary
-record(ai, "$(P)$(R)$(PROPERTY)_ABS_MIN") {
+record(ai, "$(P)$(R)$(PROPERTY)ValAbsMin") {
   field(DTYP, "asynFloat64")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_ABS_MIN")
   field(PREC, "3")
   field(SCAN, "I/O Intr")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_ABS_DRVL")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValAbsDrvl")
 }
 
 # Set DRLV field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_ABS_DRVL") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_ABS_MIN NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValAbsDrvl") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValAbsMin NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)_ABS.DRVL NPP NMS")
-  field(FLNK, "$(P)$(R)$(PROPERTY)_ABS_LOPR")
+  field(OUT, "$(P)$(R)$(PROPERTY)ValAbs.DRVL NPP NMS")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValAbsLopr")
 }
 # Set LOPR field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)_ABS_LOPR") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_ABS_MIN NPP NMS")
+record(ao, "$(P)$(R)$(PROPERTY)ValAbsLopr") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValAbsMin NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)_ABS.LOPR NPP NMS")
+  field(OUT, "$(P)$(R)$(PROPERTY)ValAbs.LOPR NPP NMS")
 }
 
 

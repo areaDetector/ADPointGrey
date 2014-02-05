@@ -1,7 +1,5 @@
 ## pointGreyDCAM.template
 ## Template database file to control the features of a DCAM camera.
-## See the detailled description for information about macros and how features 
-## can be controlled and read out: 
 ##
 
 ## VideoMode
@@ -20,50 +18,36 @@ record(longin, "$(P)$(R)VideoMode_RBV") {
   field(INP,  "@asyn($(PORT) 0)PG_VIDEO_MODE")
 }
 
-## Framerate when the camera is not in the ROI/format7 mode
-record(mbbo, "$(P)$(R)FrameRate") {
+## Format7Mode
+record(longout, "$(P)$(R)Format7Mode") {
   field(SCAN, "Passive")
   field(PINI, "NO")
   field(DTYP, "asynInt32")
-  field(OUT,  "@asyn($(PORT) 0)PG_FRAMERATE")
-  field(ZRST, "1.875")
-  field(ONST, "3.75")
-  field(TWST, "7.5")
-  field(THST, "15")
-  field(FRST, "30")
-  field(FVST, "60")
-  field(SXST, "120")
-  field(SVST, "240")
-  field(ZRVL, "0x0")
-  field(ONVL, "0x1")
-  field(TWVL, "0x2")
-  field(THVL, "0x3")
-  field(FRVL, "0x4")
-  field(FVVL, "0x5")
-  field(SXVL, "0x6")
-  field(SVVL, "0x7")
+  field(OUT,  "@asyn($(PORT) 0)PG_FORMAT7_MODE")
+  field(DRVL, "0")
+  field(DRVH, "31")
 }
 
-record(mbbi, "$(P)$(R)FrameRate_RBV") {
+record(longin, "$(P)$(R)Format7Mode_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
-  field(INP,  "@asyn($(PORT) 0)PG_FRAMERATE")
-  field(ZRST, "1.875")
-  field(ONST, "3.75")
-  field(TWST, "7.5")
-  field(THST, "15")
-  field(FRST, "30")
-  field(FVST, "60")
-  field(SXST, "120")
-  field(SVST, "240")
-  field(ZRVL, "0x0")
-  field(ONVL, "0x1")
-  field(TWVL, "0x2")
-  field(THVL, "0x3")
-  field(FRVL, "0x4")
-  field(FVVL, "0x5")
-  field(SXVL, "0x6")
-  field(SVVL, "0x7")
+  field(INP,  "@asyn($(PORT) 0)PG_FORMAT7_MODE")
+}
+
+## Framerate when the camera is not in the ROI/format7 mode
+record(longout, "$(P)$(R)FrameRate") {
+  field(SCAN, "Passive")
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE")
+  field(DRVL, "0")
+  field(DRVH, "8")
+}
+
+record(longin, "$(P)$(R)FrameRate_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_FRAME_RATE")
 }
 
 ## Format 7 pixel format
@@ -80,17 +64,24 @@ record(longin, "$(P)$(R)PixelFormat_RBV") {
   field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
 }
 
-# Current mode string
+# Current video mode string
 record(stringin, "$(P)$(R)CurrentVideoMode") {
   field(DTYP, "asynOctetRead")
   field(INP,  "@asyn($(PORT) 0)PG_CURRENT_VIDEO_MODE")
   field(SCAN, "I/O Intr")
 }
 
+# Current format7 mode string
+record(stringin, "$(P)$(R)CurrentFormat7Mode") {
+  field(DTYP, "asynOctetRead")
+  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_FORMAT7_MODE")
+  field(SCAN, "I/O Intr")
+}
+
 # Current frame rate string
 record(stringin, "$(P)$(R)CurrentFrameRate") {
   field(DTYP, "asynOctetRead")
-  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_FRAMERATE")
+  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_FRAME_RATE")
   field(SCAN, "I/O Intr")
 }
 
@@ -135,14 +126,14 @@ record(ao, "$(P)$(R)F7FrameRate")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_F7_FRAMERATE")  
+   field(OUT,  "@asyn($(PORT) 0)PG_FORMAT7_FRAME_RATE")  
    field(VAL,  "10")
 }
 
 record(ai, "$(P)$(R)F7FrameRate_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_F7_FRAMERATE")
+   field(INP,  "@asyn($(PORT) 0)PG_FORMAT7_FRAME_RATE")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }
@@ -151,13 +142,13 @@ record(longin, "$(P)$(R)SerialNumber")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_SERIAL_NUMBER")
+   field(INP,  "@asyn($(PORT) 0)PG_SERIAL_NUMBER")
 }
 
 record(longin, "$(P)$(R)ImagesDropped")
 {
    field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_DROPPED_FRAMES")
+   field(INP,  "@asyn($(PORT) 0)PG_DROPPED_FRAMES")
    field(SCAN, "I/O Intr")
 }
 
@@ -165,12 +156,12 @@ record(stringin, "$(P)$(R)FirmwareVersion")
 {
    field(PINI, "YES")
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_FIRMWARE_VERSION")
+   field(INP,  "@asyn($(PORT) 0)PG_FIRMWARE_VERSION")
 }
 
 record(stringin, "$(P)$(R)SoftwareVersion")
 {
    field(PINI, "YES")
    field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))PG_SOFTWARE_VERSION")
+   field(INP,  "@asyn($(PORT) 0)PG_SOFTWARE_VERSION")
 }

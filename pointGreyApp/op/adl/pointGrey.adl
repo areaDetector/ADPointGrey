@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/PointGrey.adl.old.adl.adl"
+	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
 	version=030107
 }
 display {
@@ -549,64 +549,53 @@ text {
 	textix="Software Vers."
 	align="horiz. right"
 }
-composite {
+text {
 	object {
 		x=380
 		y=285
-		width=290
+		width=140
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=380
-				y=285
-				width=140
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Frame rate"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=525
-				y=285
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=590
-				y=286
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)FrameRate_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frame rate"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=525
+		y=285
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)FrameRateAbs"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=590
+		y=286
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)FrameRateAbs_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
 	}
 }
 composite {
 	object {
 		x=5
-		y=770
+		y=730
 		width=335
 		height=60
 	}
@@ -615,7 +604,7 @@ composite {
 		composite {
 			object {
 				x=132
-				y=772
+				y=732
 				width=107
 				height=21
 			}
@@ -624,7 +613,7 @@ composite {
 				rectangle {
 					object {
 						x=132
-						y=772
+						y=732
 						width=107
 						height=21
 					}
@@ -637,7 +626,7 @@ composite {
 		text {
 			object {
 				x=165
-				y=772
+				y=732
 				width=40
 				height=20
 			}
@@ -650,7 +639,7 @@ composite {
 		rectangle {
 			object {
 				x=5
-				y=770
+				y=730
 				width=335
 				height=60
 			}
@@ -662,7 +651,7 @@ composite {
 		text {
 			object {
 				x=18
-				y=799
+				y=759
 				width=40
 				height=20
 			}
@@ -675,7 +664,7 @@ composite {
 		"text entry" {
 			object {
 				x=63
-				y=800
+				y=760
 				width=265
 				height=20
 			}
@@ -1614,156 +1603,126 @@ composite {
 		}
 	}
 }
-composite {
+rectangle {
+	object {
+		x=119
+		y=362
+		width=107
+		height=21
+	}
+	"basic attribute" {
+		clr=2
+	}
+}
+rectangle {
 	object {
 		x=5
 		y=360
 		width=335
-		height=405
+		height=365
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+	}
+}
+text {
+	object {
+		x=93
+		y=363
+		width=159
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Readout"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=173
+		y=390
+		width=10
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="X"
+	align="horiz. right"
+}
+text {
+	object {
+		x=266
+		y=390
+		width=10
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Y"
+	align="horiz. right"
+}
+text {
+	object {
+		x=28
+		y=415
+		width=113
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sensor size"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=148
+		y=416
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)MaxSizeX_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=241
+		y=416
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)MaxSizeY_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+composite {
+	object {
+		x=17
+		y=445
+		width=303
+		height=265
 	}
 	"composite name"=""
 	children {
-		rectangle {
-			object {
-				x=119
-				y=362
-				width=107
-				height=21
-			}
-			"basic attribute" {
-				clr=2
-			}
-		}
-		rectangle {
-			object {
-				x=5
-				y=360
-				width=335
-				height=405
-			}
-			"basic attribute" {
-				clr=14
-				fill="outline"
-			}
-		}
-		text {
-			object {
-				x=93
-				y=363
-				width=159
-				height=20
-			}
-			"basic attribute" {
-				clr=54
-			}
-			textix="Readout"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=173
-				y=390
-				width=10
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="X"
-			align="horiz. right"
-		}
-		text {
-			object {
-				x=266
-				y=390
-				width=10
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Y"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=148
-				y=460
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)BinX"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=241
-				y=460
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)BinY"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=148
-				y=440
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)BinX_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=241
-				y=440
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)BinY_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=67
-				y=460
-				width=70
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Binning"
-			align="horiz. right"
-		}
 		composite {
 			object {
 				x=148
-				y=485
+				y=445
 				width=154
 				height=40
 			}
@@ -1772,7 +1731,7 @@ composite {
 				"text update" {
 					object {
 						x=148
-						y=485
+						y=445
 						width=61
 						height=18
 					}
@@ -1788,7 +1747,7 @@ composite {
 				"text entry" {
 					object {
 						x=148
-						y=505
+						y=465
 						width=60
 						height=20
 					}
@@ -1803,7 +1762,7 @@ composite {
 				"text entry" {
 					object {
 						x=241
-						y=505
+						y=465
 						width=60
 						height=20
 					}
@@ -1818,7 +1777,7 @@ composite {
 				"text update" {
 					object {
 						x=241
-						y=485
+						y=445
 						width=61
 						height=18
 					}
@@ -1835,9 +1794,9 @@ composite {
 		}
 		text {
 			object {
-				x=87
-				y=505
-				width=50
+				x=17
+				y=465
+				width=120
 				height=20
 			}
 			"basic attribute" {
@@ -1848,9 +1807,9 @@ composite {
 		}
 		text {
 			object {
-				x=97
-				y=550
-				width=40
+				x=27
+				y=510
+				width=110
 				height=20
 			}
 			"basic attribute" {
@@ -1862,7 +1821,7 @@ composite {
 		composite {
 			object {
 				x=148
-				y=530
+				y=490
 				width=154
 				height=40
 			}
@@ -1871,7 +1830,7 @@ composite {
 				"text entry" {
 					object {
 						x=148
-						y=550
+						y=510
 						width=60
 						height=20
 					}
@@ -1886,7 +1845,7 @@ composite {
 				"text entry" {
 					object {
 						x=241
-						y=550
+						y=510
 						width=60
 						height=20
 					}
@@ -1901,7 +1860,7 @@ composite {
 				"text update" {
 					object {
 						x=148
-						y=530
+						y=490
 						width=61
 						height=18
 					}
@@ -1917,7 +1876,7 @@ composite {
 				"text update" {
 					object {
 						x=241
-						y=530
+						y=490
 						width=61
 						height=18
 					}
@@ -1934,53 +1893,8 @@ composite {
 		}
 		text {
 			object {
-				x=28
-				y=415
-				width=113
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Sensor size"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=148
-				y=416
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)MaxSizeX_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=241
-				y=416
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)MaxSizeY_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		text {
-			object {
 				x=34
-				y=605
+				y=565
 				width=180
 				height=20
 			}
@@ -1993,7 +1907,7 @@ composite {
 		"text update" {
 			object {
 				x=241
-				y=606
+				y=566
 				width=61
 				height=18
 			}
@@ -2009,7 +1923,7 @@ composite {
 		composite {
 			object {
 				x=97
-				y=630
+				y=590
 				width=205
 				height=20
 			}
@@ -2018,7 +1932,7 @@ composite {
 				"text update" {
 					object {
 						x=241
-						y=631
+						y=591
 						width=61
 						height=18
 					}
@@ -2034,7 +1948,7 @@ composite {
 				"text entry" {
 					object {
 						x=148
-						y=630
+						y=590
 						width=60
 						height=20
 					}
@@ -2049,7 +1963,7 @@ composite {
 				text {
 					object {
 						x=97
-						y=630
+						y=590
 						width=40
 						height=20
 					}
@@ -2064,7 +1978,7 @@ composite {
 		composite {
 			object {
 				x=47
-				y=655
+				y=615
 				width=273
 				height=20
 			}
@@ -2073,7 +1987,7 @@ composite {
 				text {
 					object {
 						x=47
-						y=655
+						y=615
 						width=90
 						height=20
 					}
@@ -2086,7 +2000,7 @@ composite {
 				menu {
 					object {
 						x=143
-						y=655
+						y=615
 						width=80
 						height=20
 					}
@@ -2099,7 +2013,7 @@ composite {
 				"text update" {
 					object {
 						x=241
-						y=656
+						y=616
 						width=79
 						height=18
 					}
@@ -2117,9 +2031,9 @@ composite {
 		}
 		text {
 			object {
-				x=47
-				y=680
-				width=90
+				x=37
+				y=640
+				width=100
 				height=20
 			}
 			"basic attribute" {
@@ -2131,7 +2045,7 @@ composite {
 		menu {
 			object {
 				x=143
-				y=680
+				y=640
 				width=80
 				height=20
 			}
@@ -2144,7 +2058,7 @@ composite {
 		"text update" {
 			object {
 				x=241
-				y=681
+				y=641
 				width=79
 				height=18
 			}
@@ -2161,7 +2075,7 @@ composite {
 		text {
 			object {
 				x=37
-				y=580
+				y=540
 				width=100
 				height=20
 			}
@@ -2174,7 +2088,7 @@ composite {
 		"text update" {
 			object {
 				x=148
-				y=581
+				y=541
 				width=61
 				height=18
 			}
@@ -2190,7 +2104,7 @@ composite {
 		"text update" {
 			object {
 				x=241
-				y=581
+				y=541
 				width=61
 				height=18
 			}
@@ -2206,7 +2120,7 @@ composite {
 		text {
 			object {
 				x=36
-				y=704
+				y=664
 				width=100
 				height=20
 			}
@@ -2219,7 +2133,7 @@ composite {
 		"related display" {
 			object {
 				x=143
-				y=705
+				y=665
 				width=80
 				height=20
 			}
@@ -2234,7 +2148,7 @@ composite {
 		text {
 			object {
 				x=26
-				y=730
+				y=690
 				width=110
 				height=20
 			}
@@ -2247,7 +2161,7 @@ composite {
 		"related display" {
 			object {
 				x=143
-				y=730
+				y=690
 				width=80
 				height=20
 			}

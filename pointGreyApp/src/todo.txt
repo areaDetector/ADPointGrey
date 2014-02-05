@@ -1,0 +1,7 @@
+Packet size looks wrong in report()
+Frame rate not working
+Exposure time not working
+Integer property changes all give errors
+Abs property changes are ignored?
+Get triggering working
+

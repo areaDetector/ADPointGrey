@@ -1,0 +1,18 @@
+## pointGreyXXXMode.template
+
+# Valid RMODE strings
+record(stringin, "$(P)$(R)Valid$(RMODE)_$(N)") {
+  field(DTYP, "asynOctetRead")
+  field(INP, "@asyn($(PORT) $(N))PG_VALID_$(PMODE)")
+  field(SCAN, "I/O Intr")
+}
+
+# Has RMODE bi
+record(bi, "$(P)$(R)Has$(RMODE)_$(N)") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_HAS_$(PMODE)")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(SCAN, "I/O Intr")
+}
+

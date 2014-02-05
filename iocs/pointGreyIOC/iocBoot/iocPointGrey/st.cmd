@@ -18,7 +18,6 @@ asynSetTraceIOMask($(PORT), 0, 2)
 
 dbLoadRecords("$(ADCORE)/db/ADBase.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 dbLoadRecords("$(ADCORE)/db/NDFile.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
-dbLoadRecords("$(ADPOINTGREY)/db/pointGreyDCAM.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 dbLoadTemplate("pointGrey.substitutions")
 
 # Create a standard arrays plugin
@@ -33,4 +32,4 @@ set_requestfile_path("$(ADPOINTGREY)/pointGreyApp/Db")
 iocInit()
 
 # save things every thirty seconds
-#create_monitor_set("auto_settings.req", 30,"P=$(PREFIX),D=cam1:")
+create_monitor_set("auto_settings.req", 30,"P=$(PREFIX),D=cam1:")

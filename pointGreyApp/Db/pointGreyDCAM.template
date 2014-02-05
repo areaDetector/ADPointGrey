@@ -122,18 +122,19 @@ record(ai, "$(P)$(R)ReadoutTime_RBV") {
   field(SCAN, "I/O Intr")
 }
 
-record(ao, "$(P)$(R)F7FrameRate")
+record(ao, "$(P)$(R)FrameRateAbs")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT) 0)PG_FORMAT7_FRAME_RATE")  
+   field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE_ABS")  
+   field(PREC, "3")
    field(VAL,  "10")
 }
 
-record(ai, "$(P)$(R)F7FrameRate_RBV")
+record(ai, "$(P)$(R)FrameRateAbs_RBV")
 {
    field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT) 0)PG_FORMAT7_FRAME_RATE")
+   field(INP,  "@asyn($(PORT) 0)PG_FRAME_RATE_ABS")
    field(PREC, "3")
    field(SCAN, "I/O Intr")
 }

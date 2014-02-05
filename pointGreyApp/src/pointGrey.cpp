@@ -44,15 +44,19 @@ static const char *driverName = "pointGrey";
 #define PGSerialNumberString          "PG_SERIAL_NUMBER"
 #define PGFirmwareVersionString       "PG_FIRMWARE_VERSION"
 #define PGSoftwareVersionString       "PG_SOFTWARE_VERSION"
+#define PGPropertyAvailString         "PG_PROP_AVAIL"
+#define PGPropertyAutoAvailString     "PG_PROP_AUTO_AVAIL"
+#define PGPropertyManAvailString      "PG_PROP_MAN_AVAIL"
+#define PGPropertyAutoModeString      "PG_PROP_AUTO_MODE"
+#define PGPropertyAbsAvailString      "PG_PROP_ABS_AVAIL"
+#define PGPropertyAbsModeString       "PG_PROP_ABS_MODE"
 #define PGPropertyValueString         "PG_PROP_VAL"
+#define PGPropertyValueBString        "PG_PROP_VAL_B"
 #define PGPropertyValueMaxString      "PG_PROP_VAL_MAX"
 #define PGPropertyValueMinString      "PG_PROP_VAL_MIN"
 #define PGPropertyValueAbsString      "PG_PROP_VAL_ABS"
 #define PGPropertyValueAbsMaxString   "PG_PROP_VAL_ABS_MAX"
 #define PGPropertyValueAbsMinString   "PG_PROP_VAL_ABS_MIN"
-#define PGPropertyModeString          "PG_PROP_MODE"
-#define PGPropertyAvailableString     "PG_PROP_AVAILABLE"
-#define PGPropertyAbsoluteString      "PG_PROP_ABSOLUTE"
 #define PGVideoModeString             "PG_VIDEO_MODE"
 #define PGValidVideoModeString        "PG_VALID_VIDEO_MODE"
 #define PGHasVideoModeString          "PG_HAS_VIDEO_MODE"
@@ -69,7 +73,7 @@ static const char *driverName = "pointGrey";
 #define PGValidPixelFormatString      "PG_VALID_PIXEL_FORMAT"
 #define PGHasPixelFormatString        "PG_HAS_PIXEL_FORMAT"
 #define PGCurrentPixelFormatString    "PG_CURRENT_PIXEL_FORMAT"
-#define PGFormat7FrameRateString      "PG_FORMAT7_FRAME_RATE"
+#define PGFrameRateAbsString          "PG_FRAME_RATE_ABS"
 #define PGReadoutTimeString           "PG_READOUT_TIME"
 #define PGDroppedFramesString         "PG_DROPPED_FRAMES"
 
@@ -78,6 +82,11 @@ static const char *driverName = "pointGrey";
 
 // The maximum value of the asyn "addr" is the largest of NUM_PROPERTIES, NUM_PIXEL_FORMATS, NUM_MODES, NUM_VIDEO_MODES
 #define MAX_ADDR NUM_MODES
+
+typedef enum {
+    propValueA,
+    propValueB
+} propValue_t;
 
 /** Main driver class inherited from areaDetectors ADDriver class.
  * One instance of this class will control one camera.
@@ -103,15 +112,19 @@ protected:
     int PGFirmwareVersion_;       /** Camera firmware version (octet read) */
     int PGSoftwareVersion_;       /** Camera software version (octet read) */
                                   /** The following PGProperty parameters all have addr: 0-NUM_PROPERTIES-1 */
+    int PGPropertyAvail;          /** Property is available  1=available 0=not available (int32, read) */
+    int PGPropertyAutoAvail;      /** Property auto mode available 1=available 0=not available (int32, read) */
+    int PGPropertyManAvail;       /** Property manual mode available 1=available 0=not available (int32, read) */
+    int PGPropertyAutoMode;       /** Property control mode: 0:manual or 1:automatic (int32 read/write) */
+    int PGPropertyAbsAvail;       /** Property has absolute (floating point) controls available 1=available 0=not available (int32 read) */
+    int PGPropertyAbsMode;        /** Property raw/absolute mode: 0:raw or 1:absolute (int32 read/write) */
     int PGPropertyValue;          /** Property value (int32 read/write) */
+    int PGPropertyValueB;         /** Property value B (int32 read/write) */
     int PGPropertyValueMax;       /** Property maximum value (int32 read) */
     int PGPropertyValueMin;       /** Property minimum value (int32 read) */
     int PGPropertyValueAbs;       /** Property absolute value (float64 read/write) */
     int PGPropertyValueAbsMax;    /** Property absolute maximum value (float64 read) */
     int PGPropertyValueAbsMin;    /** Property absolute minimum value (float64 read) */
-    int PGPropertyMode;           /** Property control mode: 0:manual or 1:automatic (camera controlled) (int32 read/write) */
-    int PGPropertyAvailable;      /** Property is available in the camera 1=available 0=not available (int32, read) */
-    int PGPropertyAbsolute;       /** Property has absolute (floating point) controls available 1=available 0=not available (int32 read) */
     int PGVideoMode;              /** Video mode (int32 read/write) enum VideoMode, 0-NUM_VIDEOMODES-1 */
     int PGValidVideoMode;         /** Valid video mode strings (octet, read) addr: 0-NUM_VIDEOMODES-1 */
     int PGHasVideoMode;           /** Is video mode is supported (int32, read) addr: 0-NUM_VIDEOMODES-1 */
@@ -128,7 +141,7 @@ protected:
     int PGValidPixelFormat;       /** The valid pixel format strings (octet, read) addr: 0-NUM_PIXEL_FORMATS-1 */
     int PGHasPixelFormat;         /** Is pixel format is supported (int32, read)  addr: 0-NUM_PIXEL_FORMATS-1 */
     int PGCurrentPixelFormat;     /** Current pixel format string (octet, read) */
-    int PGFormat7FrameRate;       /** Frame rate in Format7 mode (float64, read/write) */
+    int PGFrameRateAbs;           /** Frame rate in absolute (frames/s) units (float64, read/write) */
     int PGReadoutTime;            /** Readout time (float64, read/write) */
     int PGDroppedFrames;          /** Number of dropped frames (int32, read) */
     #define LAST_PG_PARAM PGDroppedFrames
@@ -145,12 +158,12 @@ private:
     asynStatus readStatus();
 
     /* camera property control functions */
-    asynStatus setPropertyValue(PropertyType propType, epicsInt32 value);
+    asynStatus setPropertyValue(PropertyType propType, int value, propValue_t valType);
     asynStatus setPropertyAbsValue(PropertyType propType, epicsFloat64 value);
-    asynStatus setPropertyMode(PropertyType propType, epicsInt32 value);
-    asynStatus setVideoMode(epicsInt32 mode);
-    asynStatus setFrameRate(epicsInt32 rate);
-    asynStatus setVideoModeAndFrameRate(epicsInt32 mode, epicsInt32 frameRate);
+    asynStatus setPropertyAutoMode(PropertyType propType, int value);
+    asynStatus setVideoMode(int mode);
+    asynStatus setFrameRate(int rate);
+    asynStatus setVideoModeAndFrameRate(int mode, int frameRate);
     asynStatus setFormat7Params();
     asynStatus formatFormat7Modes();
     asynStatus formatVideoModes();
@@ -342,15 +355,19 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGSerialNumberString,           asynParamInt32,   &PGSerialNumber_);
     createParam(PGFirmwareVersionString,        asynParamOctet,   &PGFirmwareVersion_);
     createParam(PGSoftwareVersionString,        asynParamOctet,   &PGSoftwareVersion_);
+    createParam(PGPropertyAvailString,          asynParamInt32,   &PGPropertyAvail);
+    createParam(PGPropertyAutoAvailString,      asynParamInt32,   &PGPropertyAutoAvail);
+    createParam(PGPropertyManAvailString,       asynParamInt32,   &PGPropertyManAvail);
+    createParam(PGPropertyAutoModeString,       asynParamInt32,   &PGPropertyAutoMode);
+    createParam(PGPropertyAbsAvailString,       asynParamInt32,   &PGPropertyAbsAvail);
+    createParam(PGPropertyAbsModeString,        asynParamInt32,   &PGPropertyAbsMode);
     createParam(PGPropertyValueString,          asynParamInt32,   &PGPropertyValue);
+    createParam(PGPropertyValueBString,         asynParamInt32,   &PGPropertyValueB);
     createParam(PGPropertyValueMaxString,       asynParamInt32,   &PGPropertyValueMax);
     createParam(PGPropertyValueMinString,       asynParamInt32,   &PGPropertyValueMin);
     createParam(PGPropertyValueAbsString,       asynParamFloat64, &PGPropertyValueAbs);
     createParam(PGPropertyValueAbsMaxString,    asynParamFloat64, &PGPropertyValueAbsMax);
     createParam(PGPropertyValueAbsMinString,    asynParamFloat64, &PGPropertyValueAbsMin);
-    createParam(PGPropertyModeString,           asynParamInt32,   &PGPropertyMode);
-    createParam(PGPropertyAvailableString,      asynParamInt32,   &PGPropertyAvailable);
-    createParam(PGPropertyAbsoluteString,       asynParamInt32,   &PGPropertyAbsolute);
     createParam(PGVideoModeString,              asynParamInt32,   &PGVideoMode);
     createParam(PGValidVideoModeString,         asynParamOctet,   &PGValidVideoMode);
     createParam(PGHasVideoModeString,           asynParamInt32,   &PGHasVideoMode);
@@ -367,7 +384,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGValidPixelFormatString,       asynParamOctet,   &PGValidPixelFormat);
     createParam(PGHasPixelFormatString,         asynParamInt32,   &PGHasPixelFormat);
     createParam(PGCurrentPixelFormatString,     asynParamOctet,   &PGCurrentPixelFormat);
-    createParam(PGFormat7FrameRateString,       asynParamFloat64, &PGFormat7FrameRate);
+    createParam(PGFrameRateAbsString,           asynParamFloat64, &PGFrameRateAbs);
     createParam(PGReadoutTimeString,            asynParamFloat64, &PGReadoutTime);
     createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
 
@@ -814,10 +831,13 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
         status = setFormat7Params();
 
     } else if (function == PGPropertyValue) {
-        status = setPropertyValue(propType, value);
+        status = setPropertyValue(propType, value, propValueA);
 
-    } else if (function == PGPropertyMode) {
-        status = setPropertyMode(propType, value);
+    } else if (function == PGPropertyValueB) {
+        status = setPropertyValue(propType, value, propValueB);
+
+    } else if (function == PGPropertyAutoMode) {
+        status = setPropertyAutoMode(propType, value);
 
     } else if (function == PGVideoMode) {
         status = setVideoMode(value);
@@ -869,13 +889,18 @@ asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
         status = setPropertyAbsValue(propertyType, value*1000.);
     }
     
+    else if (function == ADGain) {
+        propertyType = GAIN;
+        status = setPropertyAbsValue(propertyType, value);
+    }
+    
     else if (function == ADAcquirePeriod) {
         propertyType = FRAME_RATE;
         // Camera units are fps
         status = setPropertyAbsValue(propertyType, 1./value);
     }
     
-    else if (function == PGFormat7FrameRate) {
+    else if (function == PGFrameRateAbs) {
         propertyType = FRAME_RATE;
         // Camera units are fps
         status = setPropertyAbsValue(propertyType, value);
@@ -894,12 +919,12 @@ asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
 }
 
 
-asynStatus pointGrey::setPropertyMode(PropertyType propType, epicsInt32 value)
+asynStatus pointGrey::setPropertyAutoMode(PropertyType propType, int value)
 {
     Error error;
     Property *pProperty = allProperties_[propType];
     PropertyInfo *pPropInfo = allPropInfos_[propType];
-    static const char *functionName = "setPropertyMode";
+    static const char *functionName = "setPropertyAutoMode";
     
     /* First check if the propertyType is valid for this camera */
     if (!pProperty->present) return asynError;
@@ -920,7 +945,7 @@ asynStatus pointGrey::setPropertyMode(PropertyType propType, epicsInt32 value)
 }
 
 
-asynStatus pointGrey::setPropertyValue(PropertyType propType, epicsInt32 value)
+asynStatus pointGrey::setPropertyValue(PropertyType propType, int value, propValue_t valType)
 {
     Error error;
     Property *pProperty = allProperties_[propType];
@@ -937,14 +962,18 @@ asynStatus pointGrey::setPropertyValue(PropertyType propType, epicsInt32 value)
     pProperty->autoManualMode = false;
 
     /* Check the value is within the expected boundaries */
-    if (value < (epicsInt32)pPropInfo->min || value > (epicsInt32)pPropInfo->max) {
+    if (value < (int)pPropInfo->min || value > (int)pPropInfo->max) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
             "%s::%s error setting propertyType %s, value %d is out of range [%d..%d]\n",
             driverName, functionName, propertyTypeStrings[propType], value, pPropInfo->min, pPropInfo->max);
         return asynError;
     }
 
-    pProperty->valueA = value;
+    if (valType == propValueA) {
+        pProperty->valueA = value;
+    } else {
+        pProperty->valueB = value;
+    }
     error = pCamera_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
@@ -963,7 +992,12 @@ asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 va
     static const char *functionName = "setPropertyAbsValue";
 
     /* First check if the propertyType is valid for this camera */
-    if (!pProperty->present) return asynError;
+    if (!pProperty->present) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error setting propertyType %s: property is not supported by this camera\n",
+            driverName, functionName, propertyTypeStrings[propType]);
+        return asynError;
+    }
 
     /* Disable automatic mode control for this propertyType */
     pProperty->autoManualMode = false;
@@ -987,18 +1021,22 @@ asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 va
         return asynError;
     }
 
-    /* Finally set the propertyType value in the camera */
+    /* Set the propertyType value in the camera */
     pProperty->absValue = (float)value;
     error = pCamera_->SetProperty(pProperty);
-    if (checkError(error, functionName, "SetProperty")) 
+    if (checkError(error, functionName, "SetProperty")) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error setting propertyType %s, value %.5f\n",
+            driverName, functionName, propertyTypeStrings[propType], value);      
         return asynError;
+    }
 
     /* Update all properties to see if any settings have changed */
     getAllProperties();
     return asynSuccess;
 }
 
-asynStatus pointGrey::setVideoMode(epicsInt32 mode)
+asynStatus pointGrey::setVideoMode(int mode)
 {
     int frameRate;
     /* Get the frame rate */
@@ -1006,7 +1044,7 @@ asynStatus pointGrey::setVideoMode(epicsInt32 mode)
     return setVideoModeAndFrameRate(mode, frameRate);
 }
  
-asynStatus pointGrey::setFrameRate(epicsInt32 frameRate)
+asynStatus pointGrey::setFrameRate(int frameRate)
 {
     int videoMode;
     /* Get the video mode */
@@ -1014,7 +1052,7 @@ asynStatus pointGrey::setFrameRate(epicsInt32 frameRate)
     return setVideoModeAndFrameRate(videoMode, frameRate);
 }
  
-asynStatus pointGrey::setVideoModeAndFrameRate(epicsInt32 videoModeIn, epicsInt32 frameRateIn)
+asynStatus pointGrey::setVideoModeAndFrameRate(int videoModeIn, int frameRateIn)
 {
     asynStatus status = asynSuccess;
     Error error;
@@ -1302,9 +1340,12 @@ asynStatus pointGrey::formatValidModes()
     char str[40];
     static const char *functionName = "formatValidModes";
  
-    /* This function writes strings for all valid video formats,
-     * the valid video modes for the current video format, and the
-     * valid frame rates for the current video format and video mode. */
+    /* If the current video mode is format7 then this function writes strings for all of the valid pixel formats
+     * for the current format7 mode.
+     *
+     * Otherwise it writes strings for all valid frame rates for the current video mode. 
+     * 
+     */
      
     error = pCamera_->GetVideoModeAndFrameRate(&currentVideoMode, &currentFrameRate);
     if (checkError(error, functionName, "GetVideoModeAndFrameRate"))
@@ -1373,66 +1414,80 @@ asynStatus pointGrey::formatValidModes()
  */
 asynStatus pointGrey::getAllProperties()
 {
-    PropertyInfo propInfo;
-    Property property;
+    PropertyInfo *pPropInfo;
+    Property *pProperty;
     int addr;
     double dtmp;
-    static const char *functionName="getAllPropertys";
+    static const char *functionName="getAllProperties";
 
     /* Iterate through all of the available properties and update their values and settings  */
     for (addr=0; addr<NUM_PROPERTIES; addr++) {
-        propInfo.type = (PropertyType)addr;
-        property.type = (PropertyType)addr;
-        pCamera_->GetPropertyInfo(&propInfo);
-        pCamera_->GetProperty(&property);
+        pPropInfo = allPropInfos_[addr];
+        pProperty = allProperties_[addr];
+        pCamera_->GetPropertyInfo(pPropInfo);
+        pCamera_->GetProperty(pProperty);
         asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
             "%s:%s: checking propertyType %d\n",
             driverName, functionName, addr);
 
         /* If the propertyType is not available in the camera, we just set
          * all the parameters to -1 to indicate this is not available to the user. */
-        if (propInfo.present) {
-            setIntegerParam(addr, PGPropertyAvailable, 1);
-            setIntegerParam(addr, PGPropertyValue, property.valueA);
-            setIntegerParam(addr, PGPropertyValueMin, propInfo.min);
-            setIntegerParam(addr, PGPropertyValueMax, propInfo.max);
-            setIntegerParam(addr, PGPropertyMode, property.absControl);
+        if (pPropInfo->present) {
+            setIntegerParam(addr, PGPropertyAvail, 1);
+            setIntegerParam(addr, PGPropertyAutoAvail, pPropInfo->autoSupported);
+            setIntegerParam(addr, PGPropertyManAvail,  pPropInfo->manualSupported);
+            setIntegerParam(addr, PGPropertyAbsAvail,  pPropInfo->absValSupported);
+            setIntegerParam(addr, PGPropertyAutoMode,  pProperty->autoManualMode);
+            setIntegerParam(addr, PGPropertyAbsMode,   pProperty->absControl);
+            setIntegerParam(addr, PGPropertyValue,     pProperty->valueA);
+            setIntegerParam(addr, PGPropertyValueB,    pProperty->valueB);
+            setIntegerParam(addr, PGPropertyValueMin,  pPropInfo->min);
+            setIntegerParam(addr, PGPropertyValueMax,  pPropInfo->max);
         } else {
-            setIntegerParam(addr, PGPropertyAvailable, 0);
-            setIntegerParam(addr, PGPropertyValue, -1);
-            setIntegerParam(addr, PGPropertyValueMin, -1);
-            setIntegerParam(addr, PGPropertyValueMax, -1);
-            setIntegerParam(addr, PGPropertyMode, -1);
+            setIntegerParam(addr, PGPropertyAvail, 0);
+            setIntegerParam(addr, PGPropertyAutoAvail, 0);
+            setIntegerParam(addr, PGPropertyManAvail,  0);
+            setIntegerParam(addr, PGPropertyAbsAvail,  0);
+            setIntegerParam(addr, PGPropertyAutoMode,  0);
+            setIntegerParam(addr, PGPropertyAbsMode,   -1);
+            setIntegerParam(addr, PGPropertyValue,     -1);
+            setIntegerParam(addr, PGPropertyValueMin,  -1);
+            setIntegerParam(addr, PGPropertyValueMax,  -1);
         }
 
         /* If the propertyType does not support 'absolute' control then we just
          * set all the absolute values to -1.0 to indicate it is not available to the user */
-        if (propInfo.autoSupported) { 
-            setIntegerParam(addr, PGPropertyAbsolute, property.absControl);
-            setDoubleParam(addr, PGPropertyValueAbs, property.absValue);
-            setDoubleParam(addr, PGPropertyValueAbsMin, propInfo.absMin);
-            setDoubleParam(addr, PGPropertyValueAbsMax, propInfo.absMax);
+        if (pPropInfo->absValSupported) { 
+            setIntegerParam(addr, PGPropertyAbsMode,     pProperty->absControl);
+            setDoubleParam(addr,  PGPropertyValueAbs,    pProperty->absValue);
+            setDoubleParam(addr,  PGPropertyValueAbsMin, pPropInfo->absMin);
+            setDoubleParam(addr,  PGPropertyValueAbsMax, pPropInfo->absMax);
         } else {
-            dtmp = -1.0;
-            setIntegerParam(addr, PGPropertyAbsolute, 0);
-            setDoubleParam(addr, PGPropertyValueAbs, dtmp);
-            setDoubleParam(addr, PGPropertyValueAbsMax, dtmp);
-            setDoubleParam(addr, PGPropertyValueAbsMin, dtmp);
+            setIntegerParam(addr, PGPropertyAbsMode,     0);
+            setDoubleParam(addr,  PGPropertyValueAbs,    -1.0);
+            setDoubleParam(addr,  PGPropertyValueAbsMax, -1.0);
+            setDoubleParam(addr,  PGPropertyValueAbsMin, -1.0);
         }
     }
 
-    /* Finally map a few of the AreaDetector parameters on to the camera 'properties' */
+    /* Map a few of the AreaDetector parameters on to the camera properties */
     for (addr=0; addr<NUM_PROPERTIES; addr++) {
-        if (allProperties_[addr]->type == SHUTTER) break;
+        if (allProperties_[addr]->type == SHUTTER) {
+            getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
+            // Camera units are ms
+            setDoubleParam(ADAcquireTime, dtmp/1000.);
+        }
+        if (allProperties_[addr]->type == FRAME_RATE) {
+            getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
+            // Camera units are fps
+            setDoubleParam(ADAcquirePeriod, 1./dtmp);
+        }
+        else if (allProperties_[addr]->type == GAIN) {
+            getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
+            setDoubleParam(ADGain, dtmp);
+        }
     }
-    getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
-    setDoubleParam(ADAcquireTime, dtmp);
 
-    for (addr=0; addr<NUM_PROPERTIES; addr++) {
-        if (allProperties_[addr]->type == GAIN) break;
-    }
-    getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
-    setDoubleParam(ADGain, dtmp);
     /* Do callbacks for each propertyType */
     for (addr=0; addr<NUM_PROPERTIES; addr++) callParamCallbacks(addr);
 
@@ -1612,6 +1667,11 @@ void pointGrey::report(FILE *fp, int details)
                 pProperty->absValue);
             }
         }
+        else {
+            fprintf(fp, "Property %s is not supported\n", 
+                propertyTypeStrings[property]);
+        }
+
     }
     pCamera_->GetVideoModeAndFrameRate(&videoMode, &frameRate);
     if (checkError(error, functionName, "GetVideoModeAndFrameRate")) 

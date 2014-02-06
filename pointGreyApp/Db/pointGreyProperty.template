@@ -100,7 +100,6 @@ record(ai, "$(P)$(R)$(PROPERTY)ValMin") {
   field(SCAN, "I/O Intr")
   field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvl")
 }
-
 # Set DRLV field of the value PV
 record(ao, "$(P)$(R)$(PROPERTY)ValDrvl") {
   field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")

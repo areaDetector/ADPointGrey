@@ -179,6 +179,7 @@ private:
     Camera *pCamera_;
     BusManager *pBusMgr_;
     Format7Info *pFormat7Info_;
+    Image *pPGImage_;
     int exiting_;
     epicsEventId startEventId_;
     NDArray *pRaw_;
@@ -403,6 +404,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     pCamera_ = new Camera;
     pGuid_   = new PGRGuid;
     pFormat7Info_ = new Format7Info;
+    pPGImage_ = new Image;
 
     status = connectCamera();
     if (status) {
@@ -656,7 +658,6 @@ void pointGrey::imageGrabTask()
 int pointGrey::grabImage()
 {
     int status = asynSuccess;
-    Image *pPGImage = new(Image);
     Error error;
     unsigned int nRows, nCols, stride;
     PixelFormat pixelFormat;
@@ -673,7 +674,7 @@ int pointGrey::grabImage()
 
     /* unlock the driver while we wait for a new image to be ready */
     unlock();
-    error = pCamera_->RetrieveBuffer(pPGImage);
+    error = pCamera_->RetrieveBuffer(pPGImage_);
     lock();
     if (error == PGRERROR_ISOCH_NOT_STARTED) {
         // This is an expected error if acquisition was stopped externally
@@ -684,7 +685,7 @@ int pointGrey::grabImage()
         if (checkError(error, functionName, "RetrieveBuffer"))
             return asynError;
     }
-    pPGImage->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);
+    pPGImage_->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);
 
     switch (pixelFormat) {
         case PIXEL_FORMAT_MONO8:
@@ -748,7 +749,7 @@ int pointGrey::grabImage()
     }
     dataSize = dims[0] * dims[1] * pixelSize;
     if (nDims == 3) dataSize *= dims[2];
-    dataSizePG = pPGImage->GetDataSize();
+    dataSizePG = pPGImage_->GetDataSize();
     if (dataSize != dataSizePG) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s:%s: data size mismatch: calculated=%lu, reported=%lu\n",
@@ -780,7 +781,7 @@ int pointGrey::grabImage()
         setIntegerParam(ADAcquire, 0);
         return(asynError);
     }
-    pData = pPGImage->GetData();
+    pData = pPGImage_->GetData();
     memcpy(pRaw_->pData, pData, dataSize);
     
     /* Change the status to be readout... */
@@ -1458,12 +1459,10 @@ asynStatus pointGrey::getAllProperties()
         /* If the propertyType does not support 'absolute' control then we just
          * set all the absolute values to -1.0 to indicate it is not available to the user */
         if (pPropInfo->absValSupported) { 
-            setIntegerParam(addr, PGPropertyAbsMode,     pProperty->absControl);
             setDoubleParam(addr,  PGPropertyValueAbs,    pProperty->absValue);
             setDoubleParam(addr,  PGPropertyValueAbsMin, pPropInfo->absMin);
             setDoubleParam(addr,  PGPropertyValueAbsMax, pPropInfo->absMax);
         } else {
-            setIntegerParam(addr, PGPropertyAbsMode,     0);
             setDoubleParam(addr,  PGPropertyValueAbs,    -1.0);
             setDoubleParam(addr,  PGPropertyValueAbsMax, -1.0);
             setDoubleParam(addr,  PGPropertyValueAbsMin, -1.0);
@@ -1471,22 +1470,16 @@ asynStatus pointGrey::getAllProperties()
     }
 
     /* Map a few of the AreaDetector parameters on to the camera properties */
-    for (addr=0; addr<NUM_PROPERTIES; addr++) {
-        if (allProperties_[addr]->type == SHUTTER) {
-            getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
-            // Camera units are ms
-            setDoubleParam(ADAcquireTime, dtmp/1000.);
-        }
-        if (allProperties_[addr]->type == FRAME_RATE) {
-            getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
-            // Camera units are fps
-            setDoubleParam(ADAcquirePeriod, 1./dtmp);
-        }
-        else if (allProperties_[addr]->type == GAIN) {
-            getDoubleParam(addr, PGPropertyValueAbs, &dtmp);
-            setDoubleParam(ADGain, dtmp);
-        }
-    }
+    getDoubleParam(SHUTTER, PGPropertyValueAbs, &dtmp);
+    // Camera units are ms
+    setDoubleParam(ADAcquireTime, dtmp/1000.);
+
+    getDoubleParam(FRAME_RATE, PGPropertyValueAbs, &dtmp);
+    // Camera units are fps
+    setDoubleParam(ADAcquirePeriod, 1./dtmp);
+
+    getDoubleParam(GAIN, PGPropertyValueAbs, &dtmp);
+    setDoubleParam(ADGain, dtmp);
 
     /* Do callbacks for each propertyType */
     for (addr=0; addr<NUM_PROPERTIES; addr++) callParamCallbacks(addr);

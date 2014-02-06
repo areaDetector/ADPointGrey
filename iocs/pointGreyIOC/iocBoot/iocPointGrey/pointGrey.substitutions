@@ -37,13 +37,6 @@ pattern
 {13PG1:, cam1:,    PG1,  TemperaturePG,    17,   NO,       NO, "Temperature"}
 }
 
-file "$(ADPOINTGREY)/db/pointGreyWhiteBalance.template" 
-{ 
-pattern
-{     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_ABS, DESC}
-{13PG1:, cam1:,    PG1,       WHITEB,     3,  YES,       NO, "White balance"}
-}
-
 file "$(ADPOINTGREY)/db/pointGreyXXXMode.template" 
 { 
 pattern

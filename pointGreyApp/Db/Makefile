@@ -13,8 +13,6 @@ include $(TOP)/configure/CONFIG
 
 DB += pointGreyDCAM.template
 DB += pointGreyProperty.template
-DB += pointGreyXXXMode.template
-DB += pointGreyWhiteBalance.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

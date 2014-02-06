@@ -3,93 +3,55 @@
 ##
 
 ## VideoMode
-record(longout, "$(P)$(R)VideoMode") {
-  field(SCAN, "Passive")
+record(mbbo, "$(P)$(R)VideoMode") {
   field(PINI, "NO")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_VIDEO_MODE")
-  field(DRVL, "0")
-  field(DRVH, "23")
 }
 
-record(longin, "$(P)$(R)VideoMode_RBV") {
+record(mbbi, "$(P)$(R)VideoMode_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_VIDEO_MODE")
 }
 
 ## Format7Mode
-record(longout, "$(P)$(R)Format7Mode") {
-  field(SCAN, "Passive")
+record(mbbo, "$(P)$(R)Format7Mode") {
   field(PINI, "NO")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_FORMAT7_MODE")
-  field(DRVL, "0")
-  field(DRVH, "31")
 }
 
-record(longin, "$(P)$(R)Format7Mode_RBV") {
+record(mbbi, "$(P)$(R)Format7Mode_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_FORMAT7_MODE")
 }
 
 ## Framerate when the camera is not in the ROI/format7 mode
-record(longout, "$(P)$(R)FrameRate") {
-  field(SCAN, "Passive")
+record(mbbo, "$(P)$(R)FrameRate") {
   field(PINI, "NO")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE")
-  field(DRVL, "0")
-  field(DRVH, "8")
 }
 
-record(longin, "$(P)$(R)FrameRate_RBV") {
+record(mbbi, "$(P)$(R)FrameRate_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_FRAME_RATE")
 }
 
 ## Format 7 pixel format
-record(longout, "$(P)$(R)PixelFormat") {
-  field(SCAN, "Passive")
+record(mbbo, "$(P)$(R)PixelFormat") {
   field(PINI, "NO")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
 }
 
-record(longin, "$(P)$(R)PixelFormat_RBV") {
+record(mbbi, "$(P)$(R)PixelFormat_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
-}
-
-# Current video mode string
-record(stringin, "$(P)$(R)CurrentVideoMode") {
-  field(DTYP, "asynOctetRead")
-  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_VIDEO_MODE")
-  field(SCAN, "I/O Intr")
-}
-
-# Current format7 mode string
-record(stringin, "$(P)$(R)CurrentFormat7Mode") {
-  field(DTYP, "asynOctetRead")
-  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_FORMAT7_MODE")
-  field(SCAN, "I/O Intr")
-}
-
-# Current frame rate string
-record(stringin, "$(P)$(R)CurrentFrameRate") {
-  field(DTYP, "asynOctetRead")
-  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_FRAME_RATE")
-  field(SCAN, "I/O Intr")
-}
-
-# Current pixel format string
-record(stringin, "$(P)$(R)CurrentPixelFormat") {
-  field(DTYP, "asynOctetRead")
-  field(INP,  "@asyn($(PORT) 0)PG_CURRENT_PIXEL_FORMAT")
-  field(SCAN, "I/O Intr")
 }
 
 # Dropped frames

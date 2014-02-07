@@ -16,8 +16,9 @@ pointGreyConfig("$(PORT)", $(CAMERA_ID))
 asynSetTraceIOMask($(PORT), 0, 2)
 #asynSetTraceMask($(PORT), 0, 255)
 
-dbLoadRecords("$(ADCORE)/db/ADBase.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
-dbLoadRecords("$(ADCORE)/db/NDFile.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADCORE)/db/ADBase.template",         "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADCORE)/db/NDFile.template",         "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADPOINTGREY)/db/pointGrey.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT)")
 dbLoadTemplate("pointGrey.substitutions")
 
 # Create a standard arrays plugin

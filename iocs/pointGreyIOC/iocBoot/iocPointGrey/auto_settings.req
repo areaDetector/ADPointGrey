@@ -1,6 +1,24 @@
-file "ADBase_settings.req",       P=$(P),  R=cam1:
-file "pointGrey_settings.req",    P=$(P),  R=cam1:
-file "NDFile_settings.req",       P=$(P),  R=cam1:
-file "NDPluginBase_settings.req", P=$(P),  R=image1:
-file "NDStdArrays_settings.req",  P=$(P),  R=image1:
-file "commonPlugin_settings.req", P=$(P)
+file "ADBase_settings.req",               P=$(P),  R=cam1:
+file "pointGrey_settings.req",            P=$(P),  R=cam1:
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=BrightnessPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=AutoExposurePG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=SharpnessPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=WhiteBalancePG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=HuePG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=SaturationPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=GammaPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=IrisPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=FocusPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=ZoomPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=PanPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=TiltPG
+file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=ShutterPG
+file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=GainPG
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=TriggerModePG
+file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=TriggerDelayPG
+file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=FrameRatePG
+file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=TemperaturePG
+file "NDFile_settings.req",               P=$(P),  R=cam1:
+file "NDPluginBase_settings.req",         P=$(P),  R=image1:
+file "NDStdArrays_settings.req",          P=$(P),  R=image1:
+file "commonPlugin_settings.req",         P=$(P)

@@ -67,7 +67,6 @@ record(bi, "$(P)$(R)$(PROPERTY)AbsModeRbv") {
 record(ao, "$(P)$(R)$(PROPERTY)Val") {
   field(PINI, "$(PINI)")
   field(DTYP, "asynInt32")
-  field(DESC, "$(DESC)")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL")
 }
 
@@ -82,7 +81,6 @@ record(ai, "$(P)$(R)$(PROPERTY)ValRbv") {
 record(ao, "$(P)$(R)$(PROPERTY)ValB") {
   field(PINI, "$(PINI)")
   field(DTYP, "asynInt32")
-  field(DESC, "$(DESC)")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL_B")
 }
 

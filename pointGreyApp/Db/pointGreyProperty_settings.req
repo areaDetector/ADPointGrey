@@ -1,2 +1,2 @@
-$(P)$(R)$(FEATURE)
-$(P)$(R)$(FEATURE)_CTRL
+$(P)$(R)$(PROPERTY)Val
+$(P)$(R)$(PROPERTY)AutoMode

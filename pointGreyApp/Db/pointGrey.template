@@ -1,5 +1,5 @@
-## pointGreyDCAM.template
-## Template database file to control the features of a DCAM camera.
+## pointGrey.template
+## Template database file to control the features of a Point Grey camera.
 ##
 
 ## VideoMode

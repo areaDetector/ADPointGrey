@@ -62,11 +62,17 @@ static const char *driverName = "pointGrey";
 #define PGFrameRateString             "PG_FRAME_RATE"
 #define PGPixelFormatString           "PG_PIXEL_FORMAT"
 #define PGFrameRateAbsString          "PG_FRAME_RATE_ABS"
+#define PGSkipFramesString            "PG_SKIP_FRAMES"
+#define PGTriggerPolarityString       "PG_TRIGGER_POLARITY"
+#define PGTriggerSourceString         "PG_TRIGGER_SOURCE"
+#define PGSoftwareTriggerString       "PG_SOFTWARE_TRIGGER"
 #define PGReadoutTimeString           "PG_READOUT_TIME"
 #define PGDroppedFramesString         "PG_DROPPED_FRAMES"
 
 // Point Grey does not define a NUM_PROPERTIES constant, but it can be set as follows
 #define NUM_PROPERTIES UNSPECIFIED_PROPERTY_TYPE
+
+#define NUM_TRIGGER_MODES 17
 
 // The maximum value of the asyn "addr" is the largest of NUM_PROPERTIES, NUM_PIXEL_FORMATS, NUM_MODES, NUM_VIDEO_MODES
 #define MAX_ADDR NUM_MODES
@@ -186,6 +192,26 @@ static const char *propertyTypeStrings[NUM_PROPERTIES] = {
     "Temperature"
 };
 
+static const char *triggerModeStrings[NUM_TRIGGER_MODES] = {
+    "Internal"
+    "Ext. Standard",
+    "Bulb",
+    "Undefined",
+    "Skip frames",
+    "Multi-exposure",
+    "Multi-exposure bulb",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Low smear",
+    "Overlapped",
+    "Multi-shot",
+};
+
 
 /** Main driver class inherited from areaDetectors ADDriver class.
  * One instance of this class will control one camera.
@@ -231,6 +257,10 @@ protected:
     int PGFrameRate;              /** Frame rate (int32 read/write) enum FrameRate, 0-NUM_FRAMERATES-1 */
     int PGPixelFormat;            /** The pixel format when VideoFormat=Format7 (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
     int PGFrameRateAbs;           /** Frame rate in absolute (frames/s) units (float64, read/write) */
+    int PGSkipFrames;             /** Frames to skip in trigger mode 3 (int32, write/read) */
+    int PGTriggerPolarity;        /** Trigger polarity (int32, write/read) */
+    int PGTriggerSource;          /** Trigger source (int32, write/read) */
+    int PGSoftwareTrigger;        /** Issue a software trigger (int32, write/read) */
     int PGReadoutTime;            /** Readout time (float64, read/write) */
     int PGDroppedFrames;          /** Number of dropped frames (int32, read) */
     #define LAST_PG_PARAM PGDroppedFrames
@@ -257,8 +287,11 @@ private:
     asynStatus createFormat7ModeEnums();
     asynStatus createVideoModeEnums();
     asynStatus createCurrentEnums();
+    asynStatus createTriggerModeEnums();
     asynStatus getAllProperties();
     int getPixelFormatIndex(PixelFormat pixelFormat);
+    asynStatus setTrigger();
+    asynStatus softwareTrigger();
 
     /* Data */
     int cameraId_;
@@ -272,11 +305,14 @@ private:
     enumStruct_t frameRateEnums_[NUM_FRAMERATES];
     int numValidPixelFormats_;
     enumStruct_t pixelFormatEnums_[NUM_PIXEL_FORMATS];
+    int numValidTriggerModes_;
+    enumStruct_t triggerModeEnums_[NUM_TRIGGER_MODES];
     PGRGuid *pGuid_;
     Camera *pCamera_;
     BusManager *pBusMgr_;
     Format7Info *pFormat7Info_;
     Image *pPGImage_;
+    TriggerMode *pTriggerMode_;
     int exiting_;
     epicsEventId startEventId_;
     NDArray *pRaw_;
@@ -367,6 +403,10 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGFrameRateString,              asynParamInt32,   &PGFrameRate);
     createParam(PGPixelFormatString,            asynParamInt32,   &PGPixelFormat);
     createParam(PGFrameRateAbsString,           asynParamFloat64, &PGFrameRateAbs);
+    createParam(PGSkipFramesString,             asynParamInt32,   &PGSkipFrames);
+    createParam(PGTriggerPolarityString,        asynParamInt32,   &PGTriggerPolarity);
+    createParam(PGTriggerSourceString,          asynParamInt32,   &PGTriggerSource);
+    createParam(PGSoftwareTriggerString,        asynParamInt32,   &PGSoftwareTrigger);
     createParam(PGReadoutTimeString,            asynParamFloat64, &PGReadoutTime);
     createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
 
@@ -386,6 +426,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     pGuid_   = new PGRGuid;
     pFormat7Info_ = new Format7Info;
     pPGImage_ = new Image;
+    pTriggerMode_ = new TriggerMode;
 
     status = connectCamera();
     if (status) {
@@ -400,6 +441,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createFormat7ModeEnums();
     createVideoModeEnums();
     createCurrentEnums();
+    createTriggerModeEnums();
     numValidFrameRates_ = 2;
     strcpy(frameRateEnums_[0].string, "Undefined1");
     frameRateEnums_[0].value = 0;
@@ -837,6 +879,15 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
     } else if (function == PGFrameRate) {
         status = setFrameRate(value);
 
+    } else if ((function == ADTriggerMode)  || 
+               (function == ADNumImages)    ||
+               (function == ADNumExposures) ||
+               (function == PGSkipFrames)) {
+        status = setTrigger();
+        
+    } else if (function == PGSoftwareTrigger) {
+        status = softwareTrigger();
+
     } else {
         /* If this parameter belongs to a base class call its method */
         if (function < FIRST_PG_PARAM) status = ADDriver::writeInt32(pasynUser, value);
@@ -931,6 +982,9 @@ asynStatus pointGrey::readEnum(asynUser *pasynUser, char *strings[], int values[
     } else if (function == PGPixelFormat) {
         pEnum = pixelFormatEnums_;
         numEnums = numValidPixelFormats_;
+    } else if (function == ADTriggerMode) {
+        pEnum = triggerModeEnums_;
+        numEnums = numValidTriggerModes_;
     } else {
         *nIn = 0;
         return asynError;
@@ -1123,6 +1177,66 @@ asynStatus pointGrey::setVideoModeAndFrameRate(int videoModeIn, int frameRateIn)
     }
 
     return status;
+}
+
+asynStatus pointGrey::setTrigger()
+{
+    int numImages;
+    int numExposures;
+    int triggerMode;
+    int triggerPolarity;
+    int triggerSource;
+    int skipFrames;
+    Error error;
+    static const char *functionName = "setTrigger";
+    
+    getIntegerParam(ADTriggerMode, &triggerMode);
+    getIntegerParam(PGTriggerPolarity, &triggerPolarity);
+    getIntegerParam(PGTriggerSource, &triggerSource);
+    error = pCamera_->GetTriggerMode(pTriggerMode_);
+    if (checkError(error, functionName, "GetTriggerMode")) 
+        return asynError;
+    if (triggerMode == ADTriggerInternal) {
+        pTriggerMode_->onOff = false;
+    }
+    else {
+        pTriggerMode_->onOff = true;
+        // The Point Grey values are 1 less than the enum value
+        triggerMode--;
+        pTriggerMode_->mode = triggerMode;
+        pTriggerMode_->polarity = triggerPolarity;
+        pTriggerMode_->source = triggerSource;
+        switch (triggerMode) {
+            case 3:
+                getIntegerParam(PGSkipFrames, &skipFrames);
+                pTriggerMode_->parameter = skipFrames;
+                break;
+            case 4:
+            case 5:
+                getIntegerParam(ADNumExposures, &numExposures);
+                pTriggerMode_->parameter = numExposures;
+                break;
+            case 15:
+                getIntegerParam(ADNumImages, &numImages);
+                pTriggerMode_->parameter = numImages;
+                break;
+        }
+    }
+    error = pCamera_->SetTriggerMode(pTriggerMode_);
+    if (checkError(error, functionName, "SetTriggerMode")) 
+        return asynError;
+    return asynSuccess;
+}
+
+asynStatus pointGrey::softwareTrigger()
+{
+    Error error;
+    static const char *functionName = "softwareTrigger";
+    
+    error = pCamera_->FireSoftwareTrigger();
+    if (checkError(error, functionName, "FirstSoftwareTrigger")) 
+        return asynError;
+    return asynSuccess;
 }
 
 int pointGrey::getPixelFormatIndex(PixelFormat pixelFormat)
@@ -1334,6 +1448,43 @@ asynStatus pointGrey::createFormat7ModeEnums()
             sprintf(pEnum->string, "%dx%d", f7Info.maxWidth, f7Info.maxHeight);
             pEnum->value = mode;
             numValidFormat7Modes_++;
+        }    
+    }
+    return asynSuccess;
+}
+
+
+asynStatus pointGrey::createTriggerModeEnums()
+{
+    TriggerModeInfo triggerInfo;
+    Error error;
+    int shift;
+    int mode;
+    enumStruct_t *pEnum;
+    bool supported;
+    static const char* functionName="createTriggerModeEnums";
+ 
+    /* This function creates strings for all valid external trigger modes 
+     * It is only called once at startup */
+
+    error = pCamera_->GetTriggerModeInfo(&triggerInfo);
+    if (checkError(error, functionName, "GetTriggerModeInfo")) 
+        return asynError;
+    numValidTriggerModes_ = 0; 
+    /* Loop over modes */
+    for (mode=0; mode<NUM_TRIGGER_MODES; mode++) {
+        // Internal trigger mode is always supported
+        if (mode == 0) {
+            supported = true;
+        } else {
+            shift = NUM_TRIGGER_MODES - mode - 2;
+            supported = ((triggerInfo.modeMask >> shift) & 0x1) == 1;
+        }
+        if (supported) {
+            pEnum = triggerModeEnums_ + numValidTriggerModes_;
+            strcpy(pEnum->string, triggerModeStrings[mode]);
+            pEnum->value = mode;
+            numValidTriggerModes_++;
         }    
     }
     return asynSuccess;
@@ -1560,6 +1711,8 @@ void pointGrey::report(FILE *fp, int details)
     unsigned int packetSize;
     float percentage;
     Format7ImageSettings f7Settings;
+    TriggerMode triggerMode;
+    TriggerModeInfo triggerModeInfo;
     static const char *functionName = "report";
     
     error = pBusMgr_->GetNumOfCameras(&numCameras);
@@ -1709,6 +1862,27 @@ void pointGrey::report(FILE *fp, int details)
             f7Settings.width, f7Settings.height,
             pixelFormatIndex, f7Settings.pixelFormat, pixelFormatStrings[pixelFormatIndex]);
     }
+    pCamera_->GetTriggerMode(&triggerMode);
+    if (checkError(error, functionName, "GetTriggerMode")) 
+        return;
+    fprintf(fp, "Trigger mode\n");
+    fprintf(fp, "       Mode: %d\n", triggerMode.mode);
+    fprintf(fp, "      onOff: %d\n", triggerMode.onOff);
+    fprintf(fp, "   polarity: %d\n", triggerMode.polarity);
+    fprintf(fp, "     source: %d\n", triggerMode.source);
+    fprintf(fp, "  parameter: %d\n", triggerMode.parameter);
+    pCamera_->GetTriggerModeInfo(&triggerModeInfo);
+    if (checkError(error, functionName, "GetTriggerModeInfo")) 
+        return;
+    fprintf(fp, "Trigger mode information\n");
+    fprintf(fp, "                   present: %d\n", triggerModeInfo.present);
+    fprintf(fp, "          readOutSupported: %d\n", triggerModeInfo.readOutSupported);
+    fprintf(fp, "            onOffSupported: %d\n", triggerModeInfo.onOffSupported);
+    fprintf(fp, "         polaritySupported: %d\n", triggerModeInfo.polaritySupported);
+    fprintf(fp, "             valueReadable: %d\n", triggerModeInfo.valueReadable);
+    fprintf(fp, "                sourceMask: 0x%x\n", triggerModeInfo.sourceMask);
+    fprintf(fp, "  softwareTriggerSupported: %d\n", triggerModeInfo.softwareTriggerSupported);
+    fprintf(fp, "                  modeMask: 0x%x\n", triggerModeInfo.modeMask);
                     
     ADDriver::report(fp, details);
     return;

@@ -7,7 +7,6 @@ LIBRARY_IOC_WIN32 += pointGrey
 LIBRARY_IOC_Linux += pointGrey
 
 LIB_SRCS += pointGrey.cpp
-LIB_SRCS += pointGrey.cpp
 
 DBD += pointGreySupport.dbd
 

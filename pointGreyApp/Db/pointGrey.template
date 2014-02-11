@@ -1,6 +1,8 @@
 ## pointGrey.template
 ## Template database file to control the features of a Point Grey camera.
 ##
+## Note: the strings and values for the mbbo and mbbi records in this database
+## are built dynamically at run-time based on the capabilites of the specific camera
 
 ## VideoMode
 record(mbbo, "$(P)$(R)VideoMode") {
@@ -52,6 +54,45 @@ record(mbbi, "$(P)$(R)PixelFormat_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
+}
+
+## Trigger polarity
+record(bo, "$(P)$(R)TriggerPolarity") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(ZNAM, "Negative")
+  field(ONAM, "Positive")
+  field(OUT,  "@asyn($(PORT) 0)PG_TRIGGER_POLARITY")
+}
+
+record(bi, "$(P)$(R)TriggerPolarity_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(ZNAM, "Negative")
+  field(ONAM, "Positive")
+  field(INP,  "@asyn($(PORT) 0)PG_TRIGGER_POLARITY")
+}
+
+## Trigger source
+record(mbbo, "$(P)$(R)TriggerSource") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
+}
+
+record(mbbi, "$(P)$(R)TriggerSource_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
+}
+
+## Software trigger
+record(bo, "$(P)$(R)SoftwareTrigger") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(ONAM, "Trigger")
+  field(ZNAM, "Done")
+  field(OUT,  "@asyn($(PORT) 0)PG_SOFTWARE_TRIGGER")
 }
 
 # Dropped frames

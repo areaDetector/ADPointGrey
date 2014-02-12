@@ -1702,6 +1702,7 @@ void pointGrey::report(FILE *fp, int details)
     Error error;
     Camera cam;
     CameraInfo camInfo;
+    CameraStats camStats;
     int mode, rate;
     VideoMode videoMode;
     FrameRate frameRate;
@@ -1885,6 +1886,32 @@ void pointGrey::report(FILE *fp, int details)
     fprintf(fp, "                sourceMask: 0x%x\n", triggerModeInfo.sourceMask);
     fprintf(fp, "  softwareTriggerSupported: %d\n", triggerModeInfo.softwareTriggerSupported);
     fprintf(fp, "                  modeMask: 0x%x\n", triggerModeInfo.modeMask);
+    pCamera_->GetStats(&camStats);
+    if (checkError(error, functionName, "GetStats")) 
+        return;
+    fprintf(fp, "Camera statistics\n");
+    fprintf(fp, "              Images dropped: %u\n", camStats.imageDropped);
+    fprintf(fp, "              Images corrupt: %u\n", camStats.imageCorrupt);
+    fprintf(fp, "             Transmit failed: %u\n", camStats.imageXmitFailed);
+    fprintf(fp, "              Driver dropped: %u\n", camStats.imageDriverDropped);
+    fprintf(fp, "        Register read failed: %u\n", camStats.regReadFailed);
+    fprintf(fp, "       Register write failed: %u\n", camStats.regWriteFailed);
+    fprintf(fp, "                 Port errors: %u\n", camStats.portErrors);
+    fprintf(fp, "             Camera power up: %d\n", camStats.cameraPowerUp);
+    fprintf(fp, "                  # voltages: %d\n", camStats.numVoltages);
+    for (unsigned int j=0; j<camStats.numVoltages; j++) {
+        fprintf(fp, "               voltage %d %f:\n", j, camStats.cameraVoltages[j]);
+    }
+    fprintf(fp, "                  # currents: %d\n", camStats.numCurrents);
+    for (unsigned int j=0; j<camStats.numCurrents; j++) {
+        fprintf(fp, "               current %d %f:\n", j, camStats.cameraCurrents[j]);
+    }
+    fprintf(fp, "             Temperature (C): %f\n", camStats.temperature/10.);
+    fprintf(fp, "   Time since initialization: %u\n", camStats.timeSinceInitialization);
+    fprintf(fp, "        Time since bus reset: %u\n", camStats.timeSinceBusReset);
+    fprintf(fp, "  # resend packets requested: %u\n", camStats.numResendPacketsRequested);
+    fprintf(fp, "   # resend packets received: %u\n", camStats.numResendPacketsReceived);
+    fprintf(fp, "                  Time stamp: %f\n", camStats.timeStamp.seconds + camStats.timeStamp.microSeconds/1e6);
                     
     ADDriver::report(fp, details);
     return;

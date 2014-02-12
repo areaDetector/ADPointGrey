@@ -1,5 +1,10 @@
 Add packetsize and percent bandwidth parameters
 PointGrey auto_settings.req
-Get triggering working
+Test hardware triggering
+Implement strobe out
+Increase waveform array size
+Figure out errors with unsupported pixel format
+Implement status (temperature measurement, dropped frames, etc.)
+Measure disk file performance
 Documentation
 

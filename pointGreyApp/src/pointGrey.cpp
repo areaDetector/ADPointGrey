@@ -193,7 +193,7 @@ static const char *propertyTypeStrings[NUM_PROPERTIES] = {
 };
 
 static const char *triggerModeStrings[NUM_TRIGGER_MODES] = {
-    "Internal"
+    "Internal",
     "Ext. Standard",
     "Bulb",
     "Undefined",
@@ -209,7 +209,7 @@ static const char *triggerModeStrings[NUM_TRIGGER_MODES] = {
     "Undefined",
     "Low smear",
     "Overlapped",
-    "Multi-shot",
+    "Multi-shot"
 };
 
 
@@ -1225,6 +1225,8 @@ asynStatus pointGrey::setTrigger()
     error = pCamera_->SetTriggerMode(pTriggerMode_);
     if (checkError(error, functionName, "SetTriggerMode")) 
         return asynError;
+    /* When the trigger mode changes the properties can also change */
+    getAllProperties();
     return asynSuccess;
 }
 
@@ -1477,7 +1479,7 @@ asynStatus pointGrey::createTriggerModeEnums()
         if (mode == 0) {
             supported = true;
         } else {
-            shift = NUM_TRIGGER_MODES - mode - 2;
+            shift = NUM_TRIGGER_MODES - mode - 1;
             supported = ((triggerInfo.modeMask >> shift) & 0x1) == 1;
         }
         if (supported) {
@@ -1532,7 +1534,7 @@ asynStatus pointGrey::createCurrentEnums()
             if ((f7Info.pixelFormatBitField & pixelFormatValues[format]) == pixelFormatValues[format]) {
                 pEnum = pixelFormatEnums_ + numValidPixelFormats_;
                 strcpy(pEnum->string, pixelFormatStrings[format]);
-                pEnum->value = format;
+                pEnum->value = pixelFormatValues[format];
                 numValidPixelFormats_++;
             }
         }

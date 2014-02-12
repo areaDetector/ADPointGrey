@@ -60,16 +60,16 @@ record(mbbi, "$(P)$(R)PixelFormat_RBV") {
 record(bo, "$(P)$(R)TriggerPolarity") {
   field(PINI, "NO")
   field(DTYP, "asynInt32")
-  field(ZNAM, "Negative")
-  field(ONAM, "Positive")
+  field(ZNAM, "Low")
+  field(ONAM, "High")
   field(OUT,  "@asyn($(PORT) 0)PG_TRIGGER_POLARITY")
 }
 
 record(bi, "$(P)$(R)TriggerPolarity_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
-  field(ZNAM, "Negative")
-  field(ONAM, "Positive")
+  field(ZNAM, "Low")
+  field(ONAM, "High")
   field(INP,  "@asyn($(PORT) 0)PG_TRIGGER_POLARITY")
 }
 

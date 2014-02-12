@@ -37,7 +37,7 @@ record(bo, "$(P)$(R)$(PROPERTY)AutoMode") {
 }
 
 ## Read back the manual/auto mode 
-record(bi, "$(P)$(R)$(PROPERTY)AutoModeRbv") {
+record(bi, "$(P)$(R)$(PROPERTY)AutoMode_RBV") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_AUTO_MODE")
   field(ZNAM, "Manual")
@@ -55,7 +55,7 @@ record(bi, "$(P)$(R)$(PROPERTY)AbsAvail") {
 }
 
 ## Read back the absolute mode 
-record(bi, "$(P)$(R)$(PROPERTY)AbsModeRbv") {
+record(bi, "$(P)$(R)$(PROPERTY)AbsMode_RBV") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_ABS_MODE")
   field(ZNAM, "Manual")
@@ -71,7 +71,7 @@ record(ao, "$(P)$(R)$(PROPERTY)Val") {
 }
 
 # Read the valueA (int32)
-record(ai, "$(P)$(R)$(PROPERTY)ValRbv") {
+record(ai, "$(P)$(R)$(PROPERTY)Val_RBV") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL")
   field(SCAN, "I/O Intr")
@@ -85,7 +85,7 @@ record(ao, "$(P)$(R)$(PROPERTY)ValB") {
 }
 
 # Read the valueB (int32)
-record(ai, "$(P)$(R)$(PROPERTY)ValBRbv") {
+record(ai, "$(P)$(R)$(PROPERTY)ValB_RBV") {
   field(DTYP, "asynInt32")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_B")
   field(SCAN, "I/O Intr")
@@ -140,7 +140,7 @@ record(ao, "$(P)$(R)$(PROPERTY)ValAbs") {
 }
 
 # Read the feature absolute value
-record(ai, "$(P)$(R)$(PROPERTY)ValAbsRbv") {
+record(ai, "$(P)$(R)$(PROPERTY)ValAbs_RBV") {
   field(DTYP, "asynFloat64")
   field(INP, "@asyn($(PORT) $(N))PG_PROP_VAL_ABS")
   field(PREC, "3")

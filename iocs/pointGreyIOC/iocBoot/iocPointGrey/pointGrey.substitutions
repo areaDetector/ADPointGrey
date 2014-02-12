@@ -9,23 +9,23 @@
 file "$(ADPOINTGREY)/db/pointGreyProperty.template" 
 { 
 pattern
-{     P,     R,   PORT,       PROPERTY,     N, PINI, PINI_ABS}
-{13PG1:, cam1:,    PG1,   BrightnessPG,     0,  YES,       NO}
-{13PG1:, cam1:,    PG1, AutoExposurePG,     1,  YES,       NO}
-{13PG1:, cam1:,    PG1,    SharpnessPG,     2,  YES,       NO}
-{13PG1:, cam1:,    PG1, WhiteBalancePG,     3,  YES,       NO}
-{13PG1:, cam1:,    PG1,          HuePG,     4,  YES,       NO}
-{13PG1:, cam1:,    PG1,   SaturationPG,     5,  YES,       NO}
-{13PG1:, cam1:,    PG1,        GammaPG,     6,  YES,       NO}
-{13PG1:, cam1:,    PG1,         IrisPG,     7,  YES,       NO}
-{13PG1:, cam1:,    PG1,        FocusPG,     8,  YES,       NO}
-{13PG1:, cam1:,    PG1,         ZoomPG,     9,  YES,       NO}
-{13PG1:, cam1:,    PG1,          PanPG,    10,  YES,       NO}
-{13PG1:, cam1:,    PG1,         TiltPG,    11,  YES,       NO}
-{13PG1:, cam1:,    PG1,      ShutterPG,    12,   NO,       NO}
-{13PG1:, cam1:,    PG1,         GainPG,    13,   NO,       NO}
-{13PG1:, cam1:,    PG1,  TriggerModePG,    14,  YES,       NO}
-{13PG1:, cam1:,    PG1, TriggerDelayPG,    15,   NO,      YES}
-{13PG1:, cam1:,    PG1,    FrameRatePG,    16,   NO,       NO}
-{13PG1:, cam1:,    PG1,  TemperaturePG,    17,   NO,      YES}
+{     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_ABS}
+{13PG1:, cam1:,    PG1,   Brightness,     0,  YES,       NO}
+{13PG1:, cam1:,    PG1, AutoExposure,     1,  YES,       NO}
+{13PG1:, cam1:,    PG1,    Sharpness,     2,  YES,       NO}
+{13PG1:, cam1:,    PG1, WhiteBalance,     3,  YES,       NO}
+{13PG1:, cam1:,    PG1,          Hue,     4,  YES,       NO}
+{13PG1:, cam1:,    PG1,   Saturation,     5,  YES,       NO}
+{13PG1:, cam1:,    PG1,        Gamma,     6,  YES,       NO}
+{13PG1:, cam1:,    PG1,         Iris,     7,  YES,       NO}
+{13PG1:, cam1:,    PG1,        Focus,     8,  YES,       NO}
+{13PG1:, cam1:,    PG1,         Zoom,     9,  YES,       NO}
+{13PG1:, cam1:,    PG1,          Pan,    10,  YES,       NO}
+{13PG1:, cam1:,    PG1,         Tilt,    11,  YES,       NO}
+{13PG1:, cam1:,    PG1,      Shutter,    12,   NO,       NO}
+{13PG1:, cam1:,    PG1,         Gain,    13,   NO,       NO}
+{13PG1:, cam1:,    PG1,  TriggerMode,    14,  YES,       NO}
+{13PG1:, cam1:,    PG1, TriggerDelay,    15,   NO,      YES}
+{13PG1:, cam1:,    PG1,    FrameRate,    16,   NO,       NO}
+{13PG1:, cam1:,    PG1,  Temperature,    17,   NO,      YES}
 }

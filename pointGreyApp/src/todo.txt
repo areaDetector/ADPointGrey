@@ -1,10 +1,13 @@
 Add packetsize and percent bandwidth parameters
+
 PointGrey auto_settings.req
-Test hardware triggering
+
 Implement strobe out
-Increase waveform array size
-Figure out errors with unsupported pixel format
-Implement status (temperature measurement, dropped frames, etc.)
+
 Measure disk file performance
+
+Figure out problems with getting into state where can only get 80 frame/s in Mode 0 Raw8, and 43 frames/s in Mode 0
+Mono16.
+
 Documentation
 

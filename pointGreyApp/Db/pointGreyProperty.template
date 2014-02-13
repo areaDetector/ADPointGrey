@@ -79,7 +79,7 @@ record(ai, "$(P)$(R)$(PROPERTY)Val_RBV") {
 
 # Set the valueB (int32)
 record(ao, "$(P)$(R)$(PROPERTY)ValB") {
-  field(PINI, "$(PINI)")
+  field(PINI, "$(PINI_VALB)")
   field(DTYP, "asynInt32")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL_B")
 }

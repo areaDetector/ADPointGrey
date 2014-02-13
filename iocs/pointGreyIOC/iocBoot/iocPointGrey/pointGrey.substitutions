@@ -1,31 +1,33 @@
 # Note.  These substutitions are mostly generic.
-# However the PINI and PINI_ABS fields should be changed to only be
+# However the PINI, PINI_VALB, and PINI_ABS fields should be changed to only be
 # YES for the features the camera actually supports in device or absolute
 # mode, otherwise error messages will appear on startup.
 # One would normally set either PINI or PINI_ABS to YES (but not both) because
 # if they are both YES the results are unpredictable, depending
-# on which happens last.
+# on which happens last. 
+# PINI_VALB should only be set to YES for the WhiteBalance property in color cameras 
+# that support WhiteBalance.
 
 file "$(ADPOINTGREY)/db/pointGreyProperty.template" 
 { 
 pattern
-{     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_ABS}
-{13PG1:, cam1:,    PG1,   Brightness,     0,  YES,       NO}
-{13PG1:, cam1:,    PG1, AutoExposure,     1,  YES,       NO}
-{13PG1:, cam1:,    PG1,    Sharpness,     2,  YES,       NO}
-{13PG1:, cam1:,    PG1, WhiteBalance,     3,  YES,       NO}
-{13PG1:, cam1:,    PG1,          Hue,     4,  YES,       NO}
-{13PG1:, cam1:,    PG1,   Saturation,     5,  YES,       NO}
-{13PG1:, cam1:,    PG1,        Gamma,     6,  YES,       NO}
-{13PG1:, cam1:,    PG1,         Iris,     7,  YES,       NO}
-{13PG1:, cam1:,    PG1,        Focus,     8,  YES,       NO}
-{13PG1:, cam1:,    PG1,         Zoom,     9,  YES,       NO}
-{13PG1:, cam1:,    PG1,          Pan,    10,  YES,       NO}
-{13PG1:, cam1:,    PG1,         Tilt,    11,  YES,       NO}
-{13PG1:, cam1:,    PG1,      Shutter,    12,   NO,       NO}
-{13PG1:, cam1:,    PG1,         Gain,    13,   NO,       NO}
-{13PG1:, cam1:,    PG1,  TriggerMode,    14,  YES,       NO}
-{13PG1:, cam1:,    PG1, TriggerDelay,    15,   NO,      YES}
-{13PG1:, cam1:,    PG1,    FrameRate,    16,   NO,       NO}
-{13PG1:, cam1:,    PG1,  Temperature,    17,   NO,      YES}
+{     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_VALB, PINI_ABS}
+{13PG1:, cam1:,    PG1,   Brightness,     0,  YES,    NO,     NO}
+{13PG1:, cam1:,    PG1, AutoExposure,     1,  YES,    NO,     NO}
+{13PG1:, cam1:,    PG1,    Sharpness,     2,  YES,    NO,     NO}
+{13PG1:, cam1:,    PG1, WhiteBalance,     3,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,          Hue,     4,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,   Saturation,     5,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,        Gamma,     6,  YES,    NO,     NO}
+{13PG1:, cam1:,    PG1,         Iris,     7,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,        Focus,     8,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,         Zoom,     9,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,          Pan,    10,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,         Tilt,    11,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,      Shutter,    12,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,         Gain,    13,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,  TriggerMode,    14,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1, TriggerDelay,    15,   NO,    NO,    YES}
+{13PG1:, cam1:,    PG1,    FrameRate,    16,   NO,    NO,     NO}
+{13PG1:, cam1:,    PG1,  Temperature,    17,   NO,    NO,     NO}
 }

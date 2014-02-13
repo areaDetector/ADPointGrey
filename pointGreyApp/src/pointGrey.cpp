@@ -313,6 +313,8 @@ private:
     Format7Info *pFormat7Info_;
     Image *pPGImage_;
     TriggerMode *pTriggerMode_;
+    TriggerModeInfo *pTriggerModeInfo_;
+    CameraStats *pCameraStats_;
     int exiting_;
     epicsEventId startEventId_;
     NDArray *pRaw_;
@@ -421,12 +423,14 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     setStringParam(ADStringFromServer, "<not used by driver>");
     
     // Create camera control objects
-    pBusMgr_ = new BusManager;
-    pCamera_ = new Camera;
-    pGuid_   = new PGRGuid;
-    pFormat7Info_ = new Format7Info;
-    pPGImage_ = new Image;
-    pTriggerMode_ = new TriggerMode;
+    pBusMgr_          = new BusManager;
+    pCamera_          = new Camera;
+    pGuid_            = new PGRGuid;
+    pFormat7Info_     = new Format7Info;
+    pPGImage_         = new Image;
+    pTriggerMode_     = new TriggerMode;
+    pTriggerModeInfo_ = new TriggerModeInfo;
+    pCameraStats_     = new CameraStats;
 
     status = connectCamera();
     if (status) {
@@ -544,6 +548,10 @@ asynStatus pointGrey::connectCamera(void)
     if (checkError(error, functionName, "GetFormat7Info")) return asynError;
     setIntegerParam(ADMaxSizeX, pFormat7Info_->maxWidth);
     setIntegerParam(ADMaxSizeY, pFormat7Info_->maxHeight);
+    setIntegerParam(ADMinX, 0);
+    setIntegerParam(ADMinY, 0);
+    setIntegerParam(ADSizeX, pFormat7Info_->maxWidth);
+    setIntegerParam(ADSizeY, pFormat7Info_->maxHeight);
     
     return asynSuccess;
 }
@@ -722,6 +730,7 @@ int pointGrey::grabImage()
 
     switch (pixelFormat) {
         case PIXEL_FORMAT_MONO8:
+        case PIXEL_FORMAT_RAW8:
             dataType = NDUInt8;
             colorMode = NDColorModeMono;
             numColors = 1;
@@ -736,6 +745,7 @@ int pointGrey::grabImage()
             break;
 
         case PIXEL_FORMAT_MONO16:
+        case PIXEL_FORMAT_MONO12:
             dataType = NDUInt16;
             colorMode = NDColorModeMono;
             numColors = 1;
@@ -887,6 +897,9 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
         
     } else if (function == PGSoftwareTrigger) {
         status = softwareTrigger();
+
+    } else if (function == ADReadStatus) {
+        status = readStatus();
 
     } else {
         /* If this parameter belongs to a base class call its method */
@@ -1680,15 +1693,26 @@ asynStatus pointGrey::stopCapture()
     Error error;
     static const char *functionName = "stopCapture";
 
-    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
-        "%s::%s Stopping firewire transmission\n",
-        driverName, functionName);
-
     setShutter(0);
     error = pCamera_->StopCapture();
     if (checkError(error, functionName, "StopCapture")) return asynError;
     return asynSuccess;
 }
+
+asynStatus pointGrey::readStatus()
+{
+    Error error;
+    static const char *functionName = "readStatus";
+
+    error = pCamera_->GetStats(pCameraStats_);
+    if (checkError(error, functionName, "GetStats")) 
+        return asynError;
+    setDoubleParam(ADTemperatureActual, pCameraStats_->temperature/10. - 273.15);
+    setIntegerParam(PGDroppedFrames, pCameraStats_->imageDropped);
+    callParamCallbacks();
+    return asynSuccess;
+}
+
 
 
 /** Print out a report; calls ADDriver::report to get base class report as well.
@@ -1702,7 +1726,6 @@ void pointGrey::report(FILE *fp, int details)
     Error error;
     Camera cam;
     CameraInfo camInfo;
-    CameraStats camStats;
     int mode, rate;
     VideoMode videoMode;
     FrameRate frameRate;
@@ -1714,7 +1737,6 @@ void pointGrey::report(FILE *fp, int details)
     unsigned int packetSize;
     float percentage;
     Format7ImageSettings f7Settings;
-    TriggerMode triggerMode;
     TriggerModeInfo triggerModeInfo;
     static const char *functionName = "report";
     
@@ -1865,53 +1887,54 @@ void pointGrey::report(FILE *fp, int details)
             f7Settings.width, f7Settings.height,
             pixelFormatIndex, f7Settings.pixelFormat, pixelFormatStrings[pixelFormatIndex]);
     }
-    pCamera_->GetTriggerMode(&triggerMode);
+    pCamera_->GetTriggerMode(pTriggerMode_);
     if (checkError(error, functionName, "GetTriggerMode")) 
         return;
     fprintf(fp, "Trigger mode\n");
-    fprintf(fp, "       Mode: %d\n", triggerMode.mode);
-    fprintf(fp, "      onOff: %d\n", triggerMode.onOff);
-    fprintf(fp, "   polarity: %d\n", triggerMode.polarity);
-    fprintf(fp, "     source: %d\n", triggerMode.source);
-    fprintf(fp, "  parameter: %d\n", triggerMode.parameter);
-    pCamera_->GetTriggerModeInfo(&triggerModeInfo);
+    fprintf(fp, "       Mode: %d\n", pTriggerMode_->mode);
+    fprintf(fp, "      onOff: %d\n", pTriggerMode_->onOff);
+    fprintf(fp, "   polarity: %d\n", pTriggerMode_->polarity);
+    fprintf(fp, "     source: %d\n", pTriggerMode_->source);
+    fprintf(fp, "  parameter: %d\n", pTriggerMode_->parameter);
+    pCamera_->GetTriggerModeInfo(pTriggerModeInfo_);
     if (checkError(error, functionName, "GetTriggerModeInfo")) 
         return;
     fprintf(fp, "Trigger mode information\n");
-    fprintf(fp, "                   present: %d\n", triggerModeInfo.present);
-    fprintf(fp, "          readOutSupported: %d\n", triggerModeInfo.readOutSupported);
-    fprintf(fp, "            onOffSupported: %d\n", triggerModeInfo.onOffSupported);
-    fprintf(fp, "         polaritySupported: %d\n", triggerModeInfo.polaritySupported);
-    fprintf(fp, "             valueReadable: %d\n", triggerModeInfo.valueReadable);
-    fprintf(fp, "                sourceMask: 0x%x\n", triggerModeInfo.sourceMask);
-    fprintf(fp, "  softwareTriggerSupported: %d\n", triggerModeInfo.softwareTriggerSupported);
-    fprintf(fp, "                  modeMask: 0x%x\n", triggerModeInfo.modeMask);
-    pCamera_->GetStats(&camStats);
+    fprintf(fp, "                   present: %d\n",   pTriggerModeInfo_->present);
+    fprintf(fp, "          readOutSupported: %d\n",   pTriggerModeInfo_->readOutSupported);
+    fprintf(fp, "            onOffSupported: %d\n",   pTriggerModeInfo_->onOffSupported);
+    fprintf(fp, "         polaritySupported: %d\n",   pTriggerModeInfo_->polaritySupported);
+    fprintf(fp, "             valueReadable: %d\n",   pTriggerModeInfo_->valueReadable);
+    fprintf(fp, "                sourceMask: 0x%x\n", pTriggerModeInfo_->sourceMask);
+    fprintf(fp, "  softwareTriggerSupported: %d\n",   pTriggerModeInfo_->softwareTriggerSupported);
+    fprintf(fp, "                  modeMask: 0x%x\n", pTriggerModeInfo_->modeMask);
+    pCamera_->GetStats(pCameraStats_);
     if (checkError(error, functionName, "GetStats")) 
         return;
     fprintf(fp, "Camera statistics\n");
-    fprintf(fp, "              Images dropped: %u\n", camStats.imageDropped);
-    fprintf(fp, "              Images corrupt: %u\n", camStats.imageCorrupt);
-    fprintf(fp, "             Transmit failed: %u\n", camStats.imageXmitFailed);
-    fprintf(fp, "              Driver dropped: %u\n", camStats.imageDriverDropped);
-    fprintf(fp, "        Register read failed: %u\n", camStats.regReadFailed);
-    fprintf(fp, "       Register write failed: %u\n", camStats.regWriteFailed);
-    fprintf(fp, "                 Port errors: %u\n", camStats.portErrors);
-    fprintf(fp, "             Camera power up: %d\n", camStats.cameraPowerUp);
-    fprintf(fp, "                  # voltages: %d\n", camStats.numVoltages);
-    for (unsigned int j=0; j<camStats.numVoltages; j++) {
-        fprintf(fp, "               voltage %d %f:\n", j, camStats.cameraVoltages[j]);
+    fprintf(fp, "              Images dropped: %u\n", pCameraStats_->imageDropped);
+    fprintf(fp, "              Images corrupt: %u\n", pCameraStats_->imageCorrupt);
+    fprintf(fp, "             Transmit failed: %u\n", pCameraStats_->imageXmitFailed);
+    fprintf(fp, "              Driver dropped: %u\n", pCameraStats_->imageDriverDropped);
+    fprintf(fp, "        Register read failed: %u\n", pCameraStats_->regReadFailed);
+    fprintf(fp, "       Register write failed: %u\n", pCameraStats_->regWriteFailed);
+    fprintf(fp, "                 Port errors: %u\n", pCameraStats_->portErrors);
+    fprintf(fp, "             Camera power up: %d\n", pCameraStats_->cameraPowerUp);
+    fprintf(fp, "                  # voltages: %d\n", pCameraStats_->numVoltages);
+    for (unsigned int j=0; j<pCameraStats_->numVoltages; j++) {
+        fprintf(fp, "               voltage %d %f:\n", j, pCameraStats_->cameraVoltages[j]);
     }
-    fprintf(fp, "                  # currents: %d\n", camStats.numCurrents);
-    for (unsigned int j=0; j<camStats.numCurrents; j++) {
-        fprintf(fp, "               current %d %f:\n", j, camStats.cameraCurrents[j]);
+    fprintf(fp, "                  # currents: %d\n", pCameraStats_->numCurrents);
+    for (unsigned int j=0; j<pCameraStats_->numCurrents; j++) {
+        fprintf(fp, "               current %d %f:\n", j, pCameraStats_->cameraCurrents[j]);
     }
-    fprintf(fp, "             Temperature (C): %f\n", camStats.temperature/10.);
-    fprintf(fp, "   Time since initialization: %u\n", camStats.timeSinceInitialization);
-    fprintf(fp, "        Time since bus reset: %u\n", camStats.timeSinceBusReset);
-    fprintf(fp, "  # resend packets requested: %u\n", camStats.numResendPacketsRequested);
-    fprintf(fp, "   # resend packets received: %u\n", camStats.numResendPacketsReceived);
-    fprintf(fp, "                  Time stamp: %f\n", camStats.timeStamp.seconds + camStats.timeStamp.microSeconds/1e6);
+    fprintf(fp, "             Temperature (C): %f\n", pCameraStats_->temperature/10. - 273.15);
+    fprintf(fp, "   Time since initialization: %u\n", pCameraStats_->timeSinceInitialization);
+    fprintf(fp, "        Time since bus reset: %u\n", pCameraStats_->timeSinceBusReset);
+    fprintf(fp, "  # resend packets requested: %u\n", pCameraStats_->numResendPacketsRequested);
+    fprintf(fp, "   # resend packets received: %u\n", pCameraStats_->numResendPacketsReceived);
+    fprintf(fp, "                  Time stamp: %f\n", pCameraStats_->timeStamp.seconds + 
+                                                      pCameraStats_->timeStamp.microSeconds/1e6);
                     
     ADDriver::report(fp, details);
     return;

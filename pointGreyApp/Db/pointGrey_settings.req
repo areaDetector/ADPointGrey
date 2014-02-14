@@ -3,3 +3,11 @@ $(P)$(R)Format7Mode
 $(P)$(R)FrameRate
 $(P)$(R)FrameRateAbs
 $(P)$(R)PixelFormat
+$(P)$(R)TriggerSource
+$(P)$(R)TriggerPolarity
+$(P)$(R)StrobeSource
+$(P)$(R)StrobeEnable
+$(P)$(R)StrobePolarity
+$(P)$(R)StrobeDelay
+$(P)$(R)StrobeDuration
+

@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
+	name="/home/epics/devel-AD2.0/areaDetector-2-0/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
 	version=030107
 }
 display {
 	object {
-		x=234
-		y=45
+		x=128
+		y=59
 		width=1070
 		height=770
 	}
@@ -100,9 +100,9 @@ rectangle {
 }
 text {
 	object {
-		x=343
+		x=277
 		y=5
-		width=384
+		width=516
 		height=25
 	}
 	"basic attribute" {
@@ -1414,8 +1414,8 @@ composite {
 }
 composite {
 	object {
-		x=715
-		y=210
+		x=360
+		y=590
 		width=350
 		height=135
 	}
@@ -1903,8 +1903,8 @@ composite {
 }
 rectangle {
 	object {
-		x=482
-		y=592
+		x=837
+		y=212
 		width=107
 		height=21
 	}
@@ -1914,8 +1914,8 @@ rectangle {
 }
 text {
 	object {
-		x=456
-		y=593
+		x=811
+		y=213
 		width=159
 		height=20
 	}
@@ -1927,10 +1927,10 @@ text {
 }
 rectangle {
 	object {
-		x=360
-		y=590
+		x=715
+		y=210
 		width=350
-		height=170
+		height=175
 	}
 	"basic attribute" {
 		clr=14
@@ -1939,8 +1939,132 @@ rectangle {
 }
 text {
 	object {
-		x=395
-		y=665
+		x=770
+		y=260
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger mode"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=895
+		y=260
+		width=120
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TriggerMode"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=895
+		y=240
+		width=120
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)TriggerMode_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=730
+		y=310
+		width=330
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=730
+				y=310
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Trigger polarity"
+			align="horiz. right"
+		}
+		menu {
+			object {
+				x=895
+				y=310
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerPolarity"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=980
+				y=311
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)TriggerPolarity_RBV"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+}
+text {
+	object {
+		x=730
+		y=360
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Software trigger"
+	align="horiz. right"
+}
+"message button" {
+	object {
+		x=895
+		y=360
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SoftwareTrigger"
+		clr=14
+		bclr=51
+	}
+	label="Trigger"
+	press_msg="1"
+}
+text {
+	object {
+		x=750
+		y=335
 		width=140
 		height=20
 	}
@@ -1952,9 +2076,9 @@ text {
 }
 "text entry" {
 	object {
-		x=540
-		y=665
-		width=60
+		x=895
+		y=335
+		width=80
 		height=20
 	}
 	control {
@@ -1967,8 +2091,8 @@ text {
 }
 "text update" {
 	object {
-		x=605
-		y=666
+		x=980
+		y=336
 		width=80
 		height=18
 	}
@@ -1980,127 +2104,348 @@ text {
 	limits {
 	}
 }
-text {
-	object {
-		x=375
-		y=735
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Software trigger"
-	align="horiz. right"
-}
-"message button" {
-	object {
-		x=540
-		y=735
-		width=70
-		height=20
-	}
-	control {
-		chan="$(P)$(R)SoftwareTrigger"
-		clr=14
-		bclr=51
-	}
-	label="Trigger"
-	press_msg="1"
-}
 composite {
 	object {
-		x=415
-		y=620
-		width=285
-		height=40
+		x=730
+		y=285
+		width=330
+		height=20
 	}
 	"composite name"=""
 	children {
 		text {
 			object {
-				x=415
-				y=640
-				width=120
+				x=730
+				y=285
+				width=160
 				height=20
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Trigger mode"
+			textix="Trigger source"
 			align="horiz. right"
 		}
 		menu {
 			object {
-				x=540
-				y=640
-				width=160
+				x=895
+				y=285
+				width=80
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerMode"
+				chan="$(P)$(R)TriggerSource"
 				clr=14
 				bclr=51
 			}
 		}
 		"text update" {
 			object {
-				x=540
-				y=620
-				width=160
+				x=980
+				y=286
+				width=80
 				height=18
 			}
 			monitor {
-				chan="$(P)$(R)TriggerMode_RBV"
+				chan="$(P)$(R)TriggerSource_RBV"
 				clr=54
 				bclr=4
 			}
-			align="horiz. centered"
 			format="string"
 			limits {
 			}
 		}
 	}
 }
+rectangle {
+	object {
+		x=837
+		y=392
+		width=107
+		height=21
+	}
+	"basic attribute" {
+		clr=2
+	}
+}
 text {
 	object {
-		x=375
-		y=710
-		width=160
+		x=811
+		y=393
+		width=159
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Strobe"
+	align="horiz. centered"
+}
+rectangle {
+	object {
+		x=715
+		y=390
+		width=350
+		height=155
+	}
+	"basic attribute" {
+		clr=14
+		fill="outline"
+	}
+}
+text {
+	object {
+		x=750
+		y=495
+		width=140
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Trigger polarity"
+	textix="Strobe delay"
 	align="horiz. right"
 }
-menu {
+"text entry" {
 	object {
-		x=540
-		y=710
+		x=895
+		y=495
 		width=80
 		height=20
 	}
 	control {
-		chan="$(P)$(R)TriggerPolarity"
+		chan="$(P)$(R)StrobeDelay"
 		clr=14
 		bclr=51
+	}
+	limits {
 	}
 }
 "text update" {
 	object {
-		x=625
-		y=711
+		x=980
+		y=496
 		width=80
 		height=18
 	}
 	monitor {
-		chan="$(P)$(R)TriggerPolarity_RBV"
+		chan="$(P)$(R)StrobeDelay_RBV"
 		clr=54
 		bclr=4
 	}
-	format="string"
 	limits {
+	}
+}
+composite {
+	object {
+		x=729
+		y=420
+		width=330
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=729
+				y=420
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Strobe source"
+			align="horiz. right"
+		}
+		menu {
+			object {
+				x=894
+				y=420
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)StrobeSource"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=979
+				y=421
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)StrobeSource_RBV"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=730
+		y=445
+		width=330
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=730
+				y=445
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Strobe enable"
+			align="horiz. right"
+		}
+		menu {
+			object {
+				x=895
+				y=445
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)StrobeEnable"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=980
+				y=446
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)StrobeEnable_RBV"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=730
+		y=470
+		width=330
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=730
+				y=470
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Strobe polarity"
+			align="horiz. right"
+		}
+		menu {
+			object {
+				x=895
+				y=470
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)StrobePolarity"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=980
+				y=471
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)StrobePolarity_RBV"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+}
+composite {
+	object {
+		x=750
+		y=520
+		width=310
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=750
+				y=520
+				width=140
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Strobe duration"
+			align="horiz. right"
+		}
+		"text entry" {
+			object {
+				x=895
+				y=520
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)StrobeDuration"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=980
+				y=521
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)StrobeDuration_RBV"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
 	}
 }

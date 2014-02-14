@@ -155,7 +155,7 @@ static const char *pixelFormatStrings[NUM_PIXEL_FORMATS] = {
     "YUV422_JPEG"
 };
 
-static PixelFormat pixelFormatValues[NUM_PIXEL_FORMATS] = {
+static const PixelFormat pixelFormatValues[NUM_PIXEL_FORMATS] = {
     PIXEL_FORMAT_MONO8,
     PIXEL_FORMAT_411YUV8,
     PIXEL_FORMAT_422YUV8,
@@ -341,22 +341,21 @@ private:
     epicsEventId startEventId_;
     NDArray *pRaw_;
 };
-/* end of pointGrey class description */
 
-/** Number of asyn parameters (asyn commands) this driver supports. */
+/** Number of asynPortDriver parameters this driver supports. */
 #define NUM_PG_PARAMS ((int)(&LAST_PG_PARAM - &FIRST_PG_PARAM + 1))
 
 /** Configuration function to configure one camera.
  *
  * This function need to be called once for each camera to be used by the IOC. A call to this
  * function instanciates one object from the pointGrey class.
- * \param[in] portName Asyn port name to assign to the camera.
+ * \param[in] portName asyn port name to assign to the camera.
  * \param[in] cameraId The camera index or serial number.
  * \param[in] maxBuffers Maxiumum number of NDArray objects (image buffers) this driver is allowed to allocate.
  *            This driver requires 2 buffers, and each queue element in a plugin can require one buffer
- *            which will all need to be added up in this parameter. Use -1 for unlimited.
+ *            which will all need to be added up in this parameter. 0=unlimited.
  * \param[in] maxMemory Maximum memory (in bytes) that this driver is allowed to allocate. So if max. size = 1024x768 (8bpp)
- *            and maxBuffers is, say 14. maxMemory = 1024x768x14 = 11010048 bytes (~11MB). Use -1 for unlimited.
+ *            and maxBuffers is, say 14. maxMemory = 1024x768x14 = 11010048 bytes (~11MB). 0=unlimited.
  * \param[in] priority The EPICS thread priority for this driver.  0=use asyn default.
  * \param[in] stackSize The size of the stack for the EPICS port thread. 0=use asyn default.
  */
@@ -372,7 +371,6 @@ static void c_shutdown(void *arg)
   p->shutdown();
 }
 
-
 static void imageGrabTaskC(void *drvPvt)
 {
     pointGrey *pPvt = (pointGrey *)drvPvt;
@@ -381,18 +379,15 @@ static void imageGrabTaskC(void *drvPvt)
 }
 
 /** Constructor for the pointGrey class
- * Initialises the camera object by setting all the default parameters and initializing
- * the camera hardware with it. This function also reads out the current settings of the
- * camera and prints out a selection of parameters to the shell.
- * \param[in] portName Asyn port name to assign to the camera driver.
+ * \param[in] portName asyn port name to assign to the camera.
  * \param[in] cameraId The camera index or serial number.
  * \param[in] maxBuffers Maxiumum number of NDArray objects (image buffers) this driver is allowed to allocate.
  *            This driver requires 2 buffers, and each queue element in a plugin can require one buffer
- *            which will all need to be added up in this parameter. Use -1 for unlimited.
+ *            which will all need to be added up in this parameter. 0=unlimited.
  * \param[in] maxMemory Maximum memory (in bytes) that this driver is allowed to allocate. So if max. size = 1024x768 (8bpp)
- *            and maxBuffers is, say 14. maxMemory = 1024x768x14 = 11010048 bytes (~11MB). Use -1 for unlimited.
- * \param[in] priority The EPICS thread priority for this asyn port driver.  0=use asyn default.
- * \param[in] stackSize The size of the stack for the asyn port thread. 0=use asyn default.
+ *            and maxBuffers is, say 14. maxMemory = 1024x768x14 = 11010048 bytes (~11MB). 0=unlimited.
+ * \param[in] priority The EPICS thread priority for this driver.  0=use asyn default.
+ * \param[in] stackSize The size of the stack for the EPICS port thread. 0=use asyn default.
  */
 pointGrey::pointGrey(const char *portName, int cameraId, 
                     int maxBuffers, size_t maxMemory, int priority, int stackSize )
@@ -438,8 +433,8 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGStrobeDurationString,         asynParamFloat64, &PGStrobeDuration);
     createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
 
-    /* set read-only parameters */
-    setIntegerParam(NDDataType, NDUInt16);
+    /* Set initial values of some parameters */
+    setIntegerParam(NDDataType, NDUInt8);
     setIntegerParam(NDColorMode, NDColorModeMono);
     setIntegerParam(NDArraySizeZ, 0);
     setIntegerParam(PGVideoMode, 0);
@@ -447,6 +442,8 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     setIntegerParam(PGFrameRate, 0);
     setStringParam(ADStringToServer, "<not used by driver>");
     setStringParam(ADStringFromServer, "<not used by driver>");
+    setIntegerParam(PGTriggerSource, 0);
+    setIntegerParam(PGStrobeSource, 1);
     
     // Create camera control objects
     pBusMgr_          = new BusManager;
@@ -612,14 +609,12 @@ void pointGrey::imageGrabTask()
 
     lock();
 
-    while (1) /* ... round and round and round we go ... */
-    {
+    while (1) {
         /* Is acquisition active? */
         getIntegerParam(ADAcquire, &acquire);
 
         /* If we are not acquiring then wait for a semaphore that is given when acquisition is started */
-        if (!acquire)
-        {
+        if (!acquire) {
             setIntegerParam(ADStatus, ADStatusIdle);
             callParamCallbacks();
 
@@ -646,9 +641,8 @@ void pointGrey::imageGrabTask()
         /* Call the callbacks to update any changes */
         callParamCallbacks();
 
-        status = grabImage();        /* #### GET THE IMAGE FROM CAMERA HERE! ##### */
-        if (status == asynError)         /* check for error */
-        {
+        status = grabImage();
+        if (status == asynError) {
             /* remember to release the NDArray back to the pool now
              * that we are not using it (we didn't get an image...) */
             if(pRaw_) pRaw_->release();
@@ -659,7 +653,6 @@ void pointGrey::imageGrabTask()
             continue;
         }
 
-        /* Set a bit of image/frame statistics... */
         getIntegerParam(NDArrayCounter, &imageCounter);
         getIntegerParam(ADNumImages, &numImages);
         getIntegerParam(ADNumImagesCounter, &numImagesCounter);
@@ -681,8 +674,7 @@ void pointGrey::imageGrabTask()
         /* Call the callbacks to update any changes */
         callParamCallbacks();
 
-        if (arrayCallbacks)
-        {
+        if (arrayCallbacks) {
             /* Call the NDArray callback */
             /* Must release the lock here, or we can get into a deadlock, because we can
              * block on the plugin lock, and the plugin can be calling us */
@@ -696,27 +688,22 @@ void pointGrey::imageGrabTask()
         pRaw_ = NULL;
 
         /* See if acquisition is done if we are in single or multiple mode */
-        if ((imageMode == ADImageSingle) || ((imageMode == ADImageMultiple) && (numImagesCounter >= numImages)))
-        {
-            /* command the camera to stop acquiring.. */
+        if ((imageMode == ADImageSingle) || ((imageMode == ADImageMultiple) && (numImagesCounter >= numImages))) {
             setIntegerParam(ADAcquire, 0);
         }
         getIntegerParam(ADAcquire, &acquire);
-        if (!acquire)
-        {
+        if (!acquire) {
             /* Acquisition has been turned off.  This could be because it was done by setting ADAcquire=0 from CA, or
              * because the requested number of frames is done, or because of an error.  Stop capture. */
             status = stopCapture();
-            if (status == asynError)
-            {
+            if (status == asynError) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
                     "%s::%s Stopping transmission failed...\n",
                     driverName, functionName);
             }
             callParamCallbacks();
         }
-    }/* back to the top... */
-    return;
+    }
 }
 
 /** Grabs one image off the dc1394 queue, notifies areaDetector about it and
@@ -772,7 +759,6 @@ int pointGrey::grabImage()
             break;
 
         case PIXEL_FORMAT_MONO16:
-        case PIXEL_FORMAT_MONO12:
             dataType = NDUInt16;
             colorMode = NDColorModeMono;
             numColors = 1;
@@ -925,8 +911,8 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
     } else if (function == PGSoftwareTrigger) {
         status = softwareTrigger();
 
-    } else if ((function == PGStrobeSource)  || 
-               (function == PGStrobeEnable)    ||
+    } else if ((function == PGStrobeSource) || 
+               (function == PGStrobeEnable) ||
                (function == PGStrobePolarity)) {
         status = setStrobe();
                 
@@ -1362,7 +1348,7 @@ asynStatus pointGrey::setFormat7Params()
     
     getIntegerParam(PGFormat7Mode, &f7Mode);
     /* Get the format7 info */
-    f7Info.mode = (Mode)f7Mode;
+    pFormat7Info_->mode = (Mode)f7Mode;
     error = pCamera_->GetFormat7Info(&f7Info, &supported);
     if (checkError(error, functionName, "GetFormat7Info")) 
         return asynError;
@@ -1381,16 +1367,16 @@ asynStatus pointGrey::setFormat7Params()
     pixelFormat = (PixelFormat)itemp;
 
     /* Set the size limits */
-    hsMax = f7Info.maxWidth;
-    vsMax = f7Info.maxHeight;
+    hsMax = pFormat7Info_->maxWidth;
+    vsMax = pFormat7Info_->maxHeight;
     setIntegerParam(ADMaxSizeX, hsMax);
     setIntegerParam(ADMaxSizeY, vsMax);
     /* Set the size units (minimum increment) */
-    hsUnit = f7Info.imageHStepSize;
-    vsUnit = f7Info.imageVStepSize;
+    hsUnit = pFormat7Info_->imageHStepSize;
+    vsUnit = pFormat7Info_->imageVStepSize;
     /* Set the offset units (minimum increment) */
-    hpUnit = f7Info.offsetHStepSize;
-    vpUnit = f7Info.offsetVStepSize;
+    hpUnit = pFormat7Info_->offsetHStepSize;
+    vpUnit = pFormat7Info_->offsetVStepSize;
     
     // This logic probably needs work!!!
     hpMax = hsMax;
@@ -1462,17 +1448,15 @@ asynStatus pointGrey::setFormat7Params()
 
 asynStatus pointGrey::createStaticEnums()
 {
-    /* This function creates enum strings and values for all enums that don't change
+    /* This function creates enum strings and values for all enums that are fixed for a given camera.
      * It is only called once at startup */
     int mode, rate, shift, pin;
     Error error;
     VideoMode videoMode;
     FrameRate frameRate;
-    Format7Info f7Info;
-    TriggerModeInfo triggerInfo;
     enumStruct_t *pEnum;
     bool supported, modeSupported;
-    static const char *functionName = "createVideoModeEnums";
+    static const char *functionName = "createStaticEnums";
      
     /* Video mode enums. A video mode is supported if it is supported for any frame rate */
     numValidVideoModes_ = 0;   
@@ -1504,20 +1488,20 @@ asynStatus pointGrey::createStaticEnums()
     /* Loop over modes */
     numValidFormat7Modes_ = 0;   
     for (mode=0; mode<NUM_MODES; mode++) {
-        f7Info.mode = (Mode)mode;
-        error = pCamera_->GetFormat7Info(&f7Info, &supported);
+        pFormat7Info_->mode = (Mode)mode;
+        error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
         if (checkError(error, functionName, "GetFormat7Info")) 
             return asynError;
         if (supported) {
             pEnum = format7ModeEnums_ + numValidFormat7Modes_;
-            sprintf(pEnum->string, "%dx%d", f7Info.maxWidth, f7Info.maxHeight);
+            sprintf(pEnum->string, "%d (%dx%d)", mode, pFormat7Info_->maxWidth, pFormat7Info_->maxHeight);
             pEnum->value = mode;
             numValidFormat7Modes_++;
         }    
     }
 
     /* Trigger mode enums */
-    error = pCamera_->GetTriggerModeInfo(&triggerInfo);
+    error = pCamera_->GetTriggerModeInfo(pTriggerModeInfo_);
     if (checkError(error, functionName, "GetTriggerModeInfo")) 
         return asynError;
     numValidTriggerModes_ = 0; 
@@ -1528,7 +1512,7 @@ asynStatus pointGrey::createStaticEnums()
             supported = true;
         } else {
             shift = NUM_TRIGGER_MODES - mode - 1;
-            supported = ((triggerInfo.modeMask >> shift) & 0x1) == 1;
+            supported = ((pTriggerModeInfo_->modeMask >> shift) & 0x1) == 1;
         }
         if (supported) {
             pEnum = triggerModeEnums_ + numValidTriggerModes_;
@@ -1542,7 +1526,7 @@ asynStatus pointGrey::createStaticEnums()
     numValidTriggerSources_ = 0; 
     for (pin=0; pin<NUM_GPIO_PINS; pin++) {
         shift = NUM_GPIO_PINS - pin - 1;
-        supported = ((triggerInfo.sourceMask >> shift) & 0x1) == 1;
+        supported = ((pTriggerModeInfo_->sourceMask >> shift) & 0x1) == 1;
         if (supported) {
             pEnum = triggerSourceEnums_ + numValidTriggerSources_;
             strcpy(pEnum->string, GPIOStrings[pin]);
@@ -1576,7 +1560,6 @@ asynStatus pointGrey::createDynamicEnums()
     Error error;
     VideoMode currentVideoMode;
     FrameRate frameRate, currentFrameRate;
-    Format7Info f7Info;
     Format7ImageSettings f7Settings;
     unsigned int packetSize;
     float percentage;
@@ -1601,14 +1584,14 @@ asynStatus pointGrey::createDynamicEnums()
         error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
         if (checkError(error, functionName, "GetFormat7Configuration")) 
             return asynError;
-        f7Info.mode = f7Settings.mode;
+        pFormat7Info_->mode = f7Settings.mode;
         setIntegerParam(PGFormat7Mode, f7Settings.mode);
-        error = pCamera_->GetFormat7Info(&f7Info, &supported);
+        error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
         if (checkError(error, functionName, "GetFormat7Info")) 
             return asynError;
         numValidPixelFormats_ = 0;
         for (format=0; format<(int)NUM_PIXEL_FORMATS; format++) {
-            if ((f7Info.pixelFormatBitField & pixelFormatValues[format]) == pixelFormatValues[format]) {
+            if ((pFormat7Info_->pixelFormatBitField & pixelFormatValues[format]) == pixelFormatValues[format]) {
                 pEnum = pixelFormatEnums_ + numValidPixelFormats_;
                 strcpy(pEnum->string, pixelFormatStrings[format]);
                 pEnum->value = pixelFormatValues[format];
@@ -2011,11 +1994,11 @@ void pointGrey::report(FILE *fp, int details)
     fprintf(fp, "             Camera power up: %d\n", pCameraStats_->cameraPowerUp);
     fprintf(fp, "                  # voltages: %d\n", pCameraStats_->numVoltages);
     for (j=0; j<pCameraStats_->numVoltages; j++) {
-        fprintf(fp, "                  voltage %d: %f\n", j, pCameraStats_->cameraVoltages[j]);
+        fprintf(fp, "                   voltage %d: %f\n", j, pCameraStats_->cameraVoltages[j]);
     }
     fprintf(fp, "                  # currents: %d\n", pCameraStats_->numCurrents);
     for (j=0; j<pCameraStats_->numCurrents; j++) {
-        fprintf(fp, "                  current %d: %f\n", j, pCameraStats_->cameraCurrents[j]);
+        fprintf(fp, "                   current %d: %f\n", j, pCameraStats_->cameraCurrents[j]);
     }
     fprintf(fp, "             Temperature (C): %f\n", pCameraStats_->temperature/10. - 273.15);
     fprintf(fp, "   Time since initialization: %u\n", pCameraStats_->timeSinceInitialization);

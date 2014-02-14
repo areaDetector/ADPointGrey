@@ -63,10 +63,14 @@ static const char *driverName = "pointGrey";
 #define PGPixelFormatString           "PG_PIXEL_FORMAT"
 #define PGFrameRateAbsString          "PG_FRAME_RATE_ABS"
 #define PGSkipFramesString            "PG_SKIP_FRAMES"
-#define PGTriggerPolarityString       "PG_TRIGGER_POLARITY"
 #define PGTriggerSourceString         "PG_TRIGGER_SOURCE"
+#define PGTriggerPolarityString       "PG_TRIGGER_POLARITY"
 #define PGSoftwareTriggerString       "PG_SOFTWARE_TRIGGER"
-#define PGReadoutTimeString           "PG_READOUT_TIME"
+#define PGStrobeSourceString          "PG_STROBE_SOURCE"
+#define PGStrobePolarityString        "PG_STROBE_POLARITY"
+#define PGStrobeEnableString          "PG_STROBE_ENABLE"
+#define PGStrobeDelayString           "PG_STROBE_DELAY"
+#define PGStrobeDurationString        "PG_STROBE_DURATION"
 #define PGDroppedFramesString         "PG_DROPPED_FRAMES"
 
 // Point Grey does not define a NUM_PROPERTIES constant, but it can be set as follows
@@ -76,6 +80,9 @@ static const char *driverName = "pointGrey";
 
 // The maximum value of the asyn "addr" is the largest of NUM_PROPERTIES, NUM_PIXEL_FORMATS, NUM_MODES, NUM_VIDEO_MODES
 #define MAX_ADDR NUM_MODES
+
+// The maximum number of pins for strobe
+#define NUM_GPIO_PINS 4
 
 
 typedef enum {
@@ -212,6 +219,12 @@ static const char *triggerModeStrings[NUM_TRIGGER_MODES] = {
     "Multi-shot"
 };
 
+static const char *GPIOStrings[NUM_GPIO_PINS] = {
+    "GPIO_0",
+    "GPIO_1",
+    "GPIO_2",
+    "GPIO_3"
+};
 
 /** Main driver class inherited from areaDetectors ADDriver class.
  * One instance of this class will control one camera.
@@ -258,10 +271,14 @@ protected:
     int PGPixelFormat;            /** The pixel format when VideoFormat=Format7 (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
     int PGFrameRateAbs;           /** Frame rate in absolute (frames/s) units (float64, read/write) */
     int PGSkipFrames;             /** Frames to skip in trigger mode 3 (int32, write/read) */
-    int PGTriggerPolarity;        /** Trigger polarity (int32, write/read) */
     int PGTriggerSource;          /** Trigger source (int32, write/read) */
+    int PGTriggerPolarity;        /** Trigger polarity (int32, write/read) */
     int PGSoftwareTrigger;        /** Issue a software trigger (int32, write/read) */
-    int PGReadoutTime;            /** Readout time (float64, read/write) */
+    int PGStrobeSource;           /** Strobe source GPIO pin (int32, write/read) */
+    int PGStrobePolarity;         /** Strobe polarity (low/high) (int32, write/read) */
+    int PGStrobeEnable;           /** Strobe enable/disable strobe (int32, write/read) */
+    int PGStrobeDelay;            /** Strobe delay (float64, write/read) */
+    int PGStrobeDuration;         /** Strobe duration (float64, write/read) */
     int PGDroppedFrames;          /** Number of dropped frames (int32, read) */
     #define LAST_PG_PARAM PGDroppedFrames
 
@@ -284,37 +301,42 @@ private:
     asynStatus setFrameRate(int rate);
     asynStatus setVideoModeAndFrameRate(int mode, int frameRate);
     asynStatus setFormat7Params();
-    asynStatus createFormat7ModeEnums();
-    asynStatus createVideoModeEnums();
-    asynStatus createCurrentEnums();
-    asynStatus createTriggerModeEnums();
+    asynStatus createStaticEnums();
+    asynStatus createDynamicEnums();
     asynStatus getAllProperties();
     int getPixelFormatIndex(PixelFormat pixelFormat);
     asynStatus setTrigger();
     asynStatus softwareTrigger();
+    asynStatus setStrobe();
 
     /* Data */
     int cameraId_;
-    Property *allProperties_[NUM_PROPERTIES];
-    PropertyInfo *allPropInfos_[NUM_PROPERTIES];
-    int numValidVideoModes_;
-    enumStruct_t videoModeEnums_[NUM_VIDEOMODES];
-    int numValidFormat7Modes_;
-    enumStruct_t format7ModeEnums_[NUM_MODES];
-    int numValidFrameRates_;
-    enumStruct_t frameRateEnums_[NUM_FRAMERATES];
-    int numValidPixelFormats_;
-    enumStruct_t pixelFormatEnums_[NUM_PIXEL_FORMATS];
-    int numValidTriggerModes_;
-    enumStruct_t triggerModeEnums_[NUM_TRIGGER_MODES];
-    PGRGuid *pGuid_;
-    Camera *pCamera_;
-    BusManager *pBusMgr_;
-    Format7Info *pFormat7Info_;
-    Image *pPGImage_;
-    TriggerMode *pTriggerMode_;
+    PGRGuid         *pGuid_;
+    Camera          *pCamera_;
+    BusManager      *pBusMgr_;
+    Format7Info     *pFormat7Info_;
+    Image           *pPGImage_;
+    TriggerMode     *pTriggerMode_;
     TriggerModeInfo *pTriggerModeInfo_;
-    CameraStats *pCameraStats_;
+    CameraStats     *pCameraStats_;
+    StrobeControl   *pStrobeControl_;
+    StrobeInfo      *pStrobeInfo_;
+    Property        *allProperties_[NUM_PROPERTIES];
+    PropertyInfo    *allPropInfos_ [NUM_PROPERTIES];
+    int numValidVideoModes_;
+    int numValidFormat7Modes_;
+    int numValidFrameRates_;
+    int numValidPixelFormats_;
+    int numValidTriggerModes_;
+    int numValidTriggerSources_;
+    int numValidStrobeSources_;
+    enumStruct_t videoModeEnums_    [NUM_VIDEOMODES];
+    enumStruct_t format7ModeEnums_  [NUM_MODES];
+    enumStruct_t frameRateEnums_    [NUM_FRAMERATES];
+    enumStruct_t pixelFormatEnums_  [NUM_PIXEL_FORMATS];
+    enumStruct_t triggerModeEnums_  [NUM_TRIGGER_MODES];
+    enumStruct_t triggerSourceEnums_[NUM_GPIO_PINS];
+    enumStruct_t strobeSourceEnums_ [NUM_GPIO_PINS];
     int exiting_;
     epicsEventId startEventId_;
     NDArray *pRaw_;
@@ -406,10 +428,14 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGPixelFormatString,            asynParamInt32,   &PGPixelFormat);
     createParam(PGFrameRateAbsString,           asynParamFloat64, &PGFrameRateAbs);
     createParam(PGSkipFramesString,             asynParamInt32,   &PGSkipFrames);
-    createParam(PGTriggerPolarityString,        asynParamInt32,   &PGTriggerPolarity);
     createParam(PGTriggerSourceString,          asynParamInt32,   &PGTriggerSource);
+    createParam(PGTriggerPolarityString,        asynParamInt32,   &PGTriggerPolarity);
     createParam(PGSoftwareTriggerString,        asynParamInt32,   &PGSoftwareTrigger);
-    createParam(PGReadoutTimeString,            asynParamFloat64, &PGReadoutTime);
+    createParam(PGStrobeSourceString,           asynParamInt32,   &PGStrobeSource);
+    createParam(PGStrobePolarityString,         asynParamInt32,   &PGStrobePolarity);
+    createParam(PGStrobeEnableString,           asynParamInt32,   &PGStrobeEnable);
+    createParam(PGStrobeDelayString,            asynParamFloat64, &PGStrobeDelay);
+    createParam(PGStrobeDurationString,         asynParamFloat64, &PGStrobeDuration);
     createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
 
     /* set read-only parameters */
@@ -431,6 +457,8 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     pTriggerMode_     = new TriggerMode;
     pTriggerModeInfo_ = new TriggerModeInfo;
     pCameraStats_     = new CameraStats;
+    pStrobeControl_   = new StrobeControl;
+    pStrobeInfo_      = new StrobeInfo;
 
     status = connectCamera();
     if (status) {
@@ -442,10 +470,9 @@ pointGrey::pointGrey(const char *portName, int cameraId,
         return;
     }
 
-    createFormat7ModeEnums();
-    createVideoModeEnums();
-    createCurrentEnums();
-    createTriggerModeEnums();
+    createStaticEnums();
+    createDynamicEnums();
+
     numValidFrameRates_ = 2;
     strcpy(frameRateEnums_[0].string, "Undefined1");
     frameRateEnums_[0].value = 0;
@@ -898,6 +925,11 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
     } else if (function == PGSoftwareTrigger) {
         status = softwareTrigger();
 
+    } else if ((function == PGStrobeSource)  || 
+               (function == PGStrobeEnable)    ||
+               (function == PGStrobePolarity)) {
+        status = setStrobe();
+                
     } else if (function == ADReadStatus) {
         status = readStatus();
 
@@ -937,32 +969,31 @@ asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
 
     if (function == PGPropertyValueAbs) {
         status = setPropertyAbsValue(propertyType, value);
-    }
     
-    else if (function == ADAcquireTime) {
+    } else if (function == ADAcquireTime) {
         propertyType = SHUTTER;
         // Camera units are ms
         status = setPropertyAbsValue(propertyType, value*1000.);
-    }
     
-    else if (function == ADGain) {
+    } else if (function == ADGain) {
         propertyType = GAIN;
         status = setPropertyAbsValue(propertyType, value);
-    }
-    
-    else if (function == ADAcquirePeriod) {
+            
+    } else if (function == ADAcquirePeriod) {
         propertyType = FRAME_RATE;
         // Camera units are fps
         status = setPropertyAbsValue(propertyType, 1./value);
-    }
     
-    else if (function == PGFrameRateAbs) {
+    } else if (function == PGFrameRateAbs) {
         propertyType = FRAME_RATE;
         // Camera units are fps
         status = setPropertyAbsValue(propertyType, value);
-    } 
     
-    else {
+    } else if ((function == PGStrobeDelay)  || 
+               (function == PGStrobeDuration)) {
+        status = setStrobe();
+        
+    } else {
         /* If this parameter belongs to a base class call its method */
         if (function < FIRST_PG_PARAM) status = ADDriver::writeFloat64(pasynUser, value);
     }
@@ -998,6 +1029,12 @@ asynStatus pointGrey::readEnum(asynUser *pasynUser, char *strings[], int values[
     } else if (function == ADTriggerMode) {
         pEnum = triggerModeEnums_;
         numEnums = numValidTriggerModes_;
+    } else if (function == PGTriggerSource) {
+        pEnum = triggerSourceEnums_;
+        numEnums = numValidTriggerSources_;
+    } else if (function == PGStrobeSource) {
+        pEnum = strobeSourceEnums_;
+        numEnums = numValidStrobeSources_;
     } else {
         *nIn = 0;
         return asynError;
@@ -1184,7 +1221,7 @@ asynStatus pointGrey::setVideoModeAndFrameRate(int videoModeIn, int frameRateIn)
             return asynError;
         }
         /* When the video mode changes the supported values of frame rate change */
-        createCurrentEnums();
+        createDynamicEnums();
         /* When the video mode changes the available properties can also change */
         getAllProperties();
     }
@@ -1250,6 +1287,32 @@ asynStatus pointGrey::softwareTrigger()
     
     error = pCamera_->FireSoftwareTrigger();
     if (checkError(error, functionName, "FirstSoftwareTrigger")) 
+        return asynError;
+    return asynSuccess;
+}
+
+asynStatus pointGrey::setStrobe()
+{
+    int polarity;
+    int source;
+    int enable;
+    double delay;
+    double duration;
+    Error error;
+    static const char *functionName = "setStrobe";
+    
+    getIntegerParam(PGStrobeSource,   &source);
+    getIntegerParam(PGStrobeEnable,   &enable);
+    getIntegerParam(PGStrobePolarity, &polarity);
+    getDoubleParam(PGStrobeDelay,     &delay);
+    getDoubleParam(PGStrobeDuration,  &duration);
+    pStrobeControl_->source   = source;
+    pStrobeControl_->onOff    = enable ? true : false;
+    pStrobeControl_->polarity = polarity;
+    pStrobeControl_->delay    = delay*1000.;
+    pStrobeControl_->duration = duration*1000.;
+    error = pCamera_->SetStrobe(pStrobeControl_);
+    if (checkError(error, functionName, "SetStrobe")) 
         return asynError;
     return asynSuccess;
 }
@@ -1390,27 +1453,28 @@ asynStatus pointGrey::setFormat7Params()
     callParamCallbacks();
     
     /* When the format7 mode changes the supported values of pixel format changes */
-    createCurrentEnums();
+    createDynamicEnums();
     /* When the format7 mode changes the available properties can also change */
     getAllProperties();
 
     return asynSuccess;
 }
 
-asynStatus pointGrey::createVideoModeEnums()
+asynStatus pointGrey::createStaticEnums()
 {
-    int mode, rate;
+    /* This function creates enum strings and values for all enums that don't change
+     * It is only called once at startup */
+    int mode, rate, shift, pin;
     Error error;
     VideoMode videoMode;
     FrameRate frameRate;
+    Format7Info f7Info;
+    TriggerModeInfo triggerInfo;
     enumStruct_t *pEnum;
     bool supported, modeSupported;
     static const char *functionName = "createVideoModeEnums";
- 
-    /* This function creates enum strings and values for all valid video formats 
-     * It is only called once at startup
-     * A video mode is supported if it is supported for any frame rate */
-
+     
+    /* Video mode enums. A video mode is supported if it is supported for any frame rate */
     numValidVideoModes_ = 0;   
     for (mode=0; mode<NUM_VIDEOMODES; mode++) {
         videoMode = (VideoMode)mode;
@@ -1435,22 +1499,8 @@ asynStatus pointGrey::createVideoModeEnums()
             numValidVideoModes_++;
         }
     }
-    return asynSuccess;
-}
 
-
-asynStatus pointGrey::createFormat7ModeEnums()
-{
-    Format7Info f7Info;
-    Error error;
-    int mode;
-    enumStruct_t *pEnum;
-    bool supported;
-    static const char* functionName="createFormat7ModeEnums";
- 
-    /* This function creates strings for all valid format7 modes 
-     * It is only called once at startup */
-
+    /* Format7 mode enums */
     /* Loop over modes */
     numValidFormat7Modes_ = 0;   
     for (mode=0; mode<NUM_MODES; mode++) {
@@ -1465,23 +1515,8 @@ asynStatus pointGrey::createFormat7ModeEnums()
             numValidFormat7Modes_++;
         }    
     }
-    return asynSuccess;
-}
 
-
-asynStatus pointGrey::createTriggerModeEnums()
-{
-    TriggerModeInfo triggerInfo;
-    Error error;
-    int shift;
-    int mode;
-    enumStruct_t *pEnum;
-    bool supported;
-    static const char* functionName="createTriggerModeEnums";
- 
-    /* This function creates strings for all valid external trigger modes 
-     * It is only called once at startup */
-
+    /* Trigger mode enums */
     error = pCamera_->GetTriggerModeInfo(&triggerInfo);
     if (checkError(error, functionName, "GetTriggerModeInfo")) 
         return asynError;
@@ -1502,11 +1537,40 @@ asynStatus pointGrey::createTriggerModeEnums()
             numValidTriggerModes_++;
         }    
     }
+
+    /* Trigger source enums */
+    numValidTriggerSources_ = 0; 
+    for (pin=0; pin<NUM_GPIO_PINS; pin++) {
+        shift = NUM_GPIO_PINS - pin - 1;
+        supported = ((triggerInfo.sourceMask >> shift) & 0x1) == 1;
+        if (supported) {
+            pEnum = triggerSourceEnums_ + numValidTriggerSources_;
+            strcpy(pEnum->string, GPIOStrings[pin]);
+            pEnum->value = pin;
+            numValidTriggerSources_++;
+        }    
+    }
+
+    /* Strobe source enums */
+    numValidStrobeSources_ = 0; 
+    for (pin=0; pin<NUM_GPIO_PINS; pin++) {
+        pStrobeInfo_->source = pin;
+        pCamera_->GetStrobeInfo(pStrobeInfo_);
+        if (checkError(error, functionName, "GetStrobeInfo")) 
+            return asynError;
+        if (pStrobeInfo_->present) {
+            pEnum = strobeSourceEnums_ + numValidStrobeSources_;
+            strcpy(pEnum->string, GPIOStrings[pin]);
+            pEnum->value = pin;
+            numValidStrobeSources_++;
+        }
+    }
+    
     return asynSuccess;
 }
 
 
-asynStatus pointGrey::createCurrentEnums()
+asynStatus pointGrey::createDynamicEnums()
 {
     int format, rate;
     Error error;
@@ -1522,7 +1586,7 @@ asynStatus pointGrey::createCurrentEnums()
     char *enumStrings[NUM_PIXEL_FORMATS];
     int enumValues[NUM_PIXEL_FORMATS];
     int enumSeverities[NUM_PIXEL_FORMATS];
-    static const char *functionName = "createCurrentEnums";
+    static const char *functionName = "createDynamicEnums";
  
     /* If the current video mode is format7 then this function creates enum strings and values 
      * for all of the valid pixel formats for the current format7 mode.
@@ -1735,6 +1799,7 @@ void pointGrey::report(FILE *fp, int details)
     PropertyInfo *pPropInfo;
     int pixelFormatIndex;
     unsigned int packetSize;
+    unsigned int i, j;
     float percentage;
     Format7ImageSettings f7Settings;
     TriggerModeInfo triggerModeInfo;
@@ -1745,7 +1810,7 @@ void pointGrey::report(FILE *fp, int details)
 
     fprintf(fp, "  Number of cameras detected: %u\n", numCameras);
 
-    for (unsigned int i=0; i<numCameras; i++) {
+    for (i=0; i<numCameras; i++) {
         PGRGuid guid;
         error = pBusMgr_->GetCameraFromIndex(i, &guid);
         if (checkError(error, functionName, "GetCameraFromIndex")) return;
@@ -1815,7 +1880,7 @@ void pointGrey::report(FILE *fp, int details)
     }
     /* Iterate through all of the available properties and report on them  */
     fprintf(fp, "Supported properties\n");
-    for (property = 0; property < NUM_PROPERTIES; property++) {
+    for (property=0; property<NUM_PROPERTIES; property++) {
         pProperty = allProperties_[property];
         pPropInfo = allPropInfos_[property];
         pCamera_->GetProperty(pProperty);
@@ -1908,6 +1973,30 @@ void pointGrey::report(FILE *fp, int details)
     fprintf(fp, "                sourceMask: 0x%x\n", pTriggerModeInfo_->sourceMask);
     fprintf(fp, "  softwareTriggerSupported: %d\n",   pTriggerModeInfo_->softwareTriggerSupported);
     fprintf(fp, "                  modeMask: 0x%x\n", pTriggerModeInfo_->modeMask);
+    fprintf(fp, "Strobe information\n");
+    for (j=0; j<NUM_GPIO_PINS; j++) {
+        pStrobeInfo_->source = j;
+        pCamera_->GetStrobeInfo(pStrobeInfo_);
+        if (checkError(error, functionName, "GetStrobeInfo")) 
+            return;
+        if (pStrobeInfo_->present) {
+            fprintf(fp, "     Strobe source %d: present\n", j);
+            fprintf(fp, "     readOutSupported: %d\n", pStrobeInfo_->readOutSupported);
+            fprintf(fp, "       onOffSupported: %d\n", pStrobeInfo_->onOffSupported);
+            fprintf(fp, "    polaritySupported: %d\n", pStrobeInfo_->polaritySupported);
+            fprintf(fp, "             minValue: %f\n", pStrobeInfo_->minValue);
+            fprintf(fp, "             maxValue: %f\n", pStrobeInfo_->maxValue);
+        }
+    }
+    pCamera_->GetStrobe(pStrobeControl_);
+    if (checkError(error, functionName, "GetStrobe")) 
+        return;
+    fprintf(fp, "Strobe control\n");
+    fprintf(fp, "    source: %d\n", pStrobeControl_->source);
+    fprintf(fp, "     onOff: %d\n", pStrobeControl_->onOff);
+    fprintf(fp, "  polarity: %u\n", pStrobeControl_->polarity);
+    fprintf(fp, "     delay: %f\n", pStrobeControl_->delay);
+    fprintf(fp, "  duration: %f\n", pStrobeControl_->duration);
     pCamera_->GetStats(pCameraStats_);
     if (checkError(error, functionName, "GetStats")) 
         return;
@@ -1921,12 +2010,12 @@ void pointGrey::report(FILE *fp, int details)
     fprintf(fp, "                 Port errors: %u\n", pCameraStats_->portErrors);
     fprintf(fp, "             Camera power up: %d\n", pCameraStats_->cameraPowerUp);
     fprintf(fp, "                  # voltages: %d\n", pCameraStats_->numVoltages);
-    for (unsigned int j=0; j<pCameraStats_->numVoltages; j++) {
-        fprintf(fp, "               voltage %d %f:\n", j, pCameraStats_->cameraVoltages[j]);
+    for (j=0; j<pCameraStats_->numVoltages; j++) {
+        fprintf(fp, "                  voltage %d: %f\n", j, pCameraStats_->cameraVoltages[j]);
     }
     fprintf(fp, "                  # currents: %d\n", pCameraStats_->numCurrents);
-    for (unsigned int j=0; j<pCameraStats_->numCurrents; j++) {
-        fprintf(fp, "               current %d %f:\n", j, pCameraStats_->cameraCurrents[j]);
+    for (j=0; j<pCameraStats_->numCurrents; j++) {
+        fprintf(fp, "                  current %d: %f\n", j, pCameraStats_->cameraCurrents[j]);
     }
     fprintf(fp, "             Temperature (C): %f\n", pCameraStats_->temperature/10. - 273.15);
     fprintf(fp, "   Time since initialization: %u\n", pCameraStats_->timeSinceInitialization);

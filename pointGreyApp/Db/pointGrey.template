@@ -4,6 +4,17 @@
 ## Note: the strings and values for the mbbo and mbbi records in this database
 ## are built dynamically at run-time based on the capabilites of the specific camera
 
+
+## These are the records from ADBase.template that we modify
+## Disable ReadStatus when acquisition is active because queurying the detector 
+## when it is streaming causes dropped frames
+record(bo, $(P)$(R)ReadStatus) {
+  field(SDIS, "$(P)$(R)Acquire NPP NMS")
+  field(DISV, "1")
+}
+
+# These are records new to the Point Grey detector
+
 ## VideoMode
 record(mbbo, "$(P)$(R)VideoMode") {
   field(PINI, "NO")
@@ -56,6 +67,19 @@ record(mbbi, "$(P)$(R)PixelFormat_RBV") {
   field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
 }
 
+## Trigger source
+record(mbbo, "$(P)$(R)TriggerSource") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
+}
+
+record(mbbi, "$(P)$(R)TriggerSource_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
+}
+
 ## Trigger polarity
 record(bo, "$(P)$(R)TriggerPolarity") {
   field(PINI, "NO")
@@ -73,19 +97,6 @@ record(bi, "$(P)$(R)TriggerPolarity_RBV") {
   field(INP,  "@asyn($(PORT) 0)PG_TRIGGER_POLARITY")
 }
 
-## Trigger source
-record(mbbo, "$(P)$(R)TriggerSource") {
-  field(PINI, "NO")
-  field(DTYP, "asynInt32")
-  field(OUT,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
-}
-
-record(mbbi, "$(P)$(R)TriggerSource_RBV") {
-  field(SCAN, "I/O Intr")
-  field(DTYP, "asynInt32")
-  field(INP,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
-}
-
 ## Software trigger
 record(bo, "$(P)$(R)SoftwareTrigger") {
   field(PINI, "NO")
@@ -94,6 +105,82 @@ record(bo, "$(P)$(R)SoftwareTrigger") {
   field(ZNAM, "Done")
   field(OUT,  "@asyn($(PORT) 0)PG_SOFTWARE_TRIGGER")
 }
+
+## Strobe parameters
+record(mbbo, "$(P)$(R)StrobeSource") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_STROBE_SOURCE")
+}
+
+record(mbbi, "$(P)$(R)StrobeSource_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_STROBE_SOURCE")
+}
+
+record(bo, "$(P)$(R)StrobeEnable") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(OUT,  "@asyn($(PORT) 0)PG_STROBE_ENABLE")
+}
+
+record(bi, "$(P)$(R)StrobeEnable_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(INP,  "@asyn($(PORT) 0)PG_STROBE_ENABLE")
+}
+
+record(bo, "$(P)$(R)StrobePolarity") {
+  field(PINI, "NO")
+  field(DTYP, "asynInt32")
+  field(ZNAM, "Low")
+  field(ONAM, "High")
+  field(OUT,  "@asyn($(PORT) 0)PG_STROBE_POLARITY")
+}
+
+record(bi, "$(P)$(R)StrobePolarity_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(ZNAM, "Low")
+  field(ONAM, "High")
+  field(INP,  "@asyn($(PORT) 0)PG_STROBE_POLARITY")
+}
+
+record(ao, "$(P)$(R)StrobeDelay") {
+  field(PINI, "YES")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)PG_STROBE_DELAY")
+  field(PREC, "3")
+  field(VAL, "1.0")
+}
+
+record(ai, "$(P)$(R)StrobeDelay_RBV") {
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)PG_STROBE_DELAY")
+  field(PREC, "3")
+  field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)StrobeDuration") {
+  field(PINI, "YES")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)PG_STROBE_DURATION")
+  field(PREC, "3")
+  field(VAL, "1.0")
+}
+
+record(ai, "$(P)$(R)StrobeDuration_RBV") {
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)PG_STROBE_DURATION")
+  field(PREC, "3")
+  field(SCAN, "I/O Intr")
+}
+
 
 # Dropped frames
 record(longout, "$(P)$(R)DroppedFrames") {
@@ -106,22 +193,6 @@ record(longout, "$(P)$(R)DroppedFrames") {
 record(longin, "$(P)$(R)DroppedFrames_RBV") {
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_DROPPED_FRAMES")
-  field(SCAN, "I/O Intr")
-}
-
-# Readout time
-record(ao, "$(P)$(R)ReadoutTime") {
-  field(PINI, "YES")
-  field(DTYP, "asynFloat64")
-  field(OUT,  "@asyn($(PORT) 0)PG_READOUT_TIME")
-  field(PREC, "1")
-  field(VAL, "1.0")
-}
-
-record(ai, "$(P)$(R)ReadoutTime_RBV") {
-  field(DTYP, "asynFloat64")
-  field(INP,  "@asyn($(PORT) 0)PG_READOUT_TIME")
-  field(PREC, "1")
   field(SCAN, "I/O Intr")
 }
 

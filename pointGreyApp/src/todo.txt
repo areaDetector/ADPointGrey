@@ -2,7 +2,7 @@ Add packetsize and percent bandwidth parameters
 
 PointGrey auto_settings.req
 
-Implement strobe out
+Fix formatting of output voltages
 
 Measure disk file performance
 

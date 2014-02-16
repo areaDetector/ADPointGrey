@@ -106,6 +106,19 @@ record(bo, "$(P)$(R)SoftwareTrigger") {
   field(OUT,  "@asyn($(PORT) 0)PG_SOFTWARE_TRIGGER")
 }
 
+## Skip frames
+record(longout, "$(P)$(R)SkipFrames") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_SKIP_FRAMES")
+}
+
+record(longin, "$(P)$(R)SkipFrames_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_SKIP_FRAMES")
+}
+
 ## Strobe parameters
 record(mbbo, "$(P)$(R)StrobeSource") {
   field(PINI, "NO")
@@ -181,14 +194,6 @@ record(ai, "$(P)$(R)StrobeDuration_RBV") {
   field(SCAN, "I/O Intr")
 }
 
-
-# Dropped frames
-record(longout, "$(P)$(R)DroppedFrames") {
-  field(PINI, "YES")
-  field(DTYP, "asynInt32")
-  field(OUT,  "@asyn($(PORT) 0)PG_DROPPED_FRAMES")
-}
-
 # Dropped frames
 record(longin, "$(P)$(R)DroppedFrames_RBV") {
   field(DTYP, "asynInt32")
@@ -196,35 +201,11 @@ record(longin, "$(P)$(R)DroppedFrames_RBV") {
   field(SCAN, "I/O Intr")
 }
 
-record(ao, "$(P)$(R)FrameRateAbs")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE_ABS")  
-   field(PREC, "3")
-   field(VAL,  "10")
-}
-
-record(ai, "$(P)$(R)FrameRateAbs_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT) 0)PG_FRAME_RATE_ABS")
-   field(PREC, "3")
-   field(SCAN, "I/O Intr")
-}
-
 record(longin, "$(P)$(R)SerialNumber")
 {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
    field(INP,  "@asyn($(PORT) 0)PG_SERIAL_NUMBER")
-}
-
-record(longin, "$(P)$(R)ImagesDropped")
-{
-   field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT) 0)PG_DROPPED_FRAMES")
-   field(SCAN, "I/O Intr")
 }
 
 record(stringin, "$(P)$(R)FirmwareVersion")

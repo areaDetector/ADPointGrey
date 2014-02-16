@@ -1,10 +1,10 @@
 $(P)$(R)VideoMode
 $(P)$(R)Format7Mode
 $(P)$(R)FrameRate
-$(P)$(R)FrameRateAbs
 $(P)$(R)PixelFormat
 $(P)$(R)TriggerSource
 $(P)$(R)TriggerPolarity
+$(P)$(R)SkipFrames
 $(P)$(R)StrobeSource
 $(P)$(R)StrobeEnable
 $(P)$(R)StrobePolarity

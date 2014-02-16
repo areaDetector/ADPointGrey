@@ -61,11 +61,10 @@ static const char *driverName = "pointGrey";
 #define PGFormat7ModeString           "PG_FORMAT7_MODE"
 #define PGFrameRateString             "PG_FRAME_RATE"
 #define PGPixelFormatString           "PG_PIXEL_FORMAT"
-#define PGFrameRateAbsString          "PG_FRAME_RATE_ABS"
-#define PGSkipFramesString            "PG_SKIP_FRAMES"
 #define PGTriggerSourceString         "PG_TRIGGER_SOURCE"
 #define PGTriggerPolarityString       "PG_TRIGGER_POLARITY"
 #define PGSoftwareTriggerString       "PG_SOFTWARE_TRIGGER"
+#define PGSkipFramesString            "PG_SKIP_FRAMES"
 #define PGStrobeSourceString          "PG_STROBE_SOURCE"
 #define PGStrobePolarityString        "PG_STROBE_POLARITY"
 #define PGStrobeEnableString          "PG_STROBE_ENABLE"
@@ -247,10 +246,10 @@ public:
     void shutdown();
 
 protected:
-    int PGSerialNumber_;          /** Camera serial number (int32 read) */
-    #define FIRST_PG_PARAM PGSerialNumber_
-    int PGFirmwareVersion_;       /** Camera firmware version (octet read) */
-    int PGSoftwareVersion_;       /** Camera software version (octet read) */
+    int PGSerialNumber;           /** Camera serial number (int32 read) */
+    #define FIRST_PG_PARAM PGSerialNumber
+    int PGFirmwareVersion;        /** Camera firmware version (octet read) */
+    int PGSoftwareVersion;        /** Camera software version (octet read) */
                                   /** The following PGProperty parameters all have addr: 0-NUM_PROPERTIES-1 */
     int PGPropertyAvail;          /** Property is available  1=available 0=not available (int32, read) */
     int PGPropertyAutoAvail;      /** Property auto mode available 1=available 0=not available (int32, read) */
@@ -269,11 +268,10 @@ protected:
     int PGFormat7Mode;            /** Format7 mode (int32 read/write) enum Mode, 0-NUM_MODES-1 */
     int PGFrameRate;              /** Frame rate (int32 read/write) enum FrameRate, 0-NUM_FRAMERATES-1 */
     int PGPixelFormat;            /** The pixel format when VideoFormat=Format7 (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
-    int PGFrameRateAbs;           /** Frame rate in absolute (frames/s) units (float64, read/write) */
-    int PGSkipFrames;             /** Frames to skip in trigger mode 3 (int32, write/read) */
     int PGTriggerSource;          /** Trigger source (int32, write/read) */
     int PGTriggerPolarity;        /** Trigger polarity (int32, write/read) */
     int PGSoftwareTrigger;        /** Issue a software trigger (int32, write/read) */
+    int PGSkipFrames;             /** Frames to skip in trigger mode 3 (int32, write/read) */
     int PGStrobeSource;           /** Strobe source GPIO pin (int32, write/read) */
     int PGStrobePolarity;         /** Strobe polarity (low/high) (int32, write/read) */
     int PGStrobeEnable;           /** Strobe enable/disable strobe (int32, write/read) */
@@ -401,9 +399,9 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     PropertyType propType;
     asynStatus status;
 
-    createParam(PGSerialNumberString,           asynParamInt32,   &PGSerialNumber_);
-    createParam(PGFirmwareVersionString,        asynParamOctet,   &PGFirmwareVersion_);
-    createParam(PGSoftwareVersionString,        asynParamOctet,   &PGSoftwareVersion_);
+    createParam(PGSerialNumberString,           asynParamInt32,   &PGSerialNumber);
+    createParam(PGFirmwareVersionString,        asynParamOctet,   &PGFirmwareVersion);
+    createParam(PGSoftwareVersionString,        asynParamOctet,   &PGSoftwareVersion);
     createParam(PGPropertyAvailString,          asynParamInt32,   &PGPropertyAvail);
     createParam(PGPropertyAutoAvailString,      asynParamInt32,   &PGPropertyAutoAvail);
     createParam(PGPropertyManAvailString,       asynParamInt32,   &PGPropertyManAvail);
@@ -421,11 +419,10 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGFormat7ModeString,            asynParamInt32,   &PGFormat7Mode);
     createParam(PGFrameRateString,              asynParamInt32,   &PGFrameRate);
     createParam(PGPixelFormatString,            asynParamInt32,   &PGPixelFormat);
-    createParam(PGFrameRateAbsString,           asynParamFloat64, &PGFrameRateAbs);
-    createParam(PGSkipFramesString,             asynParamInt32,   &PGSkipFrames);
     createParam(PGTriggerSourceString,          asynParamInt32,   &PGTriggerSource);
     createParam(PGTriggerPolarityString,        asynParamInt32,   &PGTriggerPolarity);
     createParam(PGSoftwareTriggerString,        asynParamInt32,   &PGSoftwareTrigger);
+    createParam(PGSkipFramesString,             asynParamInt32,   &PGSkipFrames);
     createParam(PGStrobeSourceString,           asynParamInt32,   &PGStrobeSource);
     createParam(PGStrobePolarityString,         asynParamInt32,   &PGStrobePolarity);
     createParam(PGStrobeEnableString,           asynParamInt32,   &PGStrobeEnable);
@@ -554,14 +551,14 @@ asynStatus pointGrey::connectCamera(void)
     // Get the camera information
     error = pCamera_->GetCameraInfo(&camInfo);
     if (checkError(error, functionName, "GetCameraInfo")) return asynError;
-    setIntegerParam(PGSerialNumber_, camInfo.serialNumber);
+    setIntegerParam(PGSerialNumber, camInfo.serialNumber);
     setStringParam(ADManufacturer, camInfo.vendorName);
     setStringParam(ADModel, camInfo.modelName);
-    setStringParam(PGFirmwareVersion_, camInfo.firmwareVersion);
+    setStringParam(PGFirmwareVersion, camInfo.firmwareVersion);
     
     Utilities::GetLibraryVersion(&version);
     sprintf(tempString, "%d.%d.%d", version.major, version.minor, version.type);
-    setStringParam(PGSoftwareVersion_, tempString);
+    setStringParam(PGSoftwareVersion, tempString);
     //sscanf(camInfo.sensorResolution, "%dx%d", &sizeX, &sizeY);
     //setIntegerParam(ADMaxSizeX, sizeX);
     //setIntegerParam(ADMaxSizeY, sizeY);
@@ -969,11 +966,6 @@ asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
         propertyType = FRAME_RATE;
         // Camera units are fps
         status = setPropertyAbsValue(propertyType, 1./value);
-    
-    } else if (function == PGFrameRateAbs) {
-        propertyType = FRAME_RATE;
-        // Camera units are fps
-        status = setPropertyAbsValue(propertyType, value);
     
     } else if ((function == PGStrobeDelay)  || 
                (function == PGStrobeDuration)) {
@@ -1706,7 +1698,6 @@ asynStatus pointGrey::getAllProperties()
 
     getDoubleParam(FRAME_RATE, PGPropertyValueAbs, &dtmp);
     // Camera units are fps
-    setDoubleParam(PGFrameRateAbs, dtmp);
     setDoubleParam(ADAcquirePeriod, 1./dtmp);
 
     getDoubleParam(GAIN, PGPropertyValueAbs, &dtmp);

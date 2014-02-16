@@ -12,13 +12,12 @@ file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Focus
 file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Zoom
 file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Pan
 file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Tilt
-file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=Shutter
-file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=Gain
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Shutter
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Gain
 file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=TriggerMode
-file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=TriggerDelay
-file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=FrameRate
-file "pointGreyPropertyAbs_settings.req", P=$(P),  R=cam1:, PROPERTY=Temperature
-file "NDFile_settings.req",               P=$(P),  R=cam1:
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=TriggerDelay
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=FrameRate
+file "pointGreyProperty_settings.req",    P=$(P),  R=cam1:, PROPERTY=Temperature
 file "NDPluginBase_settings.req",         P=$(P),  R=image1:
 file "NDStdArrays_settings.req",          P=$(P),  R=image1:
 file "commonPlugin_settings.req",         P=$(P)

@@ -1,2 +1,4 @@
 $(P)$(R)$(PROPERTY)Val
+$(P)$(R)$(PROPERTY)ValB
+$(P)$(R)$(PROPERTY)ValAbs
 $(P)$(R)$(PROPERTY)AutoMode

@@ -5,7 +5,12 @@ dbLoadDatabase("$(TOP)/dbd/pointGreyApp.dbd")
 pointGreyApp_registerRecordDeviceDriver(pdbbase) 
 
 epicsEnvSet("PREFIX", "13PG1:")
-epicsEnvSet("CAMERA_ID", "0")
+# Use this line for the first Point Grey camera in the system
+#epicsEnvSet("CAMERA_ID", "0")
+# Use this line for a specific camera by serial number, in this case a Flea2 Firewire camera
+#epicsEnvSet("CAMERA_ID", "9211601")
+# Use this line for a specific camera by serial number, in this case a Grasshopper3 USB-3.0 cameras
+epicsEnvSet("CAMERA_ID", "13510305")
 epicsEnvSet("PORT",   "PG1")
 epicsEnvSet("QSIZE",  "20")
 epicsEnvSet("XSIZE",  "648")

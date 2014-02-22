@@ -10,7 +10,7 @@
     <h1>
       Point Grey areaDetector driver</h1>
     <h2>
-      February 13, 2014</h2>
+      February 21, 2014</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
@@ -1442,17 +1442,32 @@
       pointGreyProperties.adl</h3>
     <img alt="pointGreyProperties.png" src="pointGreyProperties.png" /></div>
   <p>
-    <code>pointGreyVideoModes.adl</code> is the screen used to control the frame rate
-    in standard video modes and the pixel format in Format7 mode. These are on a separate
-    screen because the valid enum strings for these records can change when the standard
-    video mode or the Format7 mode is changed. When those are changed it is necessary
-    to close this screen and re-open it in order for the new menus to be displayed.
-    This is a limitation of the EPICS Channel Access which does not send monitor events
-    for changes in enum fields.
+    <code>pointGreyFrameRate.adl</code> is the screen used to control the frame rate
+    in standard video modes. This is a separate screen because the valid enum strings
+    for the Framerate record can change when the standard video mode is changed. When
+    that is changed it is necessary to close this screen and re-open it in order for
+    the new menus to be displayed. This is a limitation of the EPICS Channel Access
+    which does not send monitor events for changes in enum fields. Note that the readback
+    of the FrameRate on the main pointGrey.adl screen can also be incorrect, so it may
+    be necessary to close and re-open that main screen as well.
   </p>
   <div style="text-align: center">
     <h3 style="text-align: center">
-      pointGreyVideoModes.adl</h3>
-    <img alt="pointGreyVideoModes.png" src="pointGreyVideoModes.png" /></div>
+      pointGreyFrameRate.adl</h3>
+    <img alt="pointGreyFrameRate.png" src="pointGreyFrameRate.png" /></div>
+  <p>
+    <code>pointGreyPixelFormat.adl</code> is the screen used to control the pixel format
+    in Format7 mode. This is a separate screen because the valid enum strings for the
+    PixelFormat can change when the Format7 mode is changed. When that is changed it
+    is necessary to close this screen and re-open it in order for the new menus to be
+    displayed. This is a limitation of the EPICS Channel Access which does not send
+    monitor events for changes in enum fields. Note that the readback of the PixelFormat
+    on the main pointGrey.adl screen can also be incorrect, so it may be necessary to
+    close and re-open that main screen as well.
+  </p>
+  <div style="text-align: center">
+    <h3 style="text-align: center">
+      pointGreyPixelFormat.adl</h3>
+    <img alt="pointGreyPixelFormat.png" src="pointGreyPixelFormat.png" /></div>
 </body>
 </html>

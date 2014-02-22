@@ -194,6 +194,27 @@ record(ai, "$(P)$(R)StrobeDuration_RBV") {
   field(SCAN, "I/O Intr")
 }
 
+# Corrupt frames
+record(longin, "$(P)$(R)CorruptFrames_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_CORRUPT_FRAMES")
+  field(SCAN, "I/O Intr")
+}
+
+# Driver dropped frames
+record(longin, "$(P)$(R)DriverDropped_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_DRIVER_DROPPED")
+  field(SCAN, "I/O Intr")
+}
+
+# Transmit failures
+record(longin, "$(P)$(R)TransmitFailed_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_TRANSMIT_FAILED")
+  field(SCAN, "I/O Intr")
+}
+
 # Dropped frames
 record(longin, "$(P)$(R)DroppedFrames_RBV") {
   field(DTYP, "asynInt32")

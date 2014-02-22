@@ -8,7 +8,7 @@ display {
 		x=97
 		y=78
 		width=1070
-		height=790
+		height=815
 	}
 	clr=14
 	bclr=4
@@ -454,7 +454,7 @@ rectangle {
 		x=5
 		y=360
 		width=350
-		height=425
+		height=450
 	}
 	"basic attribute" {
 		clr=14
@@ -674,7 +674,7 @@ text {
 composite {
 	object {
 		x=715
-		y=145
+		y=220
 		width=350
 		height=60
 	}
@@ -1203,75 +1203,17 @@ rectangle {
 		x=715
 		y=35
 		width=350
-		height=105
+		height=180
 	}
 	"basic attribute" {
 		clr=14
 		fill="outline"
 	}
 }
-"text update" {
-	object {
-		x=884
-		y=116
-		width=120
-		height=16
-	}
-	monitor {
-		chan="$(P)$(R)TemperatureActual"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=820
-		y=114
-		width=60
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Temperature"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=884
-		y=91
-		width=120
-		height=16
-	}
-	monitor {
-		chan="$(P)$(R)DroppedFrames_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=820
-		y=89
-		width=60
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Dropped frames"
-	align="horiz. right"
-}
 composite {
 	object {
 		x=820
-		y=64
+		y=65
 		width=145
 		height=20
 	}
@@ -1280,7 +1222,7 @@ composite {
 		menu {
 			object {
 				x=885
-				y=64
+				y=65
 				width=80
 				height=20
 			}
@@ -1293,7 +1235,7 @@ composite {
 		text {
 			object {
 				x=820
-				y=64
+				y=65
 				width=60
 				height=20
 			}
@@ -1302,191 +1244,6 @@ composite {
 			}
 			textix="Status rate"
 			align="horiz. right"
-		}
-	}
-}
-rectangle {
-	object {
-		x=837
-		y=212
-		width=107
-		height=21
-	}
-	"basic attribute" {
-		clr=2
-	}
-}
-text {
-	object {
-		x=811
-		y=213
-		width=159
-		height=20
-	}
-	"basic attribute" {
-		clr=54
-	}
-	textix="Trigger"
-	align="horiz. centered"
-}
-rectangle {
-	object {
-		x=715
-		y=210
-		width=350
-		height=200
-	}
-	"basic attribute" {
-		clr=14
-		fill="outline"
-	}
-}
-text {
-	object {
-		x=770
-		y=260
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Trigger mode"
-	align="horiz. right"
-}
-menu {
-	object {
-		x=895
-		y=260
-		width=120
-		height=20
-	}
-	control {
-		chan="$(P)$(R)TriggerMode"
-		clr=14
-		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=895
-		y=240
-		width=120
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)TriggerMode_RBV"
-		clr=54
-		bclr=4
-	}
-	align="horiz. centered"
-	format="string"
-	limits {
-	}
-}
-composite {
-	object {
-		x=730
-		y=310
-		width=330
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=730
-				y=310
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Trigger polarity"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=895
-				y=310
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)TriggerPolarity"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=980
-				y=311
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)TriggerPolarity_RBV"
-				clr=54
-				bclr=4
-			}
-			format="string"
-			limits {
-			}
-		}
-	}
-}
-composite {
-	object {
-		x=730
-		y=285
-		width=330
-		height=20
-	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=730
-				y=285
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Trigger source"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=895
-				y=285
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)TriggerSource"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=980
-				y=286
-				width=80
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)TriggerSource_RBV"
-				clr=54
-				bclr=4
-			}
-			format="string"
-			limits {
-			}
 		}
 	}
 }
@@ -1955,18 +1712,6 @@ menu {
 }
 text {
 	object {
-		x=28
-		y=760
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Video setup"
-}
-text {
-	object {
 		x=38
 		y=735
 		width=100
@@ -1990,22 +1735,6 @@ text {
 	}
 	textix="Format7 mode"
 	align="horiz. right"
-}
-"related display" {
-	object {
-		x=146
-		y=760
-		width=80
-		height=20
-	}
-	display[0] {
-		label="Video modes"
-		name="pointGreyVideoModes.adl"
-		args="P=$(P),R=$(R)"
-	}
-	clr=14
-	bclr=51
-	label="More"
 }
 "related display" {
 	object {
@@ -2054,7 +1783,7 @@ menu {
 composite {
 	object {
 		x=715
-		y=415
+		y=490
 		width=350
 		height=155
 	}
@@ -2063,7 +1792,7 @@ composite {
 		rectangle {
 			object {
 				x=837
-				y=417
+				y=492
 				width=107
 				height=21
 			}
@@ -2074,7 +1803,7 @@ composite {
 		text {
 			object {
 				x=811
-				y=418
+				y=493
 				width=159
 				height=20
 			}
@@ -2087,7 +1816,7 @@ composite {
 		rectangle {
 			object {
 				x=715
-				y=415
+				y=490
 				width=350
 				height=155
 			}
@@ -2099,7 +1828,7 @@ composite {
 		text {
 			object {
 				x=750
-				y=520
+				y=595
 				width=140
 				height=20
 			}
@@ -2112,7 +1841,7 @@ composite {
 		"text entry" {
 			object {
 				x=895
-				y=520
+				y=595
 				width=80
 				height=20
 			}
@@ -2127,7 +1856,7 @@ composite {
 		"text update" {
 			object {
 				x=980
-				y=521
+				y=596
 				width=80
 				height=18
 			}
@@ -2142,7 +1871,7 @@ composite {
 		composite {
 			object {
 				x=729
-				y=445
+				y=520
 				width=330
 				height=20
 			}
@@ -2151,7 +1880,7 @@ composite {
 				text {
 					object {
 						x=729
-						y=445
+						y=520
 						width=160
 						height=20
 					}
@@ -2164,7 +1893,7 @@ composite {
 				menu {
 					object {
 						x=894
-						y=445
+						y=520
 						width=80
 						height=20
 					}
@@ -2177,7 +1906,7 @@ composite {
 				"text update" {
 					object {
 						x=979
-						y=446
+						y=521
 						width=80
 						height=18
 					}
@@ -2195,7 +1924,7 @@ composite {
 		composite {
 			object {
 				x=730
-				y=470
+				y=545
 				width=330
 				height=20
 			}
@@ -2204,7 +1933,7 @@ composite {
 				text {
 					object {
 						x=730
-						y=470
+						y=545
 						width=160
 						height=20
 					}
@@ -2217,7 +1946,7 @@ composite {
 				menu {
 					object {
 						x=895
-						y=470
+						y=545
 						width=80
 						height=20
 					}
@@ -2230,7 +1959,7 @@ composite {
 				"text update" {
 					object {
 						x=980
-						y=471
+						y=546
 						width=80
 						height=18
 					}
@@ -2248,7 +1977,7 @@ composite {
 		composite {
 			object {
 				x=730
-				y=495
+				y=570
 				width=330
 				height=20
 			}
@@ -2257,7 +1986,7 @@ composite {
 				text {
 					object {
 						x=730
-						y=495
+						y=570
 						width=160
 						height=20
 					}
@@ -2270,7 +1999,7 @@ composite {
 				menu {
 					object {
 						x=895
-						y=495
+						y=570
 						width=80
 						height=20
 					}
@@ -2283,7 +2012,7 @@ composite {
 				"text update" {
 					object {
 						x=980
-						y=496
+						y=571
 						width=80
 						height=18
 					}
@@ -2301,7 +2030,7 @@ composite {
 		composite {
 			object {
 				x=750
-				y=545
+				y=620
 				width=310
 				height=20
 			}
@@ -2310,7 +2039,7 @@ composite {
 				text {
 					object {
 						x=750
-						y=545
+						y=620
 						width=140
 						height=20
 					}
@@ -2323,7 +2052,7 @@ composite {
 				"text entry" {
 					object {
 						x=895
-						y=545
+						y=620
 						width=80
 						height=20
 					}
@@ -2338,7 +2067,7 @@ composite {
 				"text update" {
 					object {
 						x=980
-						y=546
+						y=621
 						width=80
 						height=18
 					}
@@ -2356,61 +2085,300 @@ composite {
 }
 composite {
 	object {
-		x=730
-		y=385
-		width=245
-		height=20
+		x=715
+		y=285
+		width=350
+		height=200
 	}
 	"composite name"=""
 	children {
+		rectangle {
+			object {
+				x=837
+				y=287
+				width=107
+				height=21
+			}
+			"basic attribute" {
+				clr=2
+			}
+		}
 		text {
 			object {
-				x=730
-				y=385
-				width=160
+				x=811
+				y=288
+				width=159
+				height=20
+			}
+			"basic attribute" {
+				clr=54
+			}
+			textix="Trigger"
+			align="horiz. centered"
+		}
+		rectangle {
+			object {
+				x=715
+				y=285
+				width=350
+				height=200
+			}
+			"basic attribute" {
+				clr=14
+				fill="outline"
+			}
+		}
+		text {
+			object {
+				x=770
+				y=335
+				width=120
 				height=20
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Software trigger"
+			textix="Trigger mode"
 			align="horiz. right"
 		}
-		"message button" {
-			object {
-				x=895
-				y=385
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SoftwareTrigger"
-				clr=14
-				bclr=51
-			}
-			label="Trigger"
-			press_msg="1"
-		}
-	}
-}
-composite {
-	object {
-		x=750
-		y=335
-		width=310
-		height=20
-	}
-	"composite name"=""
-	children {
-		"text entry" {
+		menu {
 			object {
 				x=895
 				y=335
+				width=120
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerMode"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=895
+				y=315
+				width=120
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)TriggerMode_RBV"
+				clr=54
+				bclr=4
+			}
+			align="horiz. centered"
+			format="string"
+			limits {
+			}
+		}
+		composite {
+			object {
+				x=730
+				y=385
+				width=330
+				height=20
+			}
+			"composite name"=""
+			children {
+				text {
+					object {
+						x=730
+						y=385
+						width=160
+						height=20
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Trigger polarity"
+					align="horiz. right"
+				}
+				menu {
+					object {
+						x=895
+						y=385
+						width=80
+						height=20
+					}
+					control {
+						chan="$(P)$(R)TriggerPolarity"
+						clr=14
+						bclr=51
+					}
+				}
+				"text update" {
+					object {
+						x=980
+						y=386
+						width=80
+						height=18
+					}
+					monitor {
+						chan="$(P)$(R)TriggerPolarity_RBV"
+						clr=54
+						bclr=4
+					}
+					format="string"
+					limits {
+					}
+				}
+			}
+		}
+		composite {
+			object {
+				x=730
+				y=360
+				width=330
+				height=20
+			}
+			"composite name"=""
+			children {
+				text {
+					object {
+						x=730
+						y=360
+						width=160
+						height=20
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Trigger source"
+					align="horiz. right"
+				}
+				menu {
+					object {
+						x=895
+						y=360
+						width=80
+						height=20
+					}
+					control {
+						chan="$(P)$(R)TriggerSource"
+						clr=14
+						bclr=51
+					}
+				}
+				"text update" {
+					object {
+						x=980
+						y=361
+						width=80
+						height=18
+					}
+					monitor {
+						chan="$(P)$(R)TriggerSource_RBV"
+						clr=54
+						bclr=4
+					}
+					format="string"
+					limits {
+					}
+				}
+			}
+		}
+		composite {
+			object {
+				x=730
+				y=460
+				width=245
+				height=20
+			}
+			"composite name"=""
+			children {
+				text {
+					object {
+						x=730
+						y=460
+						width=160
+						height=20
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Software trigger"
+					align="horiz. right"
+				}
+				"message button" {
+					object {
+						x=895
+						y=460
+						width=80
+						height=20
+					}
+					control {
+						chan="$(P)$(R)SoftwareTrigger"
+						clr=14
+						bclr=51
+					}
+					label="Trigger"
+					press_msg="1"
+				}
+			}
+		}
+		composite {
+			object {
+				x=750
+				y=410
+				width=310
+				height=20
+			}
+			"composite name"=""
+			children {
+				"text entry" {
+					object {
+						x=895
+						y=410
+						width=80
+						height=20
+					}
+					control {
+						chan="$(P)$(R)TriggerDelayValAbs"
+						clr=14
+						bclr=51
+					}
+					limits {
+					}
+				}
+				text {
+					object {
+						x=750
+						y=410
+						width=140
+						height=20
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Trigger delay"
+					align="horiz. right"
+				}
+				"text update" {
+					object {
+						x=980
+						y=411
+						width=80
+						height=18
+					}
+					monitor {
+						chan="$(P)$(R)TriggerDelayValAbs_RBV"
+						clr=54
+						bclr=4
+					}
+					limits {
+					}
+				}
+			}
+		}
+		"text entry" {
+			object {
+				x=895
+				y=435
 				width=80
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayValAbs"
+				chan="$(P)$(R)SkipFrames"
 				clr=14
 				bclr=51
 			}
@@ -2420,25 +2388,25 @@ composite {
 		text {
 			object {
 				x=750
-				y=335
+				y=435
 				width=140
 				height=20
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Trigger delay"
+			textix="Skip frames"
 			align="horiz. right"
 		}
 		"text update" {
 			object {
 				x=980
-				y=336
+				y=436
 				width=80
 				height=18
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayValAbs_RBV"
+				chan="$(P)$(R)SkipFrames_RBV"
 				clr=54
 				bclr=4
 			}
@@ -2447,46 +2415,260 @@ composite {
 		}
 	}
 }
-"text entry" {
+composite {
 	object {
-		x=895
-		y=360
-		width=80
+		x=820
+		y=190
+		width=184
 		height=20
 	}
-	control {
-		chan="$(P)$(R)SkipFrames"
-		clr=14
-		bclr=51
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=884
+				y=192
+				width=120
+				height=16
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureActual"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+		text {
+			object {
+				x=820
+				y=190
+				width=60
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Temperature"
+			align="horiz. right"
+		}
 	}
-	limits {
+}
+composite {
+	object {
+		x=820
+		y=90
+		width=184
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=820
+				y=90
+				width=60
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Dropped frames"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=884
+				y=92
+				width=120
+				height=16
+			}
+			monitor {
+				chan="$(P)$(R)DroppedFrames_RBV"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
 	}
 }
 text {
 	object {
-		x=750
-		y=360
-		width=140
+		x=820
+		y=115
+		width=60
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Skip frames"
+	textix="Corrupt frames"
 	align="horiz. right"
 }
 "text update" {
 	object {
-		x=980
-		y=361
+		x=884
+		y=117
+		width=120
+		height=16
+	}
+	monitor {
+		chan="$(P)$(R)CorruptFrames_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=820
+		y=140
+		width=60
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Driver dropped"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=884
+		y=142
+		width=120
+		height=16
+	}
+	monitor {
+		chan="$(P)$(R)DriverDropped_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=820
+		y=165
+		width=60
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Transmit failed"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=884
+		y=167
+		width=120
+		height=16
+	}
+	monitor {
+		chan="$(P)$(R)TransmitFailed_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"related display" {
+	object {
+		x=146
+		y=760
+		width=80
+		height=20
+	}
+	display[0] {
+		label="Video modes"
+		name="pointGreyFrameRate.adl"
+		args="P=$(P),R=$(R)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+text {
+	object {
+		x=28
+		y=760
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frame rate"
+	align="horiz. right"
+}
+"related display" {
+	object {
+		x=146
+		y=785
+		width=80
+		height=20
+	}
+	display[0] {
+		label="Video modes"
+		name="pointGreyPixelFormat.adl"
+		args="P=$(P),R=$(R)"
+	}
+	clr=14
+	bclr=51
+	label="More"
+}
+text {
+	object {
+		x=28
+		y=785
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Pixel format"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=231
+		y=761
 		width=80
 		height=18
 	}
 	monitor {
-		chan="$(P)$(R)SkipFrames_RBV"
+		chan="$(P)$(R)FrameRate_RBV"
 		clr=54
 		bclr=4
 	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=231
+		y=786
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PixelFormat_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
 	limits {
 	}
 }

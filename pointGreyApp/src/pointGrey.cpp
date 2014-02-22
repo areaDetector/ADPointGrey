@@ -70,6 +70,9 @@ static const char *driverName = "pointGrey";
 #define PGStrobeEnableString          "PG_STROBE_ENABLE"
 #define PGStrobeDelayString           "PG_STROBE_DELAY"
 #define PGStrobeDurationString        "PG_STROBE_DURATION"
+#define PGCorruptFramesString         "PG_CORRUPT_FRAMES"
+#define PGDriverDroppedString         "PG_DRIVER_DROPPED"
+#define PGTransmitFailedString        "PG_TRANSMIT_FAILED"
 #define PGDroppedFramesString         "PG_DROPPED_FRAMES"
 
 // Point Grey does not define a NUM_PROPERTIES constant, but it can be set as follows
@@ -277,6 +280,9 @@ protected:
     int PGStrobeEnable;           /** Strobe enable/disable strobe (int32, write/read) */
     int PGStrobeDelay;            /** Strobe delay (float64, write/read) */
     int PGStrobeDuration;         /** Strobe duration (float64, write/read) */
+    int PGCorruptFrames;          /** Number of corrupt frames (int32, read) */
+    int PGDriverDropped;          /** Number of driver dropped frames (int32, read) */
+    int PGTransmitFailed;         /** Number of transmit failures (int32, read) */
     int PGDroppedFrames;          /** Number of dropped frames (int32, read) */
     #define LAST_PG_PARAM PGDroppedFrames
 
@@ -428,6 +434,9 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGStrobeEnableString,           asynParamInt32,   &PGStrobeEnable);
     createParam(PGStrobeDelayString,            asynParamFloat64, &PGStrobeDelay);
     createParam(PGStrobeDurationString,         asynParamFloat64, &PGStrobeDuration);
+    createParam(PGCorruptFramesString,          asynParamInt32,   &PGCorruptFrames);
+    createParam(PGDriverDroppedString,          asynParamInt32,   &PGDriverDropped);
+    createParam(PGTransmitFailedString,         asynParamInt32,   &PGTransmitFailed);
     createParam(PGDroppedFramesString,          asynParamInt32,   &PGDroppedFrames);
 
     /* Set initial values of some parameters */
@@ -642,11 +651,8 @@ void pointGrey::imageGrabTask()
         if (status == asynError) {
             /* remember to release the NDArray back to the pool now
              * that we are not using it (we didn't get an image...) */
-            if(pRaw_) pRaw_->release();
-            /* We abort if we had some problem with grabbing an image...
-             * This is perhaps not always the desired behaviour but it'll do for now. */
-            setIntegerParam(ADStatus, ADStatusAborting);
-            setIntegerParam(ADAcquire, 0);
+            if (pRaw_) pRaw_->release();
+            pRaw_ = NULL;
             continue;
         }
 
@@ -733,6 +739,9 @@ int pointGrey::grabImage()
         setIntegerParam(ADAcquire, 0);
         callParamCallbacks();
         return asynError;
+    } else if (error == PGRERROR_IMAGE_CONSISTENCY_ERROR) {
+        // For now we print an error message on image consistency errors, but continue
+        checkError(error, functionName, "RetrieveBuffer");
     } else {
         if (checkError(error, functionName, "RetrieveBuffer"))
             return asynError;
@@ -1287,8 +1296,8 @@ asynStatus pointGrey::setStrobe()
     pStrobeControl_->source   = source;
     pStrobeControl_->onOff    = enable ? true : false;
     pStrobeControl_->polarity = polarity;
-    pStrobeControl_->delay    = delay*1000.;
-    pStrobeControl_->duration = duration*1000.;
+    pStrobeControl_->delay    = (float)(delay*1000.);
+    pStrobeControl_->duration = (float)(duration*1000.);
     error = pCamera_->SetStrobe(pStrobeControl_);
     if (checkError(error, functionName, "SetStrobe")) 
         return asynError;
@@ -1746,7 +1755,10 @@ asynStatus pointGrey::readStatus()
     if (checkError(error, functionName, "GetStats")) 
         return asynError;
     setDoubleParam(ADTemperatureActual, pCameraStats_->temperature/10. - 273.15);
-    setIntegerParam(PGDroppedFrames, pCameraStats_->imageDropped);
+    setIntegerParam(PGCorruptFrames,    pCameraStats_->imageCorrupt);
+    setIntegerParam(PGDriverDropped,    pCameraStats_->imageDriverDropped);
+    setIntegerParam(PGTransmitFailed,   pCameraStats_->imageXmitFailed);
+    setIntegerParam(PGDroppedFrames,    pCameraStats_->imageDropped);
     callParamCallbacks();
     return asynSuccess;
 }

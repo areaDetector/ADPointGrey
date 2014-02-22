@@ -5,17 +5,23 @@ dbLoadDatabase("$(TOP)/dbd/pointGreyApp.dbd")
 pointGreyApp_registerRecordDeviceDriver(pdbbase) 
 
 epicsEnvSet("PREFIX", "13PG1:")
+
 # Use this line for the first Point Grey camera in the system
 #epicsEnvSet("CAMERA_ID", "0")
 # Use this line for a specific camera by serial number, in this case a Flea2 Firewire camera
 #epicsEnvSet("CAMERA_ID", "9211601")
 # Use this line for a specific camera by serial number, in this case a Grasshopper3 USB-3.0 cameras
 epicsEnvSet("CAMERA_ID", "13510305")
+# Use this line for a specific camera by serial number, in this case a BlackFly GigE cameras
+#epicsEnvSet("CAMERA_ID", "13481965")
+
 epicsEnvSet("PORT",   "PG1")
 epicsEnvSet("QSIZE",  "20")
 epicsEnvSet("XSIZE",  "648")
 epicsEnvSet("YSIZE",  "488")
 epicsEnvSet("NCHANS", "2048")
+# Define NELEMENTS to be enough for a 2048x2048x3 (color) image
+epicsEnvSet("NELEMENTS", "12592912")
 
 pointGreyConfig("$(PORT)", $(CAMERA_ID))
 asynSetTraceIOMask($(PORT), 0, 2)
@@ -30,9 +36,9 @@ dbLoadTemplate("pointGrey.substitutions")
 NDStdArraysConfigure("Image1", 5, 0, "$(PORT)", 0, 0)
 dbLoadRecords("$(ADCORE)/db/NDPluginBase.template","P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=0")
 # Use this line for 8-bit data only
-#dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,TYPE=Int8,FTVL=CHAR,NELEMENTS=2304000")
+#dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,TYPE=Int8,FTVL=CHAR,NELEMENTS=$(NELEMENTS)")
 # Use this line for 8-bit or 16-bit data
-dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,TYPE=Int16,FTVL=SHORT,NELEMENTS=2304000")
+dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,TYPE=Int16,FTVL=SHORT,NELEMENTS=$(NELEMENTS)")
 
 # Load all other plugins using commonPlugins.cmd
 < $(ADCORE)/iocBoot/commonPlugins.cmd

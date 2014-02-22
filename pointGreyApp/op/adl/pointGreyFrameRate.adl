@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGreyVideoModes.adl"
+	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGreyFrameRate.adl"
 	version=030107
 }
 display {
@@ -8,7 +8,7 @@ display {
 		x=141
 		y=152
 		width=485
-		height=85
+		height=60
 	}
 	clr=14
 	bclr=4
@@ -108,69 +108,32 @@ text {
 	"basic attribute" {
 		clr=54
 	}
-	textix="Frame Rate and Pixel Format - $(P)$(R)"
+	textix="Point Grey Frame Rate - $(P)$(R)"
 	align="horiz. centered"
 }
-composite {
+menu {
 	object {
-		x=5
+		x=360
 		y=35
-		width=475
-		height=45
+		width=120
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=5
-				y=60
-				width=350
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Pixel format (video mode = Format7)"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=360
-				y=60
-				width=120
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PixelFormat"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=360
-				y=35
-				width=120
-				height=20
-			}
-			control {
-				chan="$(P)$(R)FrameRate"
-				clr=14
-				bclr=50
-			}
-		}
-		text {
-			object {
-				x=15
-				y=35
-				width=340
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Frame rate (video mode != Format7)"
-			align="horiz. right"
-		}
+	control {
+		chan="$(P)$(R)FrameRate"
+		clr=14
+		bclr=50
 	}
+}
+text {
+	object {
+		x=15
+		y=35
+		width=340
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frame rate (video mode != Format7)"
+	align="horiz. right"
 }

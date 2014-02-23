@@ -6,6 +6,9 @@ include $(TOP)/configure/CONFIG
 PROD_NAME = pointGreyApp
 ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
   PROD_IOC += $(PROD_NAME)
+else ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
+  PROD_IOC += $(PROD_NAME)
+
 endif
 
 # <name>.dbd will be created from <name>Include.dbd
@@ -17,7 +20,8 @@ PROD_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp $(PROD_NAME)Main.cpp
 
 # Add locally compiled object code
 PROD_LIBS += pointGrey
-PROD_LIBS += FlyCapture2
+PROD_LIBS_WIN32 += FlyCapture2
+PROD_SYS_LIBS_Linux += flycapture
 
 include $(ADCORE)/ADApp/commonDriverMakefile
 

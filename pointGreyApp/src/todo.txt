@@ -2,6 +2,14 @@ Measure disk file performance
 
 Add performance to documentation
 
-Figure out problems with getting into state where can only get 80 frame/s in Mode 0 Raw8, and 43 frames/s in Mode 0
-Mono16.
+Add packetsize, packetdelay (GigE only), bandwidth
 
+Fix Xmit failed, why so large?
+
+Write test program to document problem reading data size after convert of
+   Raw8 to mono8
+   Others?
+   Why cannot convert raw16 to mono16?
+ 
+Make time stamp a blend of EPICS and camera when seconds and microseconds are not supported.  Set time to agree on first frame, use camera to
+update time after that. 

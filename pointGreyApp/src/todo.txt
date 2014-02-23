@@ -4,8 +4,6 @@ Add performance to documentation
 
 Add packetsize, packetdelay (GigE only), bandwidth
 
-Fix Xmit failed, why so large?
-
 Write test program to document problem reading data size after convert of
    Raw8 to mono8
    Others?

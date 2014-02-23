@@ -2,6 +2,7 @@ $(P)$(R)VideoMode
 $(P)$(R)Format7Mode
 $(P)$(R)FrameRate
 $(P)$(R)PixelFormat
+$(P)$(R)ConvertPixelFormat
 $(P)$(R)TriggerSource
 $(P)$(R)TriggerPolarity
 $(P)$(R)SkipFrames

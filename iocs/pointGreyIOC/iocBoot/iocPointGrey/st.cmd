@@ -11,9 +11,9 @@ epicsEnvSet("PREFIX", "13PG1:")
 # Use this line for a specific camera by serial number, in this case a Flea2 Firewire camera
 #epicsEnvSet("CAMERA_ID", "9211601")
 # Use this line for a specific camera by serial number, in this case a Grasshopper3 USB-3.0 cameras
-epicsEnvSet("CAMERA_ID", "13510305")
+#epicsEnvSet("CAMERA_ID", "13510305")
 # Use this line for a specific camera by serial number, in this case a BlackFly GigE cameras
-#epicsEnvSet("CAMERA_ID", "13481965")
+epicsEnvSet("CAMERA_ID", "13481965")
 
 epicsEnvSet("PORT",   "PG1")
 epicsEnvSet("QSIZE",  "20")

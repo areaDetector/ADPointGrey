@@ -17,7 +17,7 @@ record(bo, $(P)$(R)ReadStatus) {
 
 ## VideoMode
 record(mbbo, "$(P)$(R)VideoMode") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_VIDEO_MODE")
 }
@@ -30,7 +30,7 @@ record(mbbi, "$(P)$(R)VideoMode_RBV") {
 
 ## Format7Mode
 record(mbbo, "$(P)$(R)Format7Mode") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_FORMAT7_MODE")
 }
@@ -43,7 +43,7 @@ record(mbbi, "$(P)$(R)Format7Mode_RBV") {
 
 ## Framerate when the camera is not in the ROI/format7 mode
 record(mbbo, "$(P)$(R)FrameRate") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE")
 }
@@ -56,7 +56,7 @@ record(mbbi, "$(P)$(R)FrameRate_RBV") {
 
 ## Format 7 pixel format
 record(mbbo, "$(P)$(R)PixelFormat") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
 }
@@ -67,9 +67,22 @@ record(mbbi, "$(P)$(R)PixelFormat_RBV") {
   field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
 }
 
+## Convert pixel format
+record(mbbo, "$(P)$(R)ConvertPixelFormat") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_CONVERT_PIXEL_FORMAT")
+}
+
+record(mbbi, "$(P)$(R)ConvertPixelFormat_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_CONVERT_PIXEL_FORMAT")
+}
+
 ## Trigger source
 record(mbbo, "$(P)$(R)TriggerSource") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_TRIGGER_SOURCE")
 }
@@ -82,7 +95,7 @@ record(mbbi, "$(P)$(R)TriggerSource_RBV") {
 
 ## Trigger polarity
 record(bo, "$(P)$(R)TriggerPolarity") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(ZNAM, "Low")
   field(ONAM, "High")
@@ -121,7 +134,7 @@ record(longin, "$(P)$(R)SkipFrames_RBV") {
 
 ## Strobe parameters
 record(mbbo, "$(P)$(R)StrobeSource") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_STROBE_SOURCE")
 }
@@ -133,7 +146,7 @@ record(mbbi, "$(P)$(R)StrobeSource_RBV") {
 }
 
 record(bo, "$(P)$(R)StrobeEnable") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(ZNAM, "Disable")
   field(ONAM, "Enable")
@@ -149,7 +162,7 @@ record(bi, "$(P)$(R)StrobeEnable_RBV") {
 }
 
 record(bo, "$(P)$(R)StrobePolarity") {
-  field(PINI, "NO")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(ZNAM, "Low")
   field(ONAM, "High")
@@ -222,22 +235,19 @@ record(longin, "$(P)$(R)DroppedFrames_RBV") {
   field(SCAN, "I/O Intr")
 }
 
-record(longin, "$(P)$(R)SerialNumber")
-{
+record(longin, "$(P)$(R)SerialNumber") {
    field(PINI, "YES")
    field(DTYP, "asynInt32")
    field(INP,  "@asyn($(PORT) 0)PG_SERIAL_NUMBER")
 }
 
-record(stringin, "$(P)$(R)FirmwareVersion")
-{
+record(stringin, "$(P)$(R)FirmwareVersion") {
    field(PINI, "YES")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn($(PORT) 0)PG_FIRMWARE_VERSION")
 }
 
-record(stringin, "$(P)$(R)SoftwareVersion")
-{
+record(stringin, "$(P)$(R)SoftwareVersion") {
    field(PINI, "YES")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn($(PORT) 0)PG_SOFTWARE_VERSION")

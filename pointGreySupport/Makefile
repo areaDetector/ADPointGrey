@@ -20,12 +20,12 @@ INC += Utilities.h
 
 # Note, the following files were manually copied from the Perkin Elmer distribution XISL SDK32 and SKD64 directories
 ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
-#LIB_INSTALLS_WIN32    += ../os/win32-x86/XISL.lib
-#BIN_INSTALLS_WIN32    += ../os/win32-x86/XISL.dll
 
 else ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
-LIB_INSTALLS_WIN32    += ../os/windows-x64/FlyCapture2.lib
-#BIN_INSTALLS_WIN32    += ../os/windows-x64/XISL.dll
+LIB_INSTALLS    += ../os/windows-x64/FlyCapture2.lib
+
+else ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
+LIB_INSTALLS    += ../os/linux-x86_64/libflycapture.so.2
 
 endif
 

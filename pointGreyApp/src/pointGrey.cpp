@@ -1821,6 +1821,7 @@ asynStatus pointGrey::readStatus()
     setDoubleParam(ADTemperatureActual, pCameraStats_->temperature/10. - 273.15);
     setIntegerParam(PGCorruptFrames,    pCameraStats_->imageCorrupt);
     setIntegerParam(PGDriverDropped,    pCameraStats_->imageDriverDropped);
+    if (pCameraStats_->imageXmitFailed == 0x80000000) pCameraStats_->imageXmitFailed = 0;
     setIntegerParam(PGTransmitFailed,   pCameraStats_->imageXmitFailed);
     setIntegerParam(PGDroppedFrames,    pCameraStats_->imageDropped);
     callParamCallbacks();
@@ -2064,6 +2065,7 @@ void pointGrey::report(FILE *fp, int details)
     pCamera_->GetStats(pCameraStats_);
     if (checkError(error, functionName, "GetStats")) 
         return;
+    if (pCameraStats_->imageXmitFailed == 0x80000000) pCameraStats_->imageXmitFailed = 0;
     fprintf(fp, "Camera statistics\n");
     fprintf(fp, "              Images dropped: %u\n", pCameraStats_->imageDropped);
     fprintf(fp, "              Images corrupt: %u\n", pCameraStats_->imageCorrupt);

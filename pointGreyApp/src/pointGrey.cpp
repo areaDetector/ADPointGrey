@@ -57,8 +57,12 @@ static const char *driverName = "pointGrey";
 #define PGPropertyValueAbsString      "PG_PROP_VAL_ABS"
 #define PGPropertyValueAbsMaxString   "PG_PROP_VAL_ABS_MAX"
 #define PGPropertyValueAbsMinString   "PG_PROP_VAL_ABS_MIN"
+#define PGGigEPropertyValueString     "PG_GIGE_PROP_VAL"
+#define PGGigEPropertyValueMaxString  "PG_GIGE_PROP_VAL_MAX"
+#define PGGigEPropertyValueMinString  "PG_GIGE_PROP_VAL_MIN"
 #define PGVideoModeString             "PG_VIDEO_MODE"
 #define PGFormat7ModeString           "PG_FORMAT7_MODE"
+#define PGBinningModeString           "PG_BINNING_MODE"
 #define PGFrameRateString             "PG_FRAME_RATE"
 #define PGPixelFormatString           "PG_PIXEL_FORMAT"
 #define PGConvertPixelFormatString    "PG_CONVERT_PIXEL_FORMAT"
@@ -71,6 +75,8 @@ static const char *driverName = "pointGrey";
 #define PGStrobeEnableString          "PG_STROBE_ENABLE"
 #define PGStrobeDelayString           "PG_STROBE_DELAY"
 #define PGStrobeDurationString        "PG_STROBE_DURATION"
+#define PGPacketSizeString            "PG_PACKET_SIZE"
+#define PGPacketDelayString           "PG_PACKET_DELAY"
 #define PGCorruptFramesString         "PG_CORRUPT_FRAMES"
 #define PGDriverDroppedString         "PG_DRIVER_DROPPED"
 #define PGTransmitFailedString        "PG_TRANSMIT_FAILED"
@@ -79,6 +85,8 @@ static const char *driverName = "pointGrey";
 // Point Grey does not define a NUM_PROPERTIES constant, but it can be set as follows
 #define NUM_PROPERTIES UNSPECIFIED_PROPERTY_TYPE
 
+#define NUM_GIGE_PROPERTIES 4
+
 #define NUM_TRIGGER_MODES 17
 
 // The maximum value of the asyn "addr" is the largest of NUM_PROPERTIES, NUM_PIXEL_FORMATS, NUM_MODES, NUM_VIDEO_MODES
@@ -86,6 +94,9 @@ static const char *driverName = "pointGrey";
 
 // The maximum number of pins for strobe
 #define NUM_GPIO_PINS 4
+
+// The maximum number of binning modes
+#define NUM_BINNING_MODES 3
 
 // The maximum number of pixel formats to convert to when the input pixel format is PIXEL_FORMAT_RAW[8,12,16]
 #define NUM_CONVERT_PIXEL_FORMATS 5
@@ -183,6 +194,24 @@ static const PixelFormat pixelFormatValues[NUM_PIXEL_FORMATS] = {
     PIXEL_FORMAT_422YUV8_JPEG
 };
 
+typedef enum {
+    BINNING_1X1,
+    BINNING_2X2,
+    BINNING_4X4
+} binningMode_t;
+
+static const char *binningModeStrings[NUM_BINNING_MODES] = {
+    "1x1",
+    "2x2",
+    "4x4",
+};
+
+static const unsigned int binningModeValues[NUM_BINNING_MODES] = {
+    1,
+    2,
+    4,
+};
+
 static const char *convertPixelFormatStrings[NUM_CONVERT_PIXEL_FORMATS] = {
     "None",
     "Mono8",
@@ -219,6 +248,14 @@ static const char *propertyTypeStrings[NUM_PROPERTIES] = {
     "FrameRate",
     "Temperature"
 };
+
+static const char *gigEPropertyTypeStrings[NUM_GIGE_PROPERTIES] = {
+    "Heartbeat",
+    "HeartbeatTimeout",
+    "PacketSize",
+    "PacketDelay"
+};
+
 
 static const char *triggerModeStrings[NUM_TRIGGER_MODES] = {
     "Internal",
@@ -286,8 +323,12 @@ protected:
     int PGPropertyValueAbs;       /** Property absolute value (float64 read/write) */
     int PGPropertyValueAbsMax;    /** Property absolute maximum value (float64 read) */
     int PGPropertyValueAbsMin;    /** Property absolute minimum value (float64 read) */
+    int PGGigEPropertyValue;      /** GigE property value (int32 read/write) */
+    int PGGigEPropertyValueMax;   /** GigE property maximum value (int32 read) */
+    int PGGigEPropertyValueMin;   /** GigE property minimum value (int32 read) */
     int PGVideoMode;              /** Video mode (int32 read/write) enum VideoMode, 0-NUM_VIDEOMODES-1 */
     int PGFormat7Mode;            /** Format7 mode (int32 read/write) enum Mode, 0-NUM_MODES-1 */
+    int PGBinningMode;            /** Binning (int32 read/write) enum Binning, 0-NUM_BINNINGS-1 */
     int PGFrameRate;              /** Frame rate (int32 read/write) enum FrameRate, 0-NUM_FRAMERATES-1 */
     int PGPixelFormat;            /** The pixel format when VideoFormat=Format7 (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
     int PGConvertPixelFormat;     /** The pixel format to convert to when input pixel format is raw[8,12,16] (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
@@ -300,6 +341,10 @@ protected:
     int PGStrobeEnable;           /** Strobe enable/disable strobe (int32, write/read) */
     int PGStrobeDelay;            /** Strobe delay (float64, write/read) */
     int PGStrobeDuration;         /** Strobe duration (float64, write/read) */
+    int PGPacketSize;             /** Size of data packets from camera (int32, write/read) */
+    int PGPacketDelay;            /** Packet delay in usec from camera, GigE only (int32, write/read) */
+    int PGHeartbeat;              /** Hearbeat, GigE only (int32, write/read) */
+    int PGHeartbeatTimeout;       /** Heartbeat timeout, GigE only (int32, write/read) */
     int PGCorruptFrames;          /** Number of corrupt frames (int32, read) */
     int PGDriverDropped;          /** Number of driver dropped frames (int32, read) */
     int PGTransmitFailed;         /** Number of transmit failures (int32, read) */
@@ -319,15 +364,19 @@ private:
 
     /* camera property control functions */
     asynStatus setPropertyValue(PropertyType propType, int value, propValue_t valType);
+    asynStatus setGigEPropertyValue(GigEPropertyType propType, int value);
     asynStatus setPropertyAbsValue(PropertyType propType, epicsFloat64 value);
     asynStatus setPropertyAutoMode(PropertyType propType, int value);
     asynStatus setVideoMode(int mode);
     asynStatus setFrameRate(int rate);
     asynStatus setVideoModeAndFrameRate(int mode, int frameRate);
+    asynStatus setImageParams();
     asynStatus setFormat7Params();
+    asynStatus setGigEImageParams();
     asynStatus createStaticEnums();
     asynStatus createDynamicEnums();
     asynStatus getAllProperties();
+    asynStatus getAllGigEProperties();
     int getPixelFormatIndex(PixelFormat pixelFormat);
     asynStatus setTrigger();
     asynStatus softwareTrigger();
@@ -335,35 +384,42 @@ private:
 
     /* Data */
     int cameraId_;
-    PGRGuid         *pGuid_;
-    Camera          *pCamera_;
-    BusManager      *pBusMgr_;
-    Format7Info     *pFormat7Info_;
-    Image           *pPGRawImage_;
-    Image           *pPGConvertedImage_;
-    TriggerMode     *pTriggerMode_;
-    TriggerModeInfo *pTriggerModeInfo_;
-    CameraStats     *pCameraStats_;
-    StrobeControl   *pStrobeControl_;
-    StrobeInfo      *pStrobeInfo_;
-    Property        *allProperties_[NUM_PROPERTIES];
-    PropertyInfo    *allPropInfos_ [NUM_PROPERTIES];
+    BusManager            *pBusMgr_;
+    PGRGuid               *pGuid_;
+    CameraBase            *pCameraBase_;
+    Camera                *pCamera_;
+    GigECamera            *pGigECamera_;
+    CameraInfo            *pCameraInfo_;
+    Format7Info           *pFormat7Info_;
+    GigEImageSettingsInfo *pGigEImageSettingsInfo_;
+    Image                 *pPGRawImage_;
+    Image                 *pPGConvertedImage_;
+    TriggerMode           *pTriggerMode_;
+    TriggerModeInfo       *pTriggerModeInfo_;
+    CameraStats           *pCameraStats_;
+    StrobeControl         *pStrobeControl_;
+    StrobeInfo            *pStrobeInfo_;
+    Property              *allProperties_[NUM_PROPERTIES];
+    PropertyInfo          *allPropInfos_ [NUM_PROPERTIES];
+    GigEProperty          *allGigEProperties_[NUM_GIGE_PROPERTIES];
     int numValidVideoModes_;
     int numValidFormat7Modes_;
+    int numValidBinningModes_;
     int numValidFrameRates_;
     int numValidPixelFormats_;
     int numValidConvertPixelFormats_;
     int numValidTriggerModes_;
     int numValidTriggerSources_;
     int numValidStrobeSources_;
-    enumStruct_t videoModeEnums_    [NUM_VIDEOMODES];
-    enumStruct_t format7ModeEnums_  [NUM_MODES];
-    enumStruct_t frameRateEnums_    [NUM_FRAMERATES];
-    enumStruct_t pixelFormatEnums_  [NUM_PIXEL_FORMATS];
+    enumStruct_t videoModeEnums_          [NUM_VIDEOMODES];
+    enumStruct_t format7ModeEnums_        [NUM_MODES];
+    enumStruct_t binningModeEnums_        [NUM_BINNING_MODES];
+    enumStruct_t frameRateEnums_          [NUM_FRAMERATES];
+    enumStruct_t pixelFormatEnums_        [NUM_PIXEL_FORMATS];
     enumStruct_t convertPixelFormatEnums_ [NUM_PIXEL_FORMATS];
-    enumStruct_t triggerModeEnums_  [NUM_TRIGGER_MODES];
-    enumStruct_t triggerSourceEnums_[NUM_GPIO_PINS];
-    enumStruct_t strobeSourceEnums_ [NUM_GPIO_PINS];
+    enumStruct_t triggerModeEnums_        [NUM_TRIGGER_MODES];
+    enumStruct_t triggerSourceEnums_      [NUM_GPIO_PINS];
+    enumStruct_t strobeSourceEnums_       [NUM_GPIO_PINS];
     int exiting_;
     epicsEventId startEventId_;
     NDArray *pRaw_;
@@ -444,8 +500,12 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGPropertyValueAbsString,       asynParamFloat64, &PGPropertyValueAbs);
     createParam(PGPropertyValueAbsMaxString,    asynParamFloat64, &PGPropertyValueAbsMax);
     createParam(PGPropertyValueAbsMinString,    asynParamFloat64, &PGPropertyValueAbsMin);
+    createParam(PGGigEPropertyValueString,      asynParamInt32,   &PGGigEPropertyValue);
+    createParam(PGGigEPropertyValueMaxString,   asynParamInt32,   &PGGigEPropertyValueMax);
+    createParam(PGGigEPropertyValueMinString,   asynParamInt32,   &PGGigEPropertyValueMin);
     createParam(PGVideoModeString,              asynParamInt32,   &PGVideoMode);
     createParam(PGFormat7ModeString,            asynParamInt32,   &PGFormat7Mode);
+    createParam(PGBinningModeString,            asynParamInt32,   &PGBinningMode);
     createParam(PGFrameRateString,              asynParamInt32,   &PGFrameRate);
     createParam(PGPixelFormatString,            asynParamInt32,   &PGPixelFormat);
     createParam(PGConvertPixelFormatString,     asynParamInt32,   &PGConvertPixelFormat);
@@ -458,6 +518,8 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGStrobeEnableString,           asynParamInt32,   &PGStrobeEnable);
     createParam(PGStrobeDelayString,            asynParamFloat64, &PGStrobeDelay);
     createParam(PGStrobeDurationString,         asynParamFloat64, &PGStrobeDuration);
+    createParam(PGPacketSizeString,             asynParamInt32,   &PGPacketSize);
+    createParam(PGPacketDelayString,            asynParamInt32,   &PGPacketDelay);
     createParam(PGCorruptFramesString,          asynParamInt32,   &PGCorruptFrames);
     createParam(PGDriverDroppedString,          asynParamInt32,   &PGDriverDropped);
     createParam(PGTransmitFailedString,         asynParamInt32,   &PGTransmitFailed);
@@ -467,6 +529,8 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     setIntegerParam(NDDataType, NDUInt8);
     setIntegerParam(NDColorMode, NDColorModeMono);
     setIntegerParam(NDArraySizeZ, 0);
+    setIntegerParam(ADMinX, 0);
+    setIntegerParam(ADMinY, 0);
     setIntegerParam(PGVideoMode, 0);
     setIntegerParam(PGFormat7Mode, 0);
     setIntegerParam(PGFrameRate, 0);
@@ -477,9 +541,10 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     
     // Create camera control objects
     pBusMgr_            = new BusManager;
-    pCamera_            = new Camera;
     pGuid_              = new PGRGuid;
+    pCameraInfo_        = new CameraInfo;
     pFormat7Info_       = new Format7Info;
+    pGigEImageSettingsInfo_ = new GigEImageSettingsInfo;
     pPGRawImage_        = new Image;
     pPGConvertedImage_  = new Image;
     pTriggerMode_       = new TriggerMode;
@@ -519,6 +584,12 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     }
     getAllProperties();
 
+    for (i=0; i<NUM_GIGE_PROPERTIES; i++) {
+        allGigEProperties_[i] = new GigEProperty();
+        allGigEProperties_[i]->propType = (GigEPropertyType) i;
+    }
+    getAllGigEProperties();
+
     startEventId_ = epicsEventCreate(epicsEventEmpty);
 
     /* launch image read task */
@@ -554,11 +625,10 @@ void pointGrey::shutdown(void)
 asynStatus pointGrey::connectCamera(void)
 {
     Error error;
-    CameraInfo camInfo;
     Format7Info f7Info;
     FC2Version version;
     EmbeddedImageInfo embeddedInfo;
-    bool format7ModeSupported;
+    InterfaceType interfaceType;
     unsigned int numCameras;
     char tempString[sk_maxStringLength];
     static const char *functionName = "connectCamera";
@@ -579,43 +649,55 @@ asynStatus pointGrey::connectCamera(void)
         error = pBusMgr_->GetCameraFromSerialNumber(cameraId_, pGuid_);
         if (checkError(error, functionName, "GetCameraFromSerialNumber")) return asynError;
     }
+    error = pBusMgr_->GetInterfaceTypeFromGuid(pGuid_, &interfaceType);
+    if (checkError(error, functionName, "GetCameraFromSerialNumber")) return asynError;
+    
+    // Create appropriate camera object
+    if (interfaceType == INTERFACE_GIGE) {
+        pCameraBase_ = new GigECamera;
+        pCamera_ = NULL;
+        pGigECamera_ = dynamic_cast<GigECamera*>(pCameraBase_);
+        if (pGigECamera_ == NULL) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s::%s error casting camera to GigECamera\n",
+                driverName, functionName);
+            return asynError;
+        }
+    } else {
+        pCameraBase_ = new Camera;
+        pGigECamera_ = NULL;
+        pCamera_ = dynamic_cast<Camera*>(pCameraBase_);
+        if (pCamera_ == NULL) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s::%s error casting camera to Camera\n",
+                driverName, functionName);
+            return asynError;
+        }   
+    }
+
     // Connect to camera
-    error = pCamera_->Connect(pGuid_);
+    error = pCameraBase_->Connect(pGuid_);
     if (checkError(error, functionName, "Connect")) return asynError;
 
     // Get the camera information
-    error = pCamera_->GetCameraInfo(&camInfo);
+    error = pCameraBase_->GetCameraInfo(pCameraInfo_);
     if (checkError(error, functionName, "GetCameraInfo")) return asynError;
-    setIntegerParam(PGSerialNumber, camInfo.serialNumber);
-    setStringParam(ADManufacturer, camInfo.vendorName);
-    setStringParam(ADModel, camInfo.modelName);
-    setStringParam(PGFirmwareVersion, camInfo.firmwareVersion);
+    setIntegerParam(PGSerialNumber, pCameraInfo_->serialNumber);
+    setStringParam(ADManufacturer, pCameraInfo_->vendorName);
+    setStringParam(ADModel, pCameraInfo_->modelName);
+    setStringParam(PGFirmwareVersion, pCameraInfo_->firmwareVersion);
     
     Utilities::GetLibraryVersion(&version);
     sprintf(tempString, "%d.%d.%d", version.major, version.minor, version.type);
     setStringParam(PGSoftwareVersion, tempString);
-    //sscanf(camInfo.sensorResolution, "%dx%d", &sizeX, &sizeY);
-    //setIntegerParam(ADMaxSizeX, sizeX);
-    //setIntegerParam(ADMaxSizeY, sizeY);
-    
-    // Get the Format7 capabilities
-    pFormat7Info_->mode = MODE_0;
-    error = pCamera_->GetFormat7Info(pFormat7Info_, &format7ModeSupported);
-    if (checkError(error, functionName, "GetFormat7Info")) return asynError;
-    setIntegerParam(ADMaxSizeX, pFormat7Info_->maxWidth);
-    setIntegerParam(ADMaxSizeY, pFormat7Info_->maxHeight);
-    setIntegerParam(ADMinX, 0);
-    setIntegerParam(ADMinY, 0);
-    setIntegerParam(ADSizeX, pFormat7Info_->maxWidth);
-    setIntegerParam(ADSizeY, pFormat7Info_->maxHeight);
     
     // Get and set the embedded image info
-    error = pCamera_->GetEmbeddedImageInfo(&embeddedInfo);
+    error = pCameraBase_->GetEmbeddedImageInfo(&embeddedInfo);
     if (checkError(error, functionName, "GetEmbeddedImageInfo")) return asynError;
     // Force the timestamp and frame counter information to be on
     embeddedInfo.timestamp.onOff = true;
     embeddedInfo.frameCounter.onOff = true;
-    error = pCamera_->SetEmbeddedImageInfo(&embeddedInfo);
+    error = pCameraBase_->SetEmbeddedImageInfo(&embeddedInfo);
     if (checkError(error, functionName, "SetEmbeddedImageInfo")) return asynError;
 
     return asynSuccess;
@@ -626,8 +708,8 @@ asynStatus pointGrey::disconnectCamera(void)
     Error error;
     static const char *functionName = "disconnectCamera";
 
-    if (pCamera_->IsConnected()) {
-        error = pCamera_->Disconnect();
+    if (pCameraBase_->IsConnected()) {
+        error = pCameraBase_->Disconnect();
         if (checkError(error, functionName, "Disconnect")) return asynError;
     }
     return asynSuccess;
@@ -749,17 +831,21 @@ asynStatus pointGrey::grabImage()
 
     /* unlock the driver while we wait for a new image to be ready */
     unlock();
-    error = pCamera_->RetrieveBuffer(pPGRawImage_);
+    error = pCameraBase_->RetrieveBuffer(pPGRawImage_);
     lock();
-    if (error == PGRERROR_ISOCH_NOT_STARTED) {
-        // This is an expected error if acquisition was stopped externally
-        return asynError;
-    } else if (error == PGRERROR_IMAGE_CONSISTENCY_ERROR) {
-        // For now we print an error message on image consistency errors, but continue
-        checkError(error, functionName, "RetrieveBuffer");
-    } else {
-        if (checkError(error, functionName, "RetrieveBuffer"))
+    if (error != PGRERROR_OK) {
+        if (error == PGRERROR_ISOCH_NOT_STARTED) {
+            // This is an expected error if acquisition was stopped externally
             return asynError;
+        } 
+        checkError(error, functionName, "RetrieveBuffer");
+        if (error == PGRERROR_IMAGE_CONSISTENCY_ERROR) {
+            // For now we ignore this error
+        } else {
+            //  Any other error we turn off acquisition and return an error
+            setIntegerParam(ADAcquire, 0);
+            return asynError;
+        }
     }
     pPGRawImage_->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);    
     metaData = pPGRawImage_->GetMetadata();    
@@ -938,13 +1024,16 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
             status = stopCapture();
         }
 
-    } else if ( (function == ADSizeX) ||
-                (function == ADSizeY) ||
-                (function == ADMinX)  ||
-                (function == ADMinY)  ||
+    } else if ( (function == ADSizeX)       ||
+                (function == ADSizeY)       ||
+                (function == ADMinX)        ||
+                (function == ADMinY)        ||
                 (function == PGFormat7Mode) ||
-                (function == PGPixelFormat)) {
-        status = setFormat7Params();
+                (function == PGPixelFormat) ||
+                (function == PGBinningMode) ||
+                (function == PGPacketSize)  ||
+                (function == PGPacketDelay)) {
+        status = setImageParams();
 
     } else if (function == PGPropertyValue) {
         status = setPropertyValue(propType, value, propValueA);
@@ -1060,6 +1149,9 @@ asynStatus pointGrey::readEnum(asynUser *pasynUser, char *strings[], int values[
     } else if (function == PGFormat7Mode) {
         pEnum = format7ModeEnums_;
         numEnums = numValidFormat7Modes_;
+    } else if (function == PGBinningMode) {
+        pEnum = binningModeEnums_;
+        numEnums = numValidBinningModes_;
     } else if (function == PGFrameRate) {
         pEnum = frameRateEnums_;
         numEnums = numValidFrameRates_;
@@ -1113,7 +1205,7 @@ asynStatus pointGrey::setPropertyAutoMode(PropertyType propType, int value)
 
     /* Send the propertyType mode to the cam */
     pProperty->autoManualMode = value ? true : false;
-    error = pCamera_->SetProperty(pProperty);
+    error = pCameraBase_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
     return asynSuccess;
@@ -1149,12 +1241,43 @@ asynStatus pointGrey::setPropertyValue(PropertyType propType, int value, propVal
     } else {
         pProperty->valueB = value;
     }
-    error = pCamera_->SetProperty(pProperty);
+    error = pCameraBase_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
 
     /* Update all properties to see if any settings have changed */
     getAllProperties();
+    return asynSuccess;
+}
+
+
+asynStatus pointGrey::setGigEPropertyValue(GigEPropertyType propType, int value)
+{
+    Error error;
+    GigEProperty *pProperty = allGigEProperties_[propType];
+    static const char *functionName = "setGigEPropertyValue";
+
+    if (pGigECamera_ == NULL) return asynSuccess;
+    
+    /* First check if the propertyType is writeable for this camera */
+    if (!pProperty->isWritable) return asynError;
+
+    /* Check the value is within the expected boundaries */
+    if (value < (int)pProperty->min || value > (int)pProperty->max) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+            "%s::%s error setting propertyType %s, value %d is out of range [%d..%d]\n",
+            driverName, functionName, gigEPropertyTypeStrings[propType], value, pProperty->min, pProperty->max);
+        return asynError;
+    }
+
+    pProperty->value = value;
+    error = pGigECamera_->SetGigEProperty(pProperty);
+    if (checkError(error, functionName, "SetGigeEProperty")) 
+        return asynError;
+
+    /* Update all properties to see if any settings have changed */
+    getAllProperties();
+    getAllGigEProperties();
     return asynSuccess;
 }
 
@@ -1198,7 +1321,7 @@ asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 va
 
     /* Set the propertyType value in the camera */
     pProperty->absValue = (float)value;
-    error = pCamera_->SetProperty(pProperty);
+    error = pCameraBase_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
             "%s::%s error setting propertyType %s, value %.5f\n",
@@ -1237,10 +1360,11 @@ asynStatus pointGrey::setVideoModeAndFrameRate(int videoModeIn, int frameRateIn)
     bool supported;
     static const char *functionName = "setVideoModeAndFrameRate";
 
+    if (pCamera_ == NULL) return asynError;
 
     // VIDEOMODE_FORMAT7 must be treated differently
     if (videoMode == VIDEOMODE_FORMAT7) {
-        setFormat7Params();
+        setImageParams();
     } else {
         /* Must stop capture before changing the video mode */
         error = pCamera_->StopCapture();
@@ -1281,6 +1405,24 @@ int pointGrey::getPixelFormatIndex(PixelFormat pixelFormat)
     return -1;
 }
 
+asynStatus pointGrey::setImageParams()
+{
+    static const char *functionName = "setImageParams";
+    
+    if (pCamera_) 
+        return setFormat7Params();
+    
+    else if (pGigECamera_) 
+        return setGigEImageParams();
+    
+    else
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+           "%s::%s unknown camera type\n",
+           driverName, functionName);
+    return asynError;
+}
+
+
 asynStatus pointGrey::setFormat7Params()
 {
     Error error;
@@ -1301,6 +1443,8 @@ asynStatus pointGrey::setFormat7Params()
     unsigned short hpMax, vpMax, hpUnit, vpUnit;
     static const char *functionName = "setFormat7Params";
 
+    if (!pCamera_) return asynError;
+    
     /* Get the current video mode from EPICS.  It may have just been changed */
     getIntegerParam(PGVideoMode, &videoMode);
     /* If not format 7 then silently exit */
@@ -1386,7 +1530,9 @@ asynStatus pointGrey::setFormat7Params()
     /* Must stop acquisition before changing the video mode */
     error = pCamera_->StopCapture();
     resumeAcquire = (error == PGRERROR_OK);
-    error = pCamera_->SetFormat7Configuration(&f7Settings, f7PacketInfo.recommendedBytesPerPacket);
+    getIntegerParam(PGPacketSize, (int *)&packetSize);
+    if (packetSize <= 0) packetSize = f7PacketInfo.recommendedBytesPerPacket;
+    error = pCamera_->SetFormat7Configuration(&f7Settings, packetSize);
     checkError(error, functionName, "SetFormat7Configuration");
     if (resumeAcquire) {
         error = pCamera_->StartCapture();
@@ -1397,11 +1543,12 @@ asynStatus pointGrey::setFormat7Params()
     error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
     if (checkError(error, functionName, "GetFormat7Configuration")) 
         return asynError;
-    setIntegerParam(ADMinX, f7Settings.offsetX);
-    setIntegerParam(ADMinY, f7Settings.offsetY);
-    setIntegerParam(ADSizeX, f7Settings.width);
-    setIntegerParam(ADSizeY, f7Settings.height);
-    setIntegerParam(PGPixelFormat, pixelFormat);
+    setIntegerParam(ADMinX,        f7Settings.offsetX);
+    setIntegerParam(ADMinY,        f7Settings.offsetY);
+    setIntegerParam(ADSizeX,       f7Settings.width);
+    setIntegerParam(ADSizeY,       f7Settings.height);
+    setIntegerParam(PGPixelFormat, f7Settings.pixelFormat);
+    setIntegerParam(PGPacketSize,  packetSize);
     callParamCallbacks();
     
     /* When the format7 mode changes the supported values of pixel format changes */
@@ -1411,6 +1558,160 @@ asynStatus pointGrey::setFormat7Params()
 
     return asynSuccess;
 }
+
+asynStatus pointGrey::setGigEImageParams()
+{
+    Error error;
+    GigEImageSettings gigESettings;
+    PixelFormat pixelFormat;
+    bool resumeAcquire;
+    int gigEMode;
+    int itemp;
+    int packetSize;
+    int packetDelay;
+    int sizeX, sizeY, minX, minY;
+    unsigned int binX, binY;
+    int hsMax, vsMax, hsUnit, vsUnit;
+    int hpMax, vpMax, hpUnit, vpUnit;
+    int binningMode;
+    static const char *functionName = "setGigEImageParams";
+
+    if (!pGigECamera_) return asynError;
+
+    /* Must stop acquisition before changing these settings */
+    error = pGigECamera_->StopCapture();
+    resumeAcquire = (error == PGRERROR_OK);
+
+printf("%s::%s calling SetGigEImagingMode\n", driverName, functionName);
+    // Set the GigE imaging mode    
+    getIntegerParam(PGFormat7Mode, &gigEMode);
+    error = pGigECamera_->SetGigEImagingMode((Mode)gigEMode);
+    if (checkError(error, functionName, "SetGigEImagingMode")) 
+        goto cleanup;
+
+    /* Get the GigE image settings info */
+printf("%s::%s calling GetGigEImageSettingsInfo\n", driverName, functionName);
+    error = pGigECamera_->GetGigEImageSettingsInfo(pGigEImageSettingsInfo_);
+    if (checkError(error, functionName, "GetGigEImageSettingsInfo")) 
+        goto cleanup;
+    
+    getIntegerParam(ADSizeX, &sizeX);
+    getIntegerParam(ADSizeY, &sizeY);
+    getIntegerParam(ADMinX, &minX);
+    getIntegerParam(ADMinY, &minY);
+    getIntegerParam(PGPixelFormat, &itemp);
+    pixelFormat = (PixelFormat)itemp;
+
+    /* Set the size limits */
+    hsMax = pGigEImageSettingsInfo_->maxWidth;
+    vsMax = pGigEImageSettingsInfo_->maxHeight;
+    setIntegerParam(ADMaxSizeX, hsMax);
+    setIntegerParam(ADMaxSizeY, vsMax);
+    /* Set the size units (minimum increment) */
+    hsUnit = pGigEImageSettingsInfo_->imageHStepSize;
+    vsUnit = pGigEImageSettingsInfo_->imageVStepSize;
+    /* Set the offset units (minimum increment) */
+    hpUnit = pGigEImageSettingsInfo_->offsetHStepSize;
+    vpUnit = pGigEImageSettingsInfo_->offsetVStepSize;
+    
+    // This logic probably needs work!!!
+    hpMax = hsMax;
+    vpMax = vsMax;
+ 
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+        "%s:%s hsMax=%d, vsMax=%d, hsUnit=%d, vsUnit=%d, hpMax=%d, vpMax=%d, hpUnit=%d, vpUnit=%d\n", 
+        driverName, functionName, hsMax, vsMax, hsUnit, vsUnit,  hpMax, vpMax, hpUnit, vpUnit);
+
+    /* Force the requested values to obey the increment and range */
+    if (sizeX % hsUnit) sizeX = (sizeX/hsUnit) * hsUnit;
+    if (sizeY % vsUnit) sizeY = (sizeY/vsUnit) * vsUnit;
+    if (minX % hpUnit)  minX  = (minX/hpUnit)  * hpUnit;
+    if (minY % vpUnit)  minY  = (minY/vpUnit)  * vpUnit;
+    
+    if (sizeX < hsUnit) sizeX = hsUnit;
+    if (sizeX > hsMax)  sizeX = hsMax;
+    if (sizeY < vsUnit) sizeY = vsUnit;
+    if (sizeY > vsMax)  sizeY = vsMax;
+    
+    if (minX < 0) minX = 0;
+    if (minX > hpMax)  minX = hpMax;
+    if (minY < 0) minY = 0;
+    if (minY > vpMax)  minY = vpMax;
+    
+    gigESettings.offsetX = minX;
+    gigESettings.offsetY = minY;
+    gigESettings.width   = sizeX;
+    gigESettings.height  = sizeY;
+    gigESettings.pixelFormat = pixelFormat;
+ 
+    /* Attempt to write the parameters to camera */
+    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
+        "%s::%s setting GigE parameters sizeX=%d, sizeY=%d, minX=%d, minY=%d, pixelFormat=0x%x\n",
+        driverName, functionName, sizeX, sizeY, minX, minY, pixelFormat);
+
+    // Set the packet size and delay
+    getIntegerParam(PGPacketSize, &packetSize);
+    getIntegerParam(PGPacketDelay, &packetDelay);
+    if (packetSize <= 0) packetSize = 1400;
+    if (packetDelay <= 0) packetSize = 0;
+    setGigEPropertyValue(PACKET_SIZE, packetSize);
+    setGigEPropertyValue(PACKET_DELAY, packetDelay);
+
+    // Set the binning
+    getIntegerParam(PGBinningMode, &binningMode);
+    error = pGigECamera_->SetGigEImageBinningSettings(binningModeValues[binningMode], 
+                                                      binningModeValues[binningMode]);
+    if (checkError(error, functionName, "SetGigEImageBinningSettings")) 
+        goto cleanup;
+
+    error = pGigECamera_->SetGigEImageSettings(&gigESettings);
+    if (checkError(error, functionName, "SetGigEImageSettings"))
+        goto cleanup;
+
+    /* Read back the actual values */
+    error = pGigECamera_->GetGigEImagingMode((Mode *)&gigEMode);
+    if (checkError(error, functionName, "GetGigEImagingMode")) 
+        goto cleanup;
+    setIntegerParam(PGFormat7Mode, gigEMode);
+
+    error = pGigECamera_->GetGigEImageBinningSettings(&binX, &binY); 
+    if (checkError(error, functionName, "GetGigEImageBinningSettings")) 
+        goto cleanup;
+    for (binningMode=0; binningMode < NUM_BINNING_MODES; binningMode++) {
+        if (binX == binningModeValues[binningMode]) {
+            setIntegerParam(PGBinningMode, binX);
+        }
+    }
+    setIntegerParam(ADBinX, binX);
+    setIntegerParam(ADBinY, binY);
+
+    error = pGigECamera_->GetGigEImageSettings(&gigESettings);
+    if (checkError(error, functionName, "GetGigEImageSettings")) 
+        goto cleanup;
+
+    setIntegerParam(ADMinX,        gigESettings.offsetX);
+    setIntegerParam(ADMinY,        gigESettings.offsetY);
+    setIntegerParam(ADSizeX,       gigESettings.width);
+    setIntegerParam(ADSizeY,       gigESettings.height);
+    setIntegerParam(PGPixelFormat, gigESettings.pixelFormat);
+    callParamCallbacks();
+    
+    /* When the GigE mode changes the supported values of pixel format changes */
+    createDynamicEnums();
+    /* When the GigE mode changes the available properties can also change */
+    getAllProperties();
+    getAllGigEProperties();
+
+cleanup:
+    if (resumeAcquire) {
+        error = pGigECamera_->StartCapture();
+        checkError(error, functionName, "StartCapture");
+    }
+
+    if (error != PGRERROR_OK) return asynError;
+    return asynSuccess;
+}
+
 
 asynStatus pointGrey::setTrigger()
 {
@@ -1426,7 +1727,7 @@ asynStatus pointGrey::setTrigger()
     getIntegerParam(ADTriggerMode, &triggerMode);
     getIntegerParam(PGTriggerPolarity, &triggerPolarity);
     getIntegerParam(PGTriggerSource, &triggerSource);
-    error = pCamera_->GetTriggerMode(pTriggerMode_);
+    error = pCameraBase_->GetTriggerMode(pTriggerMode_);
     if (checkError(error, functionName, "GetTriggerMode")) 
         return asynError;
     if (triggerMode == ADTriggerInternal) {
@@ -1455,7 +1756,7 @@ asynStatus pointGrey::setTrigger()
                 break;
         }
     }
-    error = pCamera_->SetTriggerMode(pTriggerMode_);
+    error = pCameraBase_->SetTriggerMode(pTriggerMode_);
     if (checkError(error, functionName, "SetTriggerMode")) 
         return asynError;
     /* When the trigger mode changes the properties can also change */
@@ -1468,7 +1769,7 @@ asynStatus pointGrey::softwareTrigger()
     Error error;
     static const char *functionName = "softwareTrigger";
     
-    error = pCamera_->FireSoftwareTrigger();
+    error = pCameraBase_->FireSoftwareTrigger();
     if (checkError(error, functionName, "FirstSoftwareTrigger")) 
         return asynError;
     return asynSuccess;
@@ -1494,7 +1795,7 @@ asynStatus pointGrey::setStrobe()
     pStrobeControl_->polarity = polarity;
     pStrobeControl_->delay    = (float)(delay*1000.);
     pStrobeControl_->duration = (float)(duration*1000.);
-    error = pCamera_->SetStrobe(pStrobeControl_);
+    error = pCameraBase_->SetStrobe(pStrobeControl_);
     if (checkError(error, functionName, "SetStrobe")) 
         return asynError;
     return asynSuccess;
@@ -1509,7 +1810,7 @@ asynStatus pointGrey::createStaticEnums()
     VideoMode videoMode;
     FrameRate frameRate;
     enumStruct_t *pEnum;
-    bool supported, modeSupported;
+    bool supported, modeSupported = false;
     static const char *functionName = "createStaticEnums";
      
     /* Video mode enums. A video mode is supported if it is supported for any frame rate */
@@ -1519,7 +1820,7 @@ asynStatus pointGrey::createStaticEnums()
         if (videoMode == VIDEOMODE_FORMAT7) {
             // We assume format7 is always supported for now
             modeSupported = true;
-        } else {
+        } else if (pCamera_ != NULL) {
             modeSupported = false;
             for (rate=0; rate<NUM_FRAMERATES; rate++) {
                 frameRate = (FrameRate)rate;
@@ -1537,23 +1838,81 @@ asynStatus pointGrey::createStaticEnums()
             numValidVideoModes_++;
         }
     }
-
-    /* Format7 mode enums */
-    /* Loop over modes */
-    numValidFormat7Modes_ = 0;   
-    for (mode=0; mode<NUM_MODES; mode++) {
-        pFormat7Info_->mode = (Mode)mode;
-        error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
-        if (checkError(error, functionName, "GetFormat7Info")) 
-            return asynError;
-        if (supported) {
-            pEnum = format7ModeEnums_ + numValidFormat7Modes_;
-            sprintf(pEnum->string, "%d (%dx%d)", mode, pFormat7Info_->maxWidth, pFormat7Info_->maxHeight);
-            pEnum->value = mode;
-            numValidFormat7Modes_++;
-        }    
+    
+    if (pCamera_ != NULL) {
+        /* Format7 mode enums */
+        /* Loop over modes */
+        numValidFormat7Modes_ = 0;   
+        for (mode=0; mode<NUM_MODES; mode++) {
+            pFormat7Info_->mode = (Mode)mode;
+            error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
+            if (checkError(error, functionName, "GetFormat7Info")) 
+                return asynError;
+            if (supported) {
+                pEnum = format7ModeEnums_ + numValidFormat7Modes_;
+                sprintf(pEnum->string, "%d (%dx%d)", mode, pFormat7Info_->maxWidth, pFormat7Info_->maxHeight);
+                pEnum->value = mode;
+                numValidFormat7Modes_++;
+                if (numValidFormat7Modes_ == 1) {
+                    // We assume that the lowest supported mode is the full chip size
+                    setIntegerParam(ADMaxSizeX, pFormat7Info_->maxWidth);
+                    setIntegerParam(ADMaxSizeY, pFormat7Info_->maxHeight);
+                    setIntegerParam(ADSizeX,    pFormat7Info_->maxWidth);
+                    setIntegerParam(ADSizeY,    pFormat7Info_->maxHeight);
+                }
+            }    
+        }
     }
     
+    if (pGigECamera_ != NULL) {
+        /* GigE mode mode enums */
+        /* Loop over modes */
+        numValidFormat7Modes_ = 0;
+        // Note: for GigE we cannot inquire about a mode without setting the camera to that mode.
+        // So we need to remember the current mode
+        Mode currentMode;   
+        error = pGigECamera_->GetGigEImagingMode(&currentMode);
+        if (checkError(error, functionName, "GetGigEImagingMode"))
+            return asynError;
+        for (mode=0; mode<NUM_MODES; mode++) {
+            error = pGigECamera_->QueryGigEImagingMode((Mode)mode, &supported);
+            if (checkError(error, functionName, "QueryGigEImagingMode")) 
+                return asynError;
+            if (supported) {
+                error = pGigECamera_->SetGigEImagingMode((Mode)mode);
+                if (checkError(error, functionName, "SetGigEImagingMode"))
+                    return asynError;
+                error = pGigECamera_->GetGigEImageSettingsInfo(pGigEImageSettingsInfo_);
+                if (checkError(error, functionName, "GetGigEImageSettingsInfo")) 
+                    return asynError;
+                pEnum = format7ModeEnums_ + numValidFormat7Modes_;
+                sprintf(pEnum->string, "%d (%dx%d)", mode, pGigEImageSettingsInfo_->maxWidth, 
+                                                           pGigEImageSettingsInfo_->maxHeight);
+                pEnum->value = mode;
+                numValidFormat7Modes_++;
+                if (numValidFormat7Modes_ == 1) {
+                    // We assume that the lowest supported mode is the full chip size
+                    setIntegerParam(ADMaxSizeX, pGigEImageSettingsInfo_->maxWidth);
+                    setIntegerParam(ADMaxSizeY, pGigEImageSettingsInfo_->maxHeight);
+                    setIntegerParam(ADSizeX,    pGigEImageSettingsInfo_->maxWidth);
+                    setIntegerParam(ADSizeY,    pGigEImageSettingsInfo_->maxHeight);
+                }
+            }    
+        }
+    }
+    
+    /* Binning mode enums */
+    if (pGigECamera_)
+        numValidBinningModes_ = NUM_BINNING_MODES;
+    else
+        numValidBinningModes_ = 1;
+
+    for (mode=0; mode<numValidBinningModes_; mode++) {
+        pEnum = binningModeEnums_ + mode;
+        strcpy(pEnum->string, binningModeStrings[mode]);
+        pEnum->value = binningModeValues[mode];
+    }
+
     /* Convert pixel format enums */
     numValidConvertPixelFormats_ = NUM_CONVERT_PIXEL_FORMATS;
     for (format=0; format<numValidConvertPixelFormats_; format++) {
@@ -1563,7 +1922,7 @@ asynStatus pointGrey::createStaticEnums()
     }
 
     /* Trigger mode enums */
-    error = pCamera_->GetTriggerModeInfo(pTriggerModeInfo_);
+    error = pCameraBase_->GetTriggerModeInfo(pTriggerModeInfo_);
     if (checkError(error, functionName, "GetTriggerModeInfo")) 
         return asynError;
     numValidTriggerModes_ = 0; 
@@ -1601,7 +1960,7 @@ asynStatus pointGrey::createStaticEnums()
     numValidStrobeSources_ = 0; 
     for (pin=0; pin<NUM_GPIO_PINS; pin++) {
         pStrobeInfo_->source = pin;
-        pCamera_->GetStrobeInfo(pStrobeInfo_);
+        error = pCameraBase_->GetStrobeInfo(pStrobeInfo_);
         if (checkError(error, functionName, "GetStrobeInfo")) 
             return asynError;
         if (pStrobeInfo_->present) {
@@ -1623,6 +1982,7 @@ asynStatus pointGrey::createDynamicEnums()
     VideoMode currentVideoMode;
     FrameRate frameRate, currentFrameRate;
     Format7ImageSettings f7Settings;
+    GigEImageSettings gigEImageSettings;
     unsigned int packetSize;
     float percentage;
     bool supported;
@@ -1633,66 +1993,97 @@ asynStatus pointGrey::createDynamicEnums()
     int enumSeverities[NUM_PIXEL_FORMATS];
     static const char *functionName = "createDynamicEnums";
  
-    /* If the current video mode is format7 then this function creates enum strings and values 
-     * for all of the valid pixel formats for the current format7 mode.
-     * Otherwise it creates enum strings and values for all valid frame rates for the current video mode. */
-     
-    error = pCamera_->GetVideoModeAndFrameRate(&currentVideoMode, &currentFrameRate);
-    if (checkError(error, functionName, "GetVideoModeAndFrameRate"))
-        return asynError;
-    setIntegerParam(PGVideoMode, currentVideoMode);
+ 
+    if (pCamera_) {  
+         // This is an IIDC (not GigE) camera 
+         /* If the current video mode is format7 then this function creates enum strings and values 
+          * for all of the valid pixel formats for the current format7 mode.
+          * Otherwise it creates enum strings and values for all valid frame rates for the current video mode. */
 
-    if (currentVideoMode == VIDEOMODE_FORMAT7) {
-        error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
-        if (checkError(error, functionName, "GetFormat7Configuration")) 
-            return asynError;
-        pFormat7Info_->mode = f7Settings.mode;
-        setIntegerParam(PGFormat7Mode, f7Settings.mode);
-        error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
-        if (checkError(error, functionName, "GetFormat7Info")) 
-            return asynError;
-        numValidPixelFormats_ = 0;
-        for (format=0; format<(int)NUM_PIXEL_FORMATS; format++) {
-            if ((pFormat7Info_->pixelFormatBitField & pixelFormatValues[format]) == pixelFormatValues[format]) {
-                pEnum = pixelFormatEnums_ + numValidPixelFormats_;
-                strcpy(pEnum->string, pixelFormatStrings[format]);
-                pEnum->value = pixelFormatValues[format];
-                numValidPixelFormats_++;
-            }
-        }
-        setIntegerParam(PGPixelFormat, f7Settings.pixelFormat);
-        for (i=0; i<numValidPixelFormats_; i++) {
-          enumStrings[i] = pixelFormatEnums_[i].string;
-          enumValues[i] =  pixelFormatEnums_[i].value;
-          enumSeverities[i] = 0;
-        }
-        doCallbacksEnum(enumStrings, enumValues, enumSeverities, 
-                        numValidPixelFormats_, PGPixelFormat, 0);
-    } else {
-        /* Format all valid frame rates for the current video mode */
-        setIntegerParam(PGFrameRate, currentFrameRate);
-        numValidFrameRates_ = 0;
-        for (rate=0; rate<NUM_FRAMERATES; rate++) {
-            frameRate = (FrameRate)rate;
-            if (frameRate == FRAMERATE_FORMAT7) continue;
-            error = pCamera_->GetVideoModeAndFrameRateInfo(currentVideoMode, frameRate, &supported);
-            if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
-                return asynError;
-            if (supported) {
-                pEnum = frameRateEnums_ + numValidFrameRates_;
-                strcpy(pEnum->string, frameRateStrings[rate]);
-                pEnum->value = rate;
-                numValidFrameRates_++;
-            } 
-        }
-        for (i=0; i<numValidFrameRates_; i++) {
-          enumStrings[i] = frameRateEnums_[i].string;
-          enumValues[i] =  frameRateEnums_[i].value;
-          enumSeverities[i] = 0;
-        }
-        doCallbacksEnum(enumStrings, enumValues, enumSeverities, 
-                        numValidFrameRates_, PGFrameRate, 0);
-    } 
+         error = pCamera_->GetVideoModeAndFrameRate(&currentVideoMode, &currentFrameRate);
+         if (checkError(error, functionName, "GetVideoModeAndFrameRate"))
+             return asynError;
+         setIntegerParam(PGVideoMode, currentVideoMode);
+
+         if (currentVideoMode == VIDEOMODE_FORMAT7) {
+             error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
+             if (checkError(error, functionName, "GetFormat7Configuration")) 
+                 return asynError;
+             pFormat7Info_->mode = f7Settings.mode;
+             setIntegerParam(PGFormat7Mode, f7Settings.mode);
+             error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
+             if (checkError(error, functionName, "GetFormat7Info")) 
+                 return asynError;
+             numValidPixelFormats_ = 0;
+             for (format=0; format<(int)NUM_PIXEL_FORMATS; format++) {
+                 if ((pFormat7Info_->pixelFormatBitField & pixelFormatValues[format]) == pixelFormatValues[format]) {
+                     pEnum = pixelFormatEnums_ + numValidPixelFormats_;
+                     strcpy(pEnum->string, pixelFormatStrings[format]);
+                     pEnum->value = pixelFormatValues[format];
+                     numValidPixelFormats_++;
+                 }
+             }
+             setIntegerParam(PGPixelFormat, f7Settings.pixelFormat);
+             for (i=0; i<numValidPixelFormats_; i++) {
+               enumStrings[i] = pixelFormatEnums_[i].string;
+               enumValues[i] =  pixelFormatEnums_[i].value;
+               enumSeverities[i] = 0;
+             }
+             doCallbacksEnum(enumStrings, enumValues, enumSeverities, 
+                             numValidPixelFormats_, PGPixelFormat, 0);
+         } else {
+             /* Format all valid frame rates for the current video mode */
+             setIntegerParam(PGFrameRate, currentFrameRate);
+             numValidFrameRates_ = 0;
+             for (rate=0; rate<NUM_FRAMERATES; rate++) {
+                 frameRate = (FrameRate)rate;
+                 if (frameRate == FRAMERATE_FORMAT7) continue;
+                 error = pCamera_->GetVideoModeAndFrameRateInfo(currentVideoMode, frameRate, &supported);
+                 if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+                     return asynError;
+                 if (supported) {
+                     pEnum = frameRateEnums_ + numValidFrameRates_;
+                     strcpy(pEnum->string, frameRateStrings[rate]);
+                     pEnum->value = rate;
+                     numValidFrameRates_++;
+                 } 
+             }
+             for (i=0; i<numValidFrameRates_; i++) {
+               enumStrings[i] = frameRateEnums_[i].string;
+               enumValues[i] =  frameRateEnums_[i].value;
+               enumSeverities[i] = 0;
+             }
+             doCallbacksEnum(enumStrings, enumValues, enumSeverities, 
+                             numValidFrameRates_, PGFrameRate, 0);
+         }
+    }
+    else if (pGigECamera_) {  
+        // This is a GigE camera 
+         error = pGigECamera_->GetGigEImageSettings(&gigEImageSettings);
+         if (checkError(error, functionName, "GetGigEImageSettings")) 
+             return asynError;
+         error = pGigECamera_->GetGigEImageSettingsInfo(pGigEImageSettingsInfo_);
+         if (checkError(error, functionName, "GetGigEImageSettingsInfo")) 
+             return asynError;
+         numValidPixelFormats_ = 0;
+         for (format=0; format<(int)NUM_PIXEL_FORMATS; format++) {
+             if ((pGigEImageSettingsInfo_->pixelFormatBitField & 
+                      pixelFormatValues[format]) == pixelFormatValues[format]) {
+                 pEnum = pixelFormatEnums_ + numValidPixelFormats_;
+                 strcpy(pEnum->string, pixelFormatStrings[format]);
+                 pEnum->value = pixelFormatValues[format];
+                 numValidPixelFormats_++;
+             }
+         }
+         setIntegerParam(PGPixelFormat, gigEImageSettings.pixelFormat);
+         for (i=0; i<numValidPixelFormats_; i++) {
+           enumStrings[i] = pixelFormatEnums_[i].string;
+           enumValues[i] =  pixelFormatEnums_[i].value;
+           enumSeverities[i] = 0;
+         }
+         doCallbacksEnum(enumStrings, enumValues, enumSeverities, 
+                         numValidPixelFormats_, PGPixelFormat, 0);
+    }
     return asynSuccess;
 }
 
@@ -1709,6 +2100,7 @@ asynStatus pointGrey::getAllProperties()
 {
     PropertyInfo *pPropInfo;
     Property *pProperty;
+    Error error;
     int addr;
     double dtmp;
     static const char *functionName="getAllProperties";
@@ -1717,8 +2109,12 @@ asynStatus pointGrey::getAllProperties()
     for (addr=0; addr<NUM_PROPERTIES; addr++) {
         pPropInfo = allPropInfos_[addr];
         pProperty = allProperties_[addr];
-        pCamera_->GetPropertyInfo(pPropInfo);
-        pCamera_->GetProperty(pProperty);
+        error = pCameraBase_->GetPropertyInfo(pPropInfo);
+        if (checkError(error, functionName, "GetPropertyInfo")) 
+            return asynError;
+        error = pCameraBase_->GetProperty(pProperty);
+        if (checkError(error, functionName, "GetProperty")) 
+            return asynError;
         asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
             "%s:%s: checking propertyType %d\n",
             driverName, functionName, addr);
@@ -1779,6 +2175,39 @@ asynStatus pointGrey::getAllProperties()
     return asynSuccess;
 }
 
+asynStatus pointGrey::getAllGigEProperties()
+{
+    GigEProperty *pProperty;
+    int addr;
+    Error error;
+    int itemp;
+    static const char *functionName="getAllGigeEProperties";
+    
+    if (pGigECamera_ == NULL) return asynSuccess;
+
+    /* Iterate through all of the available properties and update their values and settings  */
+    for (addr=0; addr<NUM_GIGE_PROPERTIES; addr++) {
+        pProperty = allGigEProperties_[addr];
+        error = pGigECamera_->GetGigEProperty(pProperty);
+        if (checkError(error, functionName, "GetGigEProperty")) 
+            return asynError;
+
+        if (pProperty->isReadable) {
+            setIntegerParam(addr, PGGigEPropertyValue,     pProperty->value);
+            setIntegerParam(addr, PGGigEPropertyValueMin,  pProperty->min);
+            setIntegerParam(addr, PGGigEPropertyValueMax,  pProperty->max);
+        }
+    }
+    /* Map a few of the Point Grey parameters on to the GigE properties */
+    getIntegerParam(PACKET_SIZE, PGGigEPropertyValue, &itemp);
+    setIntegerParam(PGPacketSize, itemp);
+    getIntegerParam(PACKET_DELAY, PGGigEPropertyValue, &itemp);
+    setIntegerParam(PGPacketDelay, itemp);
+
+    /* Do callbacks for each propertyType */
+    for (addr=0; addr<NUM_GIGE_PROPERTIES; addr++) callParamCallbacks(addr);
+    return asynSuccess;
+}
 
 
 asynStatus pointGrey::startCapture()
@@ -1789,7 +2218,7 @@ asynStatus pointGrey::startCapture()
     /* Start the camera transmission... */
     setIntegerParam(ADNumImagesCounter, 0);
     setShutter(1);
-    error = pCamera_->StartCapture();
+    error = pCameraBase_->StartCapture();
     if (checkError(error, functionName, "StartCapture")) 
         return asynError;
     epicsEventSignal(startEventId_);
@@ -1803,7 +2232,7 @@ asynStatus pointGrey::stopCapture()
     static const char *functionName = "stopCapture";
 
     setShutter(0);
-    error = pCamera_->StopCapture();
+    error = pCameraBase_->StopCapture();
     setIntegerParam(ADAcquire, 0);
     if (checkError(error, functionName, "StopCapture")) 
         return asynError;
@@ -1815,7 +2244,7 @@ asynStatus pointGrey::readStatus()
     Error error;
     static const char *functionName = "readStatus";
 
-    error = pCamera_->GetStats(pCameraStats_);
+    error = pCameraBase_->GetStats(pCameraStats_);
     if (checkError(error, functionName, "GetStats")) 
         return asynError;
     setDoubleParam(ADTemperatureActual, pCameraStats_->temperature/10. - 273.15);
@@ -1840,30 +2269,22 @@ void pointGrey::report(FILE *fp, int details)
     unsigned int numCameras;
     Error error;
     Camera cam;
-    CameraInfo camInfo;
     int mode, rate;
-    VideoMode videoMode;
-    FrameRate frameRate;
+    unsigned int i, j;
+    asynStatus status;
     bool supported;
     int property;
-    Property *pProperty;
-    PropertyInfo *pPropInfo;
     int pixelFormatIndex;
-    unsigned int packetSize;
-    unsigned int i, j;
-    float percentage;
-    Format7ImageSettings f7Settings;
-    TriggerModeInfo triggerModeInfo;
-    asynStatus status;
     static const char *functionName = "report";
     
     error = pBusMgr_->GetNumOfCameras(&numCameras);
     if (checkError(error, functionName, "GetNumOfCameras")) return;
 
-    fprintf(fp, "  Number of cameras detected: %u\n", numCameras);
+    fprintf(fp, "\nNumber of cameras detected: %u\n", numCameras);
 
     for (i=0; i<numCameras; i++) {
         PGRGuid guid;
+        CameraInfo camInfo;
         error = pBusMgr_->GetCameraFromIndex(i, &guid);
         if (checkError(error, functionName, "GetCameraFromIndex")) return;
 
@@ -1875,21 +2296,14 @@ void pointGrey::report(FILE *fp, int details)
         error = cam.GetCameraInfo(&camInfo);
         if (checkError(error, functionName, "GetCameraInfo")) return;
 
-        fprintf(fp, 
-            "Serial number - %u\n"
-            "Camera model - %s\n"
-            "Camera vendor - %s\n"
-            "Sensor - %s\n"
-            "Resolution - %s\n"
-            "Firmware version - %s\n"
-            "Firmware build time - %s\n\n",
-            camInfo.serialNumber,
-            camInfo.modelName,
-            camInfo.vendorName,
-            camInfo.sensorInfo,
-            camInfo.sensorResolution,
-            camInfo.firmwareVersion,
-            camInfo.firmwareBuildTime);
+        fprintf(fp, "\n");
+        fprintf(fp, "Serial number:       %u\n", camInfo.serialNumber);
+        fprintf(fp, "Camera model:        %s\n", camInfo.modelName);
+        fprintf(fp, "Camera vendor:       %s\n", camInfo.vendorName);
+        fprintf(fp, "Sensor:              %s\n", camInfo.sensorInfo);
+        fprintf(fp, "Resolution:          %s\n", camInfo.sensorResolution);
+        fprintf(fp, "Firmware version:    %s\n", camInfo.firmwareVersion);
+        fprintf(fp, "Firmware build time: %s\n", camInfo.firmwareBuildTime);
 
         // Disconnect from camera
         error = cam.Disconnect();
@@ -1905,131 +2319,173 @@ void pointGrey::report(FILE *fp, int details)
             driverName, functionName);
     }
     
-    fprintf(fp, "Currently connected camera Format7 information\n"
-                "  mode: %d\n"
-                "  maxWidth:  %d\n"
-                "  maxHeight: %d\n"
-                "  offsetHStepSize: %d\n"
-                "  offsetVStepSize: %d\n"
-                "  imageHStepSize:  %d\n"
-                "  imageVStepSize:  %d\n"
-                "  pixelFormatBitField       0x%x\n" 
-                "  vendorPixelFormatBitField 0x%x\n",
-                pFormat7Info_->mode,
-                pFormat7Info_->maxWidth,
-                pFormat7Info_->maxHeight,
-                pFormat7Info_->offsetHStepSize,
-                pFormat7Info_->offsetVStepSize,
-                pFormat7Info_->imageHStepSize,
-                pFormat7Info_->imageVStepSize,
-                pFormat7Info_->pixelFormatBitField,
-                pFormat7Info_->vendorPixelFormatBitField);
+    if (pCamera_) {
+        fprintf(fp, "\n");
+        fprintf(fp, "Currently connected IIDC camera Format7 information\n");
+        fprintf(fp, "  mode:            %d\n", pFormat7Info_->mode);
+        fprintf(fp, "  maxWidth:        %d\n", pFormat7Info_->maxWidth);
+        fprintf(fp, "  maxHeight:       %d\n", pFormat7Info_->maxHeight);
+        fprintf(fp, "  offsetHStepSize: %d\n", pFormat7Info_->offsetHStepSize);
+        fprintf(fp, "  offsetVStepSize: %d\n", pFormat7Info_->offsetVStepSize);
+        fprintf(fp, "  imageHStepSize:  %d\n", pFormat7Info_->imageHStepSize);
+        fprintf(fp, "  imageVStepSize:  %d\n", pFormat7Info_->imageVStepSize);
+        fprintf(fp, "  pixelFormatBitField       0x%x\n", pFormat7Info_->pixelFormatBitField);
+        fprintf(fp, "  vendorPixelFormatBitField 0x%x\n", pFormat7Info_->vendorPixelFormatBitField);
+                    
+    } else if (pGigECamera_) {
+        fprintf(fp, "\n");
+        fprintf(fp, "Currently connected GigE camera image information\n");
+        fprintf(fp, "  maxWidth:        %d\n", pGigEImageSettingsInfo_->maxWidth);
+        fprintf(fp, "  maxHeight:       %d\n", pGigEImageSettingsInfo_->maxHeight);
+        fprintf(fp, "  offsetHStepSize: %d\n", pGigEImageSettingsInfo_->offsetHStepSize);
+        fprintf(fp, "  offsetVStepSize: %d\n", pGigEImageSettingsInfo_->offsetVStepSize);
+        fprintf(fp, "  imageHStepSize:  %d\n", pGigEImageSettingsInfo_->imageHStepSize);
+        fprintf(fp, "  imageVStepSize:  %d\n", pGigEImageSettingsInfo_->imageVStepSize);
+        fprintf(fp, "  pixelFormatBitField       0x%x\n", pGigEImageSettingsInfo_->pixelFormatBitField);
+        fprintf(fp, "  vendorPixelFormatBitField 0x%x\n", pGigEImageSettingsInfo_->vendorPixelFormatBitField);
+    }
 
     if (details < 1) return;
     
-    fprintf(fp, "Supported video modes and rates:\n");
-    for (mode=0; mode<NUM_VIDEOMODES; mode++) {
-        videoMode = (VideoMode)mode;
-        if (videoMode == VIDEOMODE_FORMAT7) continue;
-        for (rate=0; rate<NUM_FRAMERATES; rate++) {
-            frameRate = (FrameRate)rate;
-            if (frameRate == FRAMERATE_FORMAT7) continue;
-            error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, frameRate, &supported);
-            if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
-                return;
-            if (supported) {
-                fprintf(fp, "    Video mode %d (%s) and frame rate %d (%s) supported\n", 
-                mode, videoModeStrings[mode], rate, frameRateStrings[rate]);
+    if (pCamera_) {
+        VideoMode videoMode;
+        FrameRate frameRate;
+        unsigned int packetSize;
+        float percentage;
+        Format7ImageSettings f7Settings;
+        fprintf(fp, "\nSupported IIDC video modes and rates:\n");
+        for (mode=0; mode<NUM_VIDEOMODES; mode++) {
+            videoMode = (VideoMode)mode;
+            if (videoMode == VIDEOMODE_FORMAT7) continue;
+            for (rate=0; rate<NUM_FRAMERATES; rate++) {
+                frameRate = (FrameRate)rate;
+                if (frameRate == FRAMERATE_FORMAT7) continue;
+                error = pCamera_->GetVideoModeAndFrameRateInfo(videoMode, frameRate, &supported);
+                if (checkError(error, functionName, "GetVideoModeAndFrameRateInfo")) 
+                    return;
+                if (supported) {
+                    fprintf(fp, "    Video mode %d (%s) and frame rate %d (%s)\n", 
+                    mode, videoModeStrings[mode], rate, frameRateStrings[rate]);
+                }
             }
         }
+        error = pCamera_->GetVideoModeAndFrameRate(&videoMode, &frameRate);
+        if (checkError(error, functionName, "GetVideoModeAndFrameRate")) 
+            return;
+        fprintf(fp, "\nCurrent image settings\n");
+        fprintf(fp, "  Mode: %d (%s)\n", videoMode, videoModeStrings[videoMode]);
+        fprintf(fp, "  Rate: %d (%s)\n", frameRate, frameRateStrings[frameRate]);
+        if (videoMode == VIDEOMODE_FORMAT7) {
+            error = pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
+            if (checkError(error, functionName, "GetFormat7Configuration")) 
+                return;
+            pixelFormatIndex = getPixelFormatIndex(f7Settings.pixelFormat);     
+            fprintf(fp, "  Format7 video format currently selected\n");
+            fprintf(fp, "    Packet size: %d\n",    packetSize);
+            fprintf(fp, "    Bandwidth %%: %f\n",   percentage);
+            fprintf(fp, "           Mode: %d\n",    f7Settings.mode);
+            fprintf(fp, "         Offset: %d %d\n", f7Settings.offsetX, f7Settings.offsetY);
+            fprintf(fp, "           Size: %d %d\n", f7Settings.width, f7Settings.height);
+            fprintf(fp, "    PixelFormat: index=%d, value=0x%x [%s]\n",
+                             pixelFormatIndex, f7Settings.pixelFormat, pixelFormatStrings[pixelFormatIndex]);
+        }
+
+    } else if (pGigECamera_) {
+        int packetSize;
+        int packetDelay;
+        int heartBeat;
+        int heartBeatTimeout;
+        unsigned int binX, binY;
+        GigEImageSettings gigESettings;
+        Mode gigEMode;
+        fprintf(fp, "\nSupported GigE modes:\n");
+        for (mode=0; mode<NUM_MODES; mode++) {
+            error = pGigECamera_->QueryGigEImagingMode((Mode)mode, &supported);
+            if (checkError(error, functionName, "QueryGigEImagingMode")) 
+                return;
+            if (supported) {
+                fprintf(fp, "    GigE mode %d\n", mode);
+            }
+        }
+        error = pGigECamera_->GetGigEImagingMode(&gigEMode);
+        if (checkError(error, functionName, "GetGigEImagingMode")) 
+            return;
+        error = pGigECamera_->GetGigEImageSettings(&gigESettings);
+        if (checkError(error, functionName, "GetGigEImagingMode")) 
+            return;
+        error = pGigECamera_->GetGigEImageBinningSettings(&binX, &binY);
+        if (checkError(error, functionName, "GetGigEImagingMode")) 
+            return;
+        pixelFormatIndex = getPixelFormatIndex(gigESettings.pixelFormat);
+        getIntegerParam(PACKET_SIZE,       PGGigEPropertyValue, &packetSize);
+        getIntegerParam(PACKET_DELAY,      PGGigEPropertyValue, &packetDelay);
+        getIntegerParam(HEARTBEAT,         PGGigEPropertyValue, &heartBeat);
+        getIntegerParam(HEARTBEAT_TIMEOUT, PGGigEPropertyValue, &heartBeatTimeout);
+        fprintf(fp, "\n");
+        fprintf(fp, "Current GigE image settings\n");
+        fprintf(fp, "               Mode: %d\n",    gigEMode);
+        fprintf(fp, "        Packet size: %d\n",    packetSize);
+        fprintf(fp, "       Packet delay: %d\n",    packetDelay);
+        fprintf(fp, "          Heartbeat: %d\n",    heartBeat);
+        fprintf(fp, "  Heartbeat timeout: %d\n",    heartBeatTimeout);
+        fprintf(fp, "             Offset: %d %d\n", gigESettings.offsetX, gigESettings.offsetY);
+        fprintf(fp, "               Size: %d %d\n", gigESettings.width, gigESettings.height);
+        fprintf(fp, "            Binning: %u %u\n", binX, binY);
+        fprintf(fp, "        PixelFormat: index=%d, value=0x%x [%s]\n",
+                             pixelFormatIndex, gigESettings.pixelFormat, pixelFormatStrings[pixelFormatIndex]);
     }
+
     /* Iterate through all of the available properties and report on them  */
-    fprintf(fp, "Supported properties\n");
+    fprintf(fp, "\nSupported properties\n");
+    Property *pProperty;
+    PropertyInfo *pPropInfo;
     for (property=0; property<NUM_PROPERTIES; property++) {
         pProperty = allProperties_[property];
         pPropInfo = allPropInfos_[property];
-        pCamera_->GetProperty(pProperty);
+        error = pCameraBase_->GetProperty(pProperty);
         if (checkError(error, functionName, "GetProperty")) 
             return;
-        pCamera_->GetPropertyInfo(pPropInfo);
+        error = pCameraBase_->GetPropertyInfo(pPropInfo);
         if (checkError(error, functionName, "GetPropertyInfo")) 
             return;
         if (pProperty->present) {
-            fprintf(fp, "Property %s \n"
-                        " min           = %d\n"
-                        " max           = %d\n"
-                        " value         = %d\n"
-                        " hasAutoMode   = %d     status=%d\n" 
-                        " hasManualMode = %d     status=%d\n"
-                        " hasOnOff      = %d     status=%d\n"
-                        " hasOnePush    = %d     status=%d\n"
-                        " hasReadout    = %d\n"
-                        " hasAbsControl = %d     status=%d\n",
-                propertyTypeStrings[property],
-                pPropInfo->min,
-                pPropInfo->max,
-                pProperty->valueA,
-                pPropInfo->autoSupported,    pProperty->autoManualMode,
-                pPropInfo->manualSupported,  !pProperty->autoManualMode,
-                pPropInfo->onOffSupported,   pProperty->onOff,
-                pPropInfo->onePushSupported, pProperty->onePush,
-                pPropInfo->readOutSupported,
-                pPropInfo->absValSupported,  pProperty->absControl);
+            fprintf(fp, "Property %s \n",                       propertyTypeStrings[property]);
+            fprintf(fp, "  min           = %d\n",               pPropInfo->min);
+            fprintf(fp, "  max           = %d\n",               pPropInfo->max);
+            fprintf(fp, "  value         = %d\n",               pProperty->valueA);
+            fprintf(fp, "  hasAutoMode   = %d     status=%d\n", pPropInfo->autoSupported,    pProperty->autoManualMode);
+            fprintf(fp, "  hasManualMode = %d     status=%d\n", pPropInfo->manualSupported,  !pProperty->autoManualMode);
+            fprintf(fp, "  hasOnOff      = %d     status=%d\n", pPropInfo->onOffSupported,   pProperty->onOff);
+            fprintf(fp, "  hasOnePush    = %d     status=%d\n", pPropInfo->onePushSupported, pProperty->onePush);
+            fprintf(fp, "  hasReadout    = %d\n",               pPropInfo->readOutSupported);
+            fprintf(fp, "  hasAbsControl = %d     status=%d\n", pPropInfo->absValSupported,  pProperty->absControl);
             if (pPropInfo->absValSupported) { 
-                fprintf(fp, "  units        = %s    abbreviated=%s\n"
-                            "  min          = %f\n"
-                            "  max          = %f\n" 
-                            "  value        = %f\n", 
-                pPropInfo->pUnits, pPropInfo->pUnitAbbr,
-                pPropInfo->absMin,
-                pPropInfo->absMax,
-                pProperty->absValue);
+                fprintf(fp, "    units        = %s    abbreviated=%s\n", pPropInfo->pUnits, pPropInfo->pUnitAbbr);
+                fprintf(fp, "    min          = %f\n", pPropInfo->absMin);
+                fprintf(fp, "    max          = %f\n", pPropInfo->absMax);
+                fprintf(fp, "    value        = %f\n", pProperty->absValue);
             }
         }
         else {
-            fprintf(fp, "Property %s is not supported\n", 
-                propertyTypeStrings[property]);
+            fprintf(fp, "Property %s is not supported\n", propertyTypeStrings[property]);
         }
 
     }
-    pCamera_->GetVideoModeAndFrameRate(&videoMode, &frameRate);
-    if (checkError(error, functionName, "GetVideoModeAndFrameRate")) 
-        return;
-    fprintf(fp, "Current settings\n");
-    fprintf(fp, "  Mode: %d (%s)\n", videoMode, videoModeStrings[videoMode]);
-    fprintf(fp, "  Rate: %d (%s)\n", frameRate, frameRateStrings[frameRate]);
-    if (videoMode == VIDEOMODE_FORMAT7) {
-        pCamera_->GetFormat7Configuration(&f7Settings, &packetSize, &percentage);
-        if (checkError(error, functionName, "GetFormat7Configuration")) 
-            return;
-        pixelFormatIndex = getPixelFormatIndex(f7Settings.pixelFormat);     
-        fprintf(fp, "  Format7 video format currently selected\n"
-                    "    Packet size: %d\n"
-                    "    Bandwidth %%: %f\n"
-                    "           Mode: %d\n"
-                    "         Offset: %d %d\n"
-                    "           Size: %d %d\n"
-                    "    PixelFormat: index=%d, value=0x%x [%s]\n",
-            packetSize,
-            percentage,
-            f7Settings.mode,
-            f7Settings.offsetX, f7Settings.offsetY,
-            f7Settings.width, f7Settings.height,
-            pixelFormatIndex, f7Settings.pixelFormat, pixelFormatStrings[pixelFormatIndex]);
-    }
-    pCamera_->GetTriggerMode(pTriggerMode_);
+
+    error = pCameraBase_->GetTriggerMode(pTriggerMode_);
     if (checkError(error, functionName, "GetTriggerMode")) 
         return;
-    fprintf(fp, "Trigger mode\n");
+    fprintf(fp, "\nTrigger mode\n");
     fprintf(fp, "       Mode: %d\n", pTriggerMode_->mode);
     fprintf(fp, "      onOff: %d\n", pTriggerMode_->onOff);
     fprintf(fp, "   polarity: %d\n", pTriggerMode_->polarity);
     fprintf(fp, "     source: %d\n", pTriggerMode_->source);
     fprintf(fp, "  parameter: %d\n", pTriggerMode_->parameter);
-    pCamera_->GetTriggerModeInfo(pTriggerModeInfo_);
+
+    error = pCameraBase_->GetTriggerModeInfo(pTriggerModeInfo_);
     if (checkError(error, functionName, "GetTriggerModeInfo")) 
         return;
-    fprintf(fp, "Trigger mode information\n");
+    fprintf(fp, "\nTrigger mode information\n");
     fprintf(fp, "                   present: %d\n",   pTriggerModeInfo_->present);
     fprintf(fp, "          readOutSupported: %d\n",   pTriggerModeInfo_->readOutSupported);
     fprintf(fp, "            onOffSupported: %d\n",   pTriggerModeInfo_->onOffSupported);
@@ -2038,10 +2494,11 @@ void pointGrey::report(FILE *fp, int details)
     fprintf(fp, "                sourceMask: 0x%x\n", pTriggerModeInfo_->sourceMask);
     fprintf(fp, "  softwareTriggerSupported: %d\n",   pTriggerModeInfo_->softwareTriggerSupported);
     fprintf(fp, "                  modeMask: 0x%x\n", pTriggerModeInfo_->modeMask);
-    fprintf(fp, "Strobe information\n");
+
+    fprintf(fp, "\nStrobe information\n");
     for (j=0; j<NUM_GPIO_PINS; j++) {
         pStrobeInfo_->source = j;
-        pCamera_->GetStrobeInfo(pStrobeInfo_);
+        error = pCameraBase_->GetStrobeInfo(pStrobeInfo_);
         if (checkError(error, functionName, "GetStrobeInfo")) 
             return;
         if (pStrobeInfo_->present) {
@@ -2053,20 +2510,22 @@ void pointGrey::report(FILE *fp, int details)
             fprintf(fp, "             maxValue: %f\n", pStrobeInfo_->maxValue);
         }
     }
-    pCamera_->GetStrobe(pStrobeControl_);
+
+    error = pCameraBase_->GetStrobe(pStrobeControl_);
     if (checkError(error, functionName, "GetStrobe")) 
         return;
-    fprintf(fp, "Strobe control\n");
+    fprintf(fp, "\nStrobe control\n");
     fprintf(fp, "    source: %d\n", pStrobeControl_->source);
     fprintf(fp, "     onOff: %d\n", pStrobeControl_->onOff);
     fprintf(fp, "  polarity: %u\n", pStrobeControl_->polarity);
     fprintf(fp, "     delay: %f\n", pStrobeControl_->delay);
     fprintf(fp, "  duration: %f\n", pStrobeControl_->duration);
-    pCamera_->GetStats(pCameraStats_);
+
+    error = pCameraBase_->GetStats(pCameraStats_);
     if (checkError(error, functionName, "GetStats")) 
         return;
     if (pCameraStats_->imageXmitFailed == 0x80000000) pCameraStats_->imageXmitFailed = 0;
-    fprintf(fp, "Camera statistics\n");
+    fprintf(fp, "\nCamera statistics\n");
     fprintf(fp, "              Images dropped: %u\n", pCameraStats_->imageDropped);
     fprintf(fp, "              Images corrupt: %u\n", pCameraStats_->imageCorrupt);
     fprintf(fp, "             Transmit failed: %u\n", pCameraStats_->imageXmitFailed);

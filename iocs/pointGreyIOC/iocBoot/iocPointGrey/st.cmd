@@ -48,3 +48,11 @@ iocInit()
 
 # save things every thirty seconds
 create_monitor_set("auto_settings.req", 30,"P=$(PREFIX)")
+
+
+# There is a problem with some records for which PINI=YES does not work because of timing or ordering
+# For those records to process after iocInit
+
+dbpf("$(PREFIX)cam1:PixelFormat.PROC", "1")
+dbpf("$(PREFIX)cam1:FrameRate.PROC", "1")
+dbpf("$(PREFIX)cam1:FrameRateValAbs.PROC", "1")

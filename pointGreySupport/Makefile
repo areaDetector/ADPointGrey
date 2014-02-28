@@ -25,7 +25,9 @@ else ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
 LIB_INSTALLS    += ../os/windows-x64/FlyCapture2.lib
 
 else ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
+LIB_INSTALLS    += ../os/linux-x86_64/libflycapture.so
 LIB_INSTALLS    += ../os/linux-x86_64/libflycapture.so.2
+LIB_INSTALLS    += ../os/linux-x86_64/libflycapture.so.2.6.3.2
 
 endif
 

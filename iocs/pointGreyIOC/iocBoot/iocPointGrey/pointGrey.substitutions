@@ -31,3 +31,13 @@ pattern
 {13PG1:, cam1:,    PG1,    FrameRate,    16,   NO,    NO,     NO}
 {13PG1:, cam1:,    PG1,  Temperature,    17,   NO,    NO,     NO}
 }
+
+file "$(ADPOINTGREY)/db/pointGreyGigEProperty.template" 
+{ 
+pattern
+{     P,     R,   PORT,         PROPERTY,     N, PINI}
+{13PG1:, cam1:,    PG1,        Heartbeat,     0,  NO}
+{13PG1:, cam1:,    PG1, HeartbeatTimeout,     1,  NO}
+{13PG1:, cam1:,    PG1,       PacketSize,     2, YES}
+{13PG1:, cam1:,    PG1,      PacketDelay,     3, YES}
+}

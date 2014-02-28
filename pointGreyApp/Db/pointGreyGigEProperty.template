@@ -1,0 +1,53 @@
+## pointGreyGigEProperty.template
+
+record(ao, "$(P)$(R)$(PROPERTY)Val") {
+  field(PINI, "$(PINI)")
+  field(DTYP, "asynInt32")
+  field(OUT, "@asyn($(PORT) $(N))PG_GIGE_PROP_VAL")
+}
+
+record(ai, "$(P)$(R)$(PROPERTY)Val_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_GIGE_PROP_VAL")
+  field(SCAN, "I/O Intr")
+}
+
+# Read value boundaries
+record(ai, "$(P)$(R)$(PROPERTY)ValMin") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_GIGE_PROP_VAL_MIN")
+  field(SCAN, "I/O Intr")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvl")
+}
+# Set DRLV field of the value PV
+record(ao, "$(P)$(R)$(PROPERTY)ValDrvl") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")
+  field(OMSL, "closed_loop")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVL NPP NMS")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValLopr")
+}
+# Set LOPR field of the value PV
+record(ao, "$(P)$(R)$(PROPERTY)ValLopr") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")
+  field(OMSL, "closed_loop")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.LOPR NPP NMS")
+}
+record(ai, "$(P)$(R)$(PROPERTY)ValMax") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_GIGE_PROP_VAL_MAX")
+  field(SCAN, "I/O Intr")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvh")
+}
+# Set DRLH field of the value PV
+record(ao, "$(P)$(R)$(PROPERTY)ValDrvh") {
+  field(DOL, "$(P)$(R)$(PROPERTY)_MAX NPP NMS")
+  field(OMSL, "closed_loop")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVH NPP NMS")
+  field(FLNK, "$(P)$(R)$(PROPERTY)ValHopr")
+}
+# Set HOPR field of the value PV
+record(ao, "$(P)$(R)$(PROPERTY)ValHopr") {
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMax NPP NMS")
+  field(OMSL, "closed_loop")
+  field(OUT, "$(P)$(R)$(PROPERTY)Val.HOPR NPP NMS")
+}

@@ -13,6 +13,7 @@ include $(TOP)/configure/CONFIG
 
 DB += pointGrey.template
 DB += pointGreyProperty.template
+DB += pointGreyGigEProperty.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

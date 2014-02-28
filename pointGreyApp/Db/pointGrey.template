@@ -44,6 +44,7 @@ record(mbbi, "$(P)$(R)Format7Mode_RBV") {
 ## Framerate when the camera is not in the ROI/format7 mode
 record(mbbo, "$(P)$(R)FrameRate") {
   field(PINI, "YES")
+  field(PHAS, "2")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE")
 }
@@ -65,6 +66,19 @@ record(mbbi, "$(P)$(R)PixelFormat_RBV") {
   field(SCAN, "I/O Intr")
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
+}
+
+## Binning mode
+record(mbbo, "$(P)$(R)BinningMode") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_BINNING_MODE")
+}
+
+record(mbbi, "$(P)$(R)BinningMode_RBV") {
+  field(SCAN, "I/O Intr")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_BINNING_MODE")
 }
 
 ## Convert pixel format
@@ -204,6 +218,32 @@ record(ai, "$(P)$(R)StrobeDuration_RBV") {
   field(DTYP, "asynFloat64")
   field(INP,  "@asyn($(PORT) 0)PG_STROBE_DURATION")
   field(PREC, "3")
+  field(SCAN, "I/O Intr")
+}
+
+# Packet size
+record(longout, "$(P)$(R)PacketSize") {
+  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_PACKET_SIZE")
+}
+
+record(longin, "$(P)$(R)PacketSize_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_PACKET_SIZE")
+  field(SCAN, "I/O Intr")
+}
+
+# Packet delay
+record(longout, "$(P)$(R)PacketDelay") {
+#  field(PINI, "YES")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_PACKET_DELAY")
+}
+
+record(longin, "$(P)$(R)PacketDelay_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_PACKET_DELAY")
   field(SCAN, "I/O Intr")
 }
 

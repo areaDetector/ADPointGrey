@@ -2,7 +2,11 @@ Measure disk file performance
 
 Add performance to documentation
 
-Add packetsize, packetdelay (GigE only), bandwidth
+Test packetsize, packetdelay
+
+Add bandwidth calculation
+
+Test binning mode
 
 Write test program to document problem reading data size after convert of
    Raw8 to mono8

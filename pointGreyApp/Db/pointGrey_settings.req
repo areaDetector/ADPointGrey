@@ -3,7 +3,7 @@ $(P)$(R)Format7Mode
 $(P)$(R)FrameRate
 $(P)$(R)PixelFormat
 $(P)$(R)BinningMode
-$(P)$(R)PacketSize
+$(P)$(R)PctPacketSize
 $(P)$(R)PacketDelay
 $(P)$(R)ConvertPixelFormat
 $(P)$(R)TriggerSource

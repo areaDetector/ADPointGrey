@@ -16,7 +16,8 @@ epicsEnvSet("PREFIX", "13PG1:")
 epicsEnvSet("CAMERA_ID", "13481965")
 
 epicsEnvSet("PORT",   "PG1")
-epicsEnvSet("QSIZE",  "20")
+# Really large queue so we can stream to disk at full camera speed
+epicsEnvSet("QSIZE",  "2000")   
 epicsEnvSet("XSIZE",  "648")
 epicsEnvSet("YSIZE",  "488")
 epicsEnvSet("NCHANS", "2048")

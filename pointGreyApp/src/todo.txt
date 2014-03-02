@@ -2,16 +2,14 @@ Measure disk file performance
 
 Add performance to documentation
 
-Test packetsize, packetdelay
-
-Add bandwidth calculation
-
-Test binning mode
+Test and fix GigE packet size, packet delay, binning mode.
 
 Write test program to document problem reading data size after convert of
    Raw8 to mono8
    Others?
    Why cannot convert raw16 to mono16?
- 
+   
+Control of timestamp.  EPICS, camera, hybrid
+
 Make time stamp a blend of EPICS and camera when seconds and microseconds are not supported.  Set time to agree on first frame, use camera to
 update time after that. 

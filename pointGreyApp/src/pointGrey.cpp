@@ -75,8 +75,12 @@ static const char *driverName = "pointGrey";
 #define PGStrobeEnableString          "PG_STROBE_ENABLE"
 #define PGStrobeDelayString           "PG_STROBE_DELAY"
 #define PGStrobeDurationString        "PG_STROBE_DURATION"
-#define PGPacketSizeString            "PG_PACKET_SIZE"
+#define PGPctPacketSizeString         "PG_PCT_PACKET_SIZE"
+#define PGPacketSizeActualString      "PG_PACKET_SIZE_ACTUAL"
 #define PGPacketDelayString           "PG_PACKET_DELAY"
+#define PGPacketDelayActualString     "PG_PACKET_DELAY_ACTUAL"
+#define PGBandwidthString             "PG_BANDWIDTH"
+#define PGTimeStampModeString         "PG_TIME_STAMP_MODE"
 #define PGCorruptFramesString         "PG_CORRUPT_FRAMES"
 #define PGDriverDroppedString         "PG_DRIVER_DROPPED"
 #define PGTransmitFailedString        "PG_TRANSMIT_FAILED"
@@ -284,6 +288,12 @@ static const char *GPIOStrings[NUM_GPIO_PINS] = {
     "GPIO_3"
 };
 
+typedef enum {
+   TimeStampCamera,
+   TimeStampEPICS,
+   TimeStampHybrid
+} PGTimeStamp_t;
+
 /** Main driver class inherited from areaDetectors ADDriver class.
  * One instance of this class will control one camera.
  */
@@ -307,48 +317,56 @@ public:
 protected:
     int PGSerialNumber;           /** Camera serial number (int32 read) */
     #define FIRST_PG_PARAM PGSerialNumber
-    int PGFirmwareVersion;        /** Camera firmware version (octet read) */
-    int PGSoftwareVersion;        /** Camera software version (octet read) */
-                                  /** The following PGProperty parameters all have addr: 0-NUM_PROPERTIES-1 */
-    int PGPropertyAvail;          /** Property is available  1=available 0=not available (int32, read) */
-    int PGPropertyAutoAvail;      /** Property auto mode available 1=available 0=not available (int32, read) */
-    int PGPropertyManAvail;       /** Property manual mode available 1=available 0=not available (int32, read) */
-    int PGPropertyAutoMode;       /** Property control mode: 0:manual or 1:automatic (int32 read/write) */
-    int PGPropertyAbsAvail;       /** Property has absolute (floating point) controls available 1=available 0=not available (int32 read) */
+    int PGFirmwareVersion;        /** Camera firmware version                         (octet read) */
+    int PGSoftwareVersion;        /** Camera software version                         (octet read) */
+                                  /** The following PGProperty parameters 
+                                      all have addr: 0-NUM_PROPERTIES-1 */
+    int PGPropertyAvail;          /** Property is available                           (int32 read) */
+    int PGPropertyAutoAvail;      /** Property auto mode available                    (int32 read) */
+    int PGPropertyManAvail;       /** Property manual mode available                  (int32 read) */
+    int PGPropertyAutoMode;       /** Property control mode: 0:manual or 1:automatic  (int32 read/write) */
+    int PGPropertyAbsAvail;       /** Property has absolute (floating point) controls (int32 read) */
     int PGPropertyAbsMode;        /** Property raw/absolute mode: 0:raw or 1:absolute (int32 read/write) */
-    int PGPropertyValue;          /** Property value (int32 read/write) */
-    int PGPropertyValueB;         /** Property value B (int32 read/write) */
-    int PGPropertyValueMax;       /** Property maximum value (int32 read) */
-    int PGPropertyValueMin;       /** Property minimum value (int32 read) */
-    int PGPropertyValueAbs;       /** Property absolute value (float64 read/write) */
-    int PGPropertyValueAbsMax;    /** Property absolute maximum value (float64 read) */
-    int PGPropertyValueAbsMin;    /** Property absolute minimum value (float64 read) */
-    int PGGigEPropertyValue;      /** GigE property value (int32 read/write) */
-    int PGGigEPropertyValueMax;   /** GigE property maximum value (int32 read) */
-    int PGGigEPropertyValueMin;   /** GigE property minimum value (int32 read) */
-    int PGVideoMode;              /** Video mode (int32 read/write) enum VideoMode, 0-NUM_VIDEOMODES-1 */
-    int PGFormat7Mode;            /** Format7 mode (int32 read/write) enum Mode, 0-NUM_MODES-1 */
-    int PGBinningMode;            /** Binning (int32 read/write) enum Binning, 0-NUM_BINNINGS-1 */
-    int PGFrameRate;              /** Frame rate (int32 read/write) enum FrameRate, 0-NUM_FRAMERATES-1 */
-    int PGPixelFormat;            /** The pixel format when VideoFormat=Format7 (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
-    int PGConvertPixelFormat;     /** The pixel format to convert to when input pixel format is raw[8,12,16] (int32 read/write) enum PixelFormat, 0-NUM_PIXEL_FORMATS-1 */
-    int PGTriggerSource;          /** Trigger source (int32, write/read) */
-    int PGTriggerPolarity;        /** Trigger polarity (int32, write/read) */
-    int PGSoftwareTrigger;        /** Issue a software trigger (int32, write/read) */
-    int PGSkipFrames;             /** Frames to skip in trigger mode 3 (int32, write/read) */
-    int PGStrobeSource;           /** Strobe source GPIO pin (int32, write/read) */
-    int PGStrobePolarity;         /** Strobe polarity (low/high) (int32, write/read) */
-    int PGStrobeEnable;           /** Strobe enable/disable strobe (int32, write/read) */
-    int PGStrobeDelay;            /** Strobe delay (float64, write/read) */
-    int PGStrobeDuration;         /** Strobe duration (float64, write/read) */
-    int PGPacketSize;             /** Size of data packets from camera (int32, write/read) */
-    int PGPacketDelay;            /** Packet delay in usec from camera, GigE only (int32, write/read) */
-    int PGHeartbeat;              /** Hearbeat, GigE only (int32, write/read) */
-    int PGHeartbeatTimeout;       /** Heartbeat timeout, GigE only (int32, write/read) */
-    int PGCorruptFrames;          /** Number of corrupt frames (int32, read) */
-    int PGDriverDropped;          /** Number of driver dropped frames (int32, read) */
-    int PGTransmitFailed;         /** Number of transmit failures (int32, read) */
-    int PGDroppedFrames;          /** Number of dropped frames (int32, read) */
+    int PGPropertyValue;          /** Property value                                  (int32 read/write) */
+    int PGPropertyValueB;         /** Property value B                                (int32 read/write) */
+    int PGPropertyValueMax;       /** Property maximum value                          (int32 read) */
+    int PGPropertyValueMin;       /** Property minimum value                          (int32 read) */
+    int PGPropertyValueAbs;       /** Property absolute value                         (float64 read/write) */
+    int PGPropertyValueAbsMax;    /** Property absolute maximum value                 (float64 read) */
+    int PGPropertyValueAbsMin;    /** Property absolute minimum value                 (float64 read) */
+    int PGGigEPropertyValue;      /** GigE property value                             (int32 read/write) */
+    int PGGigEPropertyValueMax;   /** GigE property maximum value                     (int32 read) */
+    int PGGigEPropertyValueMin;   /** GigE property minimum value                     (int32 read) */
+    int PGVideoMode;              /** Video mode enum VideoMode, 0-NUM_VIDEOMODES-1   (int32 read/write) */
+    int PGFormat7Mode;            /** Format7 mode enum Mode, 0-NUM_MODES-1           (int32 read/write)  */
+    int PGBinningMode;            /** Binning enum Binning, 0-NUM_BINNINGS-1          (int32 read/write) */
+    int PGFrameRate;              /** Frame rate enum FrameRate, 0-NUM_FRAMERATES-1   (int32 read/write) */
+    int PGPixelFormat;            /** The pixel format when VideoFormat=Format7
+                                      enum PixelFormat, 0-NUM_PIXEL_FORMATS-1         (int32 read/write) */
+    int PGConvertPixelFormat;     /** The pixel format to convert to when input                               
+                                      pixel format is raw[8,12,16] 
+                                      enum PixelFormat, 0-NUM_PIXEL_FORMATS-1         (int32 read/write) */
+    int PGTriggerSource;          /** Trigger source                                  (int32 write/read) */
+    int PGTriggerPolarity;        /** Trigger polarity                                (int32 write/read) */
+    int PGSoftwareTrigger;        /** Issue a software trigger                        (int32 write/read) */
+    int PGSkipFrames;             /** Frames to skip in trigger mode 3                (int32 write/read) */
+    int PGStrobeSource;           /** Strobe source GPIO pin                          (int32 write/read) */
+    int PGStrobePolarity;         /** Strobe polarity (low/high)                      (int32 write/read) */
+    int PGStrobeEnable;           /** Strobe enable/disable strobe                    (int32 write/read) */
+    int PGStrobeDelay;            /** Strobe delay                                    (float64 write/read) */
+    int PGStrobeDuration;         /** Strobe duration                                 (float64 write/read) */
+    int PGPctPacketSize;          /** Size of data packets from camera in % of max    (float64 write/read) */
+    int PGPacketSizeActual;       /** Size of data packets from camera                (int32 write/read) */
+    int PGPacketDelay;            /** Packet delay in usec from camera, GigE only     (int32 write/read) */
+    int PGPacketDelayActual;      /** Packet delay in usec from camera, GigE only     (int32 read) */
+    int PGBandwidth;              /** Bandwidth in MB/s                               (float64 read) */
+    int PGTimeStampMode;          /** Time stamp mode (PGTimeStamp_t)                 (int32 write/read) */
+    int PGHeartbeat;              /** Hearbeat, GigE only                             (int32 write/read) */
+    int PGHeartbeatTimeout;       /** Heartbeat timeout, GigE only                    (int32 write/read) */
+    int PGCorruptFrames;          /** Number of corrupt frames                        (int32 read) */
+    int PGDriverDropped;          /** Number of driver dropped frames                 (int32 read) */
+    int PGTransmitFailed;         /** Number of transmit failures                     (int32 read) */
+    int PGDroppedFrames;          /** Number of dropped frames                        (int32 read) */
     #define LAST_PG_PARAM PGDroppedFrames
 
 private:
@@ -518,8 +536,12 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGStrobeEnableString,           asynParamInt32,   &PGStrobeEnable);
     createParam(PGStrobeDelayString,            asynParamFloat64, &PGStrobeDelay);
     createParam(PGStrobeDurationString,         asynParamFloat64, &PGStrobeDuration);
-    createParam(PGPacketSizeString,             asynParamInt32,   &PGPacketSize);
+    createParam(PGPctPacketSizeString,          asynParamFloat64, &PGPctPacketSize);
+    createParam(PGPacketSizeActualString,       asynParamInt32,   &PGPacketSizeActual);
     createParam(PGPacketDelayString,            asynParamInt32,   &PGPacketDelay);
+    createParam(PGPacketDelayActualString,      asynParamInt32,   &PGPacketDelayActual);
+    createParam(PGBandwidthString,              asynParamFloat64, &PGBandwidth);
+    createParam(PGTimeStampModeString,          asynParamInt32,   &PGTimeStampMode);
     createParam(PGCorruptFramesString,          asynParamInt32,   &PGCorruptFrames);
     createParam(PGDriverDroppedString,          asynParamInt32,   &PGDriverDropped);
     createParam(PGTransmitFailedString,         asynParamInt32,   &PGTransmitFailed);
@@ -825,8 +847,11 @@ asynStatus pointGrey::grabImage()
     size_t dims[3];
     int pixelSize;
     size_t dataSize, dataSizePG;
+    double bandwidth;
+    double frameRate;
     void *pData;
     int nDims;
+    int timeStampMode;
     static const char *functionName = "grabImage";
 
     /* unlock the driver while we wait for a new image to be ready */
@@ -851,12 +876,18 @@ asynStatus pointGrey::grabImage()
     metaData = pPGRawImage_->GetMetadata();    
     timeStamp = pPGRawImage_->GetTimeStamp();    
     pPGImage = pPGRawImage_;
+    // Calculate bandwidth
+    dataSizePG = pPGRawImage_->GetReceivedDataSize();
+    getDoubleParam(FRAME_RATE, PGPropertyValueAbs, &frameRate);
+    bandwidth = frameRate * dataSizePG / (1024 * 1024);
+    setDoubleParam(PGBandwidth, bandwidth);
 
-    // If the incoming pixel format is raw[8,12,16] and convertPixelFormat is non-zero then convert
+    // If the incoming pixel format is raw[8,12,16] or mono12 and convertPixelFormat is non-zero then convert
     // the pixel format of the image
     getIntegerParam(PGConvertPixelFormat, &convertPixelFormat);
-    if (((pixelFormat == PIXEL_FORMAT_RAW8) ||
-         (pixelFormat == PIXEL_FORMAT_RAW12) ||
+    if (((pixelFormat == PIXEL_FORMAT_RAW8)   ||
+         (pixelFormat == PIXEL_FORMAT_RAW12)  ||
+         (pixelFormat == PIXEL_FORMAT_MONO12) ||
          (pixelFormat == PIXEL_FORMAT_RAW16)) &&
           convertPixelFormat != 0) {
         error = pPGRawImage_->Convert((PixelFormat)convertPixelFormat, pPGConvertedImage_);
@@ -969,19 +1000,30 @@ asynStatus pointGrey::grabImage()
 
     /* Put the frame number into the buffer */
     pRaw_->uniqueId = metaData.embeddedFrameCounter;
+    getIntegerParam(PGTimeStampMode, &timeStampMode);
+    updateTimeStamp(&pRaw_->epicsTS);
     /* Set the timestamps in the buffer */
-    /* We use the camera timestamp for the double value and the EPICS time for the epicsTS */
-    if (timeStamp.seconds != 0) {
-        pRaw_->timeStamp = timeStamp.seconds + 
-                           timeStamp.microSeconds / 1.e6;
-    } else {
-        pRaw_->timeStamp = timeStamp.cycleSeconds + 
-                           timeStamp.cycleCount / 8000. + 
-                           timeStamp.cycleOffset / 8000. / 3072.;
+    switch (timeStampMode) {
+        case TimeStampCamera:
+            // Some Point Grey cameras return seconds and microseconds, others cycleSeconds, etc. fields
+            if (timeStamp.seconds != 0) {
+                pRaw_->timeStamp = (double)timeStamp.seconds + 
+                                   (double)timeStamp.microSeconds / 1.e6;
+            } else {
+                pRaw_->timeStamp = (double)timeStamp.cycleSeconds + 
+                                   (double)timeStamp.cycleCount / 8000. + 
+                                   (double)timeStamp.cycleOffset / 8000. / 3072.;
+            }
+            break;
+        case TimeStampEPICS:
+            pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;
+            break;
+        case TimeStampHybrid:
+            // For now we just use EPICS time
+            pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;
+            break;
     }
     
-    updateTimeStamp(&pRaw_->epicsTS);
-
     /* Get any attributes that have been defined for this driver */        
     getAttributes(pRaw_->pAttributeList);
     
@@ -1031,7 +1073,6 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
                 (function == PGFormat7Mode) ||
                 (function == PGPixelFormat) ||
                 (function == PGBinningMode) ||
-                (function == PGPacketSize)  ||
                 (function == PGPacketDelay)) {
         status = setImageParams();
 
@@ -1121,6 +1162,9 @@ asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
     } else if ((function == PGStrobeDelay)  || 
                (function == PGStrobeDuration)) {
         status = setStrobe();
+        
+    } else if (function == PGPctPacketSize) {
+        status = setImageParams();
         
     } else {
         /* If this parameter belongs to a base class call its method */
@@ -1427,7 +1471,6 @@ asynStatus pointGrey::setFormat7Params()
 {
     Error error;
     int videoMode;
-    Format7Info f7Info;
     Format7ImageSettings f7Settings;
     Format7PacketInfo f7PacketInfo;
     PixelFormat pixelFormat;
@@ -1437,6 +1480,7 @@ asynStatus pointGrey::setFormat7Params()
     int f7Mode;
     int itemp;
     float percentage;
+    double pctPacketSize;
     unsigned int packetSize;
     int sizeX, sizeY, minX, minY;
     unsigned short hsMax, vsMax, hsUnit, vsUnit;
@@ -1453,7 +1497,7 @@ asynStatus pointGrey::setFormat7Params()
     getIntegerParam(PGFormat7Mode, &f7Mode);
     /* Get the format7 info */
     pFormat7Info_->mode = (Mode)f7Mode;
-    error = pCamera_->GetFormat7Info(&f7Info, &supported);
+    error = pCamera_->GetFormat7Info(pFormat7Info_, &supported);
     if (checkError(error, functionName, "GetFormat7Info")) 
         return asynError;
     if (!supported) {
@@ -1530,8 +1574,16 @@ asynStatus pointGrey::setFormat7Params()
     /* Must stop acquisition before changing the video mode */
     error = pCamera_->StopCapture();
     resumeAcquire = (error == PGRERROR_OK);
-    getIntegerParam(PGPacketSize, (int *)&packetSize);
-    if (packetSize <= 0) packetSize = f7PacketInfo.recommendedBytesPerPacket;
+    getDoubleParam(PGPctPacketSize, &pctPacketSize);
+    if (pctPacketSize <= 0.) {
+        packetSize = f7PacketInfo.recommendedBytesPerPacket;
+    } else {
+        // Packet size must be a multiple of unitBytesPerPacket
+        packetSize = (unsigned int) (pctPacketSize * pFormat7Info_->maxPacketSize / 100. + 0.5);
+        packetSize = (packetSize/f7PacketInfo.unitBytesPerPacket) * f7PacketInfo.unitBytesPerPacket;
+        if (packetSize < pFormat7Info_->minPacketSize) packetSize = pFormat7Info_->minPacketSize;
+        if (packetSize > pFormat7Info_->maxPacketSize) packetSize = pFormat7Info_->maxPacketSize;
+    }
     error = pCamera_->SetFormat7Configuration(&f7Settings, packetSize);
     checkError(error, functionName, "SetFormat7Configuration");
     if (resumeAcquire) {
@@ -1548,7 +1600,7 @@ asynStatus pointGrey::setFormat7Params()
     setIntegerParam(ADSizeX,       f7Settings.width);
     setIntegerParam(ADSizeY,       f7Settings.height);
     setIntegerParam(PGPixelFormat, f7Settings.pixelFormat);
-    setIntegerParam(PGPacketSize,  packetSize);
+    setIntegerParam(PGPacketSizeActual, packetSize);
     callParamCallbacks();
     
     /* When the format7 mode changes the supported values of pixel format changes */
@@ -1567,8 +1619,9 @@ asynStatus pointGrey::setGigEImageParams()
     bool resumeAcquire;
     int gigEMode;
     int itemp;
-    int packetSize;
+    int packetSize, minPacketSize, maxPacketSize;
     int packetDelay;
+    double pctPacketSize;
     int sizeX, sizeY, minX, minY;
     unsigned int binX, binY;
     int hsMax, vsMax, hsUnit, vsUnit;
@@ -1582,7 +1635,6 @@ asynStatus pointGrey::setGigEImageParams()
     error = pGigECamera_->StopCapture();
     resumeAcquire = (error == PGRERROR_OK);
 
-printf("%s::%s calling SetGigEImagingMode\n", driverName, functionName);
     // Set the GigE imaging mode    
     getIntegerParam(PGFormat7Mode, &gigEMode);
     error = pGigECamera_->SetGigEImagingMode((Mode)gigEMode);
@@ -1590,7 +1642,6 @@ printf("%s::%s calling SetGigEImagingMode\n", driverName, functionName);
         goto cleanup;
 
     /* Get the GigE image settings info */
-printf("%s::%s calling GetGigEImageSettingsInfo\n", driverName, functionName);
     error = pGigECamera_->GetGigEImageSettingsInfo(pGigEImageSettingsInfo_);
     if (checkError(error, functionName, "GetGigEImageSettingsInfo")) 
         goto cleanup;
@@ -1650,10 +1701,18 @@ printf("%s::%s calling GetGigEImageSettingsInfo\n", driverName, functionName);
         driverName, functionName, sizeX, sizeY, minX, minY, pixelFormat);
 
     // Set the packet size and delay
-    getIntegerParam(PGPacketSize, &packetSize);
+    getDoubleParam(PGPctPacketSize, &pctPacketSize);
+    getIntegerParam(PACKET_SIZE, PGGigEPropertyValueMin, &minPacketSize);
+    getIntegerParam(PACKET_SIZE, PGGigEPropertyValueMax, &maxPacketSize);
     getIntegerParam(PGPacketDelay, &packetDelay);
-    if (packetSize <= 0) packetSize = 1400;
-    if (packetDelay <= 0) packetSize = 0;
+    if (pctPacketSize <= 0) {
+        packetSize = maxPacketSize;
+    } else {
+        packetSize = (int) (maxPacketSize * pctPacketSize / 100. + 0.5);
+        if (packetSize < minPacketSize) packetSize = minPacketSize;
+        if (packetSize > maxPacketSize) packetSize = maxPacketSize;
+    }
+    if (packetDelay <= 0) packetDelay = 0;
     setGigEPropertyValue(PACKET_SIZE, packetSize);
     setGigEPropertyValue(PACKET_DELAY, packetDelay);
 
@@ -2200,9 +2259,9 @@ asynStatus pointGrey::getAllGigEProperties()
     }
     /* Map a few of the Point Grey parameters on to the GigE properties */
     getIntegerParam(PACKET_SIZE, PGGigEPropertyValue, &itemp);
-    setIntegerParam(PGPacketSize, itemp);
+    setIntegerParam(PGPacketSizeActual, itemp);
     getIntegerParam(PACKET_DELAY, PGGigEPropertyValue, &itemp);
-    setIntegerParam(PGPacketDelay, itemp);
+    setIntegerParam(PGPacketDelayActual, itemp);
 
     /* Do callbacks for each propertyType */
     for (addr=0; addr<NUM_GIGE_PROPERTIES; addr++) callParamCallbacks(addr);

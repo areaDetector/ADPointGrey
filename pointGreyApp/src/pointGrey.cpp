@@ -77,6 +77,7 @@ static const char *driverName = "pointGrey";
 #define PGStrobeDurationString        "PG_STROBE_DURATION"
 #define PGPctPacketSizeString         "PG_PCT_PACKET_SIZE"
 #define PGPacketSizeActualString      "PG_PACKET_SIZE_ACTUAL"
+#define PGMaxPacketSizeString         "PG_MAX_PACKET_SIZE"
 #define PGPacketDelayString           "PG_PACKET_DELAY"
 #define PGPacketDelayActualString     "PG_PACKET_DELAY_ACTUAL"
 #define PGBandwidthString             "PG_BANDWIDTH"
@@ -104,6 +105,9 @@ static const char *driverName = "pointGrey";
 
 // The maximum number of pixel formats to convert to when the input pixel format is PIXEL_FORMAT_RAW[8,12,16]
 #define NUM_CONVERT_PIXEL_FORMATS 5
+
+// Default packet delay in microseconds
+#define DEFAULT_PACKET_DELAY 400
 
 typedef enum {
     propValueA,
@@ -357,6 +361,7 @@ protected:
     int PGStrobeDuration;         /** Strobe duration                                 (float64 write/read) */
     int PGPctPacketSize;          /** Size of data packets from camera in % of max    (float64 write/read) */
     int PGPacketSizeActual;       /** Size of data packets from camera                (int32 write/read) */
+    int PGMaxPacketSize;          /** Maximum size of data packets from camera        (int32 write/read) */
     int PGPacketDelay;            /** Packet delay in usec from camera, GigE only     (int32 write/read) */
     int PGPacketDelayActual;      /** Packet delay in usec from camera, GigE only     (int32 read) */
     int PGBandwidth;              /** Bandwidth in MB/s                               (float64 read) */
@@ -499,6 +504,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
 {
     static const char *functionName = "pointGrey";
     int i;
+    Error error;
     PropertyType propType;
     asynStatus status;
 
@@ -538,6 +544,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     createParam(PGStrobeDurationString,         asynParamFloat64, &PGStrobeDuration);
     createParam(PGPctPacketSizeString,          asynParamFloat64, &PGPctPacketSize);
     createParam(PGPacketSizeActualString,       asynParamInt32,   &PGPacketSizeActual);
+    createParam(PGMaxPacketSizeString,          asynParamInt32,   &PGMaxPacketSize);
     createParam(PGPacketDelayString,            asynParamInt32,   &PGPacketDelay);
     createParam(PGPacketDelayActualString,      asynParamInt32,   &PGPacketDelayActual);
     createParam(PGBandwidthString,              asynParamFloat64, &PGBandwidth);
@@ -560,6 +567,7 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     setStringParam(ADStringFromServer, "<not used by driver>");
     setIntegerParam(PGTriggerSource, 0);
     setIntegerParam(PGStrobeSource, 1);
+    setIntegerParam(PGBinningMode, 1);
     
     // Create camera control objects
     pBusMgr_            = new BusManager;
@@ -612,6 +620,17 @@ pointGrey::pointGrey(const char *portName, int cameraId,
     }
     getAllGigEProperties();
 
+    // Get and set maximum packet size and default packet delay for GigE cameras
+    if (pGigECamera_) {
+        unsigned int packetSize;
+        error = pGigECamera_->DiscoverGigEPacketSize(&packetSize);
+        checkError(error, functionName, "DiscoverGigEPacketSize");
+        setIntegerParam(PGMaxPacketSize, packetSize);
+        setIntegerParam(PGPacketDelay, DEFAULT_PACKET_DELAY);
+        setGigEPropertyValue(PACKET_SIZE, packetSize);
+        setGigEPropertyValue(PACKET_DELAY, DEFAULT+PACKET_DELAY);
+    }
+
     startEventId_ = epicsEventCreate(epicsEventEmpty);
 
     /* launch image read task */
@@ -641,6 +660,7 @@ void pointGrey::shutdown(void)
     exiting_ = 1;
     if (pGuid_) {
         disconnectCamera();
+        delete pCameraBase_;
     }
 }
 
@@ -721,7 +741,7 @@ asynStatus pointGrey::connectCamera(void)
     embeddedInfo.frameCounter.onOff = true;
     error = pCameraBase_->SetEmbeddedImageInfo(&embeddedInfo);
     if (checkError(error, functionName, "SetEmbeddedImageInfo")) return asynError;
-
+    
     return asynSuccess;
 }
 
@@ -734,6 +754,7 @@ asynStatus pointGrey::disconnectCamera(void)
         error = pCameraBase_->Disconnect();
         if (checkError(error, functionName, "Disconnect")) return asynError;
     }
+    printf("%s:%s disconnect camera OK\n", driverName, functionName);
     return asynSuccess;
 }
 
@@ -1266,6 +1287,9 @@ asynStatus pointGrey::setPropertyValue(PropertyType propType, int value, propVal
     /* First check if the propertyType is valid for this camera */
     if (!pProperty->present) return asynError;
 
+    /* Enable control for this propertyType */
+    pProperty->onOff = true;
+
     /* Disable absolute mode control for this propertyType */
     pProperty->absControl = false;
 
@@ -1351,6 +1375,9 @@ asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 va
             driverName, functionName, propertyTypeStrings[propType]);
         return asynError;
     }
+
+    /* Enable control for this propertyType */
+    pProperty->onOff = true;
 
      /* Enable absolute mode control for this propertyType */
     pProperty->absControl = true;
@@ -1575,6 +1602,7 @@ asynStatus pointGrey::setFormat7Params()
     error = pCamera_->StopCapture();
     resumeAcquire = (error == PGRERROR_OK);
     getDoubleParam(PGPctPacketSize, &pctPacketSize);
+    setIntegerParam(PGMaxPacketSize, pFormat7Info_->maxPacketSize);
     if (pctPacketSize <= 0.) {
         packetSize = f7PacketInfo.recommendedBytesPerPacket;
     } else {
@@ -1619,9 +1647,9 @@ asynStatus pointGrey::setGigEImageParams()
     bool resumeAcquire;
     int gigEMode;
     int itemp;
-    int packetSize, minPacketSize, maxPacketSize;
+    int maxPacketSize;
+    int minPacketDelay, maxPacketDelay;
     int packetDelay;
-    double pctPacketSize;
     int sizeX, sizeY, minX, minY;
     unsigned int binX, binY;
     int hsMax, vsMax, hsUnit, vsUnit;
@@ -1697,34 +1725,32 @@ asynStatus pointGrey::setGigEImageParams()
  
     /* Attempt to write the parameters to camera */
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
-        "%s::%s setting GigE parameters sizeX=%d, sizeY=%d, minX=%d, minY=%d, pixelFormat=0x%x\n",
-        driverName, functionName, sizeX, sizeY, minX, minY, pixelFormat);
+        "%s::%s setting GigE parameters width=%d, height=%d, offsetX=%d, offsetY=%d, pixelFormat=0x%x\n",
+        driverName, functionName, 
+        gigESettings.width, gigESettings.height, 
+        gigESettings.offsetX, gigESettings.offsetY, gigESettings.pixelFormat);
+
+    error = pGigECamera_->SetGigEImageSettings(&gigESettings);
+    if (checkError(error, functionName, "SetGigEImageSettings"))
+        goto cleanup;
 
     // Set the packet size and delay
-    getDoubleParam(PGPctPacketSize, &pctPacketSize);
-    getIntegerParam(PACKET_SIZE, PGGigEPropertyValueMin, &minPacketSize);
-    getIntegerParam(PACKET_SIZE, PGGigEPropertyValueMax, &maxPacketSize);
+    // We always use the maxPacket size, but we adjust the delay to control bandwidth
     getIntegerParam(PGPacketDelay, &packetDelay);
-    if (pctPacketSize <= 0) {
-        packetSize = maxPacketSize;
-    } else {
-        packetSize = (int) (maxPacketSize * pctPacketSize / 100. + 0.5);
-        if (packetSize < minPacketSize) packetSize = minPacketSize;
-        if (packetSize > maxPacketSize) packetSize = maxPacketSize;
-    }
-    if (packetDelay <= 0) packetDelay = 0;
-    setGigEPropertyValue(PACKET_SIZE, packetSize);
+    getIntegerParam(PGMaxPacketSize, &maxPacketSize);
+    setIntegerParam(PGPacketSizeActual, maxPacketSize);
+    getIntegerParam(PACKET_DELAY, PGGigEPropertyValueMin, &minPacketDelay);
+    getIntegerParam(PACKET_DELAY, PGGigEPropertyValueMax, &maxPacketDelay);
+    if (packetDelay < minPacketDelay) packetDelay = minPacketDelay;
+    if (packetDelay > maxPacketDelay) packetDelay = maxPacketDelay;
+    setGigEPropertyValue(PACKET_SIZE, maxPacketSize);
     setGigEPropertyValue(PACKET_DELAY, packetDelay);
 
     // Set the binning
     getIntegerParam(PGBinningMode, &binningMode);
-    error = pGigECamera_->SetGigEImageBinningSettings(binningModeValues[binningMode], 
-                                                      binningModeValues[binningMode]);
+    error = pGigECamera_->SetGigEImageBinningSettings(binningMode, 
+                                                      binningMode);
     if (checkError(error, functionName, "SetGigEImageBinningSettings")) 
-        goto cleanup;
-
-    error = pGigECamera_->SetGigEImageSettings(&gigESettings);
-    if (checkError(error, functionName, "SetGigEImageSettings"))
         goto cleanup;
 
     /* Read back the actual values */

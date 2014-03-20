@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector-2-0/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
+	name="/home/epics/devel/areaDetector-2-0/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
 	version=030107
 }
 display {
@@ -1378,148 +1378,6 @@ rectangle {
 		clr=14
 		fill="outline"
 	}
-}
-text {
-	object {
-		x=750
-		y=680
-		width=140
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Packet size %"
-	align="horiz. right"
-}
-"text entry" {
-	object {
-		x=895
-		y=680
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)PctPacketSize"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=980
-		y=681
-		width=80
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)PctPacketSize_RBV"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=770
-		y=730
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="GigE packet delay"
-	align="horiz. right"
-}
-"text entry" {
-	object {
-		x=895
-		y=730
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)PacketDelay"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=980
-		y=731
-		width=80
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)PacketDelayActual"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=895
-		y=756
-		width=80
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)Bandwidth"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=730
-		y=755
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Bandwidth (MB/s)"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=895
-		y=706
-		width=80
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)PacketSizeActual"
-		clr=54
-		bclr=4
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=730
-		y=705
-		width=160
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Packet size"
-	align="horiz. right"
 }
 composite {
 	object {
@@ -3006,6 +2864,187 @@ menu {
 		bclr=4
 	}
 	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=750
+		y=705
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Packet size %"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=895
+		y=705
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PctPacketSize"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=980
+		y=706
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PctPacketSize_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=770
+		y=755
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="GigE packet delay"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=895
+		y=755
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PacketDelay"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=980
+		y=756
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PacketDelayActual"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=895
+		y=781
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Bandwidth"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=730
+		y=780
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Bandwidth (MB/s)"
+	align="horiz. right"
+}
+composite {
+	object {
+		x=730
+		y=730
+		width=245
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=730
+				y=730
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Packet size"
+			align="horiz. right"
+		}
+		"text update" {
+			object {
+				x=895
+				y=731
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)PacketSizeActual"
+				clr=54
+				bclr=4
+			}
+			limits {
+			}
+		}
+	}
+}
+text {
+	object {
+		x=730
+		y=680
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Max packet size"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=895
+		y=681
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)MaxPacketSize"
+		clr=54
+		bclr=4
+	}
 	limits {
 	}
 }

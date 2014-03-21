@@ -250,20 +250,20 @@ record(longin, "$(P)$(R)MaxPacketSize") {
 
 # Packet delay
 record(longout, "$(P)$(R)PacketDelay") {
-#  field(PINI, "YES")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_PACKET_DELAY")
-}
-
-record(longin, "$(P)$(R)PacketDelayActual") {
-  field(DTYP, "asynInt32")
-  field(INP,  "@asyn($(PORT) 0)PG_PACKET_DELAY_ACTUAL")
-  field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)$(R)PacketDelay_RBV") {
   field(DTYP, "asynInt32")
   field(INP,  "@asyn($(PORT) 0)PG_PACKET_DELAY")
+  field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)PacketDelayActual") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_PACKET_DELAY_ACTUAL")
   field(SCAN, "I/O Intr")
 }
 

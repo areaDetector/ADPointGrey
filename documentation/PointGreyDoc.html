@@ -649,6 +649,59 @@
       </tr>
     </tbody>
   </table>
+  <h2 id="GigEProperties" style="text-align: left">
+    GigE Properties</h2>
+  <p>
+    Point Grey supports 4 properties that are specific to GigE cameras.
+  </p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="3">
+          <b>Point Grey Camera Properties</b> </td>
+      </tr>
+      <tr>
+        <th>
+          Property Number </th>
+        <th>
+          EPICS Record Base Name </th>
+        <th>
+          Point Grey PropertyType enum </th>
+      </tr>
+      <tr>
+        <td>
+          0 </td>
+        <td>
+          Heeartbeat </td>
+        <td>
+          HEARTBEAT </td>
+      </tr>
+      <tr>
+        <td>
+          1 </td>
+        <td>
+          HeartbeatTimeout </td>
+        <td>
+          HEARTBEAT_TIMEOUT </td>
+      </tr>
+      <tr>
+        <td>
+          2 </td>
+        <td>
+          PacketSize </td>
+        <td>
+          PACKET_SIZE </td>
+      </tr>
+      <tr>
+        <td>
+          3 </td>
+        <td>
+          PacketDelay </td>
+        <td>
+          PACKET_DELAY </td>
+      </tr>
+    </tbody>
+  </table>
   <h2 id="StandardParameters" style="text-align: left">
     Standard areaDetector parameters</h2>
   <p>
@@ -908,6 +961,44 @@
         <td>
           $(P)$(R)PixelFormat<br />
           $(P)$(R)PixelFormat_RBV </td>
+        <td>
+          mbbo
+          <br />
+          mbbi </td>
+      </tr>
+      <tr>
+        <td>
+          PGConvertPixelFormat </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The driver allows converting the pixel format from the camera to another pixel format.
+          The pixel formats from the camera that can be converted are:
+          <ul>
+            <li>Raw8</li>
+            <li>Raw16</li>
+            <li>Mono12</li>
+          </ul></td>
+          The pixel format that these can be converted to are:
+          <ul>
+          <li>None:  The input pixel format is not converted.</li>
+          <li>Mono8: The input pixel format is converted to Mono8.</li>
+          <li>Mono16: The input pixel format is converted to Mono16. 
+              This is useful when the input pixel format is Mono12, since this saves network bandwidth.</li>
+          <li>RGB8: The input format is converted to RGB8.  This is useful when the input format is Raw8, 
+              for a color camera.  In this case Bayer color is sent on the network, reducing the bandwidth
+              requirement by a factor of 3.</li>
+          <li>RGB16: The input format is converted to RGB16.  This is useful when the input format is Raw16, 
+              for a color camera.  In this case Bayer color is sent on the network, reducing the bandwidth
+              requirement by a factor of 3.</li>
+          </ul>
+        <td>
+          PG_CONVERT_PIXEL_FORMAT </td>
+        <td>
+          $(P)$(R)ConvertPixelFormat<br />
+          $(P)$(R)ConvertPixelFormat_RBV </td>
         <td>
           mbbo
           <br />
@@ -1186,6 +1277,72 @@
       </tr>
       <tr>
         <td align="center" colspan="7">
+          <b>GigE Property parameters<br />
+            These parameters apply to each of the 4 Point Grey GigE properties discussed in the
+            <a href="#GigEProperties">GigE  Properties</a> section above.
+            <br />
+            The $(PROPERTY) macro in this table is the EPICS record base name listed in that
+            section.<br />
+            These records are defined in pointGreyProperty.template.</b> </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyValue </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The value of the property in integer device units. This controls the ValueA field
+          of the property, which is the only integer field used for all properties except
+          WHITE_BALANCE. </td>
+        <td>
+          PG_PROP_VAL </td>
+        <td>
+          $(P)$(R)$(PROPERTY)Val
+          <br />
+          $(P)$(R)$(PROPERTY)Val_RBV </td>
+        <td>
+          ao
+          <br />
+          ai </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyValueMin </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The minimum value of the property in device units. This is used to control the LOPR
+          and DRVL fields of the $(P)$(R)$(PROPERTY)Val record. </td>
+        <td>
+          PG_PROP_VAL_MIN </td>
+        <td>
+          $(P)$(R)$(PROPERTY)ValMin </td>
+        <td>
+          ai </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyValueMax </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The maximum value of the property in device units. This is used to control the HOPR
+          and DRVH fields of the $(P)$(R)$(PROPERTY)Val record. </td>
+        <td>
+          PG_PROP_VAL_MAX </td>
+        <td>
+          $(P)$(R)$(PROPERTY)ValMax </td>
+        <td>
+          ai </td>
+      </tr>
+      <tr>
+        <td align="center" colspan="7">
           <b>Trigger parameters</b> </td>
       </tr>
       <tr>
@@ -1377,7 +1534,150 @@
       </tr>
       <tr>
         <td align="center" colspan="7">
+          <b>Bandwidth control parameters</b> </td>
+      </tr>
+      <tr>
+        <td>
+          PGMaxPacketSize</td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The maximum packet size for the current settings.</td>
+        <td>
+          PG_MAX_PACKET_SIZE </td>
+        <td>
+          $(P)$(R)MaxPacketSize</td>
+        <td>
+          longin </td>
+      </tr>
+      <tr>
+        <td>
+          PGPctPacketSize </td>
+        <td>
+          asynFloat64 </td>
+        <td>
+          r/w </td>
+        <td>
+          The packet size to use as a percentage of maximum packet size. This is used to control the maximum
+          bandwidth, and hence maximum frame rate, on Firewire and USB cameras.  It is not used for
+          GigE cameras.</td>
+        <td>
+          PG_PCT_PACKET_SIZE </td>
+        <td>
+          $(P)$(R)PctPacketSize
+          <br />
+          $(P)$(R)PctPacketSize_RBV </td>
+        <td>
+          ao
+          <br />
+          ai </td>
+      </tr>
+      <tr>
+        <td>
+          PGPacketSizeActual </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The actual packet size being used.</td>
+        <td>
+          PG_PACKET_SIZE_ACTUAL </td>
+        <td>
+          $(P)$(R)PacketSizeActual</td>
+        <td>
+          longin </td>
+      </tr>
+      <tr>
+        <td>
+          PGPacketDelay </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The packet  delay to use in microseconds.  This is used to control the maximum
+          bandwidth, and hence maximum frame rate, on GigE cameras.  It is not used for
+          Firewire or USB cameras.  The default is 400 microseconds.</td>
+        <td>
+          PG_PACKET_DELAY </td>
+        <td>
+          $(P)$(R)PacketDelay
+          <br />
+          $(P)$(R)PacketDelay_RBV </td>
+        <td>
+          longout
+          <br />
+          longin </td>
+      </tr>
+      <tr>
+        <td>
+          PGBandwidth </td>
+        <td>
+          asynFloat64 </td>
+        <td>
+          r/o </td>
+        <td>
+          The calculated bandidth in MB/s.  This is computed from the image size and the frame rate.</td>
+        <td>
+          PG_BANDWIDTH </td>
+        <td>
+          $(P)$(R)Bandwidth</td>
+        <td>
+          ai </td>
+      </tr>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Timestamp parameters</b> </td>
+      </tr>
+      <tr>
+        <td>
+          PGTimeStampMode </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The timestamp mode. Controls the value of the NDArray,.timeStamp value.  Choices are:
+          <ul>
+            <li>Camera:  The time from the camera is used.</li>
+            <li>EPICS: The EPICS time is used</li>
+            <li>Hybrid: The EPICS time when the camera started is combined with the time stamp from the camera.</li>
+          </ul>
+        </td>
+        <td>
+          PG_TIME_STAMP_MODE </td>
+        <td>
+          $(P)$(R)TimeStampMode
+          <br />
+          $(P)$(R)TimeStampMode_RBV </td>
+        <td>
+          mbbo
+          <br />
+          mbbi </td>
+      </tr>
+      <tr>
+        <td align="center" colspan="7">
           <b>Camera statistics</b> </td>
+      </tr>
+      <tr>
+        <td>
+          PGCorruptFrames </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The number of corrupt frames. The Point Grey SDK resets this to 0 each time acquisition
+          is started. </td>
+        <td>
+          PG_CORRUPT_FRAMES </td>
+        <td>
+          $(P)$(R)CorruptFrames_RBV </td>
+        <td>
+          longin </td>
       </tr>
       <tr>
         <td>
@@ -1393,6 +1693,40 @@
           PG_DROPPED_FRAMES </td>
         <td>
           $(P)$(R)DroppedFrames_RBV </td>
+        <td>
+          longin </td>
+      </tr>
+      <tr>
+        <td>
+          PGDriverDropped </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The number of frames dropped by the driver. The Point Grey SDK resets this to 0 each time acquisition
+          is started. </td>
+        <td>
+          PG_DRIVER_DROPPED </td>
+        <td>
+          $(P)$(R)DriverDropped_RBV </td>
+        <td>
+          longin </td>
+      </tr>
+      <tr>
+        <td>
+          PGTransmitFailed </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The number of time transmission failed. The Point Grey SDK resets this to 0 each time acquisition
+          is started. </td>
+        <td>
+          PG_TRANSMIT_FAILED </td>
+        <td>
+          $(P)$(R)TransmitFailed_RBV </td>
         <td>
           longin </td>
       </tr>

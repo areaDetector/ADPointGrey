@@ -461,7 +461,7 @@ private:
  *            If set to 0 or 1 then asynTraceMask will be set to ASYN_TRACE_ERROR.
  *            If set to 0x21 (ASYN_TRACE_WARNING | ASYN_TRACE_ERROR) then each call to the
  *            FlyCap2 library will be traced including during initialization.
- * \param[in] memoryChannel.  The camera memory channel (non-volatile memory containing camera parameters) 
+ * \param[in] memoryChannel  The camera memory channel (non-volatile memory containing camera parameters) 
  *            to load during initialization.  If 0 no memory channel is loaded.
  *            If >=1 thenRestoreFromMemoryChannel(memoryChannel-1) is called.  
  *            Set memoryChannel to 1 to work around a bug in the Linux GigE driver in R2.0.
@@ -500,7 +500,7 @@ static void imageGrabTaskC(void *drvPvt)
  *            If set to 0 or 1 then asynTraceMask will be set to ASYN_TRACE_ERROR.
  *            If set to 0x21 (ASYN_TRACE_WARNING | ASYN_TRACE_ERROR) then each call to the
  *            FlyCap2 library will be traced including during initialization.
- * \param[in] memoryChannel.  The camera memory channel (non-volatile memory containing camera parameters) 
+ * \param[in] memoryChannel  The camera memory channel (non-volatile memory containing camera parameters) 
  *            to load during initialization.  If 0 no memory channel is loaded.
  *            If >=1 thenRestoreFromMemoryChannel(memoryChannel-1) is called.  
  *            Set memoryChannel to 1 to work around a bug in the Linux GigE driver in R2.0.

@@ -24,7 +24,7 @@ epicsEnvSet("NCHANS", "2048")
 # Define NELEMENTS to be enough for a 2048x2048x3 (color) image
 epicsEnvSet("NELEMENTS", "12592912")
 
-pointGreyConfig("$(PORT)", $(CAMERA_ID))
+pointGreyConfig("$(PORT)", $(CAMERA_ID), 0, 1)
 asynSetTraceIOMask($(PORT), 0, 2)
 #asynSetTraceMask($(PORT), 0, 255)
 

@@ -2877,7 +2877,7 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="Packet size %"
+	textix="Packet size"
 	align="horiz. right"
 }
 "text entry" {
@@ -2888,7 +2888,7 @@ text {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)PctPacketSize"
+		chan="$(P)$(R)PacketSize"
 		clr=14
 		bclr=51
 	}
@@ -2903,7 +2903,7 @@ text {
 		height=18
 	}
 	monitor {
-		chan="$(P)$(R)PctPacketSize_RBV"
+		chan="$(P)$(R)PacketSize_RBV"
 		clr=54
 		bclr=4
 	}

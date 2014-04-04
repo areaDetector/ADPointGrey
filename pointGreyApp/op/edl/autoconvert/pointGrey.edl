@@ -3989,7 +3989,7 @@ x 895
 y 705
 w 80
 h 20
-controlPv "$(P)$(R)PctPacketSize"
+controlPv "$(P)$(R)PacketSize"
 font "helvetica-medium-r-8.0"
 smartRefresh
 fastUpdate
@@ -4015,7 +4015,7 @@ x 980
 y 706
 w 80
 h 18
-controlPv "$(P)$(R)PctPacketSize_RBV"
+controlPv "$(P)$(R)PacketSize_RBV"
 font "helvetica-medium-r-8.0"
 smartRefresh
 fastUpdate

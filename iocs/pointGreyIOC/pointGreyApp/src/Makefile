@@ -12,7 +12,11 @@ DBD += $(PROD_NAME).dbd
 $(PROD_NAME)_DBD += pointGreySupport.dbd
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
-PROD_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp $(PROD_NAME)Main.cpp
+$(PROD_NAME)_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp $(PROD_NAME)Main.cpp
+
+# Test program
+PROD_IOC += GigEGrabEx
+GigEGrabEx_SRCS += GigEGrabEx
 
 # Add locally compiled object code
 PROD_LIBS += pointGrey

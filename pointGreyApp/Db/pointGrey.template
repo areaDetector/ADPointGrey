@@ -222,18 +222,16 @@ record(ai, "$(P)$(R)StrobeDuration_RBV") {
 }
 
 # Packet size
-record(ao, "$(P)$(R)PctPacketSize") {
+record(longout, "$(P)$(R)PacketSize") {
   field(PINI, "YES")
-  field(DTYP, "asynFloat64")
-  field(OUT,  "@asyn($(PORT) 0)PG_PCT_PACKET_SIZE")
-  field(PREC, "1")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PG_PACKET_SIZE")
 }
 
-record(ai, "$(P)$(R)PctPacketSize_RBV") {
-  field(DTYP, "asynFloat64")
-  field(INP,  "@asyn($(PORT) 0)PG_PCT_PACKET_SIZE")
+record(longin, "$(P)$(R)PacketSize_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)PG_PACKET_SIZE")
   field(SCAN, "I/O Intr")
-  field(PREC, "1")
 }
 
 record(longin, "$(P)$(R)PacketSizeActual") {

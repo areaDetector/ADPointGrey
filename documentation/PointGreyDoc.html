@@ -36,14 +36,15 @@
     This is an <a href="http://www.aps.anl.gov/epics/">EPICS</a> <a href="areaDetector.html">
       areaDetector</a> driver for cameras from <a href="http://www.ptgrey.com">Point Grey</a>.
     These include IEEE 1394 Firewire DCAM, GigE, USB 2.0, and USB 3.0 cameras. The driver
-    should work with any Point Grey camera, but it has only been tested on Firewire
-    (Flea2) and USB 3.0 (Grasshopper3) cameras. The driver should work on both Windows
-    and Linux, but it has been tested only on Windows. Note that Point Grey Firewire
-    cameras can also be controlled by the generic areaDetector <a href="FirewireWinDoc.html">
-      Windows Firewire driver</a> and the areaDetector <a href="http://controls.diamond.ac.uk/downloads/support/firewireDCAM/index.html">
-        Linux Firewire driver</a>, which work with Firewire cameras from any vendor.
-    However, this Point Grey driver provides access to some vendor-specific features
-    like strobe outputs that are not available in the generic drivers.
+    should work with any Point Grey camera. It has been tested on Firewire (Flea2),
+    GigE (BlackFly), and USB 3.0 (Grasshopper3) cameras. The driver has been tested
+    on Windows with all 3 of these cameras, but only with the GigE BlackyFly on Linux.
+    Note that Point Grey Firewire cameras can also be controlled by the generic areaDetector
+    <a href="FirewireWinDoc.html">Windows Firewire driver</a> and the areaDetector <a
+      href="http://controls.diamond.ac.uk/downloads/support/firewireDCAM/index.html">Linux
+      Firewire driver</a>, which work with Firewire cameras from any vendor. However,
+    this Point Grey driver provides access to some vendor-specific features like strobe
+    outputs that are not available in the generic drivers.
   </p>
   <p>
     This driver inherits from <a href="areaDetectorDoc.html#ADDriver">ADDriver</a>.
@@ -980,20 +981,21 @@
             <li>Raw8</li>
             <li>Raw16</li>
             <li>Mono12</li>
-          </ul></td>
-          The pixel format that these can be converted to are:
-          <ul>
-          <li>None:  The input pixel format is not converted.</li>
-          <li>Mono8: The input pixel format is converted to Mono8.</li>
-          <li>Mono16: The input pixel format is converted to Mono16. 
-              This is useful when the input pixel format is Mono12, since this saves network bandwidth.</li>
-          <li>RGB8: The input format is converted to RGB8.  This is useful when the input format is Raw8, 
-              for a color camera.  In this case Bayer color is sent on the network, reducing the bandwidth
-              requirement by a factor of 3.</li>
-          <li>RGB16: The input format is converted to RGB16.  This is useful when the input format is Raw16, 
-              for a color camera.  In this case Bayer color is sent on the network, reducing the bandwidth
-              requirement by a factor of 3.</li>
           </ul>
+        </td>
+        The pixel format that these can be converted to are:
+        <ul>
+          <li>None: The input pixel format is not converted.</li>
+          <li>Mono8: The input pixel format is converted to Mono8.</li>
+          <li>Mono16: The input pixel format is converted to Mono16. This is useful when the
+            input pixel format is Mono12, since this saves network bandwidth.</li>
+          <li>RGB8: The input format is converted to RGB8. This is useful when the input format
+            is Raw8, for a color camera. In this case Bayer color is sent on the network, reducing
+            the bandwidth requirement by a factor of 3.</li>
+          <li>RGB16: The input format is converted to RGB16. This is useful when the input format
+            is Raw16, for a color camera. In this case Bayer color is sent on the network, reducing
+            the bandwidth requirement by a factor of 3.</li>
+        </ul>
         <td>
           PG_CONVERT_PIXEL_FORMAT </td>
         <td>
@@ -1021,6 +1023,25 @@
         <td>
           $(P)$(R)FrameRate<br />
           $(P)$(R)FrameRate_RBV </td>
+        <td>
+          mbbo
+          <br />
+          mbbi </td>
+      </tr>
+      <tr>
+        <td>
+          BinningMode </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          The binning mode for GigE cameras. The allowed values are camera-specific.</td>
+        <td>
+          PG_BINNING_MODE </td>
+        <td>
+          $(P)$(R)BinningMode<br />
+          $(P)$(R)BinningMode_RBV </td>
         <td>
           mbbo
           <br />
@@ -1278,8 +1299,8 @@
       <tr>
         <td align="center" colspan="7">
           <b>GigE Property parameters<br />
-            These parameters apply to each of the 4 Point Grey GigE properties discussed in the
-            <a href="#GigEProperties">GigE  Properties</a> section above.
+            These parameters apply to each of the 4 Point Grey GigE properties discussed in
+            the <a href="#GigEProperties">GigE Properties</a> section above.
             <br />
             The $(PROPERTY) macro in this table is the EPICS record base name listed in that
             section.<br />
@@ -1544,7 +1565,12 @@
         <td>
           r/o </td>
         <td>
-          The maximum packet size for the current settings.</td>
+          The maximum packet size. This depends on the current acquisition settings for Firewire
+          and USB cameras. For GigE cameras this is determined by calling DiscoverGigEPacketSize
+          at startup, which should return the maximum Ethernet packet size supported between
+          the camera and the IOC. However, this sometimes returns 9000 (jumbo packets) when
+          jumbo packets are not in fact supported. In this case the user should manually set
+          PacketSize to 1440 or image acquisition will fail.</td>
         <td>
           PG_MAX_PACKET_SIZE </td>
         <td>
@@ -1554,21 +1580,24 @@
       </tr>
       <tr>
         <td>
-          PGPctPacketSize </td>
+          PGPacketSize </td>
         <td>
-          asynFloat64 </td>
+          asynInt32 </td>
         <td>
           r/w </td>
         <td>
-          The packet size to use as a percentage of maximum packet size. This is used to control the maximum
-          bandwidth, and hence maximum frame rate, on Firewire and USB cameras.  It is not used for
-          GigE cameras.</td>
+          The packet size to use. This is used to control the maximum bandwidth, and hence
+          maximum frame rate, on Firewire and USB cameras. For GigE cameras it should be set
+          to the largest packet size supported on the Ethernet connection between the camera
+          and IOC. It should be set to 1440 for connections that do not support jumbo packets,
+          and as large as 9000 for connections that do support jumbo packets. If PacketSize
+          is set to 0 then the driver will use the current value of MaxPacketSize.</td>
         <td>
-          PG_PCT_PACKET_SIZE </td>
+          PG_PACKET_SIZE </td>
         <td>
-          $(P)$(R)PctPacketSize
+          $(P)$(R)PacketSize
           <br />
-          $(P)$(R)PctPacketSize_RBV </td>
+          $(P)$(R)PacketSize_RBV </td>
         <td>
           ao
           <br />
@@ -1598,9 +1627,11 @@
         <td>
           r/w </td>
         <td>
-          The packet  delay to use in microseconds.  This is used to control the maximum
-          bandwidth, and hence maximum frame rate, on GigE cameras.  It is not used for
-          Firewire or USB cameras.  The default is 400 microseconds.</td>
+          The packet delay to use in microseconds. This is used to control the maximum bandwidth,
+          and hence maximum frame rate, on GigE cameras. It is not used for Firewire or USB
+          cameras. The default is 400 microseconds. If the number of CorruptFrames is large
+          then this can be increased, for example to 1000. This will reduce the maximum frame
+          rate but can significantly reduce the number of CorruptFrames.</td>
         <td>
           PG_PACKET_DELAY </td>
         <td>
@@ -1614,13 +1645,30 @@
       </tr>
       <tr>
         <td>
+          PGPacketDelayActual </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          The actual packet delay being used.</td>
+        <td>
+          PG_PACKET_DELAY_ACTUAL </td>
+        <td>
+          $(P)$(R)PacketDelayActual</td>
+        <td>
+          longin </td>
+      </tr>
+      <tr>
+        <td>
           PGBandwidth </td>
         <td>
           asynFloat64 </td>
         <td>
           r/o </td>
         <td>
-          The calculated bandidth in MB/s.  This is computed from the image size and the frame rate.</td>
+          The calculated bandidth in MB/s. This is computed from the image size and the frame
+          rate.</td>
         <td>
           PG_BANDWIDTH </td>
         <td>
@@ -1640,11 +1688,13 @@
         <td>
           r/w </td>
         <td>
-          The timestamp mode. Controls the value of the NDArray,.timeStamp value.  Choices are:
+          The timestamp mode. Controls the value of the NDArray,.timeStamp value. Choices
+          are:
           <ul>
-            <li>Camera:  The time from the camera is used.</li>
+            <li>Camera: The time from the camera is used.</li>
             <li>EPICS: The EPICS time is used</li>
-            <li>Hybrid: The EPICS time when the camera started is combined with the time stamp from the camera.</li>
+            <li>Hybrid: The EPICS time when the camera started is combined with the time stamp
+              from the camera.</li>
           </ul>
         </td>
         <td>
@@ -1704,8 +1754,8 @@
         <td>
           r/o </td>
         <td>
-          The number of frames dropped by the driver. The Point Grey SDK resets this to 0 each time acquisition
-          is started. </td>
+          The number of frames dropped by the driver. The Point Grey SDK resets this to 0
+          each time acquisition is started. </td>
         <td>
           PG_DRIVER_DROPPED </td>
         <td>
@@ -1721,8 +1771,8 @@
         <td>
           r/o </td>
         <td>
-          The number of time transmission failed. The Point Grey SDK resets this to 0 each time acquisition
-          is started. </td>
+          The number of time transmission failed. The Point Grey SDK resets this to 0 each
+          time acquisition is started. </td>
         <td>
           PG_TRANSMIT_FAILED </td>
         <td>
@@ -1737,7 +1787,7 @@
   <p>
     The Point Grey driver is created with the pointGreyConfig command, either from C/C++
     or from the EPICS IOC shell.</p>
-  <pre>pointGreyConfig(const char *portName, const char* cameraId, 
+  <pre>pointGreyConfig(const char *portName, const char* cameraId, int traceMask, int memoryChannel,
               int maxBuffers, size_t maxMemory, 
               int priority, int stackSize)
   </pre>
@@ -1750,6 +1800,22 @@
       documentation</a> and in the documentation for the constructor for the <a href="areaDetectorDoxygenHTML/classpoint_grey.html">
         pointGrey class</a>.
   </p>
+  <p>
+    The traceMask can be set to a value &gt; 1 to enable asynTrace debugging during
+    initialization, before the value can be set from the IOC shell or via the asynRecord.
+    Set this to 0x21 to enable ASYN_TRACE_WARNING, which will trace all calls to the
+    Point Grey FlyCap2 library.</p>
+  <p>
+    The memoryChannel can be set to a value &gt; 0 to load the initial camera parameters
+    from non-volatile memory in the camera. Setting memoryChannel to N loads from memoryChannel
+    N-1, i.e. 1 loads memory channel 0. There is currently a bug in the Linux driver
+    for GigE cameras. If the IOC is run a second time after it has been used to acquire
+    any images the driver loses communication with the camera. The problem appears to
+    be that there is a corrupt setting in the camera, which causes it to malfunction
+    the next time the program is run. Setting memoryChannel 1 will work around this
+    problem by replacing the settings in the camera with a default set. Since the EPICS
+    IOC sets nearly all the camera settings to save/restore values at startup anyway,
+    this is not a serious limitation.</p>
   <p>
     There an example IOC boot directory and startup script (<a href="point_grey_st_cmd.html">iocBoot/iocPointGrey/st.cmd)</a>
     provided with areaDetector.

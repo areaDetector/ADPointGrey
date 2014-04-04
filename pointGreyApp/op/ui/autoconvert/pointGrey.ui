@@ -7796,7 +7796,7 @@ border-radius: 2px;
                 <enum>caLineEdit::WidthAndHeight</enum>
             </property>
             <property name="channel">
-                <string>$(P)$(R)PctPacketSize</string>
+                <string>$(P)$(R)PacketSize</string>
             </property>
             <property name="foreground">
                 <color alpha="255">
@@ -7847,7 +7847,7 @@ border-radius: 2px;
                 <enum>caLineEdit::WidthAndHeight</enum>
             </property>
             <property name="channel">
-                <string>$(P)$(R)PctPacketSize_RBV</string>
+                <string>$(P)$(R)PacketSize_RBV</string>
             </property>
             <property name="foreground">
                 <color alpha="255">

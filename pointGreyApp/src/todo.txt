@@ -1,6 +1,6 @@
 Add performance to documentation
 
-Make sure GigE camera can be reconnected when restarting IOC.
+Fix problem GigE camera not working on Linux when restarting IOC if any images were acquired.
 
 Control of timestamp.  EPICS, camera, hybrid
 

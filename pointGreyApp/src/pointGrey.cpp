@@ -646,7 +646,7 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
     }
     getAllGigEProperties();
 
-    if (traceMask > ASYN_TRACE_ERROR) report(stdout, 1);
+//    if (traceMask > ASYN_TRACE_ERROR) report(stdout, 1);
 
     createStaticEnums();
     createDynamicEnums();
@@ -1219,8 +1219,8 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
     }
 
     asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
-        "%s::%s function=%d, value=%d, status=%d\n",
-        driverName, functionName, function, value, status);
+        "%s::%s function=%d, addr=%d, value=%d, status=%d\n",
+        driverName, functionName, function, addr, value, status);
             
     callParamCallbacks(addr);
     return status;
@@ -1274,8 +1274,8 @@ asynStatus pointGrey::writeFloat64( asynUser *pasynUser, epicsFloat64 value)
     }
 
     asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
-        "%s::%s function=%d, value=%f, status=%d\n",
-        driverName, functionName, function, value, status);
+        "%s::%s function=%d, addr=%d, value=%f, status=%d\n",
+        driverName, functionName, function, addr, value, status);
     callParamCallbacks(addr);
     return status;
 }
@@ -1352,8 +1352,8 @@ asynStatus pointGrey::setPropertyAutoMode(PropertyType propType, int value)
     /* Send the propertyType mode to the cam */
     pProperty->autoManualMode = value ? true : false;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s calling CameraBase::SetProperty, pCameraBase_=%p, pProperty=%p, pProperty->autoManualMode=%d\n",
-        driverName, functionName, pCameraBase_, pProperty, pProperty->autoManualMode);
+        "%s::%s calling CameraBase::SetProperty, pCameraBase_=%p, pProperty=%p, pProperty->type=%d, pProperty->autoManualMode=%d\n",
+        driverName, functionName, pCameraBase_, pProperty, pProperty->type, pProperty->autoManualMode);
     error = pCameraBase_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
@@ -1855,6 +1855,7 @@ asynStatus pointGrey::setGigEImageParams()
     gigESettings.width   = sizeX;
     gigESettings.height  = sizeY;
     gigESettings.pixelFormat = pixelFormat;
+    memset(gigESettings.reserved, 0, 8*sizeof(unsigned int));
  
     /* Attempt to write the parameters to camera */
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
@@ -1997,8 +1998,11 @@ asynStatus pointGrey::setTrigger()
         }
     }
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s calling CameraBase::SetTriggerMode, pCameraBase_=%p, pTriggerMode_=%p\n",
-        driverName, functionName, pCameraBase_, pTriggerMode_);
+        "%s::%s calling CameraBase::SetTriggerMode, pCameraBase_=%p, pTriggerMode_=%p\n"
+        "onOff=%d, polarity=%d, source=%d, mode=%d, parameter=%d\n",
+        driverName, functionName, pCameraBase_, pTriggerMode_,
+        pTriggerMode_->onOff, pTriggerMode_->polarity, pTriggerMode_->source, 
+        pTriggerMode_->mode, pTriggerMode_->parameter);
     error = pCameraBase_->SetTriggerMode(pTriggerMode_);
     if (checkError(error, functionName, "SetTriggerMode")) 
         return asynError;
@@ -2042,8 +2046,11 @@ asynStatus pointGrey::setStrobe()
     pStrobeControl_->delay    = (float)(delay*1000.);
     pStrobeControl_->duration = (float)(duration*1000.);
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s calling CameraBase::SetStrobe, pCameraBase_=%p, pStrobeControl_=%p\n",
-        driverName, functionName, pCameraBase_, pStrobeControl_);
+        "%s::%s calling CameraBase::SetStrobe, pCameraBase_=%p, pStrobeControl_=%p\n"
+        "  source=%d, onOff=%d, polarity=%d, delay=%f, duration=%f\n",
+        driverName, functionName, pCameraBase_, pStrobeControl_,
+        pStrobeControl_->source, pStrobeControl_->onOff, pStrobeControl_->polarity, 
+        pStrobeControl_->delay, pStrobeControl_->duration);
     error = pCameraBase_->SetStrobe(pStrobeControl_);
     if (checkError(error, functionName, "SetStrobe")) 
         return asynError;

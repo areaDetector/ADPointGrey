@@ -18,6 +18,12 @@ $(PROD_NAME)_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp $(PROD_NAME)Mai
 PROD_IOC += GigEGrabEx
 GigEGrabEx_SRCS += GigEGrabEx
 
+PROD_IOC += ExtendedShutterEx
+ExtendedShutterEx_SRCS += ExtendedShutterEx
+
+PROD_IOC += PGTest
+PGTest_SRC += PGTest.cpp
+
 # Add locally compiled object code
 PROD_LIBS += pointGrey
 PROD_LIBS_WIN32 += FlyCapture2

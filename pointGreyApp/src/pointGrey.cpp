@@ -1652,8 +1652,8 @@ asynStatus pointGrey::setFormat7Params()
     /* Set the size limits */
     hsMax = pFormat7Info_->maxWidth;
     vsMax = pFormat7Info_->maxHeight;
-    setIntegerParam(ADMaxSizeX, hsMax);
-    setIntegerParam(ADMaxSizeY, vsMax);
+    setIntegerParam(ADSizeX, hsMax);
+    setIntegerParam(ADSizeY, vsMax);
     /* Set the size units (minimum increment) */
     hsUnit = pFormat7Info_->imageHStepSize;
     vsUnit = pFormat7Info_->imageVStepSize;
@@ -1768,7 +1768,7 @@ asynStatus pointGrey::setGigEImageParams()
     GigEImageSettings gigESettings;
     PixelFormat pixelFormat;
     bool resumeAcquire;
-    int gigEMode;
+    Mode gigEMode;
     int itemp;
     int minPacketSize, maxPacketSize;
     int minPacketDelay, maxPacketDelay;
@@ -1791,11 +1791,12 @@ asynStatus pointGrey::setGigEImageParams()
     resumeAcquire = (error == PGRERROR_OK);
 
     // Set the GigE imaging mode    
-    getIntegerParam(PGFormat7Mode, &gigEMode);
+    getIntegerParam(PGFormat7Mode, &itemp);
+    gigEMode = (Mode)itemp;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
         "%s::%s calling GigECamera::SetGigEImagingMode, pGigECamera_=%p, gigEMode=%d\n",
         driverName, functionName, pGigECamera_, gigEMode);
-    error = pGigECamera_->SetGigEImagingMode((Mode)gigEMode);
+    error = pGigECamera_->SetGigEImagingMode(gigEMode);
     if (checkError(error, functionName, "SetGigEImagingMode")) 
         goto cleanup;
 
@@ -1817,8 +1818,8 @@ asynStatus pointGrey::setGigEImageParams()
     /* Set the size limits */
     hsMax = pGigEImageSettingsInfo_->maxWidth;
     vsMax = pGigEImageSettingsInfo_->maxHeight;
-    setIntegerParam(ADMaxSizeX, hsMax);
-    setIntegerParam(ADMaxSizeY, vsMax);
+    setIntegerParam(ADSizeX, hsMax);
+    setIntegerParam(ADSizeY, vsMax);
     /* Set the size units (minimum increment) */
     hsUnit = pGigEImageSettingsInfo_->imageHStepSize;
     vsUnit = pGigEImageSettingsInfo_->imageVStepSize;
@@ -1858,7 +1859,7 @@ asynStatus pointGrey::setGigEImageParams()
     memset(gigESettings.reserved, 0, 8*sizeof(unsigned int));
  
     /* Attempt to write the parameters to camera */
-    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
         "%s::%s setting GigE parameters width=%d, height=%d, offsetX=%d, offsetY=%d, pixelFormat=0x%x\n",
         driverName, functionName, 
         gigESettings.width, gigESettings.height, 
@@ -1899,7 +1900,7 @@ asynStatus pointGrey::setGigEImageParams()
         goto cleanup;
 
     /* Read back the actual values */
-    error = pGigECamera_->GetGigEImagingMode((Mode *)&gigEMode);
+    error = pGigECamera_->GetGigEImagingMode(&gigEMode);
     if (checkError(error, functionName, "GetGigEImagingMode")) 
         goto cleanup;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
@@ -2034,7 +2035,7 @@ asynStatus pointGrey::setStrobe()
     double duration;
     Error error;
     static const char *functionName = "setStrobe";
-    
+
     getIntegerParam(PGStrobeSource,   &source);
     getIntegerParam(PGStrobeEnable,   &enable);
     getIntegerParam(PGStrobePolarity, &polarity);

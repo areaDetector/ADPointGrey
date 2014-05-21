@@ -23,6 +23,8 @@ ExtendedShutterEx_SRCS += ExtendedShutterEx
 
 PROD_IOC += PGTest
 PGTest_SRC += PGTest.cpp
+PROD_IOC += PGTest1
+PGTest_SRC += PGTest1.cpp
 
 # Add locally compiled object code
 PROD_LIBS += pointGrey

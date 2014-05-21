@@ -28,7 +28,7 @@ using namespace FlyCapture2;
 static const char *driverName = "PGTest";
 
 #define PGSuccess 0
-#define PGError -1
+#define PGError  -1
 
 class PGTest
 {
@@ -46,16 +46,6 @@ public:
     Camera                *pCamera_;
     GigECamera            *pGigECamera_;
     CameraInfo            *pCameraInfo_;
-    Format7Info           *pFormat7Info_;
-    GigEImageSettingsInfo *pGigEImageSettingsInfo_;
-    Image                 *pPGRawImage_;
-    Image                 *pPGConvertedImage_;
-    TriggerMode           *pTriggerMode_;
-    TriggerModeInfo       *pTriggerModeInfo_;
-    CameraStats           *pCameraStats_;
-    StrobeControl         *pStrobeControl_;
-    StrobeInfo            *pStrobeInfo_;
-    int traceMask_;
 };
 
 /** Constructor for the PGTest class
@@ -67,15 +57,6 @@ PGTest::PGTest(int cameraId)
     pBusMgr_            = new BusManager;
     pGuid_              = new PGRGuid;
     pCameraInfo_        = new CameraInfo;
-    pFormat7Info_       = new Format7Info;
-    pGigEImageSettingsInfo_ = new GigEImageSettingsInfo;
-    pPGRawImage_        = new Image;
-    pPGConvertedImage_  = new Image;
-    pTriggerMode_       = new TriggerMode;
-    pTriggerModeInfo_   = new TriggerModeInfo;
-    pCameraStats_       = new CameraStats;
-    pStrobeControl_     = new StrobeControl;
-    pStrobeInfo_        = new StrobeInfo;
 
     connectCamera();
 }
@@ -94,11 +75,9 @@ int PGTest::connectCamera(void)
 {
     Error error;
     Format7Info f7Info;
-    FC2Version version;
     EmbeddedImageInfo embeddedInfo;
     InterfaceType interfaceType;
     unsigned int numCameras;
-    char tempString[sk_maxStringLength];
     static const char *functionName = "connectCamera";
 
     error = pBusMgr_->GetNumOfCameras(&numCameras);
@@ -160,11 +139,6 @@ int PGTest::connectCamera(void)
     if (checkError(error, functionName, "GetCameraInfo")) return PGError;
     printf("%s::%s called CameraBase::GetCameraInfo, pCameraInfo_=%p, pCameraInfo_->serialNumber=%d\n",
         driverName, functionName, pCameraInfo_, pCameraInfo_->serialNumber);
-    
-    Utilities::GetLibraryVersion(&version);
-    sprintf(tempString, "%d.%d.%d", version.major, version.minor, version.type);
-    printf("%s::%s called Utilities::GetLibraryVersion, version=%s\n",
-        driverName, functionName, tempString);
     
     // Get and set the embedded image info
     printf("%s::%s calling CameraBase::GetEmbeddedImageInfo, &embeddedInfo=%p\n",

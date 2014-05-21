@@ -103,33 +103,29 @@ int PGTest::connectCamera(void)
 
     error = pBusMgr_->GetNumOfCameras(&numCameras);
     if (checkError(error, functionName, "GetNumOfCameras")) return PGError;
-    printf(
-        "%s::%s called BusManager::GetNumOfCameras, pBusMgr_=%p, numCameras=%d\n",
+    printf("%s::%s called BusManager::GetNumOfCameras, pBusMgr_=%p, numCameras=%d\n",
         driverName, functionName, pBusMgr_, numCameras);
     
     if (numCameras <= 0) {
-        printf( 
-            "%s:%s: no cameras found\n",
+        printf("%s:%s: no cameras found\n",
             driverName, functionName);
+        return PGError;
     }
 
     if (cameraId_ == 0) {
-        printf(
-            "%s::%s calling BusManager::GetCameraFromIndex, pBusMgr_=%p, pGuid_=%p\n",
+        printf("%s::%s calling BusManager::GetCameraFromIndex, pBusMgr_=%p, pGuid_=%p\n",
             driverName, functionName, pBusMgr_, pGuid_);
         error = pBusMgr_->GetCameraFromIndex(0, pGuid_);
         if (checkError(error, functionName, "GetCameraFromIndex")) return PGError;
     } else { 
-        printf(
-            "%s::%s calling BusManager::GetCameraFromSerialNumber, pBusMgr_=%p, cameraId_=%d, pGuid_=%p\n",
+        printf("%s::%s calling BusManager::GetCameraFromSerialNumber, pBusMgr_=%p, cameraId_=%d, pGuid_=%p\n",
             driverName, functionName, pBusMgr_, cameraId_, pGuid_);
         error = pBusMgr_->GetCameraFromSerialNumber(cameraId_, pGuid_);
         if (checkError(error, functionName, "GetCameraFromSerialNumber")) return PGError;
     }
     error = pBusMgr_->GetInterfaceTypeFromGuid(pGuid_, &interfaceType);
     if (checkError(error, functionName, "GetInterfaceTypeFromGuid")) return PGError;
-    printf(
-        "%s::%s called BusManager::GetInterfaceTypeFromGuid, pBusMgr_=%p, interfaceType=%d\n",
+    printf("%s::%s called BusManager::GetInterfaceTypeFromGuid, pBusMgr_=%p, interfaceType=%d\n",
         driverName, functionName, pBusMgr_, interfaceType);
     
     // Create appropriate camera object
@@ -138,8 +134,7 @@ int PGTest::connectCamera(void)
         pCamera_ = NULL;
         pGigECamera_ = dynamic_cast<GigECamera*>(pCameraBase_);
         if (pGigECamera_ == NULL) {
-            printf(
-                "%s::%s error casting camera to GigECamera\n",
+            printf("%s::%s error casting camera to GigECamera\n",
                 driverName, functionName);
             return PGError;
         }
@@ -148,16 +143,14 @@ int PGTest::connectCamera(void)
         pGigECamera_ = NULL;
         pCamera_ = dynamic_cast<Camera*>(pCameraBase_);
         if (pCamera_ == NULL) {
-            printf(
-                "%s::%s error casting camera to Camera\n",
+            printf("%s::%s error casting camera to Camera\n",
                 driverName, functionName);
             return PGError;
         }   
     }
 
     // Connect to camera
-    printf(
-        "%s::%s calling CameraBase::Connect, pGuid_=%p\n",
+    printf("%s::%s calling CameraBase::Connect, pGuid_=%p\n",
         driverName, functionName, pGuid_);
     error = pCameraBase_->Connect(pGuid_);
     if (checkError(error, functionName, "Connect")) return PGError;
@@ -165,27 +158,23 @@ int PGTest::connectCamera(void)
     // Get the camera information
     error = pCameraBase_->GetCameraInfo(pCameraInfo_);
     if (checkError(error, functionName, "GetCameraInfo")) return PGError;
-    printf(
-        "%s::%s called CameraBase::GetCameraInfo, pCameraInfo_=%p, pCameraInfo_->serialNumber=%d\n",
+    printf("%s::%s called CameraBase::GetCameraInfo, pCameraInfo_=%p, pCameraInfo_->serialNumber=%d\n",
         driverName, functionName, pCameraInfo_, pCameraInfo_->serialNumber);
     
     Utilities::GetLibraryVersion(&version);
     sprintf(tempString, "%d.%d.%d", version.major, version.minor, version.type);
-    printf(
-        "%s::%s called Utilities::GetLibraryVersion, version=%s\n",
+    printf("%s::%s called Utilities::GetLibraryVersion, version=%s\n",
         driverName, functionName, tempString);
     
     // Get and set the embedded image info
-    printf(
-        "%s::%s calling CameraBase::GetEmbeddedImageInfo, &embeddedInfo=%p\n",
+    printf("%s::%s calling CameraBase::GetEmbeddedImageInfo, &embeddedInfo=%p\n",
         driverName, functionName, &embeddedInfo);
     error = pCameraBase_->GetEmbeddedImageInfo(&embeddedInfo);
     if (checkError(error, functionName, "GetEmbeddedImageInfo")) return PGError;
     // Force the timestamp and frame counter information to be on
     embeddedInfo.timestamp.onOff = true;
     embeddedInfo.frameCounter.onOff = true;
-    printf(
-        "%s::%s calling CameraBase::SetEmbeddedImageInfo, &embeddedInfo=%p\n",
+    printf("%s::%s calling CameraBase::SetEmbeddedImageInfo, &embeddedInfo=%p\n",
         driverName, functionName, &embeddedInfo);
     error = pCameraBase_->SetEmbeddedImageInfo(&embeddedInfo);
     if (checkError(error, functionName, "SetEmbeddedImageInfo")) return PGError;

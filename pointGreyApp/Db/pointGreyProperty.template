@@ -119,7 +119,7 @@ record(ai, "$(P)$(R)$(PROPERTY)ValMax") {
 }
 # Set DRLH field of the value PV
 record(ao, "$(P)$(R)$(PROPERTY)ValDrvh") {
-  field(DOL, "$(P)$(R)$(PROPERTY)_MAX NPP NMS")
+  field(DOL, "$(P)$(R)$(PROPERTY)ValMax NPP NMS")
   field(OMSL, "closed_loop")
   field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVH NPP NMS")
   field(FLNK, "$(P)$(R)$(PROPERTY)ValHopr")

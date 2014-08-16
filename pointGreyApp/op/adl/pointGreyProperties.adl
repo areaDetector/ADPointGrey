@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
+	name="/home/epics/devel/areaDetector-2-0/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
 	version=030107
 }
 display {
@@ -1121,7 +1121,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)BrightnessValAbsMin"
+								chan="$(P)$(R)BrightnessValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1137,7 +1137,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)AutoExposureValAbsMin"
+								chan="$(P)$(R)AutoExposureValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1153,7 +1153,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)SharpnessValAbsMin"
+								chan="$(P)$(R)SharpnessValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1169,7 +1169,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)WhiteBalanceValAbsMin"
+								chan="$(P)$(R)WhiteBalanceValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1185,7 +1185,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)HueValAbsMin"
+								chan="$(P)$(R)HueValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1201,7 +1201,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)SaturationValAbsMin"
+								chan="$(P)$(R)SaturationValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1217,7 +1217,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)GammaValAbsMin"
+								chan="$(P)$(R)GammaValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1233,7 +1233,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)ShutterValAbsMin"
+								chan="$(P)$(R)ShutterValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1249,7 +1249,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)GainValAbsMin"
+								chan="$(P)$(R)GainValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1265,7 +1265,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)IrisValAbsMin"
+								chan="$(P)$(R)IrisValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1281,7 +1281,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)FocusValAbsMin"
+								chan="$(P)$(R)FocusValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1297,7 +1297,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TemperatureValAbsMin"
+								chan="$(P)$(R)TemperatureValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1313,7 +1313,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TriggerModeValAbsMin"
+								chan="$(P)$(R)TriggerModeValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1329,7 +1329,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TriggerDelayValAbsMin"
+								chan="$(P)$(R)TriggerDelayValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1345,7 +1345,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)WhiteBalanceValAbsMin"
+								chan="$(P)$(R)WhiteBalanceValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1361,7 +1361,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)FrameRateValAbsMin"
+								chan="$(P)$(R)FrameRateValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1377,7 +1377,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)ZoomValAbsMin"
+								chan="$(P)$(R)ZoomValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1393,7 +1393,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)PanValAbsMin"
+								chan="$(P)$(R)PanValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1409,7 +1409,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TiltValAbsMin"
+								chan="$(P)$(R)TiltValAbs.DRVL"
 								clr=53
 								bclr=4
 							}
@@ -1448,7 +1448,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)BrightnessValAbsMax"
+								chan="$(P)$(R)BrightnessValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1464,7 +1464,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)AutoExposureValAbsMax"
+								chan="$(P)$(R)AutoExposureValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1480,7 +1480,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)SharpnessValAbsMax"
+								chan="$(P)$(R)SharpnessValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1496,7 +1496,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)WhiteBalanceValAbsMax"
+								chan="$(P)$(R)WhiteBalanceValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1512,7 +1512,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)HueValAbsMax"
+								chan="$(P)$(R)HueValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1528,7 +1528,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)SaturationValAbsMax"
+								chan="$(P)$(R)SaturationValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1544,7 +1544,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)GammaValAbsMax"
+								chan="$(P)$(R)GammaValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1560,7 +1560,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)ShutterValAbsMax"
+								chan="$(P)$(R)ShutterValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1576,7 +1576,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)GainValAbsMax"
+								chan="$(P)$(R)GainValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1592,7 +1592,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)IrisValAbsMax"
+								chan="$(P)$(R)IrisValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1608,7 +1608,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)FocusValAbsMax"
+								chan="$(P)$(R)FocusValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1624,7 +1624,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TemperatureValAbsMax"
+								chan="$(P)$(R)TemperatureValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1640,7 +1640,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TriggerModeValAbsMax"
+								chan="$(P)$(R)TriggerModeValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1656,7 +1656,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TriggerDelayValAbsMax"
+								chan="$(P)$(R)TriggerDelayValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1672,7 +1672,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)WhiteBalanceValAbsMax"
+								chan="$(P)$(R)WhiteBalanceValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1688,7 +1688,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)FrameRateValAbsMax"
+								chan="$(P)$(R)FrameRateValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1704,7 +1704,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)ZoomValAbsMax"
+								chan="$(P)$(R)ZoomValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1720,7 +1720,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)PanValAbsMax"
+								chan="$(P)$(R)PanValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -1736,7 +1736,7 @@ composite {
 								height=20
 							}
 							monitor {
-								chan="$(P)$(R)TiltValAbsMax"
+								chan="$(P)$(R)TiltValAbs.DRVH"
 								clr=53
 								bclr=4
 							}
@@ -4341,658 +4341,636 @@ text {
 	limits {
 	}
 }
-composite {
+text {
+	object {
+		x=677
+		y=75
+		width=30
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Min"
+}
+"text update" {
 	object {
 		x=662
-		y=75
+		y=98
 		width=60
-		height=493
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=677
-				y=75
-				width=30
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Min"
-		}
-		"text update" {
-			object {
-				x=662
-				y=98
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)BrightnessValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=123
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)AutoExposureValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=148
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)SharpnessValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=173
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)WhiteBalanceValDrvl"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=223
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)HueValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=248
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)SaturationValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=273
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)GammaValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=298
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ShutterValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=323
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)GainValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=348
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)IrisValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=373
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)FocusValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=398
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TemperatureValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=423
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerModeValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=448
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerDelayValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=198
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)WhiteBalanceValDrvl"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=473
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)FrameRateValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=498
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ZoomValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=523
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=662
-				y=548
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TiltValMin"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
+	monitor {
+		chan="$(P)$(R)BrightnessVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=662
+		y=123
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)AutoExposureVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=148
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)SharpnessVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=173
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)WhiteBalanceVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=223
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HueVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=248
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)SaturationVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=273
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)GammaVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=298
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ShutterVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=323
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)GainVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=348
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)IrisVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=373
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FocusVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=398
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TemperatureVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=423
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerModeVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=448
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerDelayVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=198
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)WhiteBalanceValB.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=473
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FrameRateVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=498
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ZoomVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=523
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)PanVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=662
+		y=548
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TiltVal.DRVL"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=742
+		y=75
+		width=30
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Max"
+}
+"text update" {
 	object {
 		x=727
-		y=75
+		y=98
 		width=60
-		height=493
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=742
-				y=75
-				width=30
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Max"
-		}
-		"text update" {
-			object {
-				x=727
-				y=98
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)BrightnessValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=123
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)AutoExposureValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=148
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)SharpnessValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=173
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)WhiteBalanceValDrvh"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=223
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)HueValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=248
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)SaturationValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=273
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)GammaValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=298
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ShutterValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=323
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)GainValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=348
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)IrisValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=373
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)FocusValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=398
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TemperatureValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=423
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerModeValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=448
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TriggerDelayValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=198
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)WhiteBalanceValDrvh"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=473
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)FrameRateValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=498
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)ZoomValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=523
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=727
-				y=548
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)TiltValMax"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
+	monitor {
+		chan="$(P)$(R)BrightnessVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=123
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)AutoExposureVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=148
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)SharpnessVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=173
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)WhiteBalanceVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=223
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HueVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=248
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)SaturationVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=273
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)GammaVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=298
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ShutterVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=323
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)GainVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=348
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)IrisVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=373
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FocusVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=398
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TemperatureVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=423
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerModeVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=448
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerDelayVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=198
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)WhiteBalanceValB.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=473
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FrameRateVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=498
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ZoomVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=523
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)PanVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=727
+		y=548
+		width=60
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TiltVal.DRVH"
+		clr=53
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
 	}
 }
 composite {

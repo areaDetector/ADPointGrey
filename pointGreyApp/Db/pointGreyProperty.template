@@ -99,17 +99,19 @@ record(ai, "$(P)$(R)$(PROPERTY)ValMin") {
   field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvl")
 }
 # Set DRLV field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)ValDrvl") {
+record(dfanout, "$(P)$(R)$(PROPERTY)ValDrvl") {
   field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVL NPP NMS")
+  field(OUTA, "$(P)$(R)$(PROPERTY)Val.DRVL NPP NMS")
+  field(OUTB, "$(P)$(R)$(PROPERTY)ValB.DRVL NPP NMS")
   field(FLNK, "$(P)$(R)$(PROPERTY)ValLopr")
 }
 # Set LOPR field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)ValLopr") {
+record(dfanout, "$(P)$(R)$(PROPERTY)ValLopr") {
   field(DOL, "$(P)$(R)$(PROPERTY)ValMin NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)Val.LOPR NPP NMS")
+  field(OUTA, "$(P)$(R)$(PROPERTY)Val.LOPR NPP NMS")
+  field(OUTB, "$(P)$(R)$(PROPERTY)ValB.LOPR NPP NMS")
 }
 record(ai, "$(P)$(R)$(PROPERTY)ValMax") {
   field(DTYP, "asynInt32")
@@ -118,17 +120,19 @@ record(ai, "$(P)$(R)$(PROPERTY)ValMax") {
   field(FLNK, "$(P)$(R)$(PROPERTY)ValDrvh")
 }
 # Set DRLH field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)ValDrvh") {
+record(dfanout, "$(P)$(R)$(PROPERTY)ValDrvh") {
   field(DOL, "$(P)$(R)$(PROPERTY)ValMax NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)Val.DRVH NPP NMS")
+  field(OUTA, "$(P)$(R)$(PROPERTY)Val.DRVH NPP NMS")
+  field(OUTB, "$(P)$(R)$(PROPERTY)ValB.DRVH NPP NMS")
   field(FLNK, "$(P)$(R)$(PROPERTY)ValHopr")
 }
 # Set HOPR field of the value PV
-record(ao, "$(P)$(R)$(PROPERTY)ValHopr") {
+record(dfanout, "$(P)$(R)$(PROPERTY)ValHopr") {
   field(DOL, "$(P)$(R)$(PROPERTY)ValMax NPP NMS")
   field(OMSL, "closed_loop")
-  field(OUT, "$(P)$(R)$(PROPERTY)Val.HOPR NPP NMS")
+  field(OUTA, "$(P)$(R)$(PROPERTY)Val.HOPR NPP NMS")
+  field(OUTB, "$(P)$(R)$(PROPERTY)ValB.HOPR NPP NMS")
 }
 
 # Set the feature absolute value (floating point)

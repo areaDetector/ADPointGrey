@@ -9,6 +9,51 @@ record(bi, "$(P)$(R)$(PROPERTY)Avail") {
   field(SCAN, "I/O Intr")
 }
 
+## Read whether the camera supports on/off
+record(bi, "$(P)$(R)$(PROPERTY)OnOffAvail") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_ON_OFF_AVAIL")
+  field(ZNAM, "not available")
+  field(ONAM, "available")
+  field(SCAN, "I/O Intr")
+}
+
+## Set the on/off mode
+record(bo, "$(P)$(R)$(PROPERTY)OnOff") {
+  field(PINI, "$(PINI)")
+  field(DTYP, "asynInt32")
+  field(OUT, "@asyn($(PORT) $(N))PG_PROP_ON_OFF")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(VAL,  "1")
+}
+
+## Read back the on/off mode 
+record(bi, "$(P)$(R)$(PROPERTY)OnOff_RBV") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_ON_OFF")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(SCAN, "I/O Intr")
+}
+
+## Read whether the camera supports one push
+record(bi, "$(P)$(R)$(PROPERTY)OnePushAvail") {
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) $(N))PG_PROP_ONE_PUSH_AVAIL")
+  field(ZNAM, "not available")
+  field(ONAM, "available")
+  field(SCAN, "I/O Intr")
+}
+
+## Set the one push
+record(bo, "$(P)$(R)$(PROPERTY)OnePush") {
+  field(DTYP, "asynInt32")
+  field(OUT, "@asyn($(PORT) $(N))PG_PROP_ONE_PUSH")
+  field(ZNAM, "Done")
+  field(ONAM, "Push")
+}
+
 ## Read whether the camera supports auto mode
 record(bi, "$(P)$(R)$(PROPERTY)AutoAvail") {
   field(DTYP, "asynInt32")

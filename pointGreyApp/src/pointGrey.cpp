@@ -45,6 +45,10 @@ static const char *driverName = "pointGrey";
 #define PGFirmwareVersionString       "PG_FIRMWARE_VERSION"
 #define PGSoftwareVersionString       "PG_SOFTWARE_VERSION"
 #define PGPropertyAvailString         "PG_PROP_AVAIL"
+#define PGPropertyOnOffAvailString    "PG_PROP_ON_OFF_AVAIL"
+#define PGPropertyOnOffString         "PG_PROP_ON_OFF"
+#define PGPropertyOnePushAvailString  "PG_PROP_ONE_PUSH_AVAIL"
+#define PGPropertyOnePushString       "PG_PROP_ONE_PUSH"
 #define PGPropertyAutoAvailString     "PG_PROP_AUTO_AVAIL"
 #define PGPropertyManAvailString      "PG_PROP_MAN_AVAIL"
 #define PGPropertyAutoModeString      "PG_PROP_AUTO_MODE"
@@ -326,6 +330,10 @@ protected:
                                   /** The following PGProperty parameters 
                                       all have addr: 0-NUM_PROPERTIES-1 */
     int PGPropertyAvail;          /** Property is available                           (int32 read) */
+    int PGPropertyOnOffAvail;     /** Property on/off is available                    (int32 read) */
+    int PGPropertyOnOff;          /** Property on/off                                 (int32 read) */
+    int PGPropertyOnePushAvail;   /** Property one push is available                  (int32 read) */
+    int PGPropertyOnePush;        /** Property one push                               (int32 read) */
     int PGPropertyAutoAvail;      /** Property auto mode available                    (int32 read) */
     int PGPropertyManAvail;       /** Property manual mode available                  (int32 read) */
     int PGPropertyAutoMode;       /** Property control mode: 0:manual or 1:automatic  (int32 read/write) */
@@ -390,6 +398,8 @@ private:
     asynStatus setGigEPropertyValue(GigEPropertyType propType, int value);
     asynStatus setPropertyAbsValue(PropertyType propType, epicsFloat64 value);
     asynStatus setPropertyAutoMode(PropertyType propType, int value);
+    asynStatus setPropertyOnOff(PropertyType propType, int onOff);
+    asynStatus setPropertyOnePush(PropertyType propType);
     asynStatus setVideoMode(int mode);
     asynStatus setFrameRate(int rate);
     asynStatus setVideoModeAndFrameRate(int mode, int frameRate);
@@ -532,6 +542,10 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
     createParam(PGFirmwareVersionString,        asynParamOctet,   &PGFirmwareVersion);
     createParam(PGSoftwareVersionString,        asynParamOctet,   &PGSoftwareVersion);
     createParam(PGPropertyAvailString,          asynParamInt32,   &PGPropertyAvail);
+    createParam(PGPropertyOnOffAvailString,     asynParamInt32,   &PGPropertyOnOffAvail);
+    createParam(PGPropertyOnOffString,          asynParamInt32,   &PGPropertyOnOff);
+    createParam(PGPropertyOnePushAvailString,   asynParamInt32,   &PGPropertyOnePushAvail);
+    createParam(PGPropertyOnePushString,        asynParamInt32,   &PGPropertyOnePush);
     createParam(PGPropertyAutoAvailString,      asynParamInt32,   &PGPropertyAutoAvail);
     createParam(PGPropertyManAvailString,       asynParamInt32,   &PGPropertyManAvail);
     createParam(PGPropertyAutoModeString,       asynParamInt32,   &PGPropertyAutoMode);
@@ -924,10 +938,6 @@ void pointGrey::imageGrabTask()
     }
 }
 
-/** Grabs one image off the dc1394 queue, notifies areaDetector about it and
- * finally clears the buffer off the dc1394 queue.
- * This function expects the driver to be locked already by the caller!
- */
 asynStatus pointGrey::grabImage()
 {
     asynStatus status = asynSuccess;
@@ -1190,6 +1200,12 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
     } else if (function == PGPropertyAutoMode) {
         status = setPropertyAutoMode(propType, value);
 
+    } else if (function == PGPropertyOnOff) {
+        status = setPropertyOnOff(propType, value);
+
+    } else if (function == PGPropertyOnePush) {
+        status = setPropertyOnePush(propType);
+
     } else if (function == PGVideoMode) {
         status = setVideoMode(value);
 
@@ -1349,7 +1365,7 @@ asynStatus pointGrey::setPropertyAutoMode(PropertyType propType, int value)
         if (!pPropInfo->autoSupported) return asynError;
     }
 
-    /* Send the propertyType mode to the cam */
+    /* Send the propertyType mode to the camera */
     pProperty->autoManualMode = value ? true : false;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
         "%s::%s calling CameraBase::SetProperty, pCameraBase_=%p, pProperty=%p, pProperty->type=%d, pProperty->autoManualMode=%d\n",
@@ -1357,8 +1373,67 @@ asynStatus pointGrey::setPropertyAutoMode(PropertyType propType, int value)
     error = pCameraBase_->SetProperty(pProperty);
     if (checkError(error, functionName, "SetProperty")) 
         return asynError;
+    /* Update all properties to see if any settings have changed */
+    getAllProperties();
     return asynSuccess;
 }
+
+
+asynStatus pointGrey::setPropertyOnOff(PropertyType propType, int onOff)
+{
+    Error error;
+    Property *pProperty = allProperties_[propType];
+    PropertyInfo *pPropInfo = allPropInfos_[propType];
+    static const char *functionName = "setPropertyAutoMode";
+    
+    /* First check if the propertyType is valid for this camera */
+    if (!pProperty->present) return asynError;
+
+    /* Check if onOff is supported by the camera on this propertyType */
+    if (!pPropInfo->onOffSupported) return asynError;
+
+    /* Send the onOff mode to the camera */
+    pProperty->onOff = onOff ? true : false;
+    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+        "%s::%s calling CameraBase::SetProperty, pCameraBase_=%p, pProperty=%p, pProperty->type=%d, pProperty->onOff=%d\n",
+        driverName, functionName, pCameraBase_, pProperty, pProperty->type, pProperty->onOff);
+    error = pCameraBase_->SetProperty(pProperty);
+    if (checkError(error, functionName, "SetProperty")) 
+        return asynError;
+    /* Update all properties to see if any settings have changed */
+    getAllProperties();
+    return asynSuccess;
+}
+
+
+asynStatus pointGrey::setPropertyOnePush(PropertyType propType)
+{
+    Error error;
+    Property *pProperty = allProperties_[propType];
+    PropertyInfo *pPropInfo = allPropInfos_[propType];
+    static const char *functionName = "setPropertyAutoMode";
+    
+    /* First check if the propertyType is valid for this camera */
+    if (!pProperty->present) return asynError;
+
+    /* Check if onePush is supported by the camera on this propertyType */
+    if (!pPropInfo->onePushSupported) return asynError;
+
+    /* Send the onePush to the camera */
+    pProperty->onePush = true;
+    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+        "%s::%s calling CameraBase::SetProperty, pCameraBase_=%p, pProperty=%p, pProperty->type=%d, pProperty->onePush=%d\n",
+        driverName, functionName, pCameraBase_, pProperty, pProperty->type, pProperty->onePush);
+    error = pCameraBase_->SetProperty(pProperty);
+    /* Reset onePush flag */
+    pProperty->onePush = false;
+    if (checkError(error, functionName, "SetProperty")) 
+        return asynError;
+    /* Update all properties to see if any settings have changed */
+    getAllProperties();
+    return asynSuccess;
+}
+
 
 
 asynStatus pointGrey::setPropertyValue(PropertyType propType, int value, propValue_t valType)
@@ -2424,29 +2499,34 @@ asynStatus pointGrey::getAllProperties()
             "%s:%s: checking propertyType %d\n",
             driverName, functionName, addr);
 
-        /* If the propertyType is not available in the camera, we just set
-         * all the parameters to -1 to indicate this is not available to the user. */
         if (pPropInfo->present) {
-            setIntegerParam(addr, PGPropertyAvail, 1);
-            setIntegerParam(addr, PGPropertyAutoAvail, pPropInfo->autoSupported);
-            setIntegerParam(addr, PGPropertyManAvail,  pPropInfo->manualSupported);
-            setIntegerParam(addr, PGPropertyAbsAvail,  pPropInfo->absValSupported);
-            setIntegerParam(addr, PGPropertyAutoMode,  pProperty->autoManualMode);
-            setIntegerParam(addr, PGPropertyAbsMode,   pProperty->absControl);
-            setIntegerParam(addr, PGPropertyValue,     pProperty->valueA);
-            setIntegerParam(addr, PGPropertyValueB,    pProperty->valueB);
-            setIntegerParam(addr, PGPropertyValueMin,  pPropInfo->min);
-            setIntegerParam(addr, PGPropertyValueMax,  pPropInfo->max);
+            setIntegerParam(addr, PGPropertyAvail,        1);
+            setIntegerParam(addr, PGPropertyOnOffAvail,   pPropInfo->onOffSupported);
+            setIntegerParam(addr, PGPropertyOnePushAvail, pPropInfo->onePushSupported);
+            setIntegerParam(addr, PGPropertyAutoAvail,    pPropInfo->autoSupported);
+            setIntegerParam(addr, PGPropertyManAvail,     pPropInfo->manualSupported);
+            setIntegerParam(addr, PGPropertyAbsAvail,     pPropInfo->absValSupported);
+            setIntegerParam(addr, PGPropertyOnOff,        pProperty->onOff);
+            setIntegerParam(addr, PGPropertyAutoMode,     pProperty->autoManualMode);
+            setIntegerParam(addr, PGPropertyAbsMode,      pProperty->absControl);
+            setIntegerParam(addr, PGPropertyValue,        pProperty->valueA);
+            setIntegerParam(addr, PGPropertyValueB,       pProperty->valueB);
+            setIntegerParam(addr, PGPropertyValueMin,     pPropInfo->min);
+            setIntegerParam(addr, PGPropertyValueMax,     pPropInfo->max);
         } else {
-            setIntegerParam(addr, PGPropertyAvail, 0);
-            setIntegerParam(addr, PGPropertyAutoAvail, 0);
-            setIntegerParam(addr, PGPropertyManAvail,  0);
-            setIntegerParam(addr, PGPropertyAbsAvail,  0);
-            setIntegerParam(addr, PGPropertyAutoMode,  0);
-            setIntegerParam(addr, PGPropertyAbsMode,   -1);
-            setIntegerParam(addr, PGPropertyValue,     -1);
-            setIntegerParam(addr, PGPropertyValueMin,  -1);
-            setIntegerParam(addr, PGPropertyValueMax,  -1);
+            /* If the propertyType is not available in the camera, we just set
+             * all the parameters to 0 or -1 to indicate this is not available to the user. */
+            setIntegerParam(addr, PGPropertyAvail,        0);
+            setIntegerParam(addr, PGPropertyOnOffAvail,   0);
+            setIntegerParam(addr, PGPropertyOnePushAvail, 0);
+            setIntegerParam(addr, PGPropertyAutoAvail,    0);
+            setIntegerParam(addr, PGPropertyManAvail,     0);
+            setIntegerParam(addr, PGPropertyAbsAvail,     0);
+            setIntegerParam(addr, PGPropertyAutoMode,     0);
+            setIntegerParam(addr, PGPropertyAbsMode,      -1);
+            setIntegerParam(addr, PGPropertyValue,        -1);
+            setIntegerParam(addr, PGPropertyValueMin,     -1);
+            setIntegerParam(addr, PGPropertyValueMax,     -1);
         }
 
         /* If the propertyType does not support 'absolute' control then we just

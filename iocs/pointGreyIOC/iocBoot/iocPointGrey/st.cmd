@@ -10,10 +10,14 @@ epicsEnvSet("PREFIX", "13PG1:")
 #epicsEnvSet("CAMERA_ID", "0")
 # Use this line for a specific camera by serial number, in this case a Flea2 Firewire camera
 #epicsEnvSet("CAMERA_ID", "9211601")
-# Use this line for a specific camera by serial number, in this case a Grasshopper3 USB-3.0 cameras
+# Use this line for a specific camera by serial number, in this case a Grasshopper3 USB-3.0 camera
 #epicsEnvSet("CAMERA_ID", "13510305")
-# Use this line for a specific camera by serial number, in this case a BlackFly GigE cameras
-epicsEnvSet("CAMERA_ID", "13481965")
+#epicsEnvSet("CAMERA_ID", "14120134")
+#epicsEnvSet("CAMERA_ID", "13510309")
+# Use this line for a specific camera by serial number, in this case a BlackFly GigE camera
+#epicsEnvSet("CAMERA_ID", "13481965")
+# Use this line for a specific camera by serial number, in this case a Flea3 GigE camera
+epicsEnvSet("CAMERA_ID", "14273040")
 
 epicsEnvSet("PORT",   "PG1")
 # Really large queue so we can stream to disk at full camera speed
@@ -24,12 +28,12 @@ epicsEnvSet("NCHANS", "2048")
 # Define NELEMENTS to be enough for a 2048x2048x3 (color) image
 epicsEnvSet("NELEMENTS", "12592912")
 
-pointGreyConfig("$(PORT)", $(CAMERA_ID), 0, 1)
+pointGreyConfig("$(PORT)", $(CAMERA_ID), 0x0, 0)
 asynSetTraceIOMask($(PORT), 0, 2)
-#asynSetTraceMask($(PORT), 0, 255)
+#asynSetTraceMask($(PORT), 0, 0x29)
+#asynSetTraceInfoMask($(PORT), 0, 0xf)
 
 dbLoadRecords("$(ADCORE)/db/ADBase.template",         "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
-dbLoadRecords("$(ADCORE)/db/NDFile.template",         "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 dbLoadRecords("$(ADPOINTGREY)/db/pointGrey.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT)")
 dbLoadTemplate("pointGrey.substitutions")
 

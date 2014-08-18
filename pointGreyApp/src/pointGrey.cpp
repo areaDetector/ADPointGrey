@@ -417,6 +417,7 @@ private:
 
     /* Data */
     int cameraId_;
+    int memoryChannel_;
     BusManager            *pBusMgr_;
     PGRGuid               *pGuid_;
     CameraBase            *pCameraBase_;
@@ -527,7 +528,7 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
     : ADDriver(portName, MAX_ADDR, NUM_PG_PARAMS, maxBuffers, maxMemory,
             asynEnumMask, asynEnumMask,
             ASYN_CANBLOCK | ASYN_MULTIDEVICE, 1, priority, stackSize),
-    cameraId_(cameraId), pGuid_(0), exiting_(0), pRaw_(NULL)
+    cameraId_(cameraId), memoryChannel_(memoryChannel), pGuid_(0), exiting_(0), pRaw_(NULL)
 {
     static const char *functionName = "pointGrey";
     int i;
@@ -625,25 +626,6 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
         // Call report() to get a list of available cameras
         report(stdout, 1);
         return;
-    }
-    
-    if (memoryChannel > 0) {
-        unsigned int numMemoryChannels;
-        error = pCameraBase_->GetMemoryChannelInfo(&numMemoryChannels);
-        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-            "%s::%s called GetMemoryChannelInfo, pCameraBase_=%p, numMemoryChannels=%u\n",
-            driverName, functionName, pCameraBase_, numMemoryChannels);
-        if (memoryChannel > (int) numMemoryChannels) {
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                "%s::%s memory channel=%d invalid, numMemoryChannels=%d\n", 
-                driverName, functionName, memoryChannel, numMemoryChannels);
-        } else {
-            asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-                "%s::%s calling RestoreFromMemoryChannel, pCameraBase_=%p, memoryChannel=%d\n",
-                driverName, functionName, pCameraBase_, memoryChannel-1);
-            error = pCameraBase_->RestoreFromMemoryChannel(memoryChannel-1);
-            checkError(error, functionName, "RestoreFromMemoryChannel");
-        }
     }
     
     // Create an array of property objects, one for each property
@@ -797,6 +779,26 @@ asynStatus pointGrey::connectCamera(void)
     error = pCameraBase_->Connect(pGuid_);
     if (checkError(error, functionName, "Connect")) return asynError;
 
+    // Restore from memory channel if it was specified
+    if (memoryChannel_ > 0) {
+        unsigned int numMemoryChannels;
+        error = pCameraBase_->GetMemoryChannelInfo(&numMemoryChannels);
+        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+            "%s::%s called GetMemoryChannelInfo, pCameraBase_=%p, numMemoryChannels=%u\n",
+            driverName, functionName, pCameraBase_, numMemoryChannels);
+        if (memoryChannel_ > (int) numMemoryChannels) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s::%s memory channel=%d invalid, numMemoryChannels=%d\n", 
+                driverName, functionName, memoryChannel_, numMemoryChannels);
+        } else {
+            asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+                "%s::%s calling RestoreFromMemoryChannel, pCameraBase_=%p, memoryChannel=%d\n",
+                driverName, functionName, pCameraBase_, memoryChannel_-1);
+            error = pCameraBase_->RestoreFromMemoryChannel(memoryChannel_-1);
+            checkError(error, functionName, "RestoreFromMemoryChannel");
+        }
+    }
+    
     // Get the camera information
     error = pCameraBase_->GetCameraInfo(pCameraInfo_);
     if (checkError(error, functionName, "GetCameraInfo")) return asynError;

@@ -1,1 +1,1 @@
-sudo /usr/sbin/tcpdump -i em1 -s 65535 -w $1 host 13dhcp202 
+sudo /usr/sbin/tcpdump -i eth1 -s 65535 -w $1 host 164.54.160.241

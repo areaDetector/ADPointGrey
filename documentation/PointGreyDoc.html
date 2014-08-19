@@ -982,20 +982,20 @@
             <li>Raw16</li>
             <li>Mono12</li>
           </ul>
+          The pixel format that these can be converted to are:
+          <ul>
+            <li>None: The input pixel format is not converted.</li>
+            <li>Mono8: The input pixel format is converted to Mono8.</li>
+            <li>Mono16: The input pixel format is converted to Mono16. This is useful when the
+              input pixel format is Mono12, since this saves network bandwidth.</li>
+            <li>RGB8: The input format is converted to RGB8. This is useful when the input format
+              is Raw8, for a color camera. In this case Bayer color is sent on the network, reducing
+              the bandwidth requirement by a factor of 3.</li>
+            <li>RGB16: The input format is converted to RGB16. This is useful when the input format
+              is Raw16, for a color camera. In this case Bayer color is sent on the network, reducing
+              the bandwidth requirement by a factor of 3.</li>
+          </ul>
         </td>
-        The pixel format that these can be converted to are:
-        <ul>
-          <li>None: The input pixel format is not converted.</li>
-          <li>Mono8: The input pixel format is converted to Mono8.</li>
-          <li>Mono16: The input pixel format is converted to Mono16. This is useful when the
-            input pixel format is Mono12, since this saves network bandwidth.</li>
-          <li>RGB8: The input format is converted to RGB8. This is useful when the input format
-            is Raw8, for a color camera. In this case Bayer color is sent on the network, reducing
-            the bandwidth requirement by a factor of 3.</li>
-          <li>RGB16: The input format is converted to RGB16. This is useful when the input format
-            is Raw16, for a color camera. In this case Bayer color is sent on the network, reducing
-            the bandwidth requirement by a factor of 3.</li>
-        </ul>
         <td>
           PG_CONVERT_PIXEL_FORMAT </td>
         <td>
@@ -1070,6 +1070,93 @@
           PG_PROP_AVAIL </td>
         <td>
           $(P)$(R)$(PROPERTY)Avail </td>
+        <td>
+          bi </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyOnOffAvail </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          A flag indicating if the property supports turning on and off. </td>
+        <td>
+          PG_PROP_ON_OFF_AVAIL </td>
+        <td>
+          $(P)$(R)$(PROPERTY)OnOffAvail </td>
+        <td>
+          bi </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyOnOff </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Controls whether the property is on or off. </td>
+        <td>
+          PG_PROP_ON_OFF </td>
+        <td>
+          $(P)$(R)$(PROPERTY)OnOff
+          <br />
+          $(P)$(R)$(PROPERTY)OnOff_RBV </td>
+        <td>
+          bo
+          <br />
+          bi </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyOnePushAvail </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          A flag indicating if the property supports setting once (called One Push). This
+          is typically used for setting things like the gain or shutter time automatically
+          once.</td>
+        <td>
+          PG_PROP_ONE_PUSH_AVAIL </td>
+        <td>
+          $(P)$(R)$(PROPERTY)OnePushAvail </td>
+        <td>
+          bi </td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyOnePush </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/w </td>
+        <td>
+          Processing this record causes a one-push setting of the property. </td>
+        <td>
+          PG_PROP_ONE_PUSH </td>
+        <td>
+          $(P)$(R)$(PROPERTY)OnePush</td>
+        <td>
+          bo</td>
+      </tr>
+      <tr>
+        <td>
+          PGPropertyAbsAvail </td>
+        <td>
+          asynInt32 </td>
+        <td>
+          r/o </td>
+        <td>
+          A flag indicating if the property supports absolute (floating point) control.
+        </td>
+        <td>
+          PG_PROP_ABS_AVAIL </td>
+        <td>
+          $(P)$(R)$(PROPERTY)AbsAvail </td>
         <td>
           bi </td>
       </tr>
@@ -1835,12 +1922,16 @@
     <code>pointGreyProperties.adl</code> is the screen used to control the properties
     of Point Grey cameras. Note that some of these properties, such as Shutter, FrameRate,
     and Gain can also be controlled by standard areaDetector records, like AcquireTime,
-    AcquirePeriod, and Gain.
+    AcquirePeriod, and Gain. The widgets on the medm screen are hidden if the corresponding
+    feature is not available.
   </p>
   <div style="text-align: center">
     <h3 style="text-align: center">
-      pointGreyProperties.adl</h3>
-    <img alt="pointGreyProperties.png" src="pointGreyProperties.png" /></div>
+      pointGreyProperties.adl for a BlackFly GigE color camera in RGB mode</h3>
+    <img alt="pointGreyProperties_BlackFly.png" src="pointGreyProperties_BlackFly.png" />
+    <h3 style="text-align: center">
+      pointGreyProperties.adl for a Grasshopper3 monochrome camera</h3>
+    <img alt="pointGreyProperties_Grasshopper3.png" src="pointGreyProperties_Grasshopper3.png" /></div>
   <p>
     <code>pointGreyFrameRate.adl</code> is the screen used to control the frame rate
     in standard video modes. This is a separate screen because the valid enum strings

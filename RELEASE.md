@@ -36,6 +36,6 @@ R2-1 (August XXX, 2014)
 Future Releases
 ===============
 * Add performance to documentation
-* Fix problem GigE camera not working on Linux when restarting IOC if any images were acquired.
+* Fix problem BlackFly camera not working on Linux when restarting IOC if any images were acquired.
 * Make Hybrid time stamp a blend of EPICS and camera when seconds and microseconds are 
   not supported.  Set time to agree on first frame, use camera to update time after that. 

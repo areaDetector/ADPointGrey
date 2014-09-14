@@ -157,7 +157,7 @@ void PrintError( Error error )
 
 int RunSingleCamera( PGRGuid guid )
 {
-    const int k_numImages = 1000;
+    const int k_numImages = 100;
 
     Error error;
     GigECamera cam;

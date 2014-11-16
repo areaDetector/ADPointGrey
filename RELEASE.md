@@ -27,6 +27,7 @@ R2-1 (September XXX, 2014)
 * Fixed bug when memoryChannel > 0 was specified in pointGreyConfig().  The bug
   caused the driver to fail to embed the time stamp and frame counter information in the 
   images so the UniqueId was not updating.  This in turn caused ImageJ to not display new images.
+* Updated from version 2.6.3 to 2.7.3 of the Flycap2 library
 
 
 R2-0 (April 4, 2014)

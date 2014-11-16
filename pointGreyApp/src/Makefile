@@ -9,7 +9,7 @@ LIBRARY_IOC_Linux += pointGrey
 LIB_SRCS += pointGrey.cpp
 
 LIB_LIBS_WIN32     += FlyCapture2
-LIB_SYS_LIBS_Linux += flycapture
+LIB_IBS_Linux += flycapture
 
 DBD += pointGreySupport.dbd
 

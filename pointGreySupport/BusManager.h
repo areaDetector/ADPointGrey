@@ -16,7 +16,7 @@
 //=============================================================================
 
 //=============================================================================
-// $Id: BusManager.h 145342 2012-06-22 16:47:25Z rang $
+// $Id: BusManager.h 199388 2014-06-18 18:19:05Z mgara $
 //=============================================================================
 
 #ifndef PGR_FC2_BUSMANAGER_H
@@ -329,9 +329,8 @@ namespace FlyCapture2
 		/**
          * Force a camera on the network to be assigned an IP address
          * on the same subnet as the netowrk adapters that it is connected to. 
-         * This is useful in situations where a GigE Vision camera is using 
-         * Persistent IP addresses and the application's subnet is different from 
-         * the device.
+         * This is useful in situations where GigE Vision cameras are using IP 
+		 * addresses in a subnet different from the host's subnet.
          *
          * @return An Error indicating the success or failure of the function.
          */
@@ -339,11 +338,10 @@ namespace FlyCapture2
 
         /**
          * Discover all cameras connected to the network even if they reside
-         * on a different subnet. This is useful in situations where a GigE
-         * camera is using Persistent IP and the application's subnet is
-         * different from the device subnet. After discovering the camera,  
-         * it is easy to use ForceIPAddressToCamera() to set a different IP 
-         * configuration.
+         * on a different subnet. This is useful in situations where GigE Vision 
+		 * cameras are using IP addresses in a subnet different from the host's 
+		 * subnet. After discovering the camera, it is easy to use 
+		 * ForceIPAddressToCamera() to set a different IP configuration.
          *
          * @param gigECameras Pointer to an array of CameraInfo structures.
          * @param arraySize Size of the array. Number of discovered cameras

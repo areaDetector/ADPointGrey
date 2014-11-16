@@ -16,7 +16,7 @@
 //=============================================================================
 
 //=============================================================================
-// $Id: CameraBase.h 170136 2013-08-01 01:00:32Z mgara $
+// $Id: CameraBase.h 190879 2014-03-18 18:05:14Z warrenm $
 //=============================================================================
 
 #ifndef PGR_FC2_CAMERABASE_H_
@@ -123,9 +123,19 @@ namespace FlyCapture2
          * Starts isochronous image capture. It will use either the current
          * video mode or the most recently set video mode of the camera.
          * The optional callback function parameter is called on completion of 
-         * image transfer. Alternatively, the callback parameter can
-         * be set to NULL and RetrieveBuffer() can be called as a blocking
-         * call to get the image data.
+         * image transfer. 
+		 * When a callback function is specified, the grab mode will determine how 
+		 * images are delivered.
+		 * If the grab mode has not been set, or has been set to DROP_FRAMES
+		 * the default behavior is to requeue images for DMA if they have
+		 * not been delivered by the time the next image transfer completes.
+		 * If BUFFER_FRAMES is specified, the next image in the sequence will 
+		 * be delivered. Note that for the BUFFER_FRAMES case, if delivery 
+		 * does not keep up with the DMA process, images will be lost.  
+		 * The default behavior is to perform DROP_FRAMES image delivery
+		 * Alternatively, the callback parameter can be set to NULL 
+		 * and RetrieveBuffer() can be called as a blocking call to get 
+		 * the image data.
          *
          * @param callbackFn A function to be called when a new image is
          *                   received.

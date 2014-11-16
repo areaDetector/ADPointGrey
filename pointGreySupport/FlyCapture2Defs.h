@@ -16,7 +16,7 @@
 //=============================================================================
 
 //=============================================================================
-// $Id: FlyCapture2Defs.h 164425 2013-05-29 23:41:08Z rang $
+// $Id: FlyCapture2Defs.h 208258 2014-09-19 20:33:21Z erich $
 //=============================================================================
 
 #ifndef PGR_FC2_FLYCAPTURE2DEFS_H
@@ -107,6 +107,7 @@ namespace FlyCapture2
         PGRERROR_IMAGE_LIBRARY_FAILURE, /**< Image library failure. */
         PGRERROR_BUFFER_TOO_SMALL, /**< Buffer is too small. */
         PGRERROR_IMAGE_CONSISTENCY_ERROR, /**< There is an image consistency error. */
+		PGRERROR_INCOMPATIBLE_DRIVER, /**< The installed driver is not compatible with the library. */
         PGRERROR_FORCE_32BITS = FULL_32BIT_VALUE
     };  
 
@@ -630,7 +631,7 @@ namespace FlyCapture2
         /** Network interface index used (or to use). */
         unsigned int networkInterfaceIndex;
         /** Host port on the PC where the camera will send the data stream. */
-        unsigned int hostPost;
+		unsigned int hostPort;
         /** Disable IP fragmentation of packets. */
         bool doNotFragment;
         /** Packet size, in bytes. */
@@ -641,11 +642,15 @@ namespace FlyCapture2
         IPAddress destinationIpAddress;
         /** Source UDP port of the stream channel. Read only. */
         unsigned int sourcePort;
+		/** Host port on the PC where the camera will send the data stream. 
+			This is deprecated, use hostPort instead. */
+		unsigned int& hostPost;
 
-        GigEStreamChannel()
+		GigEStreamChannel() 
+			: hostPost(hostPort)
         {
             networkInterfaceIndex = 0;
-            hostPost = 0;
+			hostPort = 0;
             doNotFragment = false;
             packetSize = 0;
             interPacketDelay = 0;
@@ -674,7 +679,7 @@ namespace FlyCapture2
          */
         unsigned int registerTimeout;
 
-        GigEConfig()
+		GigEConfig()
         {
 			enablePacketResend = false;
             registerTimeoutRetries = 3;
@@ -1817,9 +1822,11 @@ namespace FlyCapture2
         }
     };    
 
-   /*@}*/ 
+	/*@}*/ 
 
     /*@}*/ 
+
+	#pragma deprecated(hostPost)
 }
 
 #endif // PGR_FC2_FLYCAPTURE2DEFS_H

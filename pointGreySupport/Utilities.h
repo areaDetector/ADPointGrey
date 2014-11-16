@@ -16,7 +16,7 @@
 //=============================================================================
 
 //=============================================================================
-// $Id: Utilities.h 112716 2011-05-13 16:37:36Z soowei $
+// $Id: Utilities.h 201275 2014-07-09 00:14:30Z warrenm $
 //=============================================================================
 
 #ifndef PGR_FC2_UTILITIES_H_
@@ -24,6 +24,7 @@
 
 #include "FlyCapture2Platform.h"
 #include "FlyCapture2Defs.h"
+#include <string>
 
 namespace FlyCapture2
 {
@@ -105,6 +106,26 @@ namespace FlyCapture2
     {
     public:
 		
+		/**
+         * Check for driver compatibility for the given camera guid.
+         *
+         * @param guid Pointer to the guid of the device to check.
+         *
+         * @return PGR_NO_ERROR if the library is compatible with the currently 
+		 *         loaded driver, otherwise an error indicating the type of failure.
+         */ 
+		static Error CheckDriver(const PGRGuid* guid);
+
+		/**
+         * Get the driver's name for a device
+         *
+         * @param guid Pointer to the guid of the device to check.
+		 * @param deviceName The device name will be returned in this string
+         *
+         * @return An Error indicating the success or failure of the function.
+         */ 
+		static Error GetDriverDeviceName(const PGRGuid* guid, std::string& deviceName);
+
         /**
          * Get system information.
          *

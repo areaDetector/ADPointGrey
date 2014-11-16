@@ -15,15 +15,19 @@ $(PROD_NAME)_DBD += pointGreySupport.dbd
 $(PROD_NAME)_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp $(PROD_NAME)Main.cpp
 
 # Test program
-PROD_IOC += GigEGrabEx
+PROD_IOC_WIN32 += GigEGrabEx
+PROD_IOC_Linux += GigEGrabEx
 GigEGrabEx_SRCS += GigEGrabEx
 
-PROD_IOC += ExtendedShutterEx
+PROD_IOC_WIN32 += ExtendedShutterEx
+PROD_IOC_Linux += ExtendedShutterEx
 ExtendedShutterEx_SRCS += ExtendedShutterEx
 
-PROD_IOC += PGTest
+PROD_IOC_WIN32 += PGTest
+PROD_IOC_Linux += PGTest
 PGTest_SRC += PGTest.cpp
-PROD_IOC += PGTest1
+PROD_IOC_WIN32 += PGTest1
+PROD_IOC_Linux += PGTest1
 PGTest_SRC += PGTest1.cpp
 
 # Add locally compiled object code

@@ -14,6 +14,7 @@
         <string>
 
 QWidget#centralWidget {background: rgba(187, 187, 187, 255);}
+QPushButton::menu-indicator {image: url(none.png); width: 0}
 
 caTable {
        font: 10pt;
@@ -7766,7 +7767,7 @@ border-radius: 2px;
                 </color>
             </property>
             <property name="text">
-                <string>Packet size %</string>
+                <string>Packet size</string>
             </property>
             <property name="fontScaleMode">
                 <enum>ESimpleLabel::WidthAndHeight</enum>
@@ -7778,7 +7779,7 @@ border-radius: 2px;
                 <rect>
                     <x>750</x>
                     <y>705</y>
-                    <width>156</width>
+                    <width>140</width>
                     <height>20</height>
                 </rect>
             </property>

@@ -3975,7 +3975,7 @@ fontAlign "right"
 fgColor index 14
 useDisplayBg
 value {
- "Packet size %"
+ "Packet size"
 }
 endObjectProperties
 

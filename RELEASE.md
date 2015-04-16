@@ -19,7 +19,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-1 (September XXX, 2014)
+R2-1 (16-April-2015)
 ----
 * Added support for OnOff and OnePush for camera properties.
 * Improved pointGreyProperties screen so that widgets are hidden for unsupported features.
@@ -27,10 +27,11 @@ R2-1 (September XXX, 2014)
 * Fixed bug when memoryChannel > 0 was specified in pointGreyConfig().  The bug
   caused the driver to fail to embed the time stamp and frame counter information in the 
   images so the UniqueId was not updating.  This in turn caused ImageJ to not display new images.
-* Updated from version 2.6.3 to 2.7.3 of the Flycap2 library
+* Updated from version 2.6.3 to 2.7.3 of the Flycap2 library.
+* Changes for compatibility with ADCore R2-2.
 
 
-R2-0 (April 4, 2014)
+R2-0 (4-April-2014)
 ----
 * New driver added in this release.
 

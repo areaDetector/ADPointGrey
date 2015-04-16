@@ -4,31 +4,37 @@ errlogInit(20000)
 dbLoadDatabase("$(TOP)/dbd/pointGreyApp.dbd")
 pointGreyApp_registerRecordDeviceDriver(pdbbase) 
 
+# Prefix for all records
 epicsEnvSet("PREFIX", "13PG1:")
-
 # Use this line for the first Point Grey camera in the system
 #epicsEnvSet("CAMERA_ID", "0")
 # Use this line for a specific camera by serial number, in this case a Flea2 Firewire camera
 #epicsEnvSet("CAMERA_ID", "9211601")
 # Use this line for a specific camera by serial number, in this case a Grasshopper3 USB-3.0 camera
+# This is the GSECARS tomography camera
 #epicsEnvSet("CAMERA_ID", "13510305")
+# This is the GSECARS LVP camera
 epicsEnvSet("CAMERA_ID", "14120134")
+# This is the 2-BM camera
 #epicsEnvSet("CAMERA_ID", "13510309")
 # Use this line for a specific camera by serial number, in this case a BlackFly GigE camera
 #epicsEnvSet("CAMERA_ID", "13481965")
 # Use this line for a specific camera by serial number, in this case a Flea3 GigE camera
 # epicsEnvSet("CAMERA_ID", "14273040")
+# The port name for the detector
+epicsEnvSet("PORT",   "PG1")
+# Really large queue so we can stream to disk at full camera speed
+epicsEnvSet("QSIZE",  "2000")   
+# The maximim image width; used for row profiles in the NDPluginStats plugin
+epicsEnvSet("XSIZE",  "2048")
+# The maximim image height; used for column profiles in the NDPluginStats plugin
+epicsEnvSet("YSIZE",  "2048")
+# The maximum number of time series points in the NDPluginStats plugin
+epicsEnvSet("NCHANS", "2048")
 # The maximum number of frames buffered in the NDPluginCircularBuff plugin
 epicsEnvSet("CBUFFS", "500")
 # The search path for database files
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
-
-epicsEnvSet("PORT",   "PG1")
-# Really large queue so we can stream to disk at full camera speed
-epicsEnvSet("QSIZE",  "2000")   
-epicsEnvSet("XSIZE",  "648")
-epicsEnvSet("YSIZE",  "488")
-epicsEnvSet("NCHANS", "2048")
 # Define NELEMENTS to be enough for a 2048x2048x3 (color) image
 epicsEnvSet("NELEMENTS", "12592912")
 
@@ -37,7 +43,6 @@ asynSetTraceIOMask($(PORT), 0, 2)
 #asynSetTraceMask($(PORT), 0, 0x29)
 #asynSetTraceInfoMask($(PORT), 0, 0xf)
 
-dbLoadRecords("$(ADCORE)/db/ADBase.template",         "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 dbLoadRecords("$(ADPOINTGREY)/db/pointGrey.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT)")
 dbLoadTemplate("pointGrey.substitutions")
 

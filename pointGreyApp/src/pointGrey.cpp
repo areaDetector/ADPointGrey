@@ -1770,11 +1770,23 @@ asynStatus pointGrey::setFormat7Params()
     f7Settings.pixelFormat = pixelFormat;
  
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s calling Camera::ValidateFormat7Settings, pCamera_=%p, &f7Settings=%p, &f7SettingsValid=%p, &f7PacketInfo=%p\n",
-        driverName, functionName, pCamera_, &f7Settings, &f7SettingsValid, &f7PacketInfo);
+        "%s::%s calling Camera::ValidateFormat7Settings\n"
+        "  pCamera_=%p, &f7Settings=%p, &f7SettingsValid=%p, &f7PacketInfo=%p\n"
+        "  f7Settings: mode=%d, offsetX=%d, offsetY=%d, width=%d, height=%d, pixelFormat=0x%x\n",
+        driverName, functionName, pCamera_, &f7Settings, &f7SettingsValid, &f7PacketInfo,
+        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, f7Settings.pixelFormat);
     error = pCamera_->ValidateFormat7Settings(&f7Settings, &f7SettingsValid, &f7PacketInfo);
     if (checkError(error, functionName, "ValidateFormat7Settings")) 
         return asynError;
+    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+        "%s::%s Camera::ValidateFormat7Settings returned f7SettingsValid=%d\n",
+        driverName, functionName, f7SettingsValid);
+    if (!f7SettingsValid) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s::%s ERROR ValidateFormat7Settings returned false\n",
+            driverName, functionName);
+        return asynError;
+    }    
 
     /* Attempt to write the parameters to camera */
     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
@@ -1804,8 +1816,11 @@ asynStatus pointGrey::setFormat7Params()
         if (packetSize > pFormat7Info_->maxPacketSize) packetSize = pFormat7Info_->maxPacketSize;
     }
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s calling Camera::SetFormat7Configuration, pCamera_=%p, &f7Settings=%p, packetSize=%d\n",
-        driverName, functionName, pCamera_, &f7Settings, packetSize);
+        "%s::%s calling Camera::SetFormat7Configuration\n"
+        "  pCamera_=%p, &f7Settings=%p, packetSize=%d\n"
+        "  f7Settings: mode=%d, offsetX=%d, offsetY=%d, width=%d, height=%d, pixelFormat=0x%x\n",
+        driverName, functionName, pCamera_, &f7Settings, packetSize,
+        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, f7Settings.pixelFormat);
     error = pCamera_->SetFormat7Configuration(&f7Settings, packetSize);
     checkError(error, functionName, "SetFormat7Configuration");
     if (resumeAcquire) {
@@ -1821,8 +1836,11 @@ asynStatus pointGrey::setFormat7Params()
     if (checkError(error, functionName, "GetFormat7Configuration")) 
         return asynError;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s called Camera::GetFormat7Configuration, pCamera_=%p, &f7Settings=%p, packetSizeActual=%d, percentage=%f\n",
-        driverName, functionName, pCamera_, &f7Settings, packetSizeActual, percentage);
+        "%s::%s called Camera::GetFormat7Configuration\n"
+        "  pCamera_=%p, &f7Settings=%p, packetSizeActual=%d, percentage=%f\n"
+        "  f7Settings: mode=%d, offsetX=%d, offsetY=%d, width=%d, height=%d, pixelFormat=0x%x\n",
+        driverName, functionName, pCamera_, &f7Settings, packetSizeActual, percentage,
+        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, f7Settings.pixelFormat);
     setIntegerParam(ADMinX,        f7Settings.offsetX);
     setIntegerParam(ADMinY,        f7Settings.offsetY);
     setIntegerParam(ADSizeX,       f7Settings.width);

@@ -1,3 +1,4 @@
+file "ADBase_settings.req", P=$(P), R=$(R)
 $(P)$(R)VideoMode
 $(P)$(R)Format7Mode
 $(P)$(R)FrameRate

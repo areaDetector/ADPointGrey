@@ -4,6 +4,7 @@
 ## Note: the strings and values for the mbbo and mbbi records in this database
 ## are built dynamically at run-time based on the capabilites of the specific camera
 
+include "ADBase.template"
 
 ## These are the records from ADBase.template that we modify
 ## Disable ReadStatus when acquisition is active because queurying the detector 

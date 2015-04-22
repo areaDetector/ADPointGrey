@@ -19,6 +19,11 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-1-1 (22-April-2015)
+----
+* Added missing arguments when loading pointGrey.template in st.cmd.
+
+
 R2-1 (16-April-2015)
 ----
 * Added support for OnOff and OnePush for camera properties.

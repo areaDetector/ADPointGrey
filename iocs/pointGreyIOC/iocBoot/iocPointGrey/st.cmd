@@ -43,7 +43,7 @@ asynSetTraceIOMask($(PORT), 0, 2)
 #asynSetTraceMask($(PORT), 0, 0x29)
 #asynSetTraceInfoMask($(PORT), 0, 0xf)
 
-dbLoadRecords("$(ADPOINTGREY)/db/pointGrey.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT)")
+dbLoadRecords("$(ADPOINTGREY)/db/pointGrey.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 dbLoadTemplate("pointGrey.substitutions")
 
 # Create a standard arrays plugin

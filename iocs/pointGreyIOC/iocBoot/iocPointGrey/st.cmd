@@ -14,11 +14,13 @@ epicsEnvSet("PREFIX", "13PG1:")
 # This is the GSECARS tomography camera
 #epicsEnvSet("CAMERA_ID", "13510305")
 # This is the GSECARS LVP camera
-epicsEnvSet("CAMERA_ID", "14120134")
+#epicsEnvSet("CAMERA_ID", "14120134")
 # This is the 2-BM camera
 #epicsEnvSet("CAMERA_ID", "13510309")
+# This is the 2-BM GS3-U3-91S6M-C camera
+#epicsEnvSet("CAMERA_ID", "13510309")
 # Use this line for a specific camera by serial number, in this case a BlackFly GigE camera
-#epicsEnvSet("CAMERA_ID", "13481965")
+epicsEnvSet("CAMERA_ID", "14426023")
 # Use this line for a specific camera by serial number, in this case a Flea3 GigE camera
 # epicsEnvSet("CAMERA_ID", "14273040")
 # The port name for the detector

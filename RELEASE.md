@@ -19,6 +19,11 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-2 (8-October-2015)
+----
+* Updated from version 2.7.3 to 2.8.3 of the Flycap2 library.
+* Changed driver so that corrupted images are discarded and not passed to plugins.
+
 R2-1-1 (22-April-2015)
 ----
 * Added missing arguments when loading pointGrey.template in st.cmd.

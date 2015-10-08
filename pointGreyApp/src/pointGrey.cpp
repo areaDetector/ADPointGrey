@@ -978,7 +978,7 @@ asynStatus pointGrey::grabImage()
         } 
         checkError(error, functionName, "RetrieveBuffer");
         if (error == PGRERROR_IMAGE_CONSISTENCY_ERROR) {
-            // For now we ignore this error
+            return asynError;
         } else {
             //  Any other error we turn off acquisition and return an error
             setIntegerParam(ADAcquire, 0);

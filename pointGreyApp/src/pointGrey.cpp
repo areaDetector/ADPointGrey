@@ -27,6 +27,7 @@
 #include <epicsThread.h>
 #include <iocsh.h>
 #include <epicsString.h>
+#include <epicsMessageQueue.h>
 #include <epicsExit.h>
 
 #include <FlyCapture2.h>
@@ -112,6 +113,9 @@ static const char *driverName = "pointGrey";
 
 // Default packet delay in microseconds
 #define DEFAULT_PACKET_DELAY 400
+
+// Size of message queue to send images from imageGrabTask to imageProcessTask
+#define MESSAGE_QUEUE_SIZE 10
 
 typedef enum {
     propValueA,
@@ -320,6 +324,7 @@ public:
     void report(FILE *fp, int details);
     /**< These should be private but are called from C callback functions, must be public. */
     void imageGrabTask();
+    void imageProcessTask();
     void shutdown();
 
 protected:
@@ -426,7 +431,6 @@ private:
     CameraInfo            *pCameraInfo_;
     Format7Info           *pFormat7Info_;
     GigEImageSettingsInfo *pGigEImageSettingsInfo_;
-    Image                 *pPGRawImage_;
     Image                 *pPGConvertedImage_;
     TriggerMode           *pTriggerMode_;
     TriggerModeInfo       *pTriggerModeInfo_;
@@ -456,6 +460,7 @@ private:
     enumStruct_t strobeSourceEnums_       [NUM_GPIO_PINS];
     int exiting_;
     epicsEventId startEventId_;
+    epicsMessageQueueId messageQueueId_;
     NDArray *pRaw_;
 };
 
@@ -502,6 +507,13 @@ static void imageGrabTaskC(void *drvPvt)
     pointGrey *pPvt = (pointGrey *)drvPvt;
 
     pPvt->imageGrabTask();
+}
+
+static void imageProcessTaskC(void *drvPvt)
+{
+    pointGrey *pPvt = (pointGrey *)drvPvt;
+
+    pPvt->imageProcessTask();
 }
 
 /** Constructor for the pointGrey class
@@ -610,7 +622,6 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
     pCameraInfo_        = new CameraInfo;
     pFormat7Info_       = new Format7Info;
     pGigEImageSettingsInfo_ = new GigEImageSettingsInfo;
-    pPGRawImage_        = new Image;
     pPGConvertedImage_  = new Image;
     pTriggerMode_       = new TriggerMode;
     pTriggerModeInfo_   = new TriggerModeInfo;
@@ -676,11 +687,24 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
 
     startEventId_ = epicsEventCreate(epicsEventEmpty);
 
-    /* launch image read task */
-    epicsThreadCreate("PointGreyImageTask", 
+    /* Launch imageGrabTask task */
+    epicsThreadCreate("PointGreyImageGrabTask", 
                       epicsThreadPriorityMedium,
                       epicsThreadGetStackSize(epicsThreadStackMedium),
                       imageGrabTaskC, this);
+
+    /* Launch imageProcessTask task */
+    epicsThreadCreate("PointGreyImageProessTask", 
+                      epicsThreadPriorityMedium,
+                      epicsThreadGetStackSize(epicsThreadStackMedium),
+                      imageProcessTaskC, this);
+
+    /* Create the message queue for process task */
+    this->messageQueueId_ = epicsMessageQueueCreate(MESSAGE_QUEUE_SIZE, sizeof(Image*));
+    if (!this->messageQueueId_) {
+        printf("%s:%s: epicsMessageQueueCreate failure\n", driverName, functionName);
+        return;
+    }
 
     /* shutdown on exit */
     epicsAtExit(c_shutdown, this);
@@ -852,17 +876,15 @@ asynStatus pointGrey::disconnectCamera(void)
 }
 
 
-/** Task to grab images off the camera and send them up to areaDetector
+/** Task to retreive images from the Point Grey SDK and send them via a message queue to another thread
+ *  that does any image conversions and callbacks to plugins.
  *
  */
 void pointGrey::imageGrabTask()
 {
-    asynStatus status = asynSuccess;
-    int imageCounter;
-    int numImages, numImagesCounter;
-    int imageMode;
-    int arrayCallbacks;
+    int status = asynSuccess;
     epicsTimeStamp startTime;
+    Error error;
     int acquire;
     static const char *functionName = "imageGrabTask";
 
@@ -900,14 +922,236 @@ void pointGrey::imageGrabTask()
         /* Call the callbacks to update any changes */
         callParamCallbacks();
 
-        status = grabImage();
-        if (status == asynError) {
-            /* remember to release the NDArray back to the pool now
-             * that we are not using it (we didn't get an image...) */
-            if (pRaw_) pRaw_->release();
-            pRaw_ = NULL;
+        /* unlock the driver while we wait for a new image to be ready */
+        unlock();
+        Image *pNewImage = new Image;
+        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+            "%s::%s calling CameraBase::RetrieveBuffer, pCameraBase_=%p, newImage=%p\n",
+            driverName, functionName, pCameraBase_, pNewImage);
+        error = pCameraBase_->RetrieveBuffer(pNewImage);
+        lock();
+        if (error != PGRERROR_OK) {
+            delete pNewImage;
+            if (error == PGRERROR_ISOCH_NOT_STARTED) {
+                // This is an expected error if acquisition was stopped externally
+                continue;
+            } 
+            checkError(error, functionName, "RetrieveBuffer");
+            if (error == PGRERROR_IMAGE_CONSISTENCY_ERROR) {
+                continue;
+            } else {
+                //  Any other error we turn off acquisition
+                setIntegerParam(ADAcquire, 0);
+                continue;
+            }
+        }
+        status = epicsMessageQueueTrySend(this->messageQueueId_, &pNewImage, sizeof(&pNewImage));
+        if (status) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                "%s:%s message queue full\n",
+                driverName, functionName);
+            delete pNewImage;
+        }
+    }
+}
+
+void pointGrey::imageProcessTask()
+{
+    unsigned int nRows, nCols, stride;
+    Error error;
+    PixelFormat pixelFormat;
+    BayerTileFormat bayerFormat;
+    NDDataType_t dataType;
+    NDColorMode_t colorMode;
+    Image *pImageIn, *pImageOut;
+    ImageMetadata metaData;
+    TimeStamp timeStamp;
+    int convertPixelFormat;
+    int numColors;
+    size_t dims[3];
+    int pixelSize;
+    size_t dataSize, dataSizePG;
+    double bandwidth;
+    double frameRate;
+    void *pData;
+    int nDims;
+    int timeStampMode;
+    int imageCounter;
+    int numImages, numImagesCounter;
+    int imageMode;
+    int arrayCallbacks;
+    static const char *functionName = "imageProcessTask";
+
+    lock();
+
+    while (1) {
+        /* unlock the driver while we wait for a new image to arrive in the message queue */
+        unlock();
+        epicsMessageQueueReceive(this->messageQueueId_, &pImageIn, sizeof(&pImageIn));
+        lock();
+        pImageIn->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);    
+        metaData = pImageIn->GetMetadata();    
+        timeStamp = pImageIn->GetTimeStamp();    
+        pImageOut = pImageIn;
+        // Calculate bandwidth
+        dataSizePG = pImageIn->GetReceivedDataSize();
+        getDoubleParam(FRAME_RATE, PGPropertyValueAbs, &frameRate);
+        bandwidth = frameRate * dataSizePG / (1024 * 1024);
+        setDoubleParam(PGBandwidth, bandwidth);
+
+        // If the incoming pixel format is raw[8,12,16] or mono12 and convertPixelFormat is non-zero then convert
+        // the pixel format of the image
+        getIntegerParam(PGConvertPixelFormat, &convertPixelFormat);
+        if (((pixelFormat == PIXEL_FORMAT_RAW8)   ||
+             (pixelFormat == PIXEL_FORMAT_RAW12)  ||
+             (pixelFormat == PIXEL_FORMAT_MONO12) ||
+             (pixelFormat == PIXEL_FORMAT_RAW16)) &&
+              convertPixelFormat != 0) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+                "%s::%s calling Image::Convert, pImageIn=%p, convertPixelFormat=%d, pPGConvertedImage_=%p\n",
+                driverName, functionName, pImageIn, convertPixelFormat, pPGConvertedImage_);
+            error = pImageIn->Convert((PixelFormat)convertPixelFormat, pPGConvertedImage_);
+            if (checkError(error, functionName, "Convert") == 0)
+                pImageOut = pPGConvertedImage_;
+        }
+
+        pImageOut->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);
+        switch (pixelFormat) {
+            case PIXEL_FORMAT_MONO8:
+            case PIXEL_FORMAT_RAW8:
+                dataType = NDUInt8;
+                colorMode = NDColorModeMono;
+                numColors = 1;
+                pixelSize = 1;
+                break;
+
+            case PIXEL_FORMAT_RGB8:
+                dataType = NDUInt8;
+                colorMode = NDColorModeRGB1;
+                numColors = 3;
+                pixelSize = 1;
+                break;
+
+            case PIXEL_FORMAT_MONO16:
+            case PIXEL_FORMAT_RAW16:
+                dataType = NDUInt16;
+                colorMode = NDColorModeMono;
+                numColors = 1;
+                pixelSize = 2;
+                break;
+
+            case PIXEL_FORMAT_S_MONO16:
+                dataType = NDInt16;
+                colorMode = NDColorModeMono;
+                numColors = 1;
+                pixelSize = 2;
+                break;
+
+            case PIXEL_FORMAT_RGB16:
+                dataType = NDUInt16;
+                colorMode = NDColorModeRGB1;
+                numColors = 3;
+                pixelSize = 2;
+                break;
+
+            case PIXEL_FORMAT_S_RGB16:
+                dataType = NDInt16;
+                colorMode = NDColorModeRGB1;
+                numColors = 3;
+                pixelSize = 2;
+                break;
+
+            default:
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                    "%s:%s: unsupported pixel format=0x%x\n",
+                    driverName, functionName, pixelFormat);
+                continue;
+        }
+
+        if (numColors == 1) {
+            nDims = 2;
+            dims[0] = nCols;
+            dims[1] = nRows;
+        } else {
+            nDims = 3;
+            dims[0] = 3;
+            dims[1] = nCols;
+            dims[2] = nRows;
+        }
+        dataSize = dims[0] * dims[1] * pixelSize;
+        if (nDims == 3) dataSize *= dims[2];
+        dataSizePG = pImageOut->GetDataSize();
+        // Note, we should be testing for equality here.  However, there appears to be a bug in the
+        // SDK when images are converted.  When converting from raw8 to mono8, for example, the
+        // size returned by GetDataSize is the size of an RGB8 image, not a mono8 image.
+        if (dataSize > dataSizePG) {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: data size mismatch: calculated=%lu, reported=%lu\n",
+                driverName, functionName, (long)dataSize, (long)dataSizePG);
+            //return asynError;
+        }
+        setIntegerParam(NDArraySizeX, nCols);
+        setIntegerParam(NDArraySizeY, nRows);
+        setIntegerParam(NDArraySize, (int)dataSize);
+        setIntegerParam(NDDataType,dataType);
+        if (nDims == 3) {
+            colorMode = NDColorModeRGB1;
+        } else {
+            /* If the color mode is currently set to Bayer leave it alone */
+            getIntegerParam(NDColorMode, (int *)&colorMode);
+            if (colorMode != NDColorModeBayer) colorMode = NDColorModeMono;
+        }
+        setIntegerParam(NDColorMode, colorMode);
+
+        pRaw_ = pNDArrayPool->alloc(nDims, dims, dataType, 0, NULL);
+        if (!pRaw_) {
+            /* If we didn't get a valid buffer from the NDArrayPool we must abort
+             * the acquisition as we have nowhere to dump the data...       */
+            setIntegerParam(ADStatus, ADStatusAborting);
+            callParamCallbacks();
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
+                "%s::%s [%s] ERROR: Serious problem: not enough buffers left! Aborting acquisition!\n",
+                driverName, functionName, portName);
+            setIntegerParam(ADAcquire, 0);
             continue;
         }
+        pData = pImageOut->GetData();
+        memcpy(pRaw_->pData, pData, dataSize);
+
+        /* Put the frame number into the buffer */
+        pRaw_->uniqueId = metaData.embeddedFrameCounter;
+        getIntegerParam(PGTimeStampMode, &timeStampMode);
+        updateTimeStamp(&pRaw_->epicsTS);
+        /* Set the timestamps in the buffer */
+        switch (timeStampMode) {
+            case TimeStampCamera:
+                // Some Point Grey cameras return seconds and microseconds, others cycleSeconds, etc. fields
+                if (timeStamp.seconds != 0) {
+                    pRaw_->timeStamp = (double)timeStamp.seconds + 
+                                       (double)timeStamp.microSeconds / 1.e6;
+                } else {
+                    pRaw_->timeStamp = (double)timeStamp.cycleSeconds + 
+                                       (double)timeStamp.cycleCount / 8000. + 
+                                       (double)timeStamp.cycleOffset / 8000. / 3072.;
+                }
+                break;
+            case TimeStampEPICS:
+                pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;
+                break;
+            case TimeStampHybrid:
+                // For now we just use EPICS time
+                pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;
+                break;
+        }
+
+        /* Get any attributes that have been defined for this driver */        
+        getAttributes(pRaw_->pAttributeList);
+
+        /* Change the status to be readout... */
+        setIntegerParam(ADStatus, ADStatusReadout);
+        callParamCallbacks();
+
+        pRaw_->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
 
         getIntegerParam(NDArrayCounter, &imageCounter);
         getIntegerParam(ADNumImages, &numImages);
@@ -929,227 +1173,16 @@ void pointGrey::imageGrabTask()
         }
         /* Release the NDArray buffer now that we are done with it.
          * After the callback just above we don't need it anymore */
+        delete pImageIn;
         pRaw_->release();
         pRaw_ = NULL;
 
         /* See if acquisition is done if we are in single or multiple mode */
         if ((imageMode == ADImageSingle) || ((imageMode == ADImageMultiple) && (numImagesCounter >= numImages))) {
-            status = stopCapture();
+            stopCapture();
         }
         callParamCallbacks();
     }
-}
-
-asynStatus pointGrey::grabImage()
-{
-    asynStatus status = asynSuccess;
-    Error error;
-    unsigned int nRows, nCols, stride;
-    PixelFormat pixelFormat;
-    BayerTileFormat bayerFormat;
-    NDDataType_t dataType;
-    NDColorMode_t colorMode;
-    Image *pPGImage;
-    ImageMetadata metaData;
-    TimeStamp timeStamp;
-    int convertPixelFormat;
-    int numColors;
-    size_t dims[3];
-    int pixelSize;
-    size_t dataSize, dataSizePG;
-    double bandwidth;
-    double frameRate;
-    void *pData;
-    int nDims;
-    int timeStampMode;
-    static const char *functionName = "grabImage";
-
-    /* unlock the driver while we wait for a new image to be ready */
-    unlock();
-    asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s calling CameraBase::RetrieveBuffer, pCameraBase_=%p, pPGRawImage_=%p\n",
-        driverName, functionName, pCameraBase_, pPGRawImage_);
-    error = pCameraBase_->RetrieveBuffer(pPGRawImage_);
-    lock();
-    if (error != PGRERROR_OK) {
-        if (error == PGRERROR_ISOCH_NOT_STARTED) {
-            // This is an expected error if acquisition was stopped externally
-            return asynError;
-        } 
-        checkError(error, functionName, "RetrieveBuffer");
-        if (error == PGRERROR_IMAGE_CONSISTENCY_ERROR) {
-            return asynError;
-        } else {
-            //  Any other error we turn off acquisition and return an error
-            setIntegerParam(ADAcquire, 0);
-            return asynError;
-        }
-    }
-    pPGRawImage_->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);    
-    metaData = pPGRawImage_->GetMetadata();    
-    timeStamp = pPGRawImage_->GetTimeStamp();    
-    pPGImage = pPGRawImage_;
-    // Calculate bandwidth
-    dataSizePG = pPGRawImage_->GetReceivedDataSize();
-    getDoubleParam(FRAME_RATE, PGPropertyValueAbs, &frameRate);
-    bandwidth = frameRate * dataSizePG / (1024 * 1024);
-    setDoubleParam(PGBandwidth, bandwidth);
-
-    // If the incoming pixel format is raw[8,12,16] or mono12 and convertPixelFormat is non-zero then convert
-    // the pixel format of the image
-    getIntegerParam(PGConvertPixelFormat, &convertPixelFormat);
-    if (((pixelFormat == PIXEL_FORMAT_RAW8)   ||
-         (pixelFormat == PIXEL_FORMAT_RAW12)  ||
-         (pixelFormat == PIXEL_FORMAT_MONO12) ||
-         (pixelFormat == PIXEL_FORMAT_RAW16)) &&
-          convertPixelFormat != 0) {
-        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-            "%s::%s calling Image::Convert, pPGRawImage_=%p, convertPixelFormat=%d, pPGConvertedImage_=%p\n",
-            driverName, functionName, pPGRawImage_, convertPixelFormat, pPGConvertedImage_);
-        error = pPGRawImage_->Convert((PixelFormat)convertPixelFormat, pPGConvertedImage_);
-        if (checkError(error, functionName, "Convert") == 0)
-            pPGImage = pPGConvertedImage_;
-    }
-    
-    pPGImage->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);
-    switch (pixelFormat) {
-        case PIXEL_FORMAT_MONO8:
-        case PIXEL_FORMAT_RAW8:
-            dataType = NDUInt8;
-            colorMode = NDColorModeMono;
-            numColors = 1;
-            pixelSize = 1;
-            break;
-
-        case PIXEL_FORMAT_RGB8:
-            dataType = NDUInt8;
-            colorMode = NDColorModeRGB1;
-            numColors = 3;
-            pixelSize = 1;
-            break;
-
-        case PIXEL_FORMAT_MONO16:
-        case PIXEL_FORMAT_RAW16:
-            dataType = NDUInt16;
-            colorMode = NDColorModeMono;
-            numColors = 1;
-            pixelSize = 2;
-            break;
-
-        case PIXEL_FORMAT_S_MONO16:
-            dataType = NDInt16;
-            colorMode = NDColorModeMono;
-            numColors = 1;
-            pixelSize = 2;
-            break;
-
-        case PIXEL_FORMAT_RGB16:
-            dataType = NDUInt16;
-            colorMode = NDColorModeRGB1;
-            numColors = 3;
-            pixelSize = 2;
-            break;
-
-        case PIXEL_FORMAT_S_RGB16:
-            dataType = NDInt16;
-            colorMode = NDColorModeRGB1;
-            numColors = 3;
-            pixelSize = 2;
-            break;
-
-        default:
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                "%s:%s: unsupported pixel format=0x%x\n",
-                driverName, functionName, pixelFormat);
-            return asynError;
-    }
-
-    if (numColors == 1) {
-        nDims = 2;
-        dims[0] = nCols;
-        dims[1] = nRows;
-    } else {
-        nDims = 3;
-        dims[0] = 3;
-        dims[1] = nCols;
-        dims[2] = nRows;
-    }
-    dataSize = dims[0] * dims[1] * pixelSize;
-    if (nDims == 3) dataSize *= dims[2];
-    dataSizePG = pPGImage->GetDataSize();
-    // Note, we should be testing for equality here.  However, there appears to be a bug in the
-    // SDK when images are converted.  When converting from raw8 to mono8, for example, the
-    // size returned by GetDataSize is the size of an RGB8 image, not a mono8 image.
-    if (dataSize > dataSizePG) {
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-            "%s:%s: data size mismatch: calculated=%lu, reported=%lu\n",
-            driverName, functionName, (long)dataSize, (long)dataSizePG);
-        //return asynError;
-    }
-    setIntegerParam(NDArraySizeX, nCols);
-    setIntegerParam(NDArraySizeY, nRows);
-    setIntegerParam(NDArraySize, (int)dataSize);
-    setIntegerParam(NDDataType,dataType);
-    if (nDims == 3) {
-        colorMode = NDColorModeRGB1;
-    } else {
-        /* If the color mode is currently set to Bayer leave it alone */
-        getIntegerParam(NDColorMode, (int *)&colorMode);
-        if (colorMode != NDColorModeBayer) colorMode = NDColorModeMono;
-    }
-    setIntegerParam(NDColorMode, colorMode);
-
-    pRaw_ = pNDArrayPool->alloc(nDims, dims, dataType, 0, NULL);
-    if (!pRaw_) {
-        /* If we didn't get a valid buffer from the NDArrayPool we must abort
-         * the acquisition as we have nowhere to dump the data...       */
-        setIntegerParam(ADStatus, ADStatusAborting);
-        callParamCallbacks();
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s [%s] ERROR: Serious problem: not enough buffers left! Aborting acquisition!\n",
-            driverName, functionName, portName);
-        setIntegerParam(ADAcquire, 0);
-        return(asynError);
-    }
-    pData = pPGImage->GetData();
-    memcpy(pRaw_->pData, pData, dataSize);
-
-    /* Put the frame number into the buffer */
-    pRaw_->uniqueId = metaData.embeddedFrameCounter;
-    getIntegerParam(PGTimeStampMode, &timeStampMode);
-    updateTimeStamp(&pRaw_->epicsTS);
-    /* Set the timestamps in the buffer */
-    switch (timeStampMode) {
-        case TimeStampCamera:
-            // Some Point Grey cameras return seconds and microseconds, others cycleSeconds, etc. fields
-            if (timeStamp.seconds != 0) {
-                pRaw_->timeStamp = (double)timeStamp.seconds + 
-                                   (double)timeStamp.microSeconds / 1.e6;
-            } else {
-                pRaw_->timeStamp = (double)timeStamp.cycleSeconds + 
-                                   (double)timeStamp.cycleCount / 8000. + 
-                                   (double)timeStamp.cycleOffset / 8000. / 3072.;
-            }
-            break;
-        case TimeStampEPICS:
-            pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;
-            break;
-        case TimeStampHybrid:
-            // For now we just use EPICS time
-            pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;
-            break;
-    }
-    
-    /* Get any attributes that have been defined for this driver */        
-    getAttributes(pRaw_->pAttributeList);
-    
-    /* Change the status to be readout... */
-    setIntegerParam(ADStatus, ADStatusReadout);
-    callParamCallbacks();
-
-    pRaw_->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
-
-    return status;
 }
 
 

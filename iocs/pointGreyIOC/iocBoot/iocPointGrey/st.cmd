@@ -14,7 +14,9 @@ epicsEnvSet("PREFIX", "13PG1:")
 # This is the GSECARS tomography camera
 #epicsEnvSet("CAMERA_ID", "13510305")
 # This is the 13-ID-D Grasshopper3 GigE camera, gse-pointgrey2
-epicsEnvSet("CAMERA_ID", "14481221")
+#epicsEnvSet("CAMERA_ID", "14481221")
+# This is the 13-ID-D Grasshopper3 GigE camera, gse-pointgrey3
+epicsEnvSet("CAMERA_ID", "14481209")
 # This is the GSECARS LVP camera
 #epicsEnvSet("CAMERA_ID", "14120134")
 # This is the 2-BM camera

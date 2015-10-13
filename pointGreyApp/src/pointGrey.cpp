@@ -988,20 +988,21 @@ void pointGrey::imageProcessTask()
         /* unlock the driver while we wait for a new image to arrive in the message queue */
         unlock();
         epicsMessageQueueReceive(this->messageQueueId_, &pImageIn, sizeof(&pImageIn));
-        lock();
         pImageIn->GetDimensions(&nRows, &nCols, &stride, &pixelFormat, &bayerFormat);    
         metaData = pImageIn->GetMetadata();    
         timeStamp = pImageIn->GetTimeStamp();    
         pImageOut = pImageIn;
         // Calculate bandwidth
         dataSizePG = pImageIn->GetReceivedDataSize();
+        lock();
         getDoubleParam(FRAME_RATE, PGPropertyValueAbs, &frameRate);
         bandwidth = frameRate * dataSizePG / (1024 * 1024);
         setDoubleParam(PGBandwidth, bandwidth);
+        getIntegerParam(PGConvertPixelFormat, &convertPixelFormat);
 
+        unlock();
         // If the incoming pixel format is raw[8,12,16] or mono12 and convertPixelFormat is non-zero then convert
         // the pixel format of the image
-        getIntegerParam(PGConvertPixelFormat, &convertPixelFormat);
         if (((pixelFormat == PIXEL_FORMAT_RAW8)   ||
              (pixelFormat == PIXEL_FORMAT_RAW12)  ||
              (pixelFormat == PIXEL_FORMAT_MONO12) ||
@@ -1065,6 +1066,7 @@ void pointGrey::imageProcessTask()
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                     "%s:%s: unsupported pixel format=0x%x\n",
                     driverName, functionName, pixelFormat);
+                lock();
                 continue;
         }
 
@@ -1088,8 +1090,8 @@ void pointGrey::imageProcessTask()
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                 "%s:%s: data size mismatch: calculated=%lu, reported=%lu\n",
                 driverName, functionName, (long)dataSize, (long)dataSizePG);
-            //return asynError;
         }
+        lock();
         setIntegerParam(NDArraySizeX, nCols);
         setIntegerParam(NDArraySizeY, nRows);
         setIntegerParam(NDArraySize, (int)dataSize);

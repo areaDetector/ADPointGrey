@@ -197,7 +197,7 @@ record(ao, "$(P)$(R)StrobeDelay") {
   field(DTYP, "asynFloat64")
   field(OUT,  "@asyn($(PORT) 0)PG_STROBE_DELAY")
   field(PREC, "3")
-  field(VAL, "1.0")
+  field(VAL, "0.01")
 }
 
 record(ai, "$(P)$(R)StrobeDelay_RBV") {
@@ -212,7 +212,7 @@ record(ao, "$(P)$(R)StrobeDuration") {
   field(DTYP, "asynFloat64")
   field(OUT,  "@asyn($(PORT) 0)PG_STROBE_DURATION")
   field(PREC, "3")
-  field(VAL, "1.0")
+  field(VAL, "0.01")
 }
 
 record(ai, "$(P)$(R)StrobeDuration_RBV") {

@@ -19,10 +19,18 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-2 (8-October-2015)
+R2-2 (17-October-2015)
 ----
 * Updated from version 2.7.3 to 2.8.3 of the Flycap2 library.
-* Changed driver so that corrupted images are discarded and not passed to plugins.
+* Changed driver so that corrupt images are discarded and not passed to plugins.
+* Changed the default values of StrobeDelay and StrobeDuration from 1 second to 0.01 second.
+  1 second is larger than the maximum supported value and caused errors at iocInit.
+* Displays (pointGrey.[adl,edl,ui,opi])
+  * Changed the format of the StrobeDelay and StrobeDuration display widgets from decimal to
+    exponential because they can range from microseconds to tens of milliseconds.
+  * Added widget for FrameRateOnOff to the main pointGrey.adl display because this is frequently changed.
+  * Fixed size of text widgets in adl file to improve conversion to caQtDM.
+
 
 R2-1-1 (22-April-2015)
 ----

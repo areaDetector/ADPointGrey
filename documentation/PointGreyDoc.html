@@ -10,7 +10,7 @@
     <h1>
       Point Grey areaDetector driver</h1>
     <h2>
-      February 21, 2014</h2>
+      October 18, 2015</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
@@ -20,6 +20,7 @@
     Table of Contents</h2>
   <ul>
     <li><a href="#Introduction">Introduction</a></li>
+    <li><a href="#Firmware">Camera firmware</a></li>
     <li><a href="#VideoModes">Video modes</a></li>
     <li><a href="#Format7Modes">Format7 modes</a></li>
     <li><a href="#PixelFormats">Pixel formats</a></li>
@@ -65,6 +66,18 @@
     extent, which facilitates writing a driver that works with all of the Point Grey
     cameras.
   </p>
+  <h2 id="Firmware" style="text-align: left">
+    Camera firmware</h2>
+  <p>
+    Point Grey frequently updates the available firmware for each camera to add features
+    and fix bugs. However, they are not very good about putting the link to the latest
+    firmware on their Web site. They claim this is because they only put the firmware
+    on the Web site once it has been tested on all camera models in the camera family
+    on which that firmware runs. In practice the firmware version listed on the Web
+    site is often old and buggy. I have encouraged them to make the latest firmware
+    more easily available. At present one must e-mail the support team (support@ptgrey.com)
+    and ask them if newer firmware is available for a particular camera, and if so to
+    provide access to it. They normally do this by sending a link to a Dropbox folder.</p>
   <h2 id="VideoModes" style="text-align: left">
     Video modes</h2>
   <p>

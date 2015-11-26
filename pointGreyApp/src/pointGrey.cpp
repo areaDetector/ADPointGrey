@@ -374,8 +374,6 @@ protected:
     int PGPacketDelayActual;      /** Packet delay in usec from camera, GigE only     (int32 read) */
     int PGBandwidth;              /** Bandwidth in MB/s                               (float64 read) */
     int PGTimeStampMode;          /** Time stamp mode (PGTimeStamp_t)                 (int32 write/read) */
-    int PGHeartbeat;              /** Hearbeat, GigE only                             (int32 write/read) */
-    int PGHeartbeatTimeout;       /** Heartbeat timeout, GigE only                    (int32 write/read) */
     int PGCorruptFrames;          /** Number of corrupt frames                        (int32 read) */
     int PGDriverDropped;          /** Number of driver dropped frames                 (int32 read) */
     int PGTransmitFailed;         /** Number of transmit failures                     (int32 read) */
@@ -1774,29 +1772,22 @@ asynStatus pointGrey::setFormat7Params()
         "  pCamera_=%p, &f7Settings=%p, &f7SettingsValid=%p, &f7PacketInfo=%p\n"
         "  f7Settings: mode=%d, offsetX=%d, offsetY=%d, width=%d, height=%d, pixelFormat=0x%x\n",
         driverName, functionName, pCamera_, &f7Settings, &f7SettingsValid, &f7PacketInfo,
-        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, f7Settings.pixelFormat);
+        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, 
+        f7Settings.pixelFormat);
     error = pCamera_->ValidateFormat7Settings(&f7Settings, &f7SettingsValid, &f7PacketInfo);
     if (checkError(error, functionName, "ValidateFormat7Settings")) 
         return asynError;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-        "%s::%s Camera::ValidateFormat7Settings returned f7SettingsValid=%d\n",
-        driverName, functionName, f7SettingsValid);
+        "%s::%s Camera::ValidateFormat7Settings returned f7SettingsValid=%d\n"       
+        "  f7PacketInfo: unit=%d, min=%d, max=%d, recommended=%d\n", 
+        driverName, functionName, f7SettingsValid,
+        f7PacketInfo.unitBytesPerPacket, f7PacketInfo.maxBytesPerPacket, f7PacketInfo.recommendedBytesPerPacket);
     if (!f7SettingsValid) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s::%s ERROR ValidateFormat7Settings returned false\n",
             driverName, functionName);
         return asynError;
     }    
-
-    /* Attempt to write the parameters to camera */
-    asynPrint(pasynUserSelf, ASYN_TRACE_FLOW, 
-        "%s::%s setting format 7 parameters sizeX=%d, sizeY=%d, minX=%d, minY=%d, pixelFormat=0x%x\n",
-        driverName, functionName, sizeX, sizeY, minX, minY, pixelFormat);
-
-    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER,
-        "%s:%s bytes per packet: min=%d, max=%d, recommended=%d, actually setting=%d\n", 
-        driverName, functionName, f7PacketInfo.unitBytesPerPacket, f7PacketInfo.maxBytesPerPacket, 
-        f7PacketInfo.recommendedBytesPerPacket, f7PacketInfo.recommendedBytesPerPacket);
 
     /* Must stop acquisition before changing the video mode */
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
@@ -1806,21 +1797,22 @@ asynStatus pointGrey::setFormat7Params()
     resumeAcquire = (error == PGRERROR_OK);
     getIntegerParam(PGPacketSize, &itemp);
     packetSize = itemp;
-    setIntegerParam(PGMaxPacketSize, pFormat7Info_->maxPacketSize);
+    setIntegerParam(PGMaxPacketSize, f7PacketInfo.maxBytesPerPacket);
     if (packetSize <= 0) {
         packetSize = f7PacketInfo.recommendedBytesPerPacket;
     } else {
         // Packet size must be a multiple of unitBytesPerPacket
         packetSize = (packetSize/f7PacketInfo.unitBytesPerPacket) * f7PacketInfo.unitBytesPerPacket;
         if (packetSize < pFormat7Info_->minPacketSize) packetSize = pFormat7Info_->minPacketSize;
-        if (packetSize > pFormat7Info_->maxPacketSize) packetSize = pFormat7Info_->maxPacketSize;
+        if (packetSize > f7PacketInfo.maxBytesPerPacket) packetSize = f7PacketInfo.maxBytesPerPacket;
     }
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
         "%s::%s calling Camera::SetFormat7Configuration\n"
         "  pCamera_=%p, &f7Settings=%p, packetSize=%d\n"
         "  f7Settings: mode=%d, offsetX=%d, offsetY=%d, width=%d, height=%d, pixelFormat=0x%x\n",
         driverName, functionName, pCamera_, &f7Settings, packetSize,
-        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, f7Settings.pixelFormat);
+        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, 
+        f7Settings.pixelFormat);
     error = pCamera_->SetFormat7Configuration(&f7Settings, packetSize);
     checkError(error, functionName, "SetFormat7Configuration");
     if (resumeAcquire) {
@@ -1840,7 +1832,8 @@ asynStatus pointGrey::setFormat7Params()
         "  pCamera_=%p, &f7Settings=%p, packetSizeActual=%d, percentage=%f\n"
         "  f7Settings: mode=%d, offsetX=%d, offsetY=%d, width=%d, height=%d, pixelFormat=0x%x\n",
         driverName, functionName, pCamera_, &f7Settings, packetSizeActual, percentage,
-        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, f7Settings.pixelFormat);
+        f7Settings.mode, f7Settings.offsetX, f7Settings.offsetY, f7Settings.width, f7Settings.height, 
+        f7Settings.pixelFormat);
     setIntegerParam(ADMinX,        f7Settings.offsetX);
     setIntegerParam(ADMinY,        f7Settings.offsetY);
     setIntegerParam(ADSizeX,       f7Settings.width);

@@ -20,7 +20,7 @@ record(bi, "$(P)$(R)$(PROPERTY)OnOffAvail") {
 
 ## Set the on/off mode
 record(bo, "$(P)$(R)$(PROPERTY)OnOff") {
-  field(PINI, "$(PINI)")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_ON_OFF")
   field(ZNAM, "Off")
@@ -74,7 +74,7 @@ record(bi, "$(P)$(R)$(PROPERTY)ManAvail") {
 
 ## Set the manual/auto mode
 record(bo, "$(P)$(R)$(PROPERTY)AutoMode") {
-  field(PINI, "$(PINI)")
+  field(PINI, "YES")
   field(DTYP, "asynInt32")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_AUTO_MODE")
   field(ZNAM, "Manual")
@@ -112,6 +112,7 @@ record(bi, "$(P)$(R)$(PROPERTY)AbsMode_RBV") {
 record(ao, "$(P)$(R)$(PROPERTY)Val") {
   field(PINI, "$(PINI)")
   field(DTYP, "asynInt32")
+  field(PHAS, "$(PHAS)")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL")
 }
 
@@ -126,6 +127,7 @@ record(ai, "$(P)$(R)$(PROPERTY)Val_RBV") {
 record(ao, "$(P)$(R)$(PROPERTY)ValB") {
   field(PINI, "$(PINI_VALB)")
   field(DTYP, "asynInt32")
+  field(PHAS, "$(PHAS)")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL_B")
 }
 
@@ -184,6 +186,7 @@ record(dfanout, "$(P)$(R)$(PROPERTY)ValHopr") {
 record(ao, "$(P)$(R)$(PROPERTY)ValAbs") {
   field(PINI, "$(PINI_ABS)")
   field(DTYP, "asynFloat64")
+  field(PHAS, "$(PHAS)")
   field(OUT, "@asyn($(PORT) $(N))PG_PROP_VAL_ABS")
   field(PREC, "3")
 }

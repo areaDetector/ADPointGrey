@@ -640,8 +640,6 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
     }
     getAllGigEProperties();
 
-//    if (traceMask > ASYN_TRACE_ERROR) report(stdout, 1);
-
     createStaticEnums();
     createDynamicEnums();
 
@@ -1356,13 +1354,14 @@ asynStatus pointGrey::setPropertyAutoMode(PropertyType propType, int value)
     static const char *functionName = "setPropertyAutoMode";
     
     /* First check if the propertyType is valid for this camera */
-    if (!pProperty->present) return asynError;
+    if (!pProperty->present) return asynSuccess;
 
     /* Check if the desired mode is even supported by the camera on this propertyType */
+    /* If not, return with no error */
     if (value == 0) {
-        if (!pPropInfo->manualSupported) return asynError;
+        if (!pPropInfo->manualSupported) return asynSuccess;
     } else {
-        if (!pPropInfo->autoSupported) return asynError;
+        if (!pPropInfo->autoSupported) return asynSuccess;
     }
 
     /* Send the propertyType mode to the camera */
@@ -1387,10 +1386,10 @@ asynStatus pointGrey::setPropertyOnOff(PropertyType propType, int onOff)
     static const char *functionName = "setPropertyAutoMode";
     
     /* First check if the propertyType is valid for this camera */
-    if (!pProperty->present) return asynError;
+    if (!pProperty->present) return asynSuccess;
 
     /* Check if onOff is supported by the camera on this propertyType */
-    if (!pPropInfo->onOffSupported) return asynError;
+    if (!pPropInfo->onOffSupported) return asynSuccess;
 
     /* Send the onOff mode to the camera */
     pProperty->onOff = onOff ? true : false;
@@ -1414,10 +1413,10 @@ asynStatus pointGrey::setPropertyOnePush(PropertyType propType)
     static const char *functionName = "setPropertyAutoMode";
     
     /* First check if the propertyType is valid for this camera */
-    if (!pProperty->present) return asynError;
+    if (!pProperty->present) return asynSuccess;
 
     /* Check if onePush is supported by the camera on this propertyType */
-    if (!pPropInfo->onePushSupported) return asynError;
+    if (!pPropInfo->onePushSupported) return asynSuccess;
 
     /* Send the onePush to the camera */
     pProperty->onePush = true;
@@ -1444,16 +1443,10 @@ asynStatus pointGrey::setPropertyValue(PropertyType propType, int value, propVal
     static const char *functionName = "setPropertyValue";
 
     /* First check if the propertyType is valid for this camera */
-    if (!pProperty->present) return asynError;
-
-    /* Enable control for this propertyType */
-    pProperty->onOff = true;
+    if (!pProperty->present) return asynSuccess;
 
     /* Disable absolute mode control for this propertyType */
     pProperty->absControl = false;
-
-    /* Disable automatic mode control for this propertyType */
-    pProperty->autoManualMode = false;
 
     /* Check the value is within the expected boundaries */
     if (value < (int)pPropInfo->min || value > (int)pPropInfo->max) {
@@ -1490,7 +1483,7 @@ asynStatus pointGrey::setGigEPropertyValue(GigEPropertyType propType, int value)
     if (pGigECamera_ == NULL) return asynSuccess;
     
     /* First check if the propertyType is writeable for this camera */
-    if (!pProperty->isWritable) return asynError;
+    if (!pProperty->isWritable) return asynSuccess;
 
     /* Check the value is within the expected boundaries */
     if (value < (int)pProperty->min || value > (int)pProperty->max) {
@@ -1523,26 +1516,10 @@ asynStatus pointGrey::setPropertyAbsValue(PropertyType propType, epicsFloat64 va
     static const char *functionName = "setPropertyAbsValue";
 
     /* First check if the propertyType is valid for this camera */
-    if (!pProperty->present) {
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s error setting propertyType %s: property is not supported by this camera\n",
-            driverName, functionName, propertyTypeStrings[propType]);
-        return asynError;
-    }
-
-    /* Disable automatic mode control for this propertyType */
-    pProperty->autoManualMode = false;
+    if (!pProperty->present) return asynSuccess;
 
    /* Check if the specific propertyType supports absolute values */
-    if (!pPropInfo->absValSupported) { 
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s::%s error setting propertyType %s: No absolute control for this propertyType\n",
-            driverName, functionName, propertyTypeStrings[propType]);
-        return asynError;
-    }
-
-    /* Enable control for this propertyType */
-    pProperty->onOff = true;
+    if (!pPropInfo->absValSupported) return asynSuccess;
 
      /* Enable absolute mode control for this propertyType */
     pProperty->absControl = true;
@@ -1779,7 +1756,7 @@ asynStatus pointGrey::setFormat7Params()
         return asynError;
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
         "%s::%s Camera::ValidateFormat7Settings returned f7SettingsValid=%d\n"       
-        "  f7PacketInfo: unit=%d, min=%d, max=%d, recommended=%d\n", 
+        "  f7PacketInfo: unit=%d, max=%d, recommended=%d\n", 
         driverName, functionName, f7SettingsValid,
         f7PacketInfo.unitBytesPerPacket, f7PacketInfo.maxBytesPerPacket, f7PacketInfo.recommendedBytesPerPacket);
     if (!f7SettingsValid) {
@@ -2531,6 +2508,7 @@ asynStatus pointGrey::getAllProperties()
              * all the parameters to 0 or -1 to indicate this is not available to the user. */
             setIntegerParam(addr, PGPropertyAvail,        0);
             setIntegerParam(addr, PGPropertyOnOffAvail,   0);
+            setIntegerParam(addr, PGPropertyOnOff,        0);
             setIntegerParam(addr, PGPropertyOnePushAvail, 0);
             setIntegerParam(addr, PGPropertyAutoAvail,    0);
             setIntegerParam(addr, PGPropertyManAvail,     0);

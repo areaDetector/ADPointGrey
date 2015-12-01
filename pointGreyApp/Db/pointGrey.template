@@ -33,6 +33,7 @@ record(mbbi, "$(P)$(R)VideoMode_RBV") {
 record(mbbo, "$(P)$(R)Format7Mode") {
   field(PINI, "YES")
   field(DTYP, "asynInt32")
+  field(PHAS, "1")
   field(OUT,  "@asyn($(PORT) 0)PG_FORMAT7_MODE")
 }
 
@@ -45,7 +46,7 @@ record(mbbi, "$(P)$(R)Format7Mode_RBV") {
 ## Framerate when the camera is not in the ROI/format7 mode
 record(mbbo, "$(P)$(R)FrameRate") {
   field(PINI, "YES")
-  field(PHAS, "2")
+  field(PHAS, "3")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_FRAME_RATE")
 }
@@ -59,6 +60,7 @@ record(mbbi, "$(P)$(R)FrameRate_RBV") {
 ## Format 7 pixel format
 record(mbbo, "$(P)$(R)PixelFormat") {
   field(PINI, "YES")
+  field(PHAS, "2")
   field(DTYP, "asynInt32")
   field(OUT,  "@asyn($(PORT) 0)PG_PIXEL_FORMAT")
 }
@@ -226,6 +228,7 @@ record(ai, "$(P)$(R)StrobeDuration_RBV") {
 record(longout, "$(P)$(R)PacketSize") {
   field(PINI, "YES")
   field(DTYP, "asynInt32")
+  field(PHAS, "2")
   field(OUT,  "@asyn($(PORT) 0)PG_PACKET_SIZE")
 }
 
@@ -251,6 +254,7 @@ record(longin, "$(P)$(R)MaxPacketSize") {
 record(longout, "$(P)$(R)PacketDelay") {
   field(PINI, "YES")
   field(DTYP, "asynInt32")
+  field(PHAS, "2")
   field(OUT,  "@asyn($(PORT) 0)PG_PACKET_DELAY")
 }
 

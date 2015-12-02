@@ -11,25 +11,27 @@
 file "$(ADPOINTGREY)/db/pointGreyProperty.template" 
 { 
 pattern
-{     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_VALB, PINI_ABS}
-{13PG1:, cam1:,    PG1,   Brightness,     0,  YES,    NO,     NO}
-{13PG1:, cam1:,    PG1, AutoExposure,     1,  YES,    NO,     NO}
-{13PG1:, cam1:,    PG1,    Sharpness,     2,  YES,    NO,     NO}
-{13PG1:, cam1:,    PG1, WhiteBalance,     3,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,          Hue,     4,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,   Saturation,     5,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,        Gamma,     6,  YES,    NO,     NO}
-{13PG1:, cam1:,    PG1,         Iris,     7,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,        Focus,     8,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,         Zoom,     9,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,          Pan,    10,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,         Tilt,    11,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,      Shutter,    12,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,         Gain,    13,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,  TriggerMode,    14,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1, TriggerDelay,    15,   NO,    NO,    YES}
-{13PG1:, cam1:,    PG1,    FrameRate,    16,   NO,    NO,     NO}
-{13PG1:, cam1:,    PG1,  Temperature,    17,   NO,    NO,     NO}
+{     P,     R,   PORT,     PROPERTY,     N, PINI, PINI_VALB, PINI_ABS, PHAS}
+{13PG1:, cam1:,    PG1,   Brightness,     0,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1, AutoExposure,     1,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1,    Sharpness,     2,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1, WhiteBalance,     3,  YES,       YES,       NO,    1}
+{13PG1:, cam1:,    PG1,          Hue,     4,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1,   Saturation,     5,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1,        Gamma,     6,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1,         Iris,     7,  YES,        NO,       NO,    1}
+{13PG1:, cam1:,    PG1,        Focus,     8,  YES,        NO,       NO,    1}
+{13PG1:, cam1:,    PG1,         Zoom,     9,  YES,        NO,       NO,    1}
+{13PG1:, cam1:,    PG1,          Pan,    10,  YES,        NO,       NO,    1}
+{13PG1:, cam1:,    PG1,         Tilt,    11,  YES,        NO,       NO,    1}
+# Don't set PINI on Shutter property, it is set from AcquireTime record
+{13PG1:, cam1:,    PG1,      Shutter,    12,   NO,        NO,       NO,    1}
+# Don't set PINI on Gain property, it is set from Gain record
+{13PG1:, cam1:,    PG1,         Gain,    13,   NO,        NO,       NO,    1}
+{13PG1:, cam1:,    PG1,  TriggerMode,    14,   NO,        NO,       NO,    1}
+{13PG1:, cam1:,    PG1, TriggerDelay,    15,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1,    FrameRate,    16,   NO,        NO,      YES,    1}
+{13PG1:, cam1:,    PG1,  Temperature,    17,   NO,        NO,       NO,    1}
 }
 
 file "$(ADPOINTGREY)/db/pointGreyGigEProperty.template" 

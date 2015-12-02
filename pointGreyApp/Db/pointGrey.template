@@ -7,11 +7,19 @@
 include "ADBase.template"
 
 ## These are the records from ADBase.template that we modify
-## Disable ReadStatus when acquisition is active because queurying the detector 
+## Disable ReadStatus when acquisition is active because querying the detector 
 ## when it is streaming causes dropped frames
 record(bo, $(P)$(R)ReadStatus) {
   field(SDIS, "$(P)$(R)Acquire NPP NMS")
   field(DISV, "1")
+}
+
+# The Point Grey cameras use FrameRate rather than AcquirePeriod.  Make AcquirePeriod slave
+# to FrameRate and disable PINI so only FrameRate is restored from autosave
+record(ao, "$(P)$(R)AcquirePeriod")
+{
+   field(PINI, "NO")
+   info(asyn:READBACK, "1")
 }
 
 # These are records new to the Point Grey detector

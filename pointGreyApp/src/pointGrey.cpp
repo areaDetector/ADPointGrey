@@ -108,7 +108,7 @@ static const char *driverName = "pointGrey";
 #define NUM_BINNING_MODES 3
 
 // The maximum number of pixel formats to convert to when the input pixel format is PIXEL_FORMAT_RAW[8,12,16]
-#define NUM_CONVERT_PIXEL_FORMATS 5
+#define NUM_CONVERT_PIXEL_FORMATS 6
 
 // Default packet delay in microseconds
 #define DEFAULT_PACKET_DELAY 400
@@ -227,6 +227,7 @@ static const unsigned int binningModeValues[NUM_BINNING_MODES] = {
 static const char *convertPixelFormatStrings[NUM_CONVERT_PIXEL_FORMATS] = {
     "None",
     "Mono8",
+    "Raw16",
     "Mono16",
     "RGB8",
     "RGB16",
@@ -235,6 +236,7 @@ static const char *convertPixelFormatStrings[NUM_CONVERT_PIXEL_FORMATS] = {
 static const int convertPixelFormatValues[NUM_CONVERT_PIXEL_FORMATS] = {
     0,
     PIXEL_FORMAT_MONO8,
+    PIXEL_FORMAT_RAW16,
     PIXEL_FORMAT_MONO16,
     PIXEL_FORMAT_RGB8,
     PIXEL_FORMAT_RGB16,

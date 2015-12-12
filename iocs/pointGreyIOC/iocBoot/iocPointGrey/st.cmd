@@ -24,13 +24,14 @@ epicsEnvSet("CAMERA_ID", "13510305")
 # This is the GSECARS LVP camera
 #epicsEnvSet("CAMERA_ID", "14120134")
 # This is the 2-BM camera
-#epicsEnvSet("CAMERA_ID", "13510309")
+#epicsEnvSet("CAMERA_ID", "15355637")
 # This is the 2-BM GS3-U3-91S6M-C camera
 #epicsEnvSet("CAMERA_ID", "13510309")
 # Use this line for a specific camera by serial number, in this case a BlackFly GigE camera
 #epicsEnvSet("CAMERA_ID", "13481965")
 # Use this line for a specific camera by serial number, in this case a Flea3 GigE camera
 # epicsEnvSet("CAMERA_ID", "14273040")
+
 # The port name for the detector
 epicsEnvSet("PORT",   "PG1")
 # Really large queue so we can stream to disk at full camera speed

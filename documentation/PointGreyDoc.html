@@ -10,7 +10,7 @@
     <h1>
       Point Grey areaDetector driver</h1>
     <h2>
-      October 18, 2015</h2>
+      December 12, 2015</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
@@ -992,6 +992,7 @@
           The pixel formats from the camera that can be converted are:
           <ul>
             <li>Raw8</li>
+            <li>Raw12</li>
             <li>Raw16</li>
             <li>Mono12</li>
           </ul>
@@ -999,8 +1000,13 @@
           <ul>
             <li>None: The input pixel format is not converted.</li>
             <li>Mono8: The input pixel format is converted to Mono8.</li>
+            <li>Raw16: The input pixel format is converted to Raw16. This is useful when the input
+              pixel format is Raw12, since this saves network bandwidth.</li>
             <li>Mono16: The input pixel format is converted to Mono16. This is useful when the
-              input pixel format is Mono12, since this saves network bandwidth.</li>
+              input pixel format is Mono12, since this saves network bandwidth. Note that the
+              FlyCap2 library does not support converting Raw12 to Mono16. The difference between
+              Raw16 and Mono16 is that Mono16 has the sharpness and gamma corrections applied,
+              while Raw16 does not.</li>
             <li>RGB8: The input format is converted to RGB8. This is useful when the input format
               is Raw8, for a color camera. In this case Bayer color is sent on the network, reducing
               the bandwidth requirement by a factor of 3.</li>

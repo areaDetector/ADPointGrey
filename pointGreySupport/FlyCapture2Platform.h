@@ -16,14 +16,14 @@
 //=============================================================================
 
 //=============================================================================
-// $Id: FlyCapture2Platform.h 150960 2012-10-12 17:45:54Z warrenm $
+// $Id: FlyCapture2Platform.h 244578 2015-08-21 23:30:57Z matthewg $
 //=============================================================================
 
 #ifndef PGR_FC2_FLYCAPTURE2PLATFORM_H
 #define PGR_FC2_FLYCAPTURE2PLATFORM_H
 
 //=============================================================================
-// Platform-specific header file for FlyCapture2. 
+// Platform-specific header file for FlyCapture2.
 //
 // All the platform-specific code that is required by individual compilers
 // to produce the appropriate code for each platform.
@@ -35,7 +35,7 @@
 #ifdef FLYCAPTURE2_EXPORT
 #define FLYCAPTURE2_API __declspec( dllexport )
 #elif defined(FLYCAPTURE2_STATIC)
-#define FLYCAPTURE2_API 
+#define FLYCAPTURE2_API
 #else
 #define FLYCAPTURE2_API __declspec( dllimport )
 #endif

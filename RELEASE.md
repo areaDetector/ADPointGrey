@@ -19,6 +19,11 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-4 (XXX-June-2016)
+----
+* Updated from version 2.8.3 to 2.9.3 of the Flycap2 library.
+
+
 R2-3 (12-December-2015)
 ----
 * Fixed problem determining the maximum allowed packet size when calling SetFormat7Configuration.  

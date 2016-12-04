@@ -36,14 +36,15 @@ using namespace FlyCapture2;
 
 #include <epicsExport.h>
 
+#define DRIVER_VERSION      2
+#define DRIVER_REVISION     4
+#define DRIVER_MODIFICATION 0
+
 static const char *driverName = "pointGrey";
 
 #define MAX(x,y) ((x)>(y)?(x):(y))
 
 /* PointGrey driver specific parameters */
-#define PGSerialNumberString          "PG_SERIAL_NUMBER"
-#define PGFirmwareVersionString       "PG_FIRMWARE_VERSION"
-#define PGSoftwareVersionString       "PG_SOFTWARE_VERSION"
 #define PGPropertyAvailString         "PG_PROP_AVAIL"
 #define PGPropertyOnOffAvailString    "PG_PROP_ON_OFF_AVAIL"
 #define PGPropertyOnOffString         "PG_PROP_ON_OFF"
@@ -325,13 +326,10 @@ public:
     void shutdown();
 
 protected:
-    int PGSerialNumber;           /** Camera serial number (int32 read) */
-    #define FIRST_PG_PARAM PGSerialNumber
-    int PGFirmwareVersion;        /** Camera firmware version                         (octet read) */
-    int PGSoftwareVersion;        /** Camera software version                         (octet read) */
-                                  /** The following PGProperty parameters 
+                                 /** The following PGProperty parameters 
                                       all have addr: 0-NUM_PROPERTIES-1 */
     int PGPropertyAvail;          /** Property is available                           (int32 read) */
+    #define FIRST_PG_PARAM PGPropertyAvail
     int PGPropertyOnOffAvail;     /** Property on/off is available                    (int32 read) */
     int PGPropertyOnOff;          /** Property on/off                                 (int32 read) */
     int PGPropertyOnePushAvail;   /** Property one push is available                  (int32 read) */
@@ -539,9 +537,6 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
     if (traceMask == 0) traceMask = ASYN_TRACE_ERROR;
     pasynTrace->setTraceMask(pasynUserSelf, traceMask);
 
-    createParam(PGSerialNumberString,           asynParamInt32,   &PGSerialNumber);
-    createParam(PGFirmwareVersionString,        asynParamOctet,   &PGFirmwareVersion);
-    createParam(PGSoftwareVersionString,        asynParamOctet,   &PGSoftwareVersion);
     createParam(PGPropertyAvailString,          asynParamInt32,   &PGPropertyAvail);
     createParam(PGPropertyOnOffAvailString,     asynParamInt32,   &PGPropertyOnOffAvail);
     createParam(PGPropertyOnOffString,          asynParamInt32,   &PGPropertyOnOff);
@@ -803,17 +798,22 @@ asynStatus pointGrey::connectCamera(void)
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
         "%s::%s called CameraBase::GetCameraInfo, pCameraInfo_=%p, pCameraInfo_->serialNumber=%d\n",
         driverName, functionName, pCameraInfo_, pCameraInfo_->serialNumber);
-    setIntegerParam(PGSerialNumber, pCameraInfo_->serialNumber);
+
+    epicsSnprintf(tempString, sizeof(tempString), "%d", pCameraInfo_->serialNumber);
+    setStringParam(ADSerialNumber, tempString);
     setStringParam(ADManufacturer, pCameraInfo_->vendorName);
     setStringParam(ADModel, pCameraInfo_->modelName);
-    setStringParam(PGFirmwareVersion, pCameraInfo_->firmwareVersion);
+    setStringParam(ADFirmwareVersion, pCameraInfo_->firmwareVersion);
+    epicsSnprintf(tempString, sizeof(tempString), "%d.%d.%d", 
+                  DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
+    setStringParam(NDDriverVersion,tempString);
     
     Utilities::GetLibraryVersion(&version);
-    sprintf(tempString, "%d.%d.%d", version.major, version.minor, version.type);
+    epicsSnprintf(tempString, sizeof(tempString), "%d.%d.%d", version.major, version.minor, version.type);
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
         "%s::%s called Utilities::GetLibraryVersion, version=%s\n",
         driverName, functionName, tempString);
-    setStringParam(PGSoftwareVersion, tempString);
+    setStringParam(ADSDKVersion, tempString);
     
     // Get and set the embedded image info
     asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,

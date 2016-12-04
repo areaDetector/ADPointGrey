@@ -22,6 +22,8 @@ Release Notes
 R2-4 (XXX-June-2016)
 ----
 * Updated from version 2.8.3 to 2.9.3 of the Flycap2 library.
+* Replaced driver-specific parameters for serial number, firmware version and SDK version with the new
+  base class parameters from ADCore R2-6.  Minor change to driver and medm screen.
 
 
 R2-3 (12-December-2015)

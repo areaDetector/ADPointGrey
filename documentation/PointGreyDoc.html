@@ -38,14 +38,19 @@
       areaDetector</a> driver for cameras from <a href="http://www.ptgrey.com">Point Grey</a>.
     These include IEEE 1394 Firewire DCAM, GigE, USB 2.0, and USB 3.0 cameras. The driver
     should work with any Point Grey camera. It has been tested on Firewire (Flea2),
-    GigE (BlackFly, Flea3), and USB 3.0 (Grasshopper3) cameras. The driver has been
-    tested on Windows with all 3 of these cameras, but only with the GigE BlackyFly
-    and Flea3 on Linux. Note that Point Grey Firewire cameras can also be controlled
-    by the generic areaDetector <a href="FirewireWinDoc.html">Windows Firewire driver</a>
-    and the areaDetector <a href="http://controls.diamond.ac.uk/downloads/support/firewireDCAM/index.html">
-      Linux Firewire driver</a>, which work with Firewire cameras from any vendor. However,
-    this Point Grey driver provides access to some vendor-specific features like strobe
-    outputs that are not available in the generic drivers.
+    GigE (BlackFly, Flea3, Grasshopper3), and USB 3.0 (Grasshopper3) cameras. The driver
+    has been tested on Windows and Linux with all 3 of these cameras. Note that Point
+    Grey Firewire cameras can also be controlled by the generic areaDetector <a href="FirewireWinDoc.html">
+      Windows Firewire driver</a> and the areaDetector <a href="http://controls.diamond.ac.uk/downloads/support/firewireDCAM/index.html">
+        Linux Firewire driver</a>, which work with Firewire cameras from any vendor.
+    However, this Point Grey driver provides access to some vendor-specific features
+    like strobe outputs that are not available in the generic drivers.
+  </p>
+  <p>
+    On Linux the Point Grey FlyCap2 SDK requires glibc version 2.14. This means it cannot
+    be used on RHEL 6, but it can be used on RHEL 7, and Fedora 15 and higher. For USB3
+    cameras kernel version 3.5.0. This means USB3 cameras require Fedora 18 or higher,
+    or RHEL 7.0 or higher.
   </p>
   <p>
     This driver inherits from <a href="areaDetectorDoc.html#ADDriver">ADDriver</a>.
@@ -1914,14 +1919,14 @@
   <p>
     The memoryChannel can be set to a value &gt; 0 to load the initial camera parameters
     from non-volatile memory in the camera. Setting memoryChannel to N loads from memoryChannel
-    N-1, i.e. 1 loads memory channel 0. There is currently a bug in the Linux driver
-    for GigE cameras. If the IOC is run a second time after it has been used to acquire
-    any images the driver loses communication with the camera. The problem appears to
-    be that there is a corrupt setting in the camera, which causes it to malfunction
-    the next time the program is run. Setting memoryChannel 1 will work around this
-    problem by replacing the settings in the camera with a default set. Since the EPICS
-    IOC sets nearly all the camera settings to save/restore values at startup anyway,
-    this is not a serious limitation.</p>
+    N-1, i.e. 1 loads memory channel 0. There is currently a problem with Linux and
+    for BlackFly GigE cameras. If the IOC is run a second time after it has been used
+    to acquire any images the driver loses communication with the camera. The problem
+    appears to be that there is a corrupt setting in the camera, which causes it to
+    malfunction the next time the program is run. Setting memoryChannel 1 will work
+    around this problem by replacing the settings in the camera with a default set.
+    Since the EPICS IOC sets nearly all the camera settings to save/restore values at
+    startup anyway, this is not a serious limitation.</p>
   <p>
     There an example IOC boot directory and startup script (<a href="point_grey_st_cmd.html">iocBoot/iocPointGrey/st.cmd)</a>
     provided with areaDetector.

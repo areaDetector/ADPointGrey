@@ -19,7 +19,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-4 (XXX-June-2016)
+R2-4 (21-February-2017)
 ----
 * Updated from version 2.8.3 to 2.9.3 of the Flycap2 library.
 * Replaced driver-specific parameters for serial number, firmware version and SDK version with the new

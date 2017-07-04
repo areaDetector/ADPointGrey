@@ -19,6 +19,11 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-4-1 (4-July-2017)
+----
+* Updated medm screen layout for ADCore R3-0.
+
+
 R2-4 (21-February-2017)
 ----
 * Updated from version 2.8.3 to 2.9.3 of the Flycap2 library.

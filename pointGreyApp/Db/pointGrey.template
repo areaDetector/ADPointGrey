@@ -338,20 +338,3 @@ record(longin, "$(P)$(R)DroppedFrames_RBV") {
   field(SCAN, "I/O Intr")
 }
 
-record(longin, "$(P)$(R)SerialNumber") {
-   field(PINI, "YES")
-   field(DTYP, "asynInt32")
-   field(INP,  "@asyn($(PORT) 0)PG_SERIAL_NUMBER")
-}
-
-record(stringin, "$(P)$(R)FirmwareVersion") {
-   field(PINI, "YES")
-   field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT) 0)PG_FIRMWARE_VERSION")
-}
-
-record(stringin, "$(P)$(R)SoftwareVersion") {
-   field(PINI, "YES")
-   field(DTYP, "asynOctetRead")
-   field(INP,  "@asyn($(PORT) 0)PG_SOFTWARE_VERSION")
-}

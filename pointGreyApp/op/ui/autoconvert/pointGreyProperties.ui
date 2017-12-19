@@ -14,7 +14,6 @@
         <string>
 
 QWidget#centralWidget {background: rgba(187, 187, 187, 255);}
-QPushButton::menu-indicator {image: url(none.png); width: 0}
 
 caTable {
        font: 10pt;
@@ -174,7 +173,7 @@ border-radius: 2px;
                 <rect>
                     <x>230</x>
                     <y>50</y>
-                    <width>96</width>
+                    <width>70</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -244,7 +243,7 @@ border-radius: 2px;
                 <rect>
                     <x>200</x>
                     <y>75</y>
-                    <width>72</width>
+                    <width>60</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -280,7 +279,7 @@ border-radius: 2px;
                 <rect>
                     <x>281</x>
                     <y>75</y>
-                    <width>96</width>
+                    <width>80</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -316,7 +315,7 @@ border-radius: 2px;
                 <rect>
                     <x>377</x>
                     <y>75</y>
-                    <width>132</width>
+                    <width>110</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -352,7 +351,7 @@ border-radius: 2px;
                 <rect>
                     <x>620</x>
                     <y>50</y>
-                    <width>228</width>
+                    <width>190</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -425,7 +424,7 @@ border-radius: 2px;
                 <rect>
                     <x>549</x>
                     <y>75</y>
-                    <width>36</width>
+                    <width>30</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -461,7 +460,7 @@ border-radius: 2px;
                 <rect>
                     <x>707</x>
                     <y>75</y>
-                    <width>96</width>
+                    <width>80</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -497,7 +496,7 @@ border-radius: 2px;
                 <rect>
                     <x>795</x>
                     <y>75</y>
-                    <width>36</width>
+                    <width>30</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -533,7 +532,7 @@ border-radius: 2px;
                 <rect>
                     <x>857</x>
                     <y>75</y>
-                    <width>36</width>
+                    <width>30</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -569,7 +568,7 @@ border-radius: 2px;
                 <rect>
                     <x>1052</x>
                     <y>50</y>
-                    <width>192</width>
+                    <width>160</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -642,7 +641,7 @@ border-radius: 2px;
                 <rect>
                     <x>942</x>
                     <y>75</y>
-                    <width>36</width>
+                    <width>30</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -678,7 +677,7 @@ border-radius: 2px;
                 <rect>
                     <x>1105</x>
                     <y>75</y>
-                    <width>96</width>
+                    <width>80</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -714,7 +713,7 @@ border-radius: 2px;
                 <rect>
                     <x>1212</x>
                     <y>75</y>
-                    <width>36</width>
+                    <width>30</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -750,7 +749,7 @@ border-radius: 2px;
                 <rect>
                     <x>1292</x>
                     <y>75</y>
-                    <width>36</width>
+                    <width>30</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -795,7 +794,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>36</width>
+                        <width>30</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -1156,10 +1155,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -1173,6 +1175,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -1388,10 +1396,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -1405,6 +1416,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -1671,7 +1688,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>120</width>
+                        <width>100</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -2032,10 +2049,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -2049,6 +2069,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -2264,10 +2290,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -2281,6 +2310,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -2547,7 +2582,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>156</width>
+                        <width>130</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -2902,10 +2937,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -2919,6 +2957,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -3134,10 +3178,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -3151,6 +3198,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -3417,7 +3470,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>108</width>
+                        <width>90</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -3727,10 +3780,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -3744,6 +3800,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -4061,10 +4123,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -4078,6 +4143,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -4293,7 +4364,7 @@ border-radius: 2px;
                     <rect>
                         <x>10</x>
                         <y>0</y>
-                        <width>168</width>
+                        <width>140</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -4329,7 +4400,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>25</y>
-                        <width>180</width>
+                        <width>150</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -4639,10 +4710,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -4656,6 +4730,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -4973,10 +5053,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -4990,6 +5073,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -5237,10 +5326,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -5254,6 +5346,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -5469,7 +5567,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>120</width>
+                        <width>100</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -5830,10 +5928,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -5847,6 +5948,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -6062,10 +6169,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -6079,6 +6189,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -6345,7 +6461,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>60</width>
+                        <width>50</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -6706,10 +6822,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -6723,6 +6842,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -6938,10 +7063,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -6955,6 +7083,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -7221,7 +7355,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>84</width>
+                        <width>70</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -7582,10 +7716,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -7599,6 +7736,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -7814,10 +7957,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -7831,6 +7977,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -8097,7 +8249,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>48</width>
+                        <width>40</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -8458,10 +8610,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -8475,6 +8630,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -8690,10 +8851,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -8707,6 +8871,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -8973,7 +9143,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>48</width>
+                        <width>40</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -9334,10 +9504,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -9351,6 +9524,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -9566,10 +9745,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -9583,6 +9765,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -9849,7 +10037,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>60</width>
+                        <width>50</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -10210,10 +10398,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -10227,6 +10418,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -10442,10 +10639,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -10459,6 +10659,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -10725,7 +10931,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>132</width>
+                        <width>110</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -11086,10 +11292,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -11103,6 +11312,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -11318,10 +11533,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -11335,6 +11553,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -11601,7 +11825,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>144</width>
+                        <width>120</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -11962,10 +12186,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -11979,6 +12206,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -12194,10 +12427,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -12211,6 +12447,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -12477,7 +12719,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>156</width>
+                        <width>130</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -12838,10 +13080,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -12855,6 +13100,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -13070,10 +13321,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -13087,6 +13341,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -13353,7 +13613,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>120</width>
+                        <width>100</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -13714,10 +13974,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -13731,6 +13994,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -13946,10 +14215,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -13963,6 +14235,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -14229,7 +14507,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>48</width>
+                        <width>40</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -14590,10 +14868,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -14607,6 +14888,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -14822,10 +15109,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -14839,6 +15129,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -15105,7 +15401,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>36</width>
+                        <width>30</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -15466,10 +15762,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -15483,6 +15782,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -15698,10 +16003,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -15715,6 +16023,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -15981,7 +16295,7 @@ border-radius: 2px;
                     <rect>
                         <x>0</x>
                         <y>0</y>
-                        <width>48</width>
+                        <width>40</width>
                         <height>20</height>
                     </rect>
                 </property>
@@ -16342,10 +16656,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -16359,6 +16676,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>
@@ -16574,10 +16897,13 @@ border-radius: 2px;
                     <property name="incrementValue">
                         <double>1.000000</double>
                     </property>
-                    <property name="limitsMode">
+                    <property name="lowLimitMode">
                         <enum>caSlider::Channel</enum>
                     </property>
-                    <property name="limitsMode">
+                    <property name="highLimitMode">
+                        <enum>caSlider::Channel</enum>
+                    </property>
+                    <property name="precisionMode">
                         <enum>caSlider::Channel</enum>
                     </property>
                     <property name="minValue">
@@ -16591,6 +16917,12 @@ border-radius: 2px;
                     </property>
                     <property name="scalePosition">
                         <enum>NoScale</enum>
+                    </property>
+                    <property name="scaleValueEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="autoFocus">
+                        <bool>true</bool>
                     </property>
                     <property name="colorMode">
                         <enum>caSlider::Static</enum>

@@ -46,25 +46,6 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 52
-y 2
-w 380
-h 20
-font "helvetica-medium-r-8.0"
-fontAlign "center"
-fgColor index 54
-useDisplayBg
-value {
- "Point Grey Frame Rate - $(P)$(R)"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 0
-release 0
 x 15
 y 35
 w 340
@@ -75,6 +56,25 @@ fgColor index 14
 useDisplayBg
 value {
  "Frame rate (video mode != Format7)"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 0
+y 2
+w 485
+h 20
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 54
+useDisplayBg
+value {
+ "Point Grey Frame Rate - $(P)$(R)"
 }
 endObjectProperties
 

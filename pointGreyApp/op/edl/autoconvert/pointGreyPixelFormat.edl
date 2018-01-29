@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 0
-x 141
-y 152
+x 240
+y 149
 w 485
 h 60
 font "helvetica-medium-r-18.0"
@@ -46,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 52
+x 0
 y 2
-w 380
+w 485
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -58,20 +58,6 @@ value {
  "Point Grey Pixel Format - $(P)$(R)"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 35
-w 475
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -92,24 +78,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 35
-w 475
-h 20
-
-beginGroup
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -129,9 +97,4 @@ controlPv "$(P)$(R)PixelFormat"
 indicatorPv "$(P)$(R)PixelFormat"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

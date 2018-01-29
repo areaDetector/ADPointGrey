@@ -1,7 +1,7 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGreyFrameRate.adl"
-	version=030107
+	name="/home/epics/devel/areaDetector-3-2/ADPointGrey/pointGreyApp/op/adl/pointGreyFrameRate.adl"
+	version=030109
 }
 display {
 	object {
@@ -98,19 +98,6 @@ rectangle {
 		clr=2
 	}
 }
-text {
-	object {
-		x=52
-		y=2
-		width=380
-		height=20
-	}
-	"basic attribute" {
-		clr=54
-	}
-	textix="Point Grey Frame Rate - $(P)$(R)"
-	align="horiz. centered"
-}
 menu {
 	object {
 		x=360
@@ -136,4 +123,17 @@ text {
 	}
 	textix="Frame rate (video mode != Format7)"
 	align="horiz. right"
+}
+text {
+	object {
+		x=0
+		y=2
+		width=485
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Point Grey Frame Rate - $(P)$(R)"
+	align="horiz. centered"
 }

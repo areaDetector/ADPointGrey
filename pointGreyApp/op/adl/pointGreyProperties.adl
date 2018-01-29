@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/areaDetector-2-0/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
-	version=030107
+	name="/home/epics/devel/areaDetector-3-2/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
+	version=030109
 }
 display {
 	object {
-		x=42
-		y=131
+		x=37
+		y=306
 		width=1360
 		height=585
 	}
@@ -87,17 +87,28 @@ display {
 		1a7309,
 	}
 }
+rectangle {
+	object {
+		x=0
+		y=0
+		width=1360
+		height=30
+	}
+	"basic attribute" {
+		clr=2
+	}
+}
 text {
 	object {
-		x=456
-		y=8
-		width=468
+		x=0
+		y=2
+		width=1360
 		height=25
 	}
 	"basic attribute" {
-		clr=14
+		clr=54
 	}
-	textix="$(P)$(R) Point Grey Properties"
+	textix="Point Grey Properties - $(P)$(R)"
 	align="horiz. centered"
 }
 text {
@@ -338,6 +349,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -435,6 +447,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -670,6 +683,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -707,6 +721,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -1002,6 +1017,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -1097,6 +1113,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -1332,6 +1349,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -1400,6 +1418,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -1676,6 +1695,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -1773,6 +1793,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -2087,6 +2108,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -2184,6 +2206,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -2419,6 +2442,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -2516,6 +2540,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -2751,6 +2776,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -2848,6 +2874,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -3083,6 +3110,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -3180,6 +3208,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -3415,6 +3444,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -3512,6 +3542,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -3747,6 +3778,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -3844,6 +3876,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -4079,6 +4112,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -4176,6 +4210,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -4411,6 +4446,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -4508,6 +4544,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -4743,6 +4780,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -4840,6 +4878,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -5075,6 +5114,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -5172,6 +5212,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -5407,6 +5448,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -5504,6 +5546,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -5739,6 +5782,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -5836,6 +5880,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}
@@ -6071,6 +6116,7 @@ composite {
 				clr=53
 				bclr=4
 			}
+			format="string"
 			limits {
 			}
 		}
@@ -6168,6 +6214,7 @@ composite {
 						clr=53
 						bclr=4
 					}
+					format="string"
 					limits {
 					}
 				}

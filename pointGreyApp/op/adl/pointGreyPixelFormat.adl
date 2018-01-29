@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGreyPixelFormat.adl"
-	version=030107
+	name="/home/epics/devel/areaDetector-3-2/ADPointGrey/pointGreyApp/op/adl/pointGreyPixelFormat.adl"
+	version=030109
 }
 display {
 	object {
-		x=141
-		y=152
+		x=240
+		y=149
 		width=485
 		height=60
 	}
@@ -100,9 +100,9 @@ rectangle {
 }
 text {
 	object {
-		x=52
+		x=0
 		y=2
-		width=380
+		width=485
 		height=20
 	}
 	"basic attribute" {
@@ -111,40 +111,29 @@ text {
 	textix="Point Grey Pixel Format - $(P)$(R)"
 	align="horiz. centered"
 }
-composite {
+text {
 	object {
 		x=5
 		y=35
-		width=475
+		width=350
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=5
-				y=35
-				width=350
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Pixel format (video mode = Format7)"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=360
-				y=35
-				width=120
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PixelFormat"
-				clr=14
-				bclr=51
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Pixel format (video mode = Format7)"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=360
+		y=35
+		width=120
+		height=20
+	}
+	control {
+		chan="$(P)$(R)PixelFormat"
+		clr=14
+		bclr=51
 	}
 }

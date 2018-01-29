@@ -19,6 +19,18 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-6 (29-January-2017)
+----
+* Removed the SerialNumber, FirmwareVersion, and SoftwareVersion parameters and records,
+  since the equivalents are now in ADDriver.h and ADBase.template.
+* Removed code that released the lock around the calls to doCallbacksGenericPointer.  
+  This was not needed and could cause problems.
+* Fixed medm adl files to improve the autoconversion to other display manager files.
+* Added op/Makefile to automatically convert adl files to edl, ui, and opi files.
+* Updated the edl, ui, and opi autoconvert directories to contain the conversions
+  from the most recent adl files.
+
+
 R2-5 (4-July-2017)
 ----
 * Updated medm screen layout for ADCore R3-0.

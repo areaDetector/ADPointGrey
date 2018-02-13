@@ -19,7 +19,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-6 (29-January-2017)
+R2-6 (29-January-2018)
 ----
 * Removed the SerialNumber, FirmwareVersion, and SoftwareVersion parameters and records,
   since the equivalents are now in ADDriver.h and ADBase.template.

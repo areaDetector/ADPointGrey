@@ -1125,6 +1125,8 @@ asynStatus pointGrey::grabImage()
                                    (double)timeStamp.cycleCount / 8000. + 
                                    (double)timeStamp.cycleOffset / 8000. / 3072.;
             }
+            // The camera timestamps are in Posix epoch.  Convert to EPICS epoch
+            pRaw_->timeStamp -= POSIX_TIME_AT_EPICS_EPOCH;
             break;
         case TimeStampEPICS:
             pRaw_->timeStamp = pRaw_->epicsTS.secPastEpoch + pRaw_->epicsTS.nsec/1e9;

@@ -9,7 +9,9 @@ LIBRARY_IOC_Linux += pointGrey
 LIB_SRCS += pointGrey.cpp
 
 LIB_LIBS_WIN32     += FlyCapture2
-LIB_IBS_Linux += flycapture
+# We use LIB_SYS_LIBS even though libflycapture.so is in the ADPointGrey tree 
+# because we are doing static build but the file is a .so file, not a .a file.
+LIB_SYS_LIBS_Linux += flycapture
 
 DBD += pointGreySupport.dbd
 

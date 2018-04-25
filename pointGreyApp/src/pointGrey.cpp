@@ -235,7 +235,7 @@ static const char *convertPixelFormatStrings[NUM_CONVERT_PIXEL_FORMATS] = {
     "RGB16",
 };
 
-static const int convertPixelFormatValues[NUM_CONVERT_PIXEL_FORMATS] = {
+static const unsigned int convertPixelFormatValues[NUM_CONVERT_PIXEL_FORMATS] = {
     0,
     PIXEL_FORMAT_MONO8,
     PIXEL_FORMAT_RAW16,

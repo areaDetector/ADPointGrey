@@ -19,6 +19,15 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-7 (2-July-2018)
+----
+* Fixed camera timestamps to use EPICS epoch, not Posix epoch.
+* Fixed problem with libflycapture.so in Makefile on Linux.
+* Changed configure/RELEASE files for compatibility with areaDetector R3-3.
+* Added support for new PVs in ADCore R3-3 in opi files (NumQueuedArrays, EmptyFreeList, etc.)
+* Improved op/*/autoconvert/* files with better medm files and better converters.
+
+
 R2-6 (29-January-2018)
 ----
 * Removed the SerialNumber, FirmwareVersion, and SoftwareVersion parameters and records,

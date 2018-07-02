@@ -9,7 +9,7 @@
   <background_color>
     <color red="187" green="187" blue="187" />
   </background_color>
-  <boy_version>5.1.0.201801081728</boy_version>
+  <boy_version>5.1.0</boy_version>
   <foreground_color>
     <color red="0" green="0" blue="0" />
   </foreground_color>
@@ -750,39 +750,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -791,48 +773,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)HueVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -861,7 +822,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -912,7 +873,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -963,7 +924,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -1040,39 +1001,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>785</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -1081,48 +1024,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)HueValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -1213,7 +1135,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -1264,7 +1186,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -1315,7 +1237,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -1927,39 +1849,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -1968,48 +1872,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)BrightnessVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -2038,7 +1921,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -2089,7 +1972,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -2140,7 +2023,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -2217,39 +2100,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>855</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -2258,48 +2123,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)BrightnessValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -2390,7 +2234,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -2441,7 +2285,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -2492,7 +2336,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -3094,39 +2938,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -3135,48 +2961,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)AutoExposureVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -3205,7 +3010,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -3256,7 +3061,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -3307,7 +3112,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -3384,39 +3189,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>885</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -3425,48 +3212,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)AutoExposureValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -3557,7 +3323,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -3608,7 +3374,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -3659,7 +3425,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -4209,39 +3975,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>845</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -4250,48 +3998,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)SharpnessValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -4382,7 +4109,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -4433,7 +4160,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -4484,7 +4211,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -4623,39 +4350,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -4664,48 +4373,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)SharpnessVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -4734,7 +4422,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -4785,7 +4473,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -4836,7 +4524,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -5386,39 +5074,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>905</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -5427,48 +5097,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)WhiteBalanceValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -5559,7 +5208,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -5610,7 +5259,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -5661,7 +5310,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -5800,39 +5449,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>25</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -5841,48 +5472,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)WhiteBalanceValB</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>25</y>
@@ -5911,7 +5521,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -5962,7 +5572,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -6013,7 +5623,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -6102,39 +5712,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -6143,48 +5735,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)WhiteBalanceVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -6213,7 +5784,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -6264,7 +5835,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -6315,7 +5886,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -6967,39 +6538,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -7008,48 +6561,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)SaturationVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -7078,7 +6610,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -7129,7 +6661,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -7180,7 +6712,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -7257,39 +6789,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>855</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -7298,48 +6812,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)SaturationValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -7430,7 +6923,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -7481,7 +6974,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -7532,7 +7025,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -8144,39 +7637,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -8185,48 +7660,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)GammaVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -8255,7 +7709,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -8306,7 +7760,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -8357,7 +7811,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -8434,39 +7888,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>805</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -8475,48 +7911,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)GammaValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -8607,7 +8022,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -8658,7 +8073,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -8709,7 +8124,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -9321,39 +8736,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -9362,48 +8759,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)ShutterVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -9432,7 +8808,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -9483,7 +8859,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -9534,7 +8910,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -9611,39 +8987,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>825</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -9652,48 +9010,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)ShutterValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -9784,7 +9121,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -9835,7 +9172,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -9886,7 +9223,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -10498,39 +9835,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -10539,48 +9858,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)GainVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -10609,7 +9907,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -10660,7 +9958,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -10711,7 +10009,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -10788,39 +10086,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>795</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -10829,48 +10109,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)GainValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -10961,7 +10220,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -11012,7 +10271,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -11063,7 +10322,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -11675,39 +10934,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -11716,48 +10957,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)IrisVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -11786,7 +11006,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -11837,7 +11057,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -11888,7 +11108,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -11965,39 +11185,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>795</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -12006,48 +11208,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)IrisValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -12138,7 +11319,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -12189,7 +11370,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -12240,7 +11421,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -12852,39 +12033,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -12893,48 +12056,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)FocusVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -12963,7 +12105,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -13014,7 +12156,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -13065,7 +12207,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -13142,39 +12284,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>805</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -13183,48 +12307,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)FocusValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -13315,7 +12418,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -13366,7 +12469,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -13417,7 +12520,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -14029,39 +13132,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -14070,48 +13155,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TemperatureVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -14140,7 +13204,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -14191,7 +13255,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -14242,7 +13306,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -14319,39 +13383,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>865</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -14360,48 +13406,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TemperatureValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -14492,7 +13517,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -14543,7 +13568,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -14594,7 +13619,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -15206,39 +14231,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -15247,48 +14254,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TriggerModeVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -15317,7 +14303,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -15368,7 +14354,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -15419,7 +14405,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -15496,39 +14482,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>875</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -15537,48 +14505,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TriggerModeValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -15669,7 +14616,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -15720,7 +14667,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -15771,7 +14718,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -16383,39 +15330,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -16424,48 +15353,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TriggerDelayVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -16494,7 +15402,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -16545,7 +15453,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -16596,7 +15504,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -16673,39 +15581,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>885</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -16714,48 +15604,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TriggerDelayValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -16846,7 +15715,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -16897,7 +15766,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -16948,7 +15817,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -17560,39 +16429,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -17601,48 +16452,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)FrameRateVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -17671,7 +16501,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -17722,7 +16552,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -17773,7 +16603,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -17850,39 +16680,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>855</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -17891,48 +16703,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)FrameRateValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -18023,7 +16814,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -18074,7 +16865,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -18125,7 +16916,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -18737,39 +17528,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -18778,48 +17551,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)ZoomVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -18848,7 +17600,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -18899,7 +17651,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -18950,7 +17702,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -19027,39 +17779,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>795</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -19068,48 +17802,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)ZoomValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -19200,7 +17913,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -19251,7 +17964,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -19302,7 +18015,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -19914,39 +18627,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -19955,48 +18650,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)PanVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -20025,7 +18699,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -20076,7 +18750,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -20127,7 +18801,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -20204,39 +18878,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>785</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -20245,48 +18901,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)PanValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -20377,7 +19012,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -20428,7 +19063,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -20479,7 +19114,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -21091,39 +19726,21 @@ $(pv_value)</tooltip>
         <x>0</x>
         <y>0</y>
       </widget>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -21132,48 +19749,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TiltVal</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -21202,7 +19798,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -21253,7 +19849,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -21304,7 +19900,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -21381,39 +19977,21 @@ $(pv_value)</tooltip>
       <width>420</width>
       <x>795</x>
       <y>0</y>
-      <widget typeId="org.csstudio.opibuilder.widgets.scaledslider" version="1.0.0">
+      <widget typeId="org.csstudio.opibuilder.widgets.scrollbar" version="1.0.0">
         <actions hook="false" hook_all="false" />
         <alarm_pulsing>false</alarm_pulsing>
         <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
         <background_color>
           <color red="115" green="223" blue="255" />
         </background_color>
+        <bar_length>1.0</bar_length>
         <border_alarm_sensitive>true</border_alarm_sensitive>
         <border_color>
           <color red="0" green="128" blue="255" />
         </border_color>
         <border_style>0</border_style>
         <border_width>1</border_width>
-        <color_fillbackground>
-          <color red="200" green="200" blue="200" />
-        </color_fillbackground>
-        <color_hi>
-          <color red="255" green="128" blue="0" />
-        </color_hi>
-        <color_hihi>
-          <color red="255" green="0" blue="0" />
-        </color_hihi>
-        <color_lo>
-          <color red="255" green="128" blue="0" />
-        </color_lo>
-        <color_lolo>
-          <color red="255" green="0" blue="0" />
-        </color_lolo>
-        <effect_3d>true</effect_3d>
         <enabled>true</enabled>
-        <fill_color>
-          <color red="0" green="0" blue="255" />
-        </fill_color>
         <font>
           <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
         </font>
@@ -21422,48 +20000,27 @@ $(pv_value)</tooltip>
           <color red="0" green="0" blue="0" />
         </foreground_color>
         <height>20</height>
-        <horizontal>false</horizontal>
-        <level_hi>80.0</level_hi>
-        <level_hihi>90.0</level_hihi>
-        <level_lo>20.0</level_lo>
-        <level_lolo>10.0</level_lolo>
+        <horizontal>true</horizontal>
         <limits_from_pv>true</limits_from_pv>
-        <log_scale>false</log_scale>
-        <major_tick_step_hint>50</major_tick_step_hint>
         <maximum>100.0</maximum>
         <minimum>0.0</minimum>
-        <name>Scaled Slider</name>
-        <page_increment>10.0</page_increment>
+        <name>Scrollbar</name>
+        <page_increment>1.0</page_increment>
         <pv_name>$(P)$(R)TiltValAbs</pv_name>
         <pv_value />
         <rules />
-        <scale_font>
-          <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
-        </scale_font>
-        <scale_format></scale_format>
         <scale_options>
           <width_scalable>true</width_scalable>
           <height_scalable>true</height_scalable>
           <keep_wh_ratio>false</keep_wh_ratio>
         </scale_options>
         <scripts />
-        <show_hi>true</show_hi>
-        <show_hihi>true</show_hihi>
-        <show_lo>true</show_lo>
-        <show_lolo>true</show_lolo>
-        <show_markers>true</show_markers>
-        <show_minor_ticks>true</show_minor_ticks>
-        <show_scale>true</show_scale>
+        <show_value_tip>true</show_value_tip>
         <step_increment>1.0</step_increment>
-        <thumb_color>
-          <color red="172" green="172" blue="172" />
-        </thumb_color>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-        <transparent_background>true</transparent_background>
-        <value_label_format></value_label_format>
         <visible>true</visible>
-        <widget_type>Scaled Slider</widget_type>
+        <widget_type>Scrollbar</widget_type>
         <width>100</width>
         <x>80</x>
         <y>0</y>
@@ -21554,7 +20111,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -21605,7 +20162,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>
@@ -21656,7 +20213,7 @@ $(pv_value)</tooltip>
         </foreground_color>
         <format_type>1</format_type>
         <height>20</height>
-        <horizontal_alignment>0</horizontal_alignment>
+        <horizontal_alignment>2</horizontal_alignment>
         <name>Text Update</name>
         <precision>0</precision>
         <precision_from_pv>true</precision_from_pv>

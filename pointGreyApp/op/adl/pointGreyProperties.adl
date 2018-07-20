@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/areaDetector-3-3-2/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
+	name="/home/epics/devel/areaDetector/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
 	version=030109
 }
 display {
 	object {
-		x=37
-		y=306
+		x=27
+		y=298
 		width=1360
-		height=585
+		height=560
 	}
 	clr=14
 	bclr=4
@@ -129,7 +129,7 @@ rectangle {
 		x=5
 		y=45
 		width=510
-		height=535
+		height=510
 	}
 	"basic attribute" {
 		clr=14
@@ -189,7 +189,7 @@ rectangle {
 		x=520
 		y=45
 		width=390
-		height=535
+		height=510
 	}
 	"basic attribute" {
 		clr=14
@@ -261,7 +261,7 @@ rectangle {
 		x=915
 		y=45
 		width=435
-		height=535
+		height=510
 	}
 	"basic attribute" {
 		clr=14
@@ -4298,15 +4298,15 @@ composite {
 }
 text {
 	object {
-		x=45
+		x=35
 		y=425
-		width=120
+		width=130
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Trigger mode"
+	textix="Trigger delay"
 	align="horiz. right"
 }
 "text update" {
@@ -4317,7 +4317,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)TriggerModeOnOff_RBV"
+		chan="$(P)$(R)TriggerDelayOnOff_RBV"
 		clr=53
 		bclr=4
 	}
@@ -4342,7 +4342,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)TriggerModeOnOff"
+				chan="$(P)$(R)TriggerDelayOnOff"
 				clr=14
 				bclr=51
 			}
@@ -4351,7 +4351,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerModeOnOffAvail"
+		chan="$(P)$(R)TriggerDelayOnOffAvail"
 	}
 }
 composite {
@@ -4371,7 +4371,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerModeOnePush"
+				chan="$(P)$(R)TriggerDelayOnePush"
 				clr=14
 				bclr=51
 			}
@@ -4382,7 +4382,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerModeOnePushAvail"
+		chan="$(P)$(R)TriggerDelayOnePushAvail"
 	}
 }
 composite {
@@ -4402,7 +4402,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)TriggerModeAutoMode"
+				chan="$(P)$(R)TriggerDelayAutoMode"
 				clr=14
 				bclr=51
 			}
@@ -4415,7 +4415,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeAutoMode_RBV"
+				chan="$(P)$(R)TriggerDelayAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4427,7 +4427,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerModeAutoAvail"
+		chan="$(P)$(R)TriggerDelayAutoAvail"
 	}
 }
 composite {
@@ -4447,7 +4447,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerModeVal"
+				chan="$(P)$(R)TriggerDelayVal"
 				clr=14
 				bclr=51
 			}
@@ -4462,7 +4462,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerModeVal"
+				chan="$(P)$(R)TriggerDelayVal"
 				clr=14
 				bclr=51
 			}
@@ -4478,7 +4478,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeVal_RBV"
+				chan="$(P)$(R)TriggerDelayVal_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4494,7 +4494,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeVal.DRVL"
+				chan="$(P)$(R)TriggerDelayVal.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -4510,7 +4510,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeVal.DRVH"
+				chan="$(P)$(R)TriggerDelayVal.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -4522,7 +4522,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerModeManAvail"
+		chan="$(P)$(R)TriggerDelayManAvail"
 	}
 }
 composite {
@@ -4542,7 +4542,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerModeValAbs"
+				chan="$(P)$(R)TriggerDelayValAbs"
 				clr=14
 				bclr=51
 			}
@@ -4558,7 +4558,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerModeValAbs"
+				chan="$(P)$(R)TriggerDelayValAbs"
 				clr=14
 				bclr=51
 			}
@@ -4573,7 +4573,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeValAbs_RBV"
+				chan="$(P)$(R)TriggerDelayValAbs_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4589,7 +4589,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeValAbs.DRVL"
+				chan="$(P)$(R)TriggerDelayValAbs.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -4605,7 +4605,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeValAbs.DRVH"
+				chan="$(P)$(R)TriggerDelayValAbs.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -4617,20 +4617,20 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerModeAbsAvail"
+		chan="$(P)$(R)TriggerDelayAbsAvail"
 	}
 }
 text {
 	object {
-		x=35
+		x=65
 		y=450
-		width=130
+		width=100
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Trigger delay"
+	textix="Frame rate"
 	align="horiz. right"
 }
 "text update" {
@@ -4641,7 +4641,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)TriggerDelayOnOff_RBV"
+		chan="$(P)$(R)FrameRateOnOff_RBV"
 		clr=53
 		bclr=4
 	}
@@ -4666,7 +4666,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayOnOff"
+				chan="$(P)$(R)FrameRateOnOff"
 				clr=14
 				bclr=51
 			}
@@ -4675,7 +4675,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerDelayOnOffAvail"
+		chan="$(P)$(R)FrameRateOnOffAvail"
 	}
 }
 composite {
@@ -4695,7 +4695,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayOnePush"
+				chan="$(P)$(R)FrameRateOnePush"
 				clr=14
 				bclr=51
 			}
@@ -4706,7 +4706,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerDelayOnePushAvail"
+		chan="$(P)$(R)FrameRateOnePushAvail"
 	}
 }
 composite {
@@ -4726,7 +4726,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayAutoMode"
+				chan="$(P)$(R)FrameRateAutoMode"
 				clr=14
 				bclr=51
 			}
@@ -4739,7 +4739,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayAutoMode_RBV"
+				chan="$(P)$(R)FrameRateAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4751,7 +4751,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerDelayAutoAvail"
+		chan="$(P)$(R)FrameRateAutoAvail"
 	}
 }
 composite {
@@ -4771,7 +4771,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayVal"
+				chan="$(P)$(R)FrameRateVal"
 				clr=14
 				bclr=51
 			}
@@ -4786,7 +4786,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayVal"
+				chan="$(P)$(R)FrameRateVal"
 				clr=14
 				bclr=51
 			}
@@ -4802,7 +4802,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayVal_RBV"
+				chan="$(P)$(R)FrameRateVal_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4818,7 +4818,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayVal.DRVL"
+				chan="$(P)$(R)FrameRateVal.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -4834,7 +4834,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayVal.DRVH"
+				chan="$(P)$(R)FrameRateVal.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -4846,7 +4846,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerDelayManAvail"
+		chan="$(P)$(R)FrameRateManAvail"
 	}
 }
 composite {
@@ -4866,7 +4866,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayValAbs"
+				chan="$(P)$(R)FrameRateValAbs"
 				clr=14
 				bclr=51
 			}
@@ -4882,7 +4882,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)TriggerDelayValAbs"
+				chan="$(P)$(R)FrameRateValAbs"
 				clr=14
 				bclr=51
 			}
@@ -4897,7 +4897,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayValAbs_RBV"
+				chan="$(P)$(R)FrameRateValAbs_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4913,7 +4913,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayValAbs.DRVL"
+				chan="$(P)$(R)FrameRateValAbs.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -4929,7 +4929,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayValAbs.DRVH"
+				chan="$(P)$(R)FrameRateValAbs.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -4941,20 +4941,20 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)TriggerDelayAbsAvail"
+		chan="$(P)$(R)FrameRateAbsAvail"
 	}
 }
 text {
 	object {
-		x=65
+		x=125
 		y=475
-		width=100
+		width=40
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Frame rate"
+	textix="Zoom"
 	align="horiz. right"
 }
 "text update" {
@@ -4965,7 +4965,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)FrameRateOnOff_RBV"
+		chan="$(P)$(R)ZoomOnOff_RBV"
 		clr=53
 		bclr=4
 	}
@@ -4990,7 +4990,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)FrameRateOnOff"
+				chan="$(P)$(R)ZoomOnOff"
 				clr=14
 				bclr=51
 			}
@@ -4999,7 +4999,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)FrameRateOnOffAvail"
+		chan="$(P)$(R)ZoomOnOffAvail"
 	}
 }
 composite {
@@ -5019,7 +5019,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)FrameRateOnePush"
+				chan="$(P)$(R)ZoomOnePush"
 				clr=14
 				bclr=51
 			}
@@ -5030,7 +5030,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)FrameRateOnePushAvail"
+		chan="$(P)$(R)ZoomOnePushAvail"
 	}
 }
 composite {
@@ -5050,7 +5050,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)FrameRateAutoMode"
+				chan="$(P)$(R)ZoomAutoMode"
 				clr=14
 				bclr=51
 			}
@@ -5063,7 +5063,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateAutoMode_RBV"
+				chan="$(P)$(R)ZoomAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5075,7 +5075,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)FrameRateAutoAvail"
+		chan="$(P)$(R)ZoomAutoAvail"
 	}
 }
 composite {
@@ -5095,7 +5095,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)FrameRateVal"
+				chan="$(P)$(R)ZoomVal"
 				clr=14
 				bclr=51
 			}
@@ -5110,7 +5110,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)FrameRateVal"
+				chan="$(P)$(R)ZoomVal"
 				clr=14
 				bclr=51
 			}
@@ -5126,7 +5126,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateVal_RBV"
+				chan="$(P)$(R)ZoomVal_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5142,7 +5142,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateVal.DRVL"
+				chan="$(P)$(R)ZoomVal.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -5158,7 +5158,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateVal.DRVH"
+				chan="$(P)$(R)ZoomVal.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -5170,7 +5170,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)FrameRateManAvail"
+		chan="$(P)$(R)ZoomManAvail"
 	}
 }
 composite {
@@ -5190,7 +5190,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)FrameRateValAbs"
+				chan="$(P)$(R)ZoomValAbs"
 				clr=14
 				bclr=51
 			}
@@ -5206,7 +5206,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)FrameRateValAbs"
+				chan="$(P)$(R)ZoomValAbs"
 				clr=14
 				bclr=51
 			}
@@ -5221,7 +5221,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateValAbs_RBV"
+				chan="$(P)$(R)ZoomValAbs_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5237,7 +5237,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateValAbs.DRVL"
+				chan="$(P)$(R)ZoomValAbs.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -5253,7 +5253,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateValAbs.DRVH"
+				chan="$(P)$(R)ZoomValAbs.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -5265,20 +5265,20 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)FrameRateAbsAvail"
+		chan="$(P)$(R)ZoomAbsAvail"
 	}
 }
 text {
 	object {
-		x=125
+		x=135
 		y=500
-		width=40
+		width=30
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Zoom"
+	textix="Pan"
 	align="horiz. right"
 }
 "text update" {
@@ -5289,7 +5289,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)ZoomOnOff_RBV"
+		chan="$(P)$(R)PanOnOff_RBV"
 		clr=53
 		bclr=4
 	}
@@ -5314,7 +5314,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)ZoomOnOff"
+				chan="$(P)$(R)PanOnOff"
 				clr=14
 				bclr=51
 			}
@@ -5323,7 +5323,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)ZoomOnOffAvail"
+		chan="$(P)$(R)PanOnOffAvail"
 	}
 }
 composite {
@@ -5343,7 +5343,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)ZoomOnePush"
+				chan="$(P)$(R)PanOnePush"
 				clr=14
 				bclr=51
 			}
@@ -5354,7 +5354,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)ZoomOnePushAvail"
+		chan="$(P)$(R)PanOnePushAvail"
 	}
 }
 composite {
@@ -5374,7 +5374,7 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)ZoomAutoMode"
+				chan="$(P)$(R)PanAutoMode"
 				clr=14
 				bclr=51
 			}
@@ -5387,7 +5387,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomAutoMode_RBV"
+				chan="$(P)$(R)PanAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5399,7 +5399,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)ZoomAutoAvail"
+		chan="$(P)$(R)PanAutoAvail"
 	}
 }
 composite {
@@ -5419,7 +5419,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)ZoomVal"
+				chan="$(P)$(R)PanVal"
 				clr=14
 				bclr=51
 			}
@@ -5434,7 +5434,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)ZoomVal"
+				chan="$(P)$(R)PanVal"
 				clr=14
 				bclr=51
 			}
@@ -5450,7 +5450,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomVal_RBV"
+				chan="$(P)$(R)PanVal_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5466,7 +5466,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomVal.DRVL"
+				chan="$(P)$(R)PanVal.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -5482,7 +5482,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomVal.DRVH"
+				chan="$(P)$(R)PanVal.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -5494,7 +5494,7 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)ZoomManAvail"
+		chan="$(P)$(R)PanManAvail"
 	}
 }
 composite {
@@ -5514,7 +5514,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)ZoomValAbs"
+				chan="$(P)$(R)PanValAbs"
 				clr=14
 				bclr=51
 			}
@@ -5530,7 +5530,7 @@ composite {
 				height=20
 			}
 			control {
-				chan="$(P)$(R)ZoomValAbs"
+				chan="$(P)$(R)PanValAbs"
 				clr=14
 				bclr=51
 			}
@@ -5545,7 +5545,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomValAbs_RBV"
+				chan="$(P)$(R)PanValAbs_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5561,7 +5561,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomValAbs.DRVL"
+				chan="$(P)$(R)PanValAbs.DRVL"
 				clr=53
 				bclr=4
 			}
@@ -5577,7 +5577,7 @@ composite {
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomValAbs.DRVH"
+				chan="$(P)$(R)PanValAbs.DRVH"
 				clr=53
 				bclr=4
 			}
@@ -5589,20 +5589,20 @@ composite {
 	"dynamic attribute" {
 		vis="if not zero"
 		calc="A"
-		chan="$(P)$(R)ZoomAbsAvail"
+		chan="$(P)$(R)PanAbsAvail"
 	}
 }
 text {
 	object {
-		x=135
+		x=125
 		y=525
-		width=30
+		width=40
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="Pan"
+	textix="Tilt"
 	align="horiz. right"
 }
 "text update" {
@@ -5613,7 +5613,7 @@ text {
 		height=20
 	}
 	monitor {
-		chan="$(P)$(R)PanOnOff_RBV"
+		chan="$(P)$(R)TiltOnOff_RBV"
 		clr=53
 		bclr=4
 	}
@@ -5638,330 +5638,6 @@ composite {
 				height=18
 			}
 			control {
-				chan="$(P)$(R)PanOnOff"
-				clr=14
-				bclr=51
-			}
-		}
-	}
-	"dynamic attribute" {
-		vis="if not zero"
-		calc="A"
-		chan="$(P)$(R)PanOnOffAvail"
-	}
-}
-composite {
-	object {
-		x=295
-		y=525
-		width=50
-		height=20
-	}
-	"composite name"=""
-	children {
-		"message button" {
-			object {
-				x=295
-				y=525
-				width=50
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PanOnePush"
-				clr=14
-				bclr=51
-			}
-			label="Push"
-			press_msg="1"
-		}
-	}
-	"dynamic attribute" {
-		vis="if not zero"
-		calc="A"
-		chan="$(P)$(R)PanOnePushAvail"
-	}
-}
-composite {
-	object {
-		x=355
-		y=525
-		width=155
-		height=20
-	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=355
-				y=526
-				width=75
-				height=18
-			}
-			control {
-				chan="$(P)$(R)PanAutoMode"
-				clr=14
-				bclr=51
-			}
-		}
-		"text update" {
-			object {
-				x=435
-				y=525
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanAutoMode_RBV"
-				clr=53
-				bclr=4
-			}
-			format="string"
-			limits {
-			}
-		}
-	}
-	"dynamic attribute" {
-		vis="if not zero"
-		calc="A"
-		chan="$(P)$(R)PanAutoAvail"
-	}
-}
-composite {
-	object {
-		x=527
-		y=525
-		width=375
-		height=20
-	}
-	"composite name"=""
-	children {
-		"text entry" {
-			object {
-				x=527
-				y=525
-				width=75
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PanVal"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		valuator {
-			object {
-				x=607
-				y=525
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PanVal"
-				clr=14
-				bclr=51
-			}
-			dPrecision=1.000000
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=717
-				y=525
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanVal_RBV"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=777
-				y=525
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanVal.DRVL"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=842
-				y=525
-				width=60
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanVal.DRVH"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-	}
-	"dynamic attribute" {
-		vis="if not zero"
-		calc="A"
-		chan="$(P)$(R)PanManAvail"
-	}
-}
-composite {
-	object {
-		x=920
-		y=525
-		width=420
-		height=20
-	}
-	"composite name"=""
-	children {
-		valuator {
-			object {
-				x=1000
-				y=525
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PanValAbs"
-				clr=14
-				bclr=51
-			}
-			dPrecision=1.000000
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=920
-				y=525
-				width=75
-				height=20
-			}
-			control {
-				chan="$(P)$(R)PanValAbs"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=1105
-				y=525
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanValAbs_RBV"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=1185
-				y=525
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanValAbs.DRVL"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=1265
-				y=525
-				width=75
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)PanValAbs.DRVH"
-				clr=53
-				bclr=4
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-	}
-	"dynamic attribute" {
-		vis="if not zero"
-		calc="A"
-		chan="$(P)$(R)PanAbsAvail"
-	}
-}
-text {
-	object {
-		x=125
-		y=550
-		width=40
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Tilt"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=235
-		y=550
-		width=50
-		height=20
-	}
-	monitor {
-		chan="$(P)$(R)TiltOnOff_RBV"
-		clr=53
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-composite {
-	object {
-		x=170
-		y=551
-		width=60
-		height=18
-	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=170
-				y=551
-				width=60
-				height=18
-			}
-			control {
 				chan="$(P)$(R)TiltOnOff"
 				clr=14
 				bclr=51
@@ -5977,7 +5653,7 @@ composite {
 composite {
 	object {
 		x=295
-		y=550
+		y=525
 		width=50
 		height=20
 	}
@@ -5986,7 +5662,7 @@ composite {
 		"message button" {
 			object {
 				x=295
-				y=550
+				y=525
 				width=50
 				height=20
 			}
@@ -6008,7 +5684,7 @@ composite {
 composite {
 	object {
 		x=355
-		y=550
+		y=525
 		width=155
 		height=20
 	}
@@ -6017,7 +5693,7 @@ composite {
 		menu {
 			object {
 				x=355
-				y=551
+				y=526
 				width=75
 				height=18
 			}
@@ -6030,7 +5706,7 @@ composite {
 		"text update" {
 			object {
 				x=435
-				y=550
+				y=525
 				width=75
 				height=20
 			}
@@ -6053,7 +5729,7 @@ composite {
 composite {
 	object {
 		x=527
-		y=550
+		y=525
 		width=375
 		height=20
 	}
@@ -6062,7 +5738,7 @@ composite {
 		"text entry" {
 			object {
 				x=527
-				y=550
+				y=525
 				width=75
 				height=20
 			}
@@ -6077,7 +5753,7 @@ composite {
 		valuator {
 			object {
 				x=607
-				y=550
+				y=525
 				width=100
 				height=20
 			}
@@ -6093,7 +5769,7 @@ composite {
 		"text update" {
 			object {
 				x=717
-				y=550
+				y=525
 				width=60
 				height=20
 			}
@@ -6109,7 +5785,7 @@ composite {
 		"text update" {
 			object {
 				x=777
-				y=550
+				y=525
 				width=60
 				height=20
 			}
@@ -6125,7 +5801,7 @@ composite {
 		"text update" {
 			object {
 				x=842
-				y=550
+				y=525
 				width=60
 				height=20
 			}
@@ -6148,7 +5824,7 @@ composite {
 composite {
 	object {
 		x=920
-		y=550
+		y=525
 		width=420
 		height=20
 	}
@@ -6157,7 +5833,7 @@ composite {
 		valuator {
 			object {
 				x=1000
-				y=550
+				y=525
 				width=100
 				height=20
 			}
@@ -6173,7 +5849,7 @@ composite {
 		"text entry" {
 			object {
 				x=920
-				y=550
+				y=525
 				width=75
 				height=20
 			}
@@ -6188,7 +5864,7 @@ composite {
 		"text update" {
 			object {
 				x=1105
-				y=550
+				y=525
 				width=75
 				height=20
 			}
@@ -6204,7 +5880,7 @@ composite {
 		"text update" {
 			object {
 				x=1185
-				y=550
+				y=525
 				width=75
 				height=20
 			}
@@ -6220,7 +5896,7 @@ composite {
 		"text update" {
 			object {
 				x=1265
-				y=550
+				y=525
 				width=75
 				height=20
 			}

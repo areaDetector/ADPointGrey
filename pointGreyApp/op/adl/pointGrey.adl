@@ -1,12 +1,12 @@
 
 file {
-	name="/home/epics/devel/areaDetector-3-3-1/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
+	name="/home/epics/devel/areaDetector-3-3-2/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
 	version=030109
 }
 display {
 	object {
-		x=408
-		y=74
+		x=398
+		y=66
 		width=1070
 		height=950
 	}
@@ -1431,16 +1431,15 @@ text {
 "text update" {
 	object {
 		x=884
-		y=192
+		y=191
 		width=120
-		height=16
+		height=18
 	}
 	monitor {
 		chan="$(P)$(R)TemperatureActual"
 		clr=54
 		bclr=4
 	}
-	format="string"
 	limits {
 	}
 }
@@ -1473,16 +1472,15 @@ text {
 "text update" {
 	object {
 		x=884
-		y=92
+		y=91
 		width=120
-		height=16
+		height=18
 	}
 	monitor {
 		chan="$(P)$(R)DroppedFrames_RBV"
 		clr=54
 		bclr=4
 	}
-	format="string"
 	limits {
 	}
 }
@@ -1502,16 +1500,15 @@ text {
 "text update" {
 	object {
 		x=884
-		y=117
+		y=116
 		width=120
-		height=16
+		height=18
 	}
 	monitor {
 		chan="$(P)$(R)CorruptFrames_RBV"
 		clr=54
 		bclr=4
 	}
-	format="string"
 	limits {
 	}
 }
@@ -1531,16 +1528,15 @@ text {
 "text update" {
 	object {
 		x=884
-		y=142
+		y=141
 		width=120
-		height=16
+		height=18
 	}
 	monitor {
 		chan="$(P)$(R)DriverDropped_RBV"
 		clr=54
 		bclr=4
 	}
-	format="string"
 	limits {
 	}
 }
@@ -1560,16 +1556,15 @@ text {
 "text update" {
 	object {
 		x=884
-		y=167
+		y=166
 		width=120
-		height=16
+		height=18
 	}
 	monitor {
 		chan="$(P)$(R)TransmitFailed_RBV"
 		clr=54
 		bclr=4
 	}
-	format="string"
 	limits {
 	}
 }

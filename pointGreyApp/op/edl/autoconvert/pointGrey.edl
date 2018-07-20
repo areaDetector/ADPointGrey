@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 408
-y 74
+x 398
+y 66
 w 1070
 h 950
 font "helvetica-medium-r-18.0"
@@ -1950,11 +1950,11 @@ major 4
 minor 7
 release 0
 x 884
-y 192
+y 191
 w 120
-h 16
+h 18
 controlPv "$(P)$(R)TemperatureActual"
-format "string"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
@@ -2014,11 +2014,11 @@ major 4
 minor 7
 release 0
 x 884
-y 92
+y 91
 w 120
-h 16
+h 18
 controlPv "$(P)$(R)DroppedFrames_RBV"
-format "string"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
@@ -2058,11 +2058,11 @@ major 4
 minor 7
 release 0
 x 884
-y 117
+y 116
 w 120
-h 16
+h 18
 controlPv "$(P)$(R)CorruptFrames_RBV"
-format "string"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
@@ -2102,11 +2102,11 @@ major 4
 minor 7
 release 0
 x 884
-y 142
+y 141
 w 120
-h 16
+h 18
 controlPv "$(P)$(R)DriverDropped_RBV"
-format "string"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104
@@ -2146,11 +2146,11 @@ major 4
 minor 7
 release 0
 x 884
-y 167
+y 166
 w 120
-h 16
+h 18
 controlPv "$(P)$(R)TransmitFailed_RBV"
-format "string"
+format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 2560 0 47104

@@ -372,30 +372,18 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 135
-y 225
-w 1205
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 135
+x 125
 y 225
 w 40
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -802,24 +790,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 65
-y 100
-w 1275
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -831,6 +801,7 @@ y 100
 w 100
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1237,24 +1208,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 35
-y 125
-w 1305
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1266,6 +1219,7 @@ y 125
 w 130
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -1336,6 +1290,9 @@ beginGroup
 endGroup
 
 visPv "CALC\\\{(A)\}($(P)$(R)AutoExposureOnePushAvail  )"
+visInvert
+visMin 0
+visMax 1
 endObjectProperties
 
 
@@ -1669,24 +1626,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 75
-y 150
-w 1265
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1698,6 +1637,7 @@ y 150
 w 90
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2104,24 +2044,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 15
-y 175
-w 1325
-h 45
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2133,6 +2055,7 @@ y 175
 w 140
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2152,6 +2075,7 @@ y 200
 w 150
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -2678,24 +2602,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 65
-y 250
-w 1275
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2707,6 +2613,7 @@ y 250
 w 100
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -3113,35 +3020,18 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 115
-y 275
-w 1225
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 115
+x 102
 y 275
 w 63
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -3548,24 +3438,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 95
-y 300
-w 1245
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -3577,6 +3449,7 @@ y 300
 w 70
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -3983,35 +3856,18 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 325
-w 1215
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 125
+x 121
 y 325
 w 44
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -4418,24 +4274,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 350
-w 1215
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -4447,6 +4285,7 @@ y 350
 w 40
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -4853,35 +4692,18 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 115
-y 375
-w 1225
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 115
+x 110
 y 375
 w 55
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -5288,24 +5110,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 55
-y 400
-w 1285
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -5317,6 +5121,7 @@ y 400
 w 110
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -5723,24 +5528,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 45
-y 425
-w 1295
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -5752,6 +5539,7 @@ y 425
 w 120
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -6158,24 +5946,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 35
-y 450
-w 1305
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -6187,6 +5957,7 @@ y 450
 w 130
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -6593,24 +6364,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 65
-y 475
-w 1275
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -6622,6 +6375,7 @@ y 475
 w 100
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -7028,35 +6782,18 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 500
-w 1215
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 125
+x 115
 y 500
 w 50
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -7463,35 +7200,18 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 135
-y 525
-w 1205
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 135
+x 126
 y 525
 w 39
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -7898,24 +7618,6 @@ visMax 1
 endObjectProperties
 
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 550
-w 1215
-h 20
-
-beginGroup
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -7927,6 +7629,7 @@ y 550
 w 40
 h 20
 font "helvetica-medium-r-14.0"
+fontAlign "right"
 fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
@@ -8332,23 +8035,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 135
-y 225
-w 1205
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -8519,23 +8205,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 65
-y 100
-w 1275
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -8706,23 +8375,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 35
-y 125
-w 1305
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -8805,6 +8457,9 @@ endObjectProperties
 endGroup
 
 visPv "CALC\\\{(A)\}($(P)$(R)AutoExposureOnePushAvail  )"
+visInvert
+visMin 0
+visMax 1
 endObjectProperties
 
 # (Group)
@@ -8890,23 +8545,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 75
-y 150
-w 1265
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -9077,23 +8715,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 15
-y 175
-w 1325
-h 45
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -9264,23 +8885,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 65
-y 250
-w 1275
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -9451,23 +9055,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 115
-y 275
-w 1225
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -9638,23 +9225,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 95
-y 300
-w 1245
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -9825,23 +9395,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 325
-w 1215
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -10012,23 +9565,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 350
-w 1215
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -10199,23 +9735,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 115
-y 375
-w 1225
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -10386,23 +9905,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 55
-y 400
-w 1285
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -10573,23 +10075,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 45
-y 425
-w 1295
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -10760,23 +10245,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 35
-y 450
-w 1305
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -10947,23 +10415,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 65
-y 475
-w 1275
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -11134,23 +10585,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 500
-w 1215
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -11321,23 +10755,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 135
-y 525
-w 1205
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -11508,23 +10925,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 125
-y 550
-w 1215
-h 20
-
-beginGroup
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -11693,11 +11093,6 @@ visPv "CALC\\\{(A)\}($(P)$(R)TiltAbsAvail)"
 visInvert
 visMin 0
 visMax 1
-endObjectProperties
-
-
-endGroup
-
 endObjectProperties
 
 

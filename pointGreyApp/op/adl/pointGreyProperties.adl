@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/areaDetector-3-2/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
+	name="/home/epics/devel/areaDetector-3-3-2/ADPointGrey/pointGreyApp/op/adl/pointGreyProperties.adl"
 	version=030109
 }
 display {
@@ -316,370 +316,126 @@ text {
 	}
 	textix="Max"
 }
-composite {
+text {
 	object {
 		x=135
 		y=225
-		width=1205
+		width=30
 		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Hue"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=225
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)HueOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=226
+		width=60
+		height=18
 	}
 	"composite name"=""
 	children {
-		text {
-			object {
-				x=135
-				y=225
-				width=30
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Hue"
-		}
-		"text update" {
-			object {
-				x=235
-				y=225
-				width=50
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)HueOnOff_RBV"
-				clr=53
-				bclr=4
-			}
-			format="string"
-			limits {
-			}
-		}
-		composite {
+		menu {
 			object {
 				x=170
 				y=226
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=226
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)HueOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)HueOnOffAvail"
+			control {
+				chan="$(P)$(R)HueOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)HueOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=225
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=225
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=225
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)HueOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)HueOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)HueOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=225
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=226
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)HueAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=225
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)HueAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=225
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=225
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)HueVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=225
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)HueVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=225
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=225
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=225
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)HueManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=225
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=225
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)HueValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=225
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)HueValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=225
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=225
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=225
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)HueValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)HueAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)HueOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=65
-		y=100
-		width=1275
+		x=355
+		y=225
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=65
-				y=100
-				width=100
-				height=20
+				x=355
+				y=226
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)HueAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Brightness"
 		}
 		"text update" {
 			object {
-				x=235
-				y=100
-				width=50
+				x=435
+				y=225
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)BrightnessOnOff_RBV"
+				chan="$(P)$(R)HueAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -687,665 +443,647 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)HueAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=225
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
 			object {
-				x=355
-				y=100
-				width=155
+				x=527
+				y=225
+				width=75
 				height=20
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=101
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)BrightnessAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=100
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
+			control {
+				chan="$(P)$(R)HueVal"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)BrightnessAutoAvail"
+			limits {
 			}
 		}
-		composite {
+		valuator {
+			object {
+				x=607
+				y=225
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)HueVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=225
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HueVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=225
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HueVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=225
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HueVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)HueManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=225
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=225
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)HueValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=225
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)HueValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=225
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HueValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=225
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HueValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=225
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)HueValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)HueAbsAvail"
+	}
+}
+text {
+	object {
+		x=65
+		y=100
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Brightness"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=100
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)BrightnessOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=355
+		y=100
+		width=155
+		height=20
+	}
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=355
+				y=101
+				width=75
+				height=18
+			}
+			control {
+				chan="$(P)$(R)BrightnessAutoMode"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=435
+				y=100
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessAutoMode_RBV"
+				clr=53
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)BrightnessAutoAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=100
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=100
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=100
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BrightnessOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)BrightnessOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)BrightnessOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)BrightnessOnePushAvail"
+	}
+}
+composite {
+	object {
+		x=170
+		y=101
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=101
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=101
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)BrightnessOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)BrightnessOnOffAvail"
+			control {
+				chan="$(P)$(R)BrightnessOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
-			object {
-				x=527
-				y=100
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=100
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BrightnessVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=100
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BrightnessVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=100
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=100
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=100
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)BrightnessManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=100
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=100
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BrightnessValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=100
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)BrightnessValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=100
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=100
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=100
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)BrightnessValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)BrightnessAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)BrightnessOnOffAvail"
 	}
 }
 composite {
 	object {
-		x=35
-		y=125
-		width=1305
+		x=527
+		y=100
+		width=375
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		"text entry" {
 			object {
-				x=35
-				y=125
-				width=130
+				x=527
+				y=100
+				width=75
 				height=20
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)BrightnessVal"
 				clr=14
+				bclr=51
 			}
-			textix="Auto exposure"
-		}
-		"text update" {
-			object {
-				x=235
-				y=125
-				width=50
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)AutoExposureOnOff_RBV"
-				clr=53
-				bclr=4
-			}
-			format="string"
 			limits {
 			}
 		}
-		composite {
+		valuator {
+			object {
+				x=607
+				y=100
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)BrightnessVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=100
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=100
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=100
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)BrightnessManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=100
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=100
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)BrightnessValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=100
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)BrightnessValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=100
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=100
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=100
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)BrightnessValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)BrightnessAbsAvail"
+	}
+}
+text {
+	object {
+		x=35
+		y=125
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Auto exposure"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=125
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)AutoExposureOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=126
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=126
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=126
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)AutoExposureOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)AutoExposureOnOffAvail"
+			control {
+				chan="$(P)$(R)AutoExposureOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)AutoExposureOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=125
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=125
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=125
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)AutoExposureOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)AutoExposureOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				chan="$(P)$(R)AutoExposureOnePushAvail  "
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=125
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=126
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)AutoExposureAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=125
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)AutoExposureAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=125
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=125
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)AutoExposureVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=125
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)AutoExposureVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=125
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=125
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=125
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)AutoExposureManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=125
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=125
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)AutoExposureValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=125
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)AutoExposureValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=125
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=125
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=125
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)AutoExposureValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)AutoExposureAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)AutoExposureOnePushAvail  "
 	}
 }
 composite {
 	object {
-		x=75
-		y=150
-		width=1265
+		x=355
+		y=125
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=75
-				y=150
-				width=90
-				height=20
+				x=355
+				y=126
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)AutoExposureAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Sharpness"
 		}
 		"text update" {
 			object {
-				x=235
-				y=150
-				width=50
+				x=435
+				y=125
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)SharpnessOnOff_RBV"
+				chan="$(P)$(R)AutoExposureAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -1353,758 +1091,660 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)AutoExposureAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=125
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=125
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)AutoExposureVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=125
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)AutoExposureVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=125
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AutoExposureVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=125
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AutoExposureVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=125
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AutoExposureVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)AutoExposureManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=125
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=125
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)AutoExposureValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=125
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)AutoExposureValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=125
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AutoExposureValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=125
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AutoExposureValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=125
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)AutoExposureValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)AutoExposureAbsAvail"
+	}
+}
+text {
+	object {
+		x=75
+		y=150
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sharpness"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=150
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)SharpnessOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=295
+		y=150
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=150
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=150
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SharpnessOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)SharpnessOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SharpnessOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SharpnessOnePushAvail"
+	}
+}
+composite {
+	object {
+		x=355
+		y=150
+		width=155
+		height=20
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=355
-				y=150
-				width=155
-				height=20
+				y=151
+				width=75
+				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=151
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)SharpnessAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=150
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SharpnessAutoAvail"
+			control {
+				chan="$(P)$(R)SharpnessAutoMode"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+		"text update" {
+			object {
+				x=435
+				y=150
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessAutoMode_RBV"
+				clr=53
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SharpnessAutoAvail"
+	}
+}
+composite {
+	object {
+		x=170
+		y=151
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=151
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=151
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)SharpnessOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SharpnessOnOffAvail"
+			control {
+				chan="$(P)$(R)SharpnessOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
-			object {
-				x=920
-				y=150
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=150
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SharpnessValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=150
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SharpnessValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=150
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=150
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=150
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SharpnessAbsAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=150
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=150
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SharpnessVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=150
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SharpnessVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=150
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=150
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=150
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SharpnessVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SharpnessManAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SharpnessOnOffAvail"
 	}
 }
 composite {
 	object {
-		x=15
-		y=175
-		width=1325
-		height=45
+		x=920
+		y=150
+		width=420
+		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		valuator {
 			object {
-				x=25
-				y=175
-				width=140
+				x=1000
+				y=150
+				width=100
 				height=20
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)SharpnessValAbs"
 				clr=14
+				bclr=51
 			}
-			textix="White bal. red"
-		}
-		text {
-			object {
-				x=15
-				y=200
-				width=150
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="White bal. blue"
-		}
-		"text update" {
-			object {
-				x=235
-				y=175
-				width=50
-				height=20
-			}
-			monitor {
-				chan="$(P)$(R)WhiteBalanceOnOff_RBV"
-				clr=53
-				bclr=4
-			}
-			format="string"
+			dPrecision=1.000000
 			limits {
 			}
 		}
-		composite {
+		"text entry" {
+			object {
+				x=920
+				y=150
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SharpnessValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=150
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=150
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=150
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SharpnessAbsAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=150
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=150
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SharpnessVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=150
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SharpnessVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=150
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=150
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=150
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SharpnessVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SharpnessManAvail"
+	}
+}
+text {
+	object {
+		x=25
+		y=175
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="White bal. red"
+	align="horiz. right"
+}
+text {
+	object {
+		x=15
+		y=200
+		width=150
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="White bal. blue"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=175
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)WhiteBalanceOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=176
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=176
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=176
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)WhiteBalanceOnOffAvail"
+			control {
+				chan="$(P)$(R)WhiteBalanceOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)WhiteBalanceOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=175
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=175
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=175
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)WhiteBalanceOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)WhiteBalanceOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=175
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=176
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=175
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)WhiteBalanceAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=175
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=175
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=175
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=175
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=175
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=175
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)WhiteBalanceAbsAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=175
-				width=375
-				height=45
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=200
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceValB"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=200
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceValB"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=200
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceValB_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=200
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceValB.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=200
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceValB.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=527
-						y=175
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=175
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)WhiteBalanceVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=175
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=175
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=175
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)WhiteBalanceVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)WhiteBalanceManAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)WhiteBalanceOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=65
-		y=250
-		width=1275
+		x=355
+		y=175
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=65
-				y=250
-				width=100
-				height=20
+				x=355
+				y=176
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)WhiteBalanceAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Saturation"
 		}
 		"text update" {
 			object {
-				x=235
-				y=250
-				width=50
+				x=435
+				y=175
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)SaturationOnOff_RBV"
+				chan="$(P)$(R)WhiteBalanceAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -2112,333 +1752,402 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)WhiteBalanceAutoAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=175
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=175
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)WhiteBalanceValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=175
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)WhiteBalanceValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=175
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=175
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=175
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)WhiteBalanceAbsAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=175
+		width=375
+		height=45
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=200
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)WhiteBalanceValB"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=200
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)WhiteBalanceValB"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=200
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceValB_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=200
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceValB.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=200
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceValB.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=527
+				y=175
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)WhiteBalanceVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=175
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)WhiteBalanceVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=175
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=175
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=175
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)WhiteBalanceVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)WhiteBalanceManAvail"
+	}
+}
+text {
+	object {
+		x=65
+		y=250
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Saturation"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=250
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)SaturationOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=251
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=251
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=251
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)SaturationOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SaturationOnOffAvail"
+			control {
+				chan="$(P)$(R)SaturationOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SaturationOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=250
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=250
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=250
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SaturationOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)SaturationOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SaturationOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=250
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=251
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)SaturationAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=250
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SaturationAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=250
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=250
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SaturationVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=250
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SaturationVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=250
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=250
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=250
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SaturationManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=250
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=250
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SaturationValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=250
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)SaturationValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=250
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=250
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=250
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)SaturationValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)SaturationAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SaturationOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=115
-		y=275
-		width=1225
+		x=355
+		y=250
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=115
-				y=275
-				width=50
-				height=20
+				x=355
+				y=251
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)SaturationAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Gamma"
 		}
 		"text update" {
 			object {
-				x=235
-				y=275
-				width=50
+				x=435
+				y=250
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)GammaOnOff_RBV"
+				chan="$(P)$(R)SaturationAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -2446,333 +2155,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SaturationAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=250
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=250
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SaturationVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=250
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SaturationVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=250
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SaturationVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=250
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SaturationVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=250
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SaturationVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SaturationManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=250
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=250
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SaturationValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=250
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)SaturationValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=250
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SaturationValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=250
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SaturationValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=250
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)SaturationValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)SaturationAbsAvail"
+	}
+}
+text {
+	object {
+		x=115
+		y=275
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Gamma"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=275
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)GammaOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=276
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=276
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=276
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)GammaOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GammaOnOffAvail"
+			control {
+				chan="$(P)$(R)GammaOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GammaOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=275
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=275
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=275
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GammaOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)GammaOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GammaOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=275
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=276
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)GammaAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=275
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GammaAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=275
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=275
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GammaVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=275
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GammaVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=275
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=275
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=275
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GammaManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=275
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=275
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GammaValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=275
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GammaValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=275
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=275
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=275
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GammaValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GammaAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GammaOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=95
-		y=300
-		width=1245
+		x=355
+		y=275
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=95
-				y=300
-				width=70
-				height=20
+				x=355
+				y=276
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)GammaAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Shutter"
 		}
 		"text update" {
 			object {
-				x=235
-				y=300
-				width=50
+				x=435
+				y=275
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ShutterOnOff_RBV"
+				chan="$(P)$(R)GammaAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -2780,333 +2479,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GammaAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=275
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=275
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GammaVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=275
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GammaVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=275
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GammaVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=275
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GammaVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=275
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GammaVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GammaManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=275
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=275
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GammaValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=275
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GammaValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=275
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GammaValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=275
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GammaValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=275
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GammaValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GammaAbsAvail"
+	}
+}
+text {
+	object {
+		x=95
+		y=300
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Shutter"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=300
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ShutterOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=301
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=301
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=301
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)ShutterOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ShutterOnOffAvail"
+			control {
+				chan="$(P)$(R)ShutterOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ShutterOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=300
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=300
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=300
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ShutterOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)ShutterOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ShutterOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=300
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=301
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)ShutterAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=300
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ShutterAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=300
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=300
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ShutterVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=300
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ShutterVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=300
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=300
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=300
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ShutterManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=300
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=300
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ShutterValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=300
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ShutterValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=300
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=300
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=300
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ShutterValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ShutterAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ShutterOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=125
-		y=325
-		width=1215
+		x=355
+		y=300
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=125
-				y=325
-				width=40
-				height=20
+				x=355
+				y=301
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)ShutterAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Gain"
 		}
 		"text update" {
 			object {
-				x=235
-				y=325
-				width=50
+				x=435
+				y=300
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)GainOnOff_RBV"
+				chan="$(P)$(R)ShutterAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -3114,333 +2803,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ShutterAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=300
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=300
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ShutterVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=300
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ShutterVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=300
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ShutterVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=300
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ShutterVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=300
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ShutterVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ShutterManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=300
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=300
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ShutterValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=300
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ShutterValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=300
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ShutterValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=300
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ShutterValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=300
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ShutterValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ShutterAbsAvail"
+	}
+}
+text {
+	object {
+		x=125
+		y=325
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Gain"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=325
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)GainOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=326
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=326
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=326
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)GainOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GainOnOffAvail"
+			control {
+				chan="$(P)$(R)GainOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GainOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=325
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=325
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=325
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GainOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)GainOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GainOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=325
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=326
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)GainAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=325
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GainAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=325
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=325
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GainVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=325
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GainVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=325
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=325
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=325
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GainManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=325
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=325
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GainValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=325
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)GainValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=325
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=325
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=325
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)GainValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)GainAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GainOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=125
-		y=350
-		width=1215
+		x=355
+		y=325
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=125
-				y=350
-				width=40
-				height=20
+				x=355
+				y=326
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)GainAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Iris"
 		}
 		"text update" {
 			object {
-				x=235
-				y=350
-				width=50
+				x=435
+				y=325
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)IrisOnOff_RBV"
+				chan="$(P)$(R)GainAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -3448,333 +3127,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GainAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=325
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=325
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GainVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=325
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GainVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=325
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GainVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=325
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GainVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=325
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GainVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GainManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=325
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=325
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GainValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=325
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)GainValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=325
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GainValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=325
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GainValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=325
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)GainValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)GainAbsAvail"
+	}
+}
+text {
+	object {
+		x=125
+		y=350
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Iris"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=350
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)IrisOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=351
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=351
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=351
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)IrisOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)IrisOnOffAvail"
+			control {
+				chan="$(P)$(R)IrisOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)IrisOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=350
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=350
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=350
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)IrisOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)IrisOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)IrisOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=350
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=351
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)IrisAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=350
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)IrisAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=350
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=350
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)IrisVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=350
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)IrisVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=350
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=350
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=350
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)IrisManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=350
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=350
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)IrisValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=350
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)IrisValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=350
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=350
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=350
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)IrisValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)IrisAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)IrisOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=115
-		y=375
-		width=1225
+		x=355
+		y=350
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=115
-				y=375
-				width=50
-				height=20
+				x=355
+				y=351
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)IrisAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Focus"
 		}
 		"text update" {
 			object {
-				x=235
-				y=375
-				width=50
+				x=435
+				y=350
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FocusOnOff_RBV"
+				chan="$(P)$(R)IrisAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -3782,333 +3451,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)IrisAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=350
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=350
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IrisVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=350
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IrisVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=350
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IrisVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=350
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IrisVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=350
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IrisVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)IrisManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=350
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=350
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IrisValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=350
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)IrisValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=350
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IrisValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=350
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IrisValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=350
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)IrisValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)IrisAbsAvail"
+	}
+}
+text {
+	object {
+		x=115
+		y=375
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Focus"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=375
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FocusOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=376
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=376
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=376
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)FocusOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FocusOnOffAvail"
+			control {
+				chan="$(P)$(R)FocusOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FocusOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=375
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=375
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=375
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FocusOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)FocusOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FocusOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=375
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=376
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)FocusAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=375
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FocusAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=375
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=375
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FocusVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=375
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FocusVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=375
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=375
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=375
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FocusManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=375
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=375
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FocusValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=375
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FocusValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=375
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=375
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=375
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FocusValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FocusAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FocusOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=55
-		y=400
-		width=1285
+		x=355
+		y=375
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=55
-				y=400
-				width=110
-				height=20
+				x=355
+				y=376
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)FocusAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Temperature"
 		}
 		"text update" {
 			object {
-				x=235
-				y=400
-				width=50
+				x=435
+				y=375
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TemperatureOnOff_RBV"
+				chan="$(P)$(R)FocusAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4116,333 +3775,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FocusAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=375
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=375
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FocusVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=375
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FocusVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=375
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FocusVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=375
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FocusVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=375
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FocusVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FocusManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=375
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=375
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FocusValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=375
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FocusValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=375
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FocusValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=375
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FocusValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=375
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FocusValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FocusAbsAvail"
+	}
+}
+text {
+	object {
+		x=55
+		y=400
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Temperature"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=400
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TemperatureOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=401
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=401
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=401
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TemperatureOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TemperatureOnOffAvail"
+			control {
+				chan="$(P)$(R)TemperatureOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TemperatureOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=400
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=400
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=400
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TemperatureOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)TemperatureOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TemperatureOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=400
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=401
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TemperatureAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=400
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TemperatureAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=400
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=400
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TemperatureVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=400
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TemperatureVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=400
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=400
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=400
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TemperatureManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=400
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=400
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TemperatureValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=400
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TemperatureValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=400
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=400
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=400
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TemperatureValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TemperatureAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TemperatureOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=45
-		y=425
-		width=1295
+		x=355
+		y=400
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=45
-				y=425
-				width=120
-				height=20
+				x=355
+				y=401
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)TemperatureAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Trigger mode"
 		}
 		"text update" {
 			object {
-				x=235
-				y=425
-				width=50
+				x=435
+				y=400
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerModeOnOff_RBV"
+				chan="$(P)$(R)TemperatureAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4450,333 +4099,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TemperatureAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=400
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=400
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TemperatureVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=400
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TemperatureVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=400
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=400
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=400
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TemperatureManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=400
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=400
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TemperatureValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=400
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TemperatureValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=400
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=400
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=400
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TemperatureValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TemperatureAbsAvail"
+	}
+}
+text {
+	object {
+		x=45
+		y=425
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger mode"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=425
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerModeOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=426
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=426
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=426
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TriggerModeOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerModeOnOffAvail"
+			control {
+				chan="$(P)$(R)TriggerModeOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerModeOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=425
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=425
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=425
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerModeOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)TriggerModeOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerModeOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=425
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=426
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TriggerModeAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=425
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerModeAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=425
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=425
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerModeVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=425
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerModeVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=425
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=425
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=425
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerModeManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=425
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=425
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerModeValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=425
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerModeValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=425
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=425
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=425
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerModeValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerModeAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerModeOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=35
-		y=450
-		width=1305
+		x=355
+		y=425
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=35
-				y=450
-				width=130
-				height=20
+				x=355
+				y=426
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)TriggerModeAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Trigger delay"
 		}
 		"text update" {
 			object {
-				x=235
-				y=450
-				width=50
+				x=435
+				y=425
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TriggerDelayOnOff_RBV"
+				chan="$(P)$(R)TriggerModeAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -4784,333 +4423,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerModeAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=425
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=425
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerModeVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=425
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerModeVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=425
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerModeVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=425
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerModeVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=425
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerModeVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerModeManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=425
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=425
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerModeValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=425
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerModeValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=425
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerModeValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=425
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerModeValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=425
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerModeValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerModeAbsAvail"
+	}
+}
+text {
+	object {
+		x=35
+		y=450
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger delay"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=450
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TriggerDelayOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=451
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=451
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=451
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerDelayOnOffAvail"
+			control {
+				chan="$(P)$(R)TriggerDelayOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerDelayOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=450
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=450
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=450
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)TriggerDelayOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerDelayOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=450
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=451
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=450
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerDelayAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=450
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=450
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=450
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=450
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=450
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=450
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerDelayManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=450
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=450
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=450
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TriggerDelayValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=450
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=450
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=450
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TriggerDelayValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TriggerDelayAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerDelayOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=65
-		y=475
-		width=1275
+		x=355
+		y=450
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=65
-				y=475
-				width=100
-				height=20
+				x=355
+				y=451
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)TriggerDelayAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Frame rate"
 		}
 		"text update" {
 			object {
-				x=235
-				y=475
-				width=50
+				x=435
+				y=450
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)FrameRateOnOff_RBV"
+				chan="$(P)$(R)TriggerDelayAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5118,333 +4747,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerDelayAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=450
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=450
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerDelayVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=450
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerDelayVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=450
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerDelayVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=450
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerDelayVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=450
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerDelayVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerDelayManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=450
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=450
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerDelayValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=450
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TriggerDelayValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=450
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerDelayValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=450
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerDelayValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=450
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TriggerDelayValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TriggerDelayAbsAvail"
+	}
+}
+text {
+	object {
+		x=65
+		y=475
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frame rate"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=475
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)FrameRateOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=476
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=476
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=476
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)FrameRateOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FrameRateOnOffAvail"
+			control {
+				chan="$(P)$(R)FrameRateOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FrameRateOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=475
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=475
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=475
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FrameRateOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)FrameRateOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FrameRateOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=475
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=476
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)FrameRateAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=475
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FrameRateAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=475
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=475
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FrameRateVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=475
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FrameRateVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=475
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=475
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=475
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FrameRateManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=475
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=475
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FrameRateValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=475
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)FrameRateValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=475
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=475
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=475
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)FrameRateValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)FrameRateAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FrameRateOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=125
-		y=500
-		width=1215
+		x=355
+		y=475
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=125
-				y=500
-				width=40
-				height=20
+				x=355
+				y=476
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)FrameRateAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Zoom"
 		}
 		"text update" {
 			object {
-				x=235
-				y=500
-				width=50
+				x=435
+				y=475
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)ZoomOnOff_RBV"
+				chan="$(P)$(R)FrameRateAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5452,333 +5071,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FrameRateAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=475
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=475
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FrameRateVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=475
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FrameRateVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=475
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FrameRateVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=475
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FrameRateVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=475
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FrameRateVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FrameRateManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=475
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=475
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FrameRateValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=475
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)FrameRateValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=475
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FrameRateValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=475
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FrameRateValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=475
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)FrameRateValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)FrameRateAbsAvail"
+	}
+}
+text {
+	object {
+		x=125
+		y=500
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Zoom"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=500
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)ZoomOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=501
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=501
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=501
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)ZoomOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ZoomOnOffAvail"
+			control {
+				chan="$(P)$(R)ZoomOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ZoomOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=500
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=500
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=500
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ZoomOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)ZoomOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ZoomOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=500
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=501
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)ZoomAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=500
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ZoomAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=500
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=500
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ZoomVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=500
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ZoomVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=500
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=500
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=500
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ZoomManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=500
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=500
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ZoomValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=500
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)ZoomValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=500
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=500
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=500
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)ZoomValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)ZoomAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ZoomOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=135
-		y=525
-		width=1205
+		x=355
+		y=500
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=135
-				y=525
-				width=30
-				height=20
+				x=355
+				y=501
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)ZoomAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Pan"
 		}
 		"text update" {
 			object {
-				x=235
-				y=525
-				width=50
+				x=435
+				y=500
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)PanOnOff_RBV"
+				chan="$(P)$(R)ZoomAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -5786,333 +5395,323 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ZoomAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=500
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=500
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ZoomVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=500
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ZoomVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=500
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ZoomVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=500
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ZoomVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=500
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ZoomVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ZoomManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=500
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=500
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ZoomValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=500
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)ZoomValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=500
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ZoomValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=500
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ZoomValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=500
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)ZoomValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)ZoomAbsAvail"
+	}
+}
+text {
+	object {
+		x=135
+		y=525
+		width=30
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Pan"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=525
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)PanOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=526
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=526
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=526
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)PanOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)PanOnOffAvail"
+			control {
+				chan="$(P)$(R)PanOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)PanOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=525
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=525
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=525
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)PanOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)PanOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)PanOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
-			object {
-				x=355
-				y=525
-				width=155
-				height=20
-			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=526
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)PanAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=525
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)PanAutoAvail"
-			}
-		}
-		composite {
-			object {
-				x=527
-				y=525
-				width=375
-				height=20
-			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=525
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)PanVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=525
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)PanVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=525
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=525
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=525
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)PanManAvail"
-			}
-		}
-		composite {
-			object {
-				x=920
-				y=525
-				width=420
-				height=20
-			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=525
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)PanValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=525
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)PanValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=525
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=525
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=525
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)PanValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)PanAbsAvail"
-			}
-		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)PanOnePushAvail"
 	}
 }
 composite {
 	object {
-		x=125
-		y=550
-		width=1215
+		x=355
+		y=525
+		width=155
 		height=20
 	}
 	"composite name"=""
 	children {
-		text {
+		menu {
 			object {
-				x=125
-				y=550
-				width=40
-				height=20
+				x=355
+				y=526
+				width=75
+				height=18
 			}
-			"basic attribute" {
+			control {
+				chan="$(P)$(R)PanAutoMode"
 				clr=14
+				bclr=51
 			}
-			textix="Tilt"
 		}
 		"text update" {
 			object {
-				x=235
-				y=550
-				width=50
+				x=435
+				y=525
+				width=75
 				height=20
 			}
 			monitor {
-				chan="$(P)$(R)TiltOnOff_RBV"
+				chan="$(P)$(R)PanAutoMode_RBV"
 				clr=53
 				bclr=4
 			}
@@ -6120,300 +5719,524 @@ composite {
 			limits {
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)PanAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=525
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=527
+				y=525
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)PanVal"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		valuator {
+			object {
+				x=607
+				y=525
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)PanVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=525
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PanVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=525
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PanVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=525
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PanVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)PanManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=525
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=525
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)PanValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=920
+				y=525
+				width=75
+				height=20
+			}
+			control {
+				chan="$(P)$(R)PanValAbs"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1105
+				y=525
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PanValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=525
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PanValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=525
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)PanValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)PanAbsAvail"
+	}
+}
+text {
+	object {
+		x=125
+		y=550
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Tilt"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=235
+		y=550
+		width=50
+		height=20
+	}
+	monitor {
+		chan="$(P)$(R)TiltOnOff_RBV"
+		clr=53
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=170
+		y=551
+		width=60
+		height=18
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=170
 				y=551
 				width=60
 				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=170
-						y=551
-						width=60
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TiltOnOff"
-						clr=14
-						bclr=51
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TiltOnOffAvail"
+			control {
+				chan="$(P)$(R)TiltOnOff"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TiltOnOffAvail"
+	}
+}
+composite {
+	object {
+		x=295
+		y=550
+		width=50
+		height=20
+	}
+	"composite name"=""
+	children {
+		"message button" {
 			object {
 				x=295
 				y=550
 				width=50
 				height=20
 			}
-			"composite name"=""
-			children {
-				"message button" {
-					object {
-						x=295
-						y=550
-						width=50
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TiltOnePush"
-						clr=14
-						bclr=51
-					}
-					label="Push"
-					press_msg="1"
-				}
+			control {
+				chan="$(P)$(R)TiltOnePush"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TiltOnePushAvail"
-			}
+			label="Push"
+			press_msg="1"
 		}
-		composite {
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TiltOnePushAvail"
+	}
+}
+composite {
+	object {
+		x=355
+		y=550
+		width=155
+		height=20
+	}
+	"composite name"=""
+	children {
+		menu {
 			object {
 				x=355
-				y=550
-				width=155
-				height=20
+				y=551
+				width=75
+				height=18
 			}
-			"composite name"=""
-			children {
-				menu {
-					object {
-						x=355
-						y=551
-						width=75
-						height=18
-					}
-					control {
-						chan="$(P)$(R)TiltAutoMode"
-						clr=14
-						bclr=51
-					}
-				}
-				"text update" {
-					object {
-						x=435
-						y=550
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltAutoMode_RBV"
-						clr=53
-						bclr=4
-					}
-					format="string"
-					limits {
-					}
-				}
-			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TiltAutoAvail"
+			control {
+				chan="$(P)$(R)TiltAutoMode"
+				clr=14
+				bclr=51
 			}
 		}
-		composite {
+		"text update" {
+			object {
+				x=435
+				y=550
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltAutoMode_RBV"
+				clr=53
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TiltAutoAvail"
+	}
+}
+composite {
+	object {
+		x=527
+		y=550
+		width=375
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
 			object {
 				x=527
 				y=550
-				width=375
+				width=75
 				height=20
 			}
-			"composite name"=""
-			children {
-				"text entry" {
-					object {
-						x=527
-						y=550
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TiltVal"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				valuator {
-					object {
-						x=607
-						y=550
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TiltVal"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=717
-						y=550
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltVal_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=777
-						y=550
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltVal.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=842
-						y=550
-						width=60
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltVal.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
+			control {
+				chan="$(P)$(R)TiltVal"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TiltManAvail"
+			limits {
 			}
 		}
-		composite {
+		valuator {
+			object {
+				x=607
+				y=550
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TiltVal"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=717
+				y=550
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltVal_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=777
+				y=550
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltVal.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=842
+				y=550
+				width=60
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltVal.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TiltManAvail"
+	}
+}
+composite {
+	object {
+		x=920
+		y=550
+		width=420
+		height=20
+	}
+	"composite name"=""
+	children {
+		valuator {
+			object {
+				x=1000
+				y=550
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)TiltValAbs"
+				clr=14
+				bclr=51
+			}
+			dPrecision=1.000000
+			limits {
+			}
+		}
+		"text entry" {
 			object {
 				x=920
 				y=550
-				width=420
+				width=75
 				height=20
 			}
-			"composite name"=""
-			children {
-				valuator {
-					object {
-						x=1000
-						y=550
-						width=100
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TiltValAbs"
-						clr=14
-						bclr=51
-					}
-					dPrecision=1.000000
-					limits {
-					}
-				}
-				"text entry" {
-					object {
-						x=920
-						y=550
-						width=75
-						height=20
-					}
-					control {
-						chan="$(P)$(R)TiltValAbs"
-						clr=14
-						bclr=51
-					}
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1105
-						y=550
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltValAbs_RBV"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1185
-						y=550
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltValAbs.DRVL"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
-				"text update" {
-					object {
-						x=1265
-						y=550
-						width=75
-						height=20
-					}
-					monitor {
-						chan="$(P)$(R)TiltValAbs.DRVH"
-						clr=53
-						bclr=4
-					}
-					align="horiz. right"
-					limits {
-					}
-				}
+			control {
+				chan="$(P)$(R)TiltValAbs"
+				clr=14
+				bclr=51
 			}
-			"dynamic attribute" {
-				vis="if not zero"
-				calc="A"
-				chan="$(P)$(R)TiltAbsAvail"
+			limits {
 			}
 		}
+		"text update" {
+			object {
+				x=1105
+				y=550
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltValAbs_RBV"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1185
+				y=550
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltValAbs.DRVL"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=1265
+				y=550
+				width=75
+				height=20
+			}
+			monitor {
+				chan="$(P)$(R)TiltValAbs.DRVH"
+				clr=53
+				bclr=4
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+	}
+	"dynamic attribute" {
+		vis="if not zero"
+		calc="A"
+		chan="$(P)$(R)TiltAbsAvail"
 	}
 }

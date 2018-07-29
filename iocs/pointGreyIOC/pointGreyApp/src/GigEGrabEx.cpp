@@ -18,7 +18,13 @@
 // $Id: GigEGrabEx.cpp 349447 2017-12-22 00:24:14Z vsiu $
 //=============================================================================
 
-#include "stdafx.h"
+#ifdef _WIN32
+  #include <tchar.h>
+  #include <windows.h>
+#else
+  #include <unistd.h>
+#endif
+
 
 #include "FlyCapture2.h"
 #include <iomanip>

@@ -19,6 +19,26 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-8 (XXX-August-2018)
+----
+* Updated FlyCap2 SDK on Windows from 2.9.3 to 2.12.3.
+  * The most important reason for the upgrade is that there is a bug in 2.9.3 where
+    camera serial numbers are limited to 24 bits.  This can cause FlyCap2 to fail to find
+    cameras whose serial number starts with 17 and higher, i.e. manufactured in 2017 and later.
+  * Linux was left at SDK version 2.9.3 because later versions will not work0 with GCC 4.8 or earlier.
+    This means they won't work with RHEL 7 or Centos 7.
+  * So far cameras with serial numbers stating with 17 or 18 have worked on Linux for me, 
+    but this may just be luck, since it may depend on uninitialized memory.
+    Point Grey do provide a utility to "downgrade" the serial number of a camera by subtracting 17
+    from the first 2 digits, so this can be used if there are problems with new cameras on Linux.
+  * On Windows the name of the required FlyCap2 library now depends on what version of Visual Studio
+    is being used.  It is FlyCapture2_v100.lib for VS 2010, FlyCapture2_v120.lib for VS 2013, 
+    and FlyCapture2_v140.lib for VS 2015.
+    I have not yet found a way to have the Makefile automatically detect the VS version, so the Makefiles 
+    will need to be manually edited if VS 2015 is not being used.
+* Tweaked medm screens, and thus the autoconverted opi, ui, and edl screens.
+
+
 R2-7 (2-July-2018)
 ----
 * Fixed camera timestamps to use EPICS epoch, not Posix epoch.

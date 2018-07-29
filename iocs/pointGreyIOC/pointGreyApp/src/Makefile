@@ -32,7 +32,13 @@ PGTest_SRC += PGTest1.cpp
 
 # Add locally compiled object code
 PROD_LIBS += pointGrey
-PROD_LIBS_WIN32 += FlyCapture2
+# Use this line for Visual Studio 2010
+#PROD_LIBS_WIN32 += FlyCapture2_v100
+# Use this line for Visual Studio 2013
+#PROD_LIBS_WIN32 += FlyCapture2_v120
+# Use this line for Visual Studio 2015
+PROD_LIBS_WIN32 += FlyCapture2_v140
+
 # We use PROD_SYS_LIBS even though libflycapture.so is in the ADPointGrey tree 
 # because we are doing static build but the file is a .so file, not a .a file.
 PROD_SYS_LIBS_Linux += flycapture

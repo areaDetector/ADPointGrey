@@ -26,9 +26,9 @@ LIB_INSTALLS    += ../os/windows-x64/FlyCapture2_v120.lib
 LIB_INSTALLS    += ../os/windows-x64/FlyCapture2_v140.lib
 
 else ifeq (win32-x86, $(findstring win32-x86, $(T_A)))
-LIB_INSTALLS    += ../os/windows-x64/FlyCapture2_v100.lib
-LIB_INSTALLS    += ../os/windows-x64/FlyCapture2_v120.lib
-LIB_INSTALLS    += ../os/windows-x64/FlyCapture2_v140.lib
+LIB_INSTALLS    += ../os/win32-x86/FlyCapture2_v100.lib
+LIB_INSTALLS    += ../os/win32-x86/FlyCapture2_v120.lib
+LIB_INSTALLS    += ../os/win32-x86/FlyCapture2_v140.lib
 
 else ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
 LIB_INSTALLS    += ../os/linux-x86_64/libflycapture.so

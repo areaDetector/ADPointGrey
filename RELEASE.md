@@ -19,7 +19,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-8 (XXX-August-2018)
+R2-8 (3-December-2018)
 ----
 * Updated FlyCap2 SDK on Windows from 2.9.3 to 2.12.3.
   * The most important reason for the upgrade is that there is a bug in 2.9.3 where

@@ -675,19 +675,19 @@ pointGrey::pointGrey(const char *portName, int cameraId, int traceMask, int memo
         setGigEPropertyValue(PACKET_SIZE, packetSize);
         setGigEPropertyValue(PACKET_DELAY, DEFAULT_PACKET_DELAY);
     
-    // Get and set Enable Packet resend property 
-        if(pGigEConfig_){
+        // Get and set Enable Packet resend property 
+        if (pGigEConfig_) {
             error = pGigECamera_->GetGigEConfig(pGigEConfig_);
-            if(checkError(error, functionName, "GetGigEConfig")){
-            //There should not be an error getting the config parmas, but in case set some defaults
-            pGigEConfig_ -> enablePacketResend= true;
-            pGigEConfig_ -> registerTimeoutRetries = 3;
-            pGigEConfig_ -> registerTimeout = 20000;
+            if (checkError(error, functionName, "GetGigEConfig")) {
+                // There should not be an error getting the config parmas, but in case set some defaults
+                pGigEConfig_ -> enablePacketResend= true;
+                pGigEConfig_ -> registerTimeoutRetries = 3;
+                pGigEConfig_-> registerTimeout = 20000;
             }
-        asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
-            "%s::%s called GetGigEConfig, pGigEConfig_=%p, packetResendEnable=%d\n",
-            driverName, functionName, pGigEConfig_, pGigEConfig_->enablePacketResend);
-        setIntegerParam(PGPacketResendEnable, pGigEConfig_->enablePacketResend);   
+            asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+                "%s::%s called GetGigEConfig, pGigEConfig_=%p, packetResendEnable=%d\n",
+                driverName, functionName, pGigEConfig_, pGigEConfig_->enablePacketResend);
+            setIntegerParam(PGPacketResendEnable, pGigEConfig_->enablePacketResend);   
         }
     }
 
@@ -1211,7 +1211,7 @@ asynStatus pointGrey::writeInt32( asynUser *pasynUser, epicsInt32 value)
                 (function == PGBinningMode) ||
                 (function == PGPacketSize)  ||
                 (function == PGPacketDelay) ||
-                (function == PGPacketResendEnable)){
+                (function == PGPacketResendEnable)) {
         status = setImageParams();
 
     } else if (function == PGPropertyValue) {
@@ -1988,7 +1988,7 @@ asynStatus pointGrey::setGigEImageParams()
         driverName, functionName, pGigECamera_, pGigEConfig_ -> enablePacketResend, pGigEConfig_-> registerTimeoutRetries, pGigEConfig_->registerTimeout );
     error = pGigECamera_->SetGigEConfig(pGigEConfig_);
     if (checkError(error, functionName, "SetGigeEConfig")) 
-        return asynError;
+        goto cleanup;
     
     // Set the binning
     getIntegerParam(PGBinningMode, &binningMode);

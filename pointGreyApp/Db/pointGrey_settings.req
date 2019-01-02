@@ -6,6 +6,7 @@ $(P)$(R)PixelFormat
 $(P)$(R)BinningMode
 $(P)$(R)PacketSize
 $(P)$(R)PacketDelay
+$(P)$(R)ResendEnable
 $(P)$(R)ConvertPixelFormat
 $(P)$(R)TriggerSource
 $(P)$(R)TriggerPolarity

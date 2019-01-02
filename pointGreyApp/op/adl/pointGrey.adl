@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/areaDetector-3-3-2/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
+	name="/home/epics/devel/areaDetector-3-4-0/ADPointGrey/pointGreyApp/op/adl/pointGrey.adl"
 	version=030109
 }
 display {
@@ -1736,48 +1736,6 @@ menu {
 text {
 	object {
 		x=740
-		y=620
-		width=150
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Strobe polarity"
-	align="horiz. right"
-}
-menu {
-	object {
-		x=895
-		y=620
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(R)StrobePolarity"
-		clr=14
-		bclr=51
-	}
-}
-"text update" {
-	object {
-		x=980
-		y=621
-		width=80
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)StrobePolarity_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=740
 		y=670
 		width=150
 		height=20
@@ -1849,7 +1807,7 @@ rectangle {
 		x=715
 		y=700
 		width=350
-		height=155
+		height=180
 	}
 	"basic attribute" {
 		clr=14
@@ -2556,6 +2514,101 @@ text {
 		bclr=2
 	}
 	clrmod="alarm"
+	format="string"
+	limits {
+	}
+}
+composite {
+	object {
+		x=740
+		y=620
+		width=320
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=740
+				y=620
+				width=150
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Strobe polarity"
+			align="horiz. right"
+		}
+		menu {
+			object {
+				x=895
+				y=620
+				width=80
+				height=20
+			}
+			control {
+				chan="$(P)$(R)StrobePolarity"
+				clr=14
+				bclr=51
+			}
+		}
+		"text update" {
+			object {
+				x=980
+				y=621
+				width=80
+				height=18
+			}
+			monitor {
+				chan="$(P)$(R)StrobePolarity_RBV"
+				clr=54
+				bclr=4
+			}
+			format="string"
+			limits {
+			}
+		}
+	}
+}
+text {
+	object {
+		x=740
+		y=855
+		width=150
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Packet resend"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=895
+		y=855
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)ResendEnable"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=980
+		y=856
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)ResendEnable_RBV"
+		clr=54
+		bclr=4
+	}
 	format="string"
 	limits {
 	}

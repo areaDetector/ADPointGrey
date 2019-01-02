@@ -51,20 +51,3 @@ record(ao, "$(P)$(R)$(PROPERTY)ValHopr") {
   field(OMSL, "closed_loop")
   field(OUT, "$(P)$(R)$(PROPERTY)Val.HOPR NPP NMS")
 }
-
-#Packets resend enable
-record(bo,"$(P)$(R)ResendEnable"){
-  field(PINI,"YES")
-  field(DTYP, "asynInt32")
-  field(ZNAM, "Disable")
-  field(ONAM, "Enable")
-  field(OUT, "@asyn($(PORT) 0)PG_PACKET_RESEND_ENABLE")
-}
-
-record(bi, "$(P)$(R)ResendEnable_RBV"){
-  field(SCAN, "I/O Intr")
-  field(DTYP, "asynInt32")
-  field(ZNAM, "Disable")
-  field(ONAM, "Enable")
-  field(INP, "@asyn($(PORT) 0)PG_PACKET_RESEND_ENABLE")
-}

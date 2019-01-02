@@ -19,13 +19,18 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-9 (XXX-January-2019)
+----
+* Added new ResendEnable record to control whether GigE packets should be resent on error.
+  Thanks to Oksana Ivashkevych for this.
+
 R2-8 (3-December-2018)
 ----
 * Updated FlyCap2 SDK on Windows from 2.9.3 to 2.12.3.
   * The most important reason for the upgrade is that there is a bug in 2.9.3 where
     camera serial numbers are limited to 24 bits.  This can cause FlyCap2 to fail to find
     cameras whose serial number starts with 17 and higher, i.e. manufactured in 2017 and later.
-  * Linux was left at SDK version 2.9.3 because later versions will not work0 with GCC 4.8 or earlier.
+  * Linux was left at SDK version 2.9.3 because later versions will not work with GCC 4.8 or earlier.
     This means they won't work with RHEL 7 or Centos 7.
   * So far cameras with serial numbers stating with 17 or 18 have worked on Linux for me, 
     but this may just be luck, since it may depend on uninitialized memory.

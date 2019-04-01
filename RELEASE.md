@@ -8,7 +8,7 @@ Tagged source code releases from R2-0 onward can be obtained at
 https://github.com/areaDetector/ADPointGrey/releases.
 
 Tagged prebuilt binaries from R2-0 onward can be obtained at
-http://cars.uchicago.edu/software/pub/ADPointGrey.
+https://cars.uchicago.edu/software/pub/ADPointGrey.
 
 The versions of EPICS base, asyn, and other synApps modules used for each release can be obtained from 
 the EXAMPLE_RELEASE_PATHS.local, EXAMPLE_RELEASE_LIBS.local, and EXAMPLE_RELEASE_PRODS.local

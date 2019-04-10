@@ -1595,11 +1595,12 @@ not available.
    RGB mode
    :name: pointgreyproperties.adl-for-a-blackfly-gige-color-camera-in-rgb-mode
 
-|pointGreyProperties\_BlackFly.png|
+|pointGreyProperties_BlackFly.png|
+
 .. rubric:: pointGreyProperties.adl for a Grasshopper3 monochrome camera
    :name: pointgreyproperties.adl-for-a-grasshopper3-monochrome-camera
 
-|pointGreyProperties\_Grasshopper3.png|
+|pointGreyProperties_Grasshopper3.png|
 
 .. raw:: html
 
@@ -1652,7 +1653,7 @@ close and re-open that main screen as well.
    </div>
 
 .. |pointGrey.png| image:: pointGrey.png
-.. |pointGreyProperties\_BlackFly.png| image:: pointGreyProperties_BlackFly.png
-.. |pointGreyProperties\_Grasshopper3.png| image:: pointGreyProperties_Grasshopper3.png
+.. |pointGreyProperties_BlackFly.png| image:: pointGreyProperties_BlackFly.png
+.. |pointGreyProperties_Grasshopper3.png| image:: pointGreyProperties_Grasshopper3.png
 .. |pointGreyFrameRate.png| image:: pointGreyFrameRate.png
 .. |pointGreyPixelFormat.png| image:: pointGreyPixelFormat.png

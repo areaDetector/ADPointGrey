@@ -9,7 +9,7 @@ include "ADBase.template"
 ## These are the records from ADBase.template that we modify
 ## Disable ReadStatus when acquisition is active because querying the detector 
 ## when it is streaming causes dropped frames
-record(bo, $(P)$(R)ReadStatus) {
+record(bo, "$(P)$(R)ReadStatus") {
   field(SDIS, "$(P)$(R)Acquire NPP NMS")
   field(DISV, "1")
 }

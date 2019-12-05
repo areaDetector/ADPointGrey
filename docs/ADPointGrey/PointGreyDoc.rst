@@ -1,47 +1,15 @@
-==============================
-Point Grey areaDetector driver
-==============================
+===========
+ADPointGrey
+===========
 
-.. raw:: html
+:author: Mark Rivers, University of Chicago
 
-   <div style="text-align: center">
-
-.. rubric:: Point Grey areaDetector driver
-   :name: point-grey-areadetector-driver
-
-.. rubric:: July 21, 2017
-   :name: july-21-2017
-
-.. rubric:: Mark Rivers
-   :name: mark-rivers
-
-.. rubric:: University of Chicago
-   :name: university-of-chicago
-
-.. raw:: html
-
-   </div>
-
-Table of Contents
-=================
-
--  `Introduction <#Introduction>`__
--  `Camera firmware <#Firmware>`__
--  `Video modes <#VideoModes>`__
--  `Format7 modes <#Format7Modes>`__
--  `Pixel formats <#PixelFormats>`__
--  `Frame rates <#FrameRates>`__
--  `Properties <#Properties>`__
--  `Standard driver parameters <#StandardParameters>`__
--  `Point Grey specific driver parameters <#DriverParameters>`__
--  `Configuration <#Configuration>`__
--  `MEDM screens <#MEDM_screens>`__
+.. contents:: Contents
 
 Introduction
-============
+------------
 
-This is an `EPICS <http://www.aps.anl.gov/epics/>`__
-`areaDetector <areaDetector.html>`__ driver for cameras from `Point
+This is an :doc:`../index` driver for cameras from `Point
 Grey <http://www.ptgrey.com>`__. These include IEEE 1394 Firewire DCAM,
 GigE, USB 2.0, and USB 3.0 cameras. The driver should work with any
 Point Grey camera. It has been tested on Firewire (Flea2), GigE
@@ -61,13 +29,13 @@ Fedora 15 and higher. For USB 3.0 cameras kernel version 3.5.0 or higher
 is required. This means USB 3.0 cameras require Fedora 18 or higher, or
 RHEL 7.0 or higher.
 
-This driver inherits from `ADDriver <areaDetectorDoc.html#ADDriver>`__.
-It implements many of the parameters in
-`asynNDArrayDriver.h <areaDetectorDoxygenHTML/asyn_n_d_array_driver_8h.html>`__
+This driver inherits from :doc:`../ADCore/ADDriver`.
+It implements nearly all of the parameters in
+`asynNDArrayDriver.h <../areaDetectorDoxygenHTML/asyn_n_d_array_driver_8h.html>`__
 and in
-`ADArrayDriver.h <areaDetectorDoxygenHTML/_a_d_driver_8h.html>`__. It
-also implements a number of parameters that are specific to the Point
-Grey cameras. The `pointGrey class
+`ADArrayDriver.h <../areaDetectorDoxygenHTML/_a_d_driver_8h.html>`__. It
+also implements a number of parameters that are specific to the
+Point Grey cameras. The `pointGrey class
 documentation <areaDetectorDoxygenHTML/classpoint_grey.html>`__
 describes this class in detail.
 
@@ -85,7 +53,7 @@ facilitates writing a driver that works with all of the Point Grey
 cameras.
 
 Camera firmware
-===============
+---------------
 
 Point Grey frequently updates the available firmware for each camera to
 add features and fix bugs. However, they are not very good about putting
@@ -100,7 +68,7 @@ particular camera, and if so to provide access to it. They normally do
 this by sending a link to a Dropbox folder.
 
 Video modes
-===========
+-----------
 
 The DCAM specification defines standard video formats, and a set of
 video modes for each video format. Point Grey combines the video format
@@ -122,110 +90,68 @@ standard video modes, it is conceivable that all available videos modes
 would not be presented. In practice this is not a problem since no
 existing camera supports more than 16 video modes.
 
-**Point Grey Video Modes**
+.. |br| raw:: html
 
-Mode Number
+    <br>
 
-Mode Description
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
 
-0
-
-160x120 YUV444
-
-1
-
-320x240 YUV422
-
-2
-
-640x480 YUV411
-
-3
-
-640X480 YUV422
-
-4
-
-640x480 RGB
-
-5
-
-640x480 Mono8
-
-6
-
-640x480 Mono16
-
-7
-
-800x600 YUV422
-
-8
-
-800x600 RGB
-
-9
-
-800x600 Mono8
-
-10
-
-1024x768 YUV422
-
-11
-
-1024x768 RGB
-
-12
-
-1024x768 Mono8
-
-13
-
-800x600 Mono16
-
-14
-
-1024x768 Mono16
-
-15
-
-1280x960 YUV422
-
-16
-
-1280x960 RGB
-
-17
-
-1280x960 Mono8
-
-18
-
-1600x1200 YUV422
-
-19
-
-1600x1200 RGB
-
-20
-
-1600x1200 Mono8
-
-21
-
-1280x960 Mono16
-
-22
-
-1600x1200 Mono16
-
-23
-
-Format7 (user-defined)
+  * - Point Grey Video Modes
+  * - Mode Number
+    - Mode Description
+  * - 0
+    - 160x120 YUV444
+  * - 1
+    - 320x240 YUV422
+  * - 2
+    - 640x480 YUV411
+  * - 3
+    - 640X480 YUV422
+  * - 4
+    - 640x480 RGB
+  * - 5
+    - 640x480 Mono8
+  * - 6
+    - 640x480 Mono16
+  * - 7
+    - 800x600 YUV422
+  * - 8
+    - 800x600 RGB
+  * - 9
+    - 800x600 Mono8
+  * - 10
+    - 1024x768 YUV422
+  * - 11
+    - 1024x768 RGB
+  * - 12
+    - 1024x768 Mono8
+  * - 13
+    - 800x600 Mono16
+  * - 14
+    - 1024x768 Mono16
+  * - 15
+    - 1280x960 YUV422
+  * - 16
+    - 1280x960 RGB
+  * - 17
+    - 1280x960 Mono8
+  * - 18
+    - 1600x1200 YUV422
+  * - 19
+    - 1600x1200 RGB
+  * - 20
+    - 1600x1200 Mono8
+  * - 21
+    - 1280x960 Mono16
+  * - 22
+    - 1600x1200 Mono16
+  * - 23
+    - Format7 (user-defined)
 
 Format7 modes
-=============
+-------------
 
 When the video mode is Format7 then there is an available selection of
 Format7 modes. These modes are not defined in the IIDC/DCAM standard,
@@ -240,7 +166,7 @@ strings are of the form "Format7 mode # (NYxNY)", for example "0
 a camera with 1920 x 1200 pixels.
 
 Pixel formats
-=============
+-------------
 
 When the video mode is Format7 then there is an available selection of
 PixelFormats. The available PixelFormats depend on the selected Format7
@@ -255,86 +181,54 @@ The following tables lists the standard pixel formats for video mode
 Format7. Note that typically only a few of these pixel formats are
 supported on a particular camera with a specific Format7 mode.
 
-**Point Grey Format7 Pixel Formats**
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
+  :widths: 40 60
 
-Pixel Format Number
+  * - Point Grey Format7 Pixel Formats
+  * - Pixel Format Number
+    - Pixel Format Description
+  * - 0
+    - Mono8
+  * - 1
+    - YUV411
+  * - 2
+    - YUV422
+  * - 3
+    - YUV444
+  * - 4
+    - RGB8
+  * - 5
+    - Mono16
+  * - 6
+    - RGB16
+  * - 7
+    - Mono16\_Signed
+  * - 8
+    - RGB16\_Signed
+  * - 9
+    - Raw8
+  * - 10
+    - Raw16
+  * - 11
+    - Mono12
+  * - 12
+    - Raw12
+  * - 13
+    - BGR
+  * - 14
+    - BGRU
+  * - 15
+    - BGR16
+  * - 16
+    - BGRU16
+  * - 17
+    - YUV422\_JPEG
 
-Pixel Format Description
-
-0
-
-Mono8
-
-1
-
-YUV411
-
-2
-
-YUV422
-
-3
-
-YUV444
-
-4
-
-RGB8
-
-5
-
-Mono16
-
-6
-
-RGB16
-
-7
-
-Mono16\_Signed
-
-8
-
-RGB16\_Signed
-
-9
-
-Raw8
-
-10
-
-Raw16
-
-11
-
-Mono12
-
-12
-
-Raw12
-
-13
-
-BGR
-
-14
-
-BGRU
-
-15
-
-BGR16
-
-16
-
-BGRU16
-
-17
-
-YUV422\_JPEG
 
 Frame rates
-===========
+-----------
 
 The following tables lists the standard IIDC/DCAM frame rates for video
 modes other than Format7. Selecting a video mode (other than Format7)
@@ -357,46 +251,33 @@ be implemented for a particular camera.
 In Format 7 the frame rate settings do not apply, and the frame rate is
 controlled solely by the FrameRate property.
 
-**Standard IIDC/DCAM Video Frame Rates**
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
+  :widths: 40 60
 
-Frame Rate Number
-
-Frame Rate (Frames/second)
-
-0
-
-1.875
-
-1
-
-3.75
-
-2
-
-7.5
-
-3
-
-15
-
-4
-
-30
-
-5
-
-60
-
-6
-
-120
-
-7
-
-240
+  * - Standard IIDC/DCAM Video Frame Rates
+  * - Frame Rate Number
+    - Frame Rate (Frames/second)
+  * - 0
+    - 1.875
+  * - 1
+    - 3.75
+  * - 2
+    - 7.5
+  * - 3
+    - 15
+  * - 4
+    - 30
+  * - 5
+    - 60
+  * - 6
+    - 120
+  * - 7
+    - 240
 
 Properties
-==========
+----------
 
 The DCAM specification defines a number of standard features, which
 control things such as the brightness, white balance, shutter time, etc.
@@ -411,1111 +292,665 @@ automatic gain control).
 Point Grey supports 18 of these DCAM features, which they call
 Properties.
 
-**Point Grey Camera Properties**
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
+  :widths: 20 40 40
 
-Property Number
-
-EPICS Record Base Name
-
-Point Grey PropertyType enum
-
-0
-
-Brightness
-
-BRIGHTNESS
-
-1
-
-AutoExposure
-
-AUTO\_EXPOSURE
-
-2
-
-Sharpness
-
-SHARPNESS
-
-3
-
-WhiteBalance
-
-WHITE\_BALANCE
-
-4
-
-Hue
-
-HUE
-
-5
-
-Saturation =
-
-SATURATION
-
-6
-
-Gamma
-
-GAMMA
-
-7
-
-Iris
-
-IRIS
-
-8
-
-Focus
-
-FOCUS
-
-9
-
-Zoom
-
-ZOOM
-
-10
-
-Pan
-
-PAN
-
-11
-
-Tilt
-
-TILT
-
-12
-
-Shutter
-
-SHUTTER
-
-13
-
-Gain
-
-GAIN
-
-14
-
-TriggerMode
-
-TRIGGER\_MODE
-
-15
-
-TriggerDelay
-
-TRIGGER\_DELAY
-
-16
-
-FrameRate
-
-FRAME\_RATE
-
-17
-
-Temperature
-
-TEMPERATURE
+  * - Point Grey Camera Properties
+  * - Property Number
+    - EPICS Record Base Name
+    - Point Grey PropertyType enum
+  * - 0
+    - Brightness
+    - BRIGHTNESS
+  * - 1
+    - AutoExposure
+    - AUTO\_EXPOSURE
+  * - 2
+    - Sharpness
+    - SHARPNESS
+  * - 3
+    - WhiteBalance
+    - WHITE\_BALANCE
+  * - 4
+    - Hue
+    - HUE
+  * - 5
+    - Saturation
+    - SATURATION
+  * - 6
+    - Gamma
+    - GAMMA
+  * - 7
+    - Iris
+    - IRIS
+  * - 8
+    - Focus
+    - FOCUS
+  * - 9
+    - Zoom
+    - ZOOM
+  * - 10
+    - Pan
+    - PAN
+  * - 11
+    - Tilt
+    - TILT
+  * - 12
+    - Shutter
+    - SHUTTER
+  * - 13
+    - Gain
+    - GAIN
+  * - 14
+    - TriggerMode
+    - TRIGGER\_MODE
+  * - 15
+    - TriggerDelay
+    - TRIGGER\_DELAY
+  * - 16
+    - FrameRate
+    - FRAME\_RATE
+  * - 17
+    - Temperature
+    - TEMPERATURE
 
 GigE Properties
-===============
+---------------
 
 Point Grey supports 4 properties that are specific to GigE cameras.
 
-**Point Grey Camera Properties**
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
 
-Property Number
+  * -
+    - Point Grey GigE Properties
+  * - Property Number
+    - EPICS Record Base Name
+    - Point Grey PropertyType enum
+  * - 0
+    - Heartbeat
+    - HEARTBEAT
+  * - 1
+    - HeartbeatTimeout
+    - HEARTBEAT_TIMEOUT
+  * - 2
+    - PacketSize
+    - PACKET_SIZE
+  * - 3
+    - PacketDelay
+    - PACKET_DELAY
 
-EPICS Record Base Name
-
-Point Grey PropertyType enum
-
-0
-
-Heeartbeat
-
-HEARTBEAT
-
-1
-
-HeartbeatTimeout
-
-HEARTBEAT\_TIMEOUT
-
-2
-
-PacketSize
-
-PACKET\_SIZE
-
-3
-
-PacketDelay
-
-PACKET\_DELAY
 
 Standard areaDetector parameters
-================================
+--------------------------------
 
 The following table describes how the Point Grey driver implements some
 of the standard driver parameters.
 
-**Implementation of Parameters in asynNDArrayDriver.h and ADDriver.h,
-and EPICS Record Definitions in ADBase.template and NDFile.template**
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
+  :widths: 10 10 80
 
-Parameter index variable
-
-EPICS record name
-
-Description
-
-ADTriggerMode
-
-$(P)$(R)TriggerMode
-
-The choices for the Point Grey are:
-
--  "Internal". The timing is internal to the detector.
--  "Ext. standard". Each external trigger pulse starts the next image.
-   The exposure time is controlled internally by the AcquireTime record.
--  "Bulb". The rising edge of the external trigger signal starts the
-   next image. The detector continues to acquire while the external
-   signal is high, and then reads out the detector on the falling edge
-   of the external trigger signal.
--  "Skip frames". One external trigger pulse starts an image and then
-   the next N external trigger signals are ignored. The SkipFrames
-   record defines N.
--  "Multi-exposure". One external trigger pulse starts an image and then
-   the next N-1 external trigger signals cause an additional exposure
-   into the same image. The image is read out after trigger N. The
-   NumExposures record defines N.
--  "Multi-exposure bulb". A combination of bulb and multi-exposure modes
-   above. N exposures are accumulated into an image before it is read
-   out. The time in the logic high state determines the acquire time for
-   each exposure. The NumExposures record defines N.
--  "Low-smear". Smear reduction works by increasing the speed of the
-   vertical clock near the end of the integration cycle. See the
-   Technical Reference Manual for the camera for more information.
--  "Multi-shot". A single external trigger causes N images to be
-   acquired. The NumImages record defines N. NumImages is limited to a
-   maximum 255 in this mode.
-
-Note that the minimum time between external trigger pulses is no more
-than the maximum value of FrameRate in the current mode, and may be less
-for a particular camera. Note also that not all cameras support all
-TriggerModes. The TriggerMode enum string choices are only those
-supported for the camera in use.
-
-ADTemperatureActual
-
-$(P)$(R)TemperatureActual
-
-The readback of the temperature.
-
-ADNumImages
-
-$(P)$(R)NumImages
-
-Controls the number of images to acquire. When TriggerMode=Internal this
-is handled in software. When TriggerMode=Multi-shot it is handled in the
-camera firmware.
-
-ADNumExposures
-
-$(P)$(R)NumExposures
-
-Controls the number of exposures per image when
-TriggerMode="Multi-exposure" or "Multi-exposure bulb".
-
-ADAcquireTime
-
-$(P)$(R)AcquireTime
-
-Controls the acquisition time per image. This is converted into the
-ShutterAbsVal control of the SHUTTER property. ShutterAbsVal =
-AcquireTime\*1000., because SHUTTER units are ms.
-
-ADAcquirePeriod
-
-$(P)$(R)AcquirePeriod
-
-Controls the period between images. This is converted into the
-FrameRateAbsVal control of the FRAME\_RATE property. FrameRateAbsVal =
-1./AcquirePeriod.
-
-ADGain
-
-$(P)$(R)Gain
-
-Controls the analog gain on the camera. This is converted into the
-GainAbsVal control of the GAIN property. The units are dB.
+  * - Implementation of Parameters in asynNDArrayDriver.h and ADDriver.h, and EPICS Record
+      Definitions in ADBase.template and NDFile.template
+  * - Parameter index variable
+    - EPICS record name
+    - Description
+  * - ADTriggerMode
+    - $(P)$(R)TriggerMode
+    - The choices for the Point Grey are:
+      |br|"Internal". The timing is internal to the detector. |br|
+      "Ext. standard". Each external trigger pulse starts the next image. The exposure
+      time is controlled internally by the AcquireTime record. |br|
+      "Bulb". The rising edge of the external trigger signal starts the next image.
+      The detector continues to acquire while the external signal is high, and then reads
+      out the detector on the falling edge of the external trigger signal. |br|
+      "Skip frames". One external trigger pulse starts an image and then the next N
+      external trigger signals are ignored. The SkipFrames record defines N. |br|
+      "Multi-exposure". One external trigger pulse starts an image and then the next
+      N-1 external trigger signals cause an additional exposure into the same image. The
+      image is read out after trigger N. The NumExposures record defines N. |br|
+      "Multi-exposure bulb". A combination of bulb and multi-exposure modes above. N
+      exposures are accumulated into an image before it is read out. The time in the logic
+      high state determines the acquire time for each exposure. The NumExposures record
+      defines N. |br|
+      "Low-smear". Smear reduction works by increasing the speed of the vertical clock
+      near the end of the integration cycle. See the Technical Reference Manual for the
+      camera for more information. |br|
+      "Multi-shot". A single external trigger causes N images to be acquired. The NumImages
+      record defines N. NumImages is limited to a maximum 255 in this mode. |br|
+      Note that the minimum time between external trigger pulses is no more than the maximum
+      value of FrameRate in the current mode, and may be less for a particular camera.
+      Note also that not all cameras support all TriggerModes. The TriggerMode enum string
+      choices are only those supported for the camera in use.
+  * - ADTemperatureActual
+    - $(P)$(R)TemperatureActual
+    - The readback of the temperature.
+  * - ADNumImages
+    - $(P)$(R)NumImages
+    - Controls the number of images to acquire. When TriggerMode=Internal this is handled
+      in software. When TriggerMode=Multi-shot it is handled in the camera firmware.
+  * - ADNumExposures
+    - $(P)$(R)NumExposures
+    - Controls the number of exposures per image when TriggerMode="Multi-exposure" or
+      "Multi-exposure bulb".
+  * - ADAcquireTime
+    - $(P)$(R)AcquireTime
+    - Controls the acquisition time per image. This is converted into the ShutterAbsVal
+      control of the SHUTTER property. ShutterAbsVal = AcquireTime*1000., because SHUTTER
+      units are ms.
+  * - ADAcquirePeriod
+    - $(P)$(R)AcquirePeriod
+    - Controls the period between images. This is converted into the FrameRateAbsVal control
+      of the FRAME_RATE property. FrameRateAbsVal = 1./AcquirePeriod.
+  * - ADGain
+    - $(P)$(R)Gain
+    - Controls the analog gain on the camera. This is converted into the GainAbsVal control
+      of the GAIN property. The units are dB.
 
 Point Grey specific driver parameters
-=====================================
+-------------------------------------
 
 The Point Grey driver implements the following parameters in addition to
 those in asynNDArrayDriver.h and ADDriver.h. The database file is
 pointGrey.template for all records except the property records, which
 are in pointGreyProperty.template.
 
-**Parameter Definitions in firewireWinDCAM.cpp and EPICS Record
-Definitions**
+.. cssclass:: table-bordered table-striped table-hover
+.. flat-table::
+  :header-rows: 2
+  :widths: 5 5 5 70 5 5 5
+
+  * - Parameter Definitions in pointGrey.cpp and EPICS Record Definitions
+  * - Parameter index variable
+    - asyn interface
+    - Access
+    - Description
+    - drvInfo string
+    - EPICS record name
+    - EPICS record type
+  * -
+    -
+    - **Video mode parameters**
+  * - PGVideoMode
+    - asynInt32
+    - r/w
+    - The video mode. All possible values are listed in the <a href="#VideoModes">Video
+      modes</a> section above. The actual enum choices for this record will only include
+      the video modes supported by the camera in use.
+    - PG_VIDEO_MODE
+    - $(P)$(R)VideoMode, $(P)$(R)VideoMode_RBV
+    - mbbo
+      , mbbi
+  * - PGFormat7Mode
+    - asynInt32
+    - r/w
+    - The Format7 mode when the camera is in VideoMode=Format7. This is discussed in the
+      <a href="#Format7Modes">Format7 modes</a> section above. The actual enum choices
+      for this record will only include the Format7 modes supported by the camera in use.
+    - PG_FORMAT7_MODE
+    - $(P)$(R)Format7Mode, $(P)$(R)Format7Mode_RBV
+    - mbbo
+      , mbbi
+  * - PGPixelFormat
+    - asynInt32
+    - r/w
+    - The pixel format when the camera is in VideoMode=Format7. This is discussed in the
+      <a href="#PixelFormats">Pixel formats</a> section above. The actual enum choices
+      for this record will only include the pixel formats supported by the camera in use
+      for the Format7Mode currently selected.
+    - PG_PIXEL_FORMAT
+    - $(P)$(R)PixelFormat, $(P)$(R)PixelFormat_RBV
+    - mbbo
+      , mbbi
+  * - PGConvertPixelFormat
+    - asynInt32
+    - r/w
+    - The driver allows converting the pixel format from the camera to another pixel format.
+      The pixel formats from the camera that can be converted are: |br|
+      Raw8 |br|
+      Raw12 |br|
+      Raw16 |br|
+      Mono12 |br|
+      The pixel format that these can be converted to are: |br|
+      None: The input pixel format is not converted. |br|
+      Mono8: The input pixel format is converted to Mono8. |br|
+      Raw16: The input pixel format is converted to Raw16. This is useful when the input
+      pixel format is Raw12, since this saves network bandwidth. |br|
+      Mono16: The input pixel format is converted to Mono16. This is useful when the
+      input pixel format is Mono12, since this saves network bandwidth. Note that the
+      FlyCap2 library does not support converting Raw12 to Mono16. The difference between
+      Raw16 and Mono16 is that Mono16 has the sharpness and gamma corrections applied,
+      while Raw16 does not. |br|
+      RGB8: The input format is converted to RGB8. This is useful when the input format
+      is Raw8, for a color camera. In this case Bayer color is sent on the network, reducing
+      the bandwidth requirement by a factor of 3. |br|
+      RGB16: The input format is converted to RGB16. This is useful when the input format
+      is Raw16, for a color camera. In this case Bayer color is sent on the network, reducing
+      the bandwidth requirement by a factor of 3. |br|
+    - PG_CONVERT_PIXEL_FORMAT
+    - $(P)$(R)ConvertPixelFormat, $(P)$(R)ConvertPixelFormat_RBV
+    - mbbo
+      , mbbi
+  * - PGFrameRate
+    - asynInt32
+    - r/w
+    - The frame rate choice when the VideoMode is not Format7. This is discussed in the
+      <a href="#FrameRates">Frame rates</a> section above. The actual enum choices for
+      this record will only include the frame rates supported by the camera in use for
+      the VideoMode currently selected.
+    - PG_FRAME_RATE
+    - $(P)$(R)FrameRate, $(P)$(R)FrameRate_RBV
+    - mbbo
+      , mbbi
+  * - BinningMode
+    - asynInt32
+    - r/w
+    - The binning mode for GigE cameras. The allowed values are camera-specific.
+    - PG_BINNING_MODE
+    - $(P)$(R)BinningMode, $(P)$(R)BinningMode_RBV
+    - mbbo
+      , mbbi
+  * -
+    -
+    - **Property parameters, These parameters apply to each of the 18 Point Grey properties discussed in the
+      <a href="#Properties">Properties</a> section above.
+      , The $(PROPERTY) macro in this table is the EPICS record base name listed in that
+      section., These records are defined in pointGreyProperty.template.**
+  * - PGPropertyAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property is available.
+    - PG_PROP_AVAIL
+    - $(P)$(R)$(PROPERTY)Avail
+    - bi
+  * - PGPropertyOnOffAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property supports turning on and off.
+    - PG_PROP_ON_OFF_AVAIL
+    - $(P)$(R)$(PROPERTY)OnOffAvail
+    - bi
+  * - PGPropertyOnOff
+    - asynInt32
+    - r/w
+    - Controls whether the property is on or off.
+    - PG_PROP_ON_OFF
+    - $(P)$(R)$(PROPERTY)OnOff
+      , $(P)$(R)$(PROPERTY)OnOff_RBV
+    - bo
+      , bi
+  * - PGPropertyOnePushAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property supports setting once (called One Push). This
+      is typically used for setting things like the gain or shutter time automatically
+      once.
+    - PG_PROP_ONE_PUSH_AVAIL
+    - $(P)$(R)$(PROPERTY)OnePushAvail
+    - bi
+  * - PGPropertyOnePush
+    - asynInt32
+    - r/w
+    - Processing this record causes a one-push setting of the property.
+    - PG_PROP_ONE_PUSH
+    - $(P)$(R)$(PROPERTY)OnePush
+    - bo
+  * - PGPropertyAbsAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property supports absolute (floating point) control.
+    - PG_PROP_ABS_AVAIL
+    - $(P)$(R)$(PROPERTY)AbsAvail
+    - bi
+  * - PGPropertyAutoAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property supports automatic control.
+    - PG_PROP_AUTO_AVAIL
+    - $(P)$(R)$(PROPERTY)AutoAvail
+    - bi
+  * - PGPropertyManAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property supports manual control.
+    - PG_PROP_MAN_AVAIL
+    - $(P)$(R)$(PROPERTY)ManAvail
+    - bi
+  * - PGPropertyAutoMode
+    - asynInt32
+    - r/w
+    - Controls whether the property is manually controlled or automatically controlled.
+    - PG_PROP_AUTO_MODE
+    - $(P)$(R)$(PROPERTY)AutoMode
+      , $(P)$(R)$(PROPERTY)AutoMode_RBV
+    - bo
+      , bi
+  * - PGPropertyAbsAvail
+    - asynInt32
+    - r/o
+    - A flag indicating if the property supports absolute (floating point) control.
+    - PG_PROP_ABS_AVAIL
+    - $(P)$(R)$(PROPERTY)AbsAvail
+    - bi
+  * - PGPropertyAbsMode
+    - asynInt32
+    - r/w
+    - Controls whether the property is controlled in integer device units or floating
+      point absolute units.
+    - PG_PROP_ABS_MODE
+    - $(P)$(R)$(PROPERTY)AbsMode
+      , $(P)$(R)$(PROPERTY)AbsMode_RBV
+    - bo
+      , bi
+  * - PGPropertyValue
+    - asynInt32
+    - r/w
+    - The value of the property in integer device units. This controls the ValueA field
+      of the property, which is the only integer field used for all properties except
+      WHITE_BALANCE.
+    - PG_PROP_VAL
+    - $(P)$(R)$(PROPERTY)Val
+      , $(P)$(R)$(PROPERTY)Val_RBV
+    - ao
+      , ai
+  * - PGPropertyValueB
+    - asynInt32
+    - r/w
+    - The value of the property in integer device units. This controls the ValueB field
+      of the property, which is only used to control the Blue value of WHITE_BALANCE.
+    - PG_PROP_VAL_B
+    - $(P)$(R)$(PROPERTY)ValB
+      , $(P)$(R)$(PROPERTY)ValB_RBV
+    - ao
+      , ai
+  * - PGPropertyValueMin
+    - asynInt32
+    - r/o
+    - The minimum value of the property in device units. This is used to control the LOPR
+      and DRVL fields of the $(P)$(R)$(PROPERTY)Val record.
+    - PG_PROP_VAL_MIN
+    - $(P)$(R)$(PROPERTY)ValMin
+    - ai
+  * - PGPropertyValueMax
+    - asynInt32
+    - r/o
+    - The maximum value of the property in device units. This is used to control the HOPR
+      and DRVH fields of the $(P)$(R)$(PROPERTY)Val record.
+    - PG_PROP_VAL_MAX
+    - $(P)$(R)$(PROPERTY)ValMax
+    - ai
+  * - PGPropertyValueAbs
+    - asynFloat64
+    - r/w
+    - The value of the property in floating point absolute units.
+    - PG_PROP_VAL_ABS
+    - $(P)$(R)$(PROPERTY)ValAbs
+      , $(P)$(R)$(PROPERTY)ValAbs_RBV
+    - ao
+      , ai
+  * - PGPropertyValueAbsMin
+    - asynFloat64
+    - r/o
+    - The minimum value of the property in absolute units. This is used to control the
+      LOPR and DRVL fields of the $(P)$(R)$(PROPERTY)ValAbs record.
+    - PG_PROP_VAL_ABS_MIN
+    - $(P)$(R)$(PROPERTY)ValAbsMin
+    - ai
+  * - PGPropertyValueAbsMax
+    - asynFloat64
+    - r/o
+    - The maximum value of the property in absolute units. This is used to control the
+      HOPR and DRVH fields of the $(P)$(R)$(PROPERTY)ValAbs record.
+    - PG_PROP_VAL_ABS_MAX
+    - $(P)$(R)$(PROPERTY)ValAbsMax
+    - ai
+  * -
+    -
+    - **GigE Property parameters, These parameters apply to each of the 4 Point Grey GigE properties discussed in
+      the <a href="#GigEProperties">GigE Properties</a> section above.
+      , The $(PROPERTY) macro in this table is the EPICS record base name listed in that
+      section., These records are defined in pointGreyProperty.template.**
+  * - PGPropertyValue
+    - asynInt32
+    - r/w
+    - The value of the property in integer device units. This controls the ValueA field
+      of the property, which is the only integer field used for all properties except
+      WHITE_BALANCE.
+    - PG_PROP_VAL
+    - $(P)$(R)$(PROPERTY)Val
+      , $(P)$(R)$(PROPERTY)Val_RBV
+    - ao
+      , ai
+  * - PGPropertyValueMin
+    - asynInt32
+    - r/o
+    - The minimum value of the property in device units. This is used to control the LOPR
+      and DRVL fields of the $(P)$(R)$(PROPERTY)Val record.
+    - PG_PROP_VAL_MIN
+    - $(P)$(R)$(PROPERTY)ValMin
+    - ai
+  * - PGPropertyValueMax
+    - asynInt32
+    - r/o
+    - The maximum value of the property in device units. This is used to control the HOPR
+      and DRVH fields of the $(P)$(R)$(PROPERTY)Val record.
+    - PG_PROP_VAL_MAX
+    - $(P)$(R)$(PROPERTY)ValMax
+    - ai
+  * -
+    -
+    - **Trigger parameters**
+  * - PGTriggerSource
+    - asynInt32
+    - r/w
+    - The trigger source signal. Choices are "GPIO_0", GPIO_1","GPIO_2", and "GPIO_3",
+      which selects one of 4 GPIO pins on the camera. However, not all choices may be
+      available on a specific camera, and the enum choices will only be the trigger sources
+      actually supported on the camera in use.
+    - PG_TRIGGER_SOURCE
+    - $(P)$(R)TriggerSource
+      , $(P)$(R)TriggerSource_RBV
+    - mbbo
+      , mbbi
+  * - PGTriggerPolarity
+    - asynInt32
+    - r/w
+    - The trigger polarity. Choices are "Low", and "High".
+    - PG_TRIGGER_POLARITY
+    - $(P)$(R)TriggerPolarity
+      , $(P)$(R)TriggerPolarity_RBV
+    - bo
+      , bi
+  * - PGSoftwareTrigger
+    - asynInt32
+    - r/w
+    - Processing this record causes the driver to issue a software trigger.
+    - PG_SOFTWARE_TRIGGER
+    - $(P)$(R)SoftwareTrigger
+    - bo
+  * - PGSkipFrames
+    - asynInt32
+    - r/w
+    - The number of frames to skip when TriggerMode="Skip frames".
+    - PG_SKIP_FRAMES
+    - $(P)$(R)SkipFrames
+      , $(P)$(R)SkipFrames_RBV
+    - longout
+      , longin
+  * -
+    -
+    - **Strobe parameters**
+  * - PGStrobeSource
+    - asynInt32
+    - r/w
+    - The strobe output signal. Choices are "GPIO_0", GPIO_1","GPIO_2", and "GPIO_3",
+      which selects one of 4 GPIO pins on the camera. However, not all choices may be
+      available on a specific camera, and the enum choices will only be the strobe sources
+      actually supported on the camera in use.
+    - PG_STROBE_SOURCE
+    - $(P)$(R)StrobeSource
+      , $(P)$(R)StrobeSource_RBV
+    - mbbo
+      , mbbi
+  * - PGStrobeEnable
+    - asynInt32
+    - r/w
+    - Enables the strobe output. Choices are "Disable", and "Enable".
+    - PG_STROBE_ENABLE
+    - $(P)$(R)StrobeEnable
+      , $(P)$(R)StrobeEnable_RBV
+    - bo
+      , bi
+  * - PGStrobePolarity
+    - asynInt32
+    - r/w
+    - The strobe polarity. Choices are "Low", and "High".
+    - PG_STROBE_POLARITY
+    - $(P)$(R)StrobePolarity
+      , $(P)$(R)StrobePolarity_RBV
+    - bo
+      , bi
+  * - PGStrobeDelay
+    - asynFloat64
+    - r/w
+    - The delay of the strobe signal relative to the start of acquisition.
+    - PG_STROBE_DELAY
+    - $(P)$(R)StrobeDelay
+      , $(P)$(R)StrobeDelay_RBV
+    - ao
+      , ai
+  * - PGStrobeDuration
+    - asynFloat64
+    - r/w
+    - The duration of the strobe signal. If zero then the strobe output is asserted during
+      the image aquisition time.
+    - PG_STROBE_DURATION
+    - $(P)$(R)StrobeDuration
+      , $(P)$(R)StrobeDuration_RBV
+    - ao
+      , ai
+  * -
+    -
+    - **Bandwidth control parameters**
+  * - PGMaxPacketSize
+    - asynInt32
+    - r/o
+    - The maximum packet size. This depends on the current acquisition settings for Firewire
+      and USB cameras. For GigE cameras this is determined by calling DiscoverGigEPacketSize
+      at startup, which should return the maximum Ethernet packet size supported between
+      the camera and the IOC. However, this sometimes returns 9000 (jumbo packets) when
+      jumbo packets are not in fact supported. In this case the user should manually set
+      PacketSize to 1440 or image acquisition will fail.
+    - PG_MAX_PACKET_SIZE
+    - $(P)$(R)MaxPacketSize
+    - longin
+  * - PGPacketSize
+    - asynInt32
+    - r/w
+    - The packet size to use. This is used to control the maximum bandwidth, and hence
+      maximum frame rate, on Firewire and USB cameras. For GigE cameras it should be set
+      to the largest packet size supported on the Ethernet connection between the camera
+      and IOC. It should be set to 1440 for connections that do not support jumbo packets,
+      and as large as 9000 for connections that do support jumbo packets. If PacketSize
+      is set to 0 then the driver will use the current value of MaxPacketSize.
+    - PG_PACKET_SIZE
+    - $(P)$(R)PacketSize
+      , $(P)$(R)PacketSize_RBV
+    - ao
+      , ai
+  * - PGPacketSizeActual
+    - asynInt32
+    - r/o
+    - The actual packet size being used.
+    - PG_PACKET_SIZE_ACTUAL
+    - $(P)$(R)PacketSizeActual
+    - longin
+  * - PGPacketDelay
+    - asynInt32
+    - r/w
+    - The packet delay to use in microseconds. This is used to control the maximum bandwidth,
+      and hence maximum frame rate, on GigE cameras. It is not used for Firewire or USB
+      cameras. The default is 400 microseconds. If the number of CorruptFrames is large
+      then this can be increased, for example to 1000. This will reduce the maximum frame
+      rate but can significantly reduce the number of CorruptFrames.
+    - PG_PACKET_DELAY
+    - $(P)$(R)PacketDelay
+      , $(P)$(R)PacketDelay_RBV
+    - longout
+      , longin
+  * - PGPacketDelayActual
+    - asynInt32
+    - r/o
+    - The actual packet delay being used.
+    - PG_PACKET_DELAY_ACTUAL
+    - $(P)$(R)PacketDelayActual
+    - longin
+  * - PGBandwidth
+    - asynFloat64
+    - r/o
+    - The calculated bandidth in MB/s. This is computed from the image size and the frame
+      rate.
+    - PG_BANDWIDTH
+    - $(P)$(R)Bandwidth
+    - ai
+  * -
+    -
+    - **Timestamp parameters**
+  * - PGTimeStampMode
+    - asynInt32
+    - r/w
+    - The timestamp mode. Controls the value of the NDArray,.timeStamp value. Choices are: |br|
+      Camera: The time from the camera is used. |br|
+      EPICS: The EPICS time is used |br|
+      Hybrid: The EPICS time when the camera started is combined with the time stamp
+      from the camera. |br|
+    - PG_TIME_STAMP_MODE
+    - $(P)$(R)TimeStampMode, $(P)$(R)TimeStampMode_RBV
+    - mbbo, mbbi
+  * -
+    -
+    - **Camera statistics**
+  * - PGCorruptFrames
+    - asynInt32
+    - r/o
+    - The number of corrupt frames. The Point Grey SDK resets this to 0 each time acquisition
+      is started.
+    - PG_CORRUPT_FRAMES
+    - $(P)$(R)CorruptFrames_RBV
+    - longin
+  * - PGDroppedFrames
+    - asynInt32
+    - r/o
+    - The number of dropped frames. The Point Grey SDK resets this to 0 each time acquisition
+      is started.
+    - PG_DROPPED_FRAMES
+    - $(P)$(R)DroppedFrames_RBV
+    - longin
+  * - PGDriverDropped
+    - asynInt32
+    - r/o
+    - The number of frames dropped by the driver. The Point Grey SDK resets this to 0
+      each time acquisition is started.
+    - PG_DRIVER_DROPPED
+    - $(P)$(R)DriverDropped_RBV
+    - longin
+  * - PGTransmitFailed
+    - asynInt32
+    - r/o
+    - The number of time transmission failed. The Point Grey SDK resets this to 0 each
+      time acquisition is started.
+    - PG_TRANSMIT_FAILED
+    - $(P)$(R)TransmitFailed_RBV
+    - longin
 
-Parameter index variable
-
-asyn interface
-
-Access
-
-Description
-
-drvInfo string
-
-EPICS record name
-
-EPICS record type
-
-**Video mode parameters**
-
-PGVideoMode
-
-asynInt32
-
-r/w
-
-The video mode. All possible values are listed in the `Video
-modes <#VideoModes>`__ section above. The actual enum choices for this
-record will only include the video modes supported by the camera in use.
-
-PG\_VIDEO\_MODE
-
-| $(P)$(R)VideoMode
-| $(P)$(R)VideoMode\_RBV
-
-| mbbo
-| mbbi
-
-PGFormat7Mode
-
-asynInt32
-
-r/w
-
-The Format7 mode when the camera is in VideoMode=Format7. This is
-discussed in the `Format7 modes <#Format7Modes>`__ section above. The
-actual enum choices for this record will only include the Format7 modes
-supported by the camera in use.
-
-PG\_FORMAT7\_MODE
-
-| $(P)$(R)Format7Mode
-| $(P)$(R)Format7Mode\_RBV
-
-| mbbo
-| mbbi
-
-PGPixelFormat
-
-asynInt32
-
-r/w
-
-The pixel format when the camera is in VideoMode=Format7. This is
-discussed in the `Pixel formats <#PixelFormats>`__ section above. The
-actual enum choices for this record will only include the pixel formats
-supported by the camera in use for the Format7Mode currently selected.
-
-PG\_PIXEL\_FORMAT
-
-| $(P)$(R)PixelFormat
-| $(P)$(R)PixelFormat\_RBV
-
-| mbbo
-| mbbi
-
-PGConvertPixelFormat
-
-asynInt32
-
-r/w
-
-The driver allows converting the pixel format from the camera to another
-pixel format. The pixel formats from the camera that can be converted
-are:
-
--  Raw8
--  Raw12
--  Raw16
--  Mono12
-
-The pixel format that these can be converted to are:
-
--  None: The input pixel format is not converted.
--  Mono8: The input pixel format is converted to Mono8.
--  Raw16: The input pixel format is converted to Raw16. This is useful
-   when the input pixel format is Raw12, since this saves network
-   bandwidth.
--  Mono16: The input pixel format is converted to Mono16. This is useful
-   when the input pixel format is Mono12, since this saves network
-   bandwidth. Note that the FlyCap2 library does not support converting
-   Raw12 to Mono16. The difference between Raw16 and Mono16 is that
-   Mono16 has the sharpness and gamma corrections applied, while Raw16
-   does not.
--  RGB8: The input format is converted to RGB8. This is useful when the
-   input format is Raw8, for a color camera. In this case Bayer color is
-   sent on the network, reducing the bandwidth requirement by a factor
-   of 3.
--  RGB16: The input format is converted to RGB16. This is useful when
-   the input format is Raw16, for a color camera. In this case Bayer
-   color is sent on the network, reducing the bandwidth requirement by a
-   factor of 3.
-
-PG\_CONVERT\_PIXEL\_FORMAT
-
-| $(P)$(R)ConvertPixelFormat
-| $(P)$(R)ConvertPixelFormat\_RBV
-
-| mbbo
-| mbbi
-
-PGFrameRate
-
-asynInt32
-
-r/w
-
-The frame rate choice when the VideoMode is not Format7. This is
-discussed in the `Frame rates <#FrameRates>`__ section above. The actual
-enum choices for this record will only include the frame rates supported
-by the camera in use for the VideoMode currently selected.
-
-PG\_FRAME\_RATE
-
-| $(P)$(R)FrameRate
-| $(P)$(R)FrameRate\_RBV
-
-| mbbo
-| mbbi
-
-BinningMode
-
-asynInt32
-
-r/w
-
-The binning mode for GigE cameras. The allowed values are
-camera-specific.
-
-PG\_BINNING\_MODE
-
-| $(P)$(R)BinningMode
-| $(P)$(R)BinningMode\_RBV
-
-| mbbo
-| mbbi
-
-**Property parameters
-These parameters apply to each of the 18 Point Grey properties discussed
-in the `Properties <#Properties>`__ section above.
-The $(PROPERTY) macro in this table is the EPICS record base name listed
-in that section.
-These records are defined in pointGreyProperty.template.**
-
-PGPropertyAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property is available.
-
-PG\_PROP\_AVAIL
-
-$(P)$(R)$(PROPERTY)Avail
-
-bi
-
-PGPropertyOnOffAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property supports turning on and off.
-
-PG\_PROP\_ON\_OFF\_AVAIL
-
-$(P)$(R)$(PROPERTY)OnOffAvail
-
-bi
-
-PGPropertyOnOff
-
-asynInt32
-
-r/w
-
-Controls whether the property is on or off.
-
-PG\_PROP\_ON\_OFF
-
-| $(P)$(R)$(PROPERTY)OnOff
-| $(P)$(R)$(PROPERTY)OnOff\_RBV
-
-| bo
-| bi
-
-PGPropertyOnePushAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property supports setting once (called One
-Push). This is typically used for setting things like the gain or
-shutter time automatically once.
-
-PG\_PROP\_ONE\_PUSH\_AVAIL
-
-$(P)$(R)$(PROPERTY)OnePushAvail
-
-bi
-
-PGPropertyOnePush
-
-asynInt32
-
-r/w
-
-Processing this record causes a one-push setting of the property.
-
-PG\_PROP\_ONE\_PUSH
-
-$(P)$(R)$(PROPERTY)OnePush
-
-bo
-
-PGPropertyAbsAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property supports absolute (floating point)
-control.
-
-PG\_PROP\_ABS\_AVAIL
-
-$(P)$(R)$(PROPERTY)AbsAvail
-
-bi
-
-PGPropertyAutoAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property supports automatic control.
-
-PG\_PROP\_AUTO\_AVAIL
-
-$(P)$(R)$(PROPERTY)AutoAvail
-
-bi
-
-PGPropertyManAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property supports manual control.
-
-PG\_PROP\_MAN\_AVAIL
-
-$(P)$(R)$(PROPERTY)ManAvail
-
-bi
-
-PGPropertyAutoMode
-
-asynInt32
-
-r/w
-
-Controls whether the property is manually controlled or automatically
-controlled.
-
-PG\_PROP\_AUTO\_MODE
-
-| $(P)$(R)$(PROPERTY)AutoMode
-| $(P)$(R)$(PROPERTY)AutoMode\_RBV
-
-| bo
-| bi
-
-PGPropertyAbsAvail
-
-asynInt32
-
-r/o
-
-A flag indicating if the property supports absolute (floating point)
-control.
-
-PG\_PROP\_ABS\_AVAIL
-
-$(P)$(R)$(PROPERTY)AbsAvail
-
-bi
-
-PGPropertyAbsMode
-
-asynInt32
-
-r/w
-
-Controls whether the property is controlled in integer device units or
-floating point absolute units.
-
-PG\_PROP\_ABS\_MODE
-
-| $(P)$(R)$(PROPERTY)AbsMode
-| $(P)$(R)$(PROPERTY)AbsMode\_RBV
-
-| bo
-| bi
-
-PGPropertyValue
-
-asynInt32
-
-r/w
-
-The value of the property in integer device units. This controls the
-ValueA field of the property, which is the only integer field used for
-all properties except WHITE\_BALANCE.
-
-PG\_PROP\_VAL
-
-| $(P)$(R)$(PROPERTY)Val
-| $(P)$(R)$(PROPERTY)Val\_RBV
-
-| ao
-| ai
-
-PGPropertyValueB
-
-asynInt32
-
-r/w
-
-The value of the property in integer device units. This controls the
-ValueB field of the property, which is only used to control the Blue
-value of WHITE\_BALANCE.
-
-PG\_PROP\_VAL\_B
-
-| $(P)$(R)$(PROPERTY)ValB
-| $(P)$(R)$(PROPERTY)ValB\_RBV
-
-| ao
-| ai
-
-PGPropertyValueMin
-
-asynInt32
-
-r/o
-
-The minimum value of the property in device units. This is used to
-control the LOPR and DRVL fields of the $(P)$(R)$(PROPERTY)Val record.
-
-PG\_PROP\_VAL\_MIN
-
-$(P)$(R)$(PROPERTY)ValMin
-
-ai
-
-PGPropertyValueMax
-
-asynInt32
-
-r/o
-
-The maximum value of the property in device units. This is used to
-control the HOPR and DRVH fields of the $(P)$(R)$(PROPERTY)Val record.
-
-PG\_PROP\_VAL\_MAX
-
-$(P)$(R)$(PROPERTY)ValMax
-
-ai
-
-PGPropertyValueAbs
-
-asynFloat64
-
-r/w
-
-The value of the property in floating point absolute units.
-
-PG\_PROP\_VAL\_ABS
-
-| $(P)$(R)$(PROPERTY)ValAbs
-| $(P)$(R)$(PROPERTY)ValAbs\_RBV
-
-| ao
-| ai
-
-PGPropertyValueAbsMin
-
-asynFloat64
-
-r/o
-
-The minimum value of the property in absolute units. This is used to
-control the LOPR and DRVL fields of the $(P)$(R)$(PROPERTY)ValAbs
-record.
-
-PG\_PROP\_VAL\_ABS\_MIN
-
-$(P)$(R)$(PROPERTY)ValAbsMin
-
-ai
-
-PGPropertyValueAbsMax
-
-asynFloat64
-
-r/o
-
-The maximum value of the property in absolute units. This is used to
-control the HOPR and DRVH fields of the $(P)$(R)$(PROPERTY)ValAbs
-record.
-
-PG\_PROP\_VAL\_ABS\_MAX
-
-$(P)$(R)$(PROPERTY)ValAbsMax
-
-ai
-
-**GigE Property parameters
-These parameters apply to each of the 4 Point Grey GigE properties
-discussed in the `GigE Properties <#GigEProperties>`__ section above.
-The $(PROPERTY) macro in this table is the EPICS record base name listed
-in that section.
-These records are defined in pointGreyProperty.template.**
-
-PGPropertyValue
-
-asynInt32
-
-r/w
-
-The value of the property in integer device units. This controls the
-ValueA field of the property, which is the only integer field used for
-all properties except WHITE\_BALANCE.
-
-PG\_PROP\_VAL
-
-| $(P)$(R)$(PROPERTY)Val
-| $(P)$(R)$(PROPERTY)Val\_RBV
-
-| ao
-| ai
-
-PGPropertyValueMin
-
-asynInt32
-
-r/o
-
-The minimum value of the property in device units. This is used to
-control the LOPR and DRVL fields of the $(P)$(R)$(PROPERTY)Val record.
-
-PG\_PROP\_VAL\_MIN
-
-$(P)$(R)$(PROPERTY)ValMin
-
-ai
-
-PGPropertyValueMax
-
-asynInt32
-
-r/o
-
-The maximum value of the property in device units. This is used to
-control the HOPR and DRVH fields of the $(P)$(R)$(PROPERTY)Val record.
-
-PG\_PROP\_VAL\_MAX
-
-$(P)$(R)$(PROPERTY)ValMax
-
-ai
-
-**Trigger parameters**
-
-PGTriggerSource
-
-asynInt32
-
-r/w
-
-The trigger source signal. Choices are "GPIO\_0", GPIO\_1","GPIO\_2",
-and "GPIO\_3", which selects one of 4 GPIO pins on the camera. However,
-not all choices may be available on a specific camera, and the enum
-choices will only be the trigger sources actually supported on the
-camera in use.
-
-PG\_TRIGGER\_SOURCE
-
-| $(P)$(R)TriggerSource
-| $(P)$(R)TriggerSource\_RBV
-
-| mbbo
-| mbbi
-
-PGTriggerPolarity
-
-asynInt32
-
-r/w
-
-The trigger polarity. Choices are "Low", and "High".
-
-PG\_TRIGGER\_POLARITY
-
-| $(P)$(R)TriggerPolarity
-| $(P)$(R)TriggerPolarity\_RBV
-
-| bo
-| bi
-
-PGSoftwareTrigger
-
-asynInt32
-
-r/w
-
-Processing this record causes the driver to issue a software trigger.
-
-PG\_SOFTWARE\_TRIGGER
-
-$(P)$(R)SoftwareTrigger
-
-bo
-
-PGSkipFrames
-
-asynInt32
-
-r/w
-
-The number of frames to skip when TriggerMode="Skip frames".
-
-PG\_SKIP\_FRAMES
-
-| $(P)$(R)SkipFrames
-| $(P)$(R)SkipFrames\_RBV
-
-| longout
-| longin
-
-**Strobe parameters**
-
-PGStrobeSource
-
-asynInt32
-
-r/w
-
-The strobe output signal. Choices are "GPIO\_0", GPIO\_1","GPIO\_2", and
-"GPIO\_3", which selects one of 4 GPIO pins on the camera. However, not
-all choices may be available on a specific camera, and the enum choices
-will only be the strobe sources actually supported on the camera in use.
-
-PG\_STROBE\_SOURCE
-
-| $(P)$(R)StrobeSource
-| $(P)$(R)StrobeSource\_RBV
-
-| mbbo
-| mbbi
-
-PGStrobeEnable
-
-asynInt32
-
-r/w
-
-Enables the strobe output. Choices are "Disable", and "Enable".
-
-PG\_STROBE\_ENABLE
-
-| $(P)$(R)StrobeEnable
-| $(P)$(R)StrobeEnable\_RBV
-
-| bo
-| bi
-
-PGStrobePolarity
-
-asynInt32
-
-r/w
-
-The strobe polarity. Choices are "Low", and "High".
-
-PG\_STROBE\_POLARITY
-
-| $(P)$(R)StrobePolarity
-| $(P)$(R)StrobePolarity\_RBV
-
-| bo
-| bi
-
-PGStrobeDelay
-
-asynFloat64
-
-r/w
-
-The delay of the strobe signal relative to the start of acquisition.
-
-PG\_STROBE\_DELAY
-
-| $(P)$(R)StrobeDelay
-| $(P)$(R)StrobeDelay\_RBV
-
-| ao
-| ai
-
-PGStrobeDuration
-
-asynFloat64
-
-r/w
-
-The duration of the strobe signal. If zero then the strobe output is
-asserted during the image aquisition time.
-
-PG\_STROBE\_DURATION
-
-| $(P)$(R)StrobeDuration
-| $(P)$(R)StrobeDuration\_RBV
-
-| ao
-| ai
-
-**Bandwidth control parameters**
-
-PGMaxPacketSize
-
-asynInt32
-
-r/o
-
-The maximum packet size. This depends on the current acquisition
-settings for Firewire and USB cameras. For GigE cameras this is
-determined by calling DiscoverGigEPacketSize at startup, which should
-return the maximum Ethernet packet size supported between the camera and
-the IOC. However, this sometimes returns 9000 (jumbo packets) when jumbo
-packets are not in fact supported. In this case the user should manually
-set PacketSize to 1440 or image acquisition will fail.
-
-PG\_MAX\_PACKET\_SIZE
-
-$(P)$(R)MaxPacketSize
-
-longin
-
-PGPacketSize
-
-asynInt32
-
-r/w
-
-The packet size to use. This is used to control the maximum bandwidth,
-and hence maximum frame rate, on Firewire and USB cameras. For GigE
-cameras it should be set to the largest packet size supported on the
-Ethernet connection between the camera and IOC. It should be set to 1440
-for connections that do not support jumbo packets, and as large as 9000
-for connections that do support jumbo packets. If PacketSize is set to 0
-then the driver will use the current value of MaxPacketSize.
-
-PG\_PACKET\_SIZE
-
-| $(P)$(R)PacketSize
-| $(P)$(R)PacketSize\_RBV
-
-| ao
-| ai
-
-PGPacketSizeActual
-
-asynInt32
-
-r/o
-
-The actual packet size being used.
-
-PG\_PACKET\_SIZE\_ACTUAL
-
-$(P)$(R)PacketSizeActual
-
-longin
-
-PGPacketDelay
-
-asynInt32
-
-r/w
-
-The packet delay to use in microseconds. This is used to control the
-maximum bandwidth, and hence maximum frame rate, on GigE cameras. It is
-not used for Firewire or USB cameras. The default is 400 microseconds.
-If the number of CorruptFrames is large then this can be increased, for
-example to 1000. This will reduce the maximum frame rate but can
-significantly reduce the number of CorruptFrames.
-
-PG\_PACKET\_DELAY
-
-| $(P)$(R)PacketDelay
-| $(P)$(R)PacketDelay\_RBV
-
-| longout
-| longin
-
-PGPacketDelayActual
-
-asynInt32
-
-r/o
-
-The actual packet delay being used.
-
-PG\_PACKET\_DELAY\_ACTUAL
-
-$(P)$(R)PacketDelayActual
-
-longin
-
-PGBandwidth
-
-asynFloat64
-
-r/o
-
-The calculated bandidth in MB/s. This is computed from the image size
-and the frame rate.
-
-PG\_BANDWIDTH
-
-$(P)$(R)Bandwidth
-
-ai
-
-**Timestamp parameters**
-
-PGTimeStampMode
-
-asynInt32
-
-r/w
-
-The timestamp mode. Controls the value of the NDArray,.timeStamp value.
-Choices are:
-
--  Camera: The time from the camera is used.
--  EPICS: The EPICS time is used
--  Hybrid: The EPICS time when the camera started is combined with the
-   time stamp from the camera.
-
-PG\_TIME\_STAMP\_MODE
-
-| $(P)$(R)TimeStampMode
-| $(P)$(R)TimeStampMode\_RBV
-
-| mbbo
-| mbbi
-
-**Camera statistics**
-
-PGCorruptFrames
-
-asynInt32
-
-r/o
-
-The number of corrupt frames. The Point Grey SDK resets this to 0 each
-time acquisition is started.
-
-PG\_CORRUPT\_FRAMES
-
-$(P)$(R)CorruptFrames\_RBV
-
-longin
-
-PGDroppedFrames
-
-asynInt32
-
-r/o
-
-The number of dropped frames. The Point Grey SDK resets this to 0 each
-time acquisition is started.
-
-PG\_DROPPED\_FRAMES
-
-$(P)$(R)DroppedFrames\_RBV
-
-longin
-
-PGDriverDropped
-
-asynInt32
-
-r/o
-
-The number of frames dropped by the driver. The Point Grey SDK resets
-this to 0 each time acquisition is started.
-
-PG\_DRIVER\_DROPPED
-
-$(P)$(R)DriverDropped\_RBV
-
-longin
-
-PGTransmitFailed
-
-asynInt32
-
-r/o
-
-The number of time transmission failed. The Point Grey SDK resets this
-to 0 each time acquisition is started.
-
-PG\_TRANSMIT\_FAILED
-
-$(P)$(R)TransmitFailed\_RBV
-
-longin
 
 Configuration
-=============
+-------------
 
 The Point Grey driver is created with the pointGreyConfig command,
 either from C/C++ or from the EPICS IOC shell.
@@ -1556,7 +991,7 @@ settings to save/restore values at startup anyway, this is not a serious
 limitation.
 
 There an example IOC boot directory and startup script
-(`iocBoot/iocPointGrey/st.cmd) <point_grey_st_cmd.html>`__ provided with
+::doc:`st_cmd` provided with
 areaDetector.
 
 MEDM screens
@@ -1567,18 +1002,8 @@ Grey cameras.
 
 ``pointGrey.adl`` is the main screen used to control Point Grey cameras.
 
-.. raw:: html
-
-   <div style="text-align: center">
-
-.. rubric:: pointGrey.adl
-   :name: pointgrey.adl
-
-|pointGrey.png|
-
-.. raw:: html
-
-   </div>
+.. figure:: pointGrey.png
+    :align: center
 
 ``pointGreyProperties.adl`` is the screen used to control the properties
 of Point Grey cameras. Note that some of these properties, such as
@@ -1587,23 +1012,16 @@ areaDetector records, like AcquireTime, AcquirePeriod, and Gain. The
 widgets on the medm screen are hidden if the corresponding feature is
 not available.
 
-.. raw:: html
+.. figure:: pointGreyProperties\_BlackFly.png
+    :align: center
 
-   <div style="text-align: center">
+pointGreyProperties.adl for a BlackFly GigE color camera in RGB mode
 
-.. rubric:: pointGreyProperties.adl for a BlackFly GigE color camera in
-   RGB mode
-   :name: pointgreyproperties.adl-for-a-blackfly-gige-color-camera-in-rgb-mode
+.. figure:: pointGreyProperties\_Grasshopper3.png
+    :align: center
 
-|pointGreyProperties\_BlackFly.png|
-.. rubric:: pointGreyProperties.adl for a Grasshopper3 monochrome camera
-   :name: pointgreyproperties.adl-for-a-grasshopper3-monochrome-camera
+pointGreyProperties.adl for a Grasshopper3 monochrome camera
 
-|pointGreyProperties\_Grasshopper3.png|
-
-.. raw:: html
-
-   </div>
 
 ``pointGreyFrameRate.adl`` is the screen used to control the frame rate
 in standard video modes. This is a separate screen because the valid
@@ -1615,18 +1033,8 @@ events for changes in enum fields. Note that the readback of the
 FrameRate on the main pointGrey.adl screen can also be incorrect, so it
 may be necessary to close and re-open that main screen as well.
 
-.. raw:: html
-
-   <div style="text-align: center">
-
-.. rubric:: pointGreyFrameRate.adl
-   :name: pointgreyframerate.adl
-
-|pointGreyFrameRate.png|
-
-.. raw:: html
-
-   </div>
+.. figure:: pointGreyFrameRate.png
+    :align: center
 
 ``pointGreyPixelFormat.adl`` is the screen used to control the pixel
 format in Format7 mode. This is a separate screen because the valid enum
@@ -1638,21 +1046,6 @@ enum fields. Note that the readback of the PixelFormat on the main
 pointGrey.adl screen can also be incorrect, so it may be necessary to
 close and re-open that main screen as well.
 
-.. raw:: html
+.. figure:: pointGreyPixelFormat.png
+    :align: center
 
-   <div style="text-align: center">
-
-.. rubric:: pointGreyPixelFormat.adl
-   :name: pointgreypixelformat.adl
-
-|pointGreyPixelFormat.png|
-
-.. raw:: html
-
-   </div>
-
-.. |pointGrey.png| image:: pointGrey.png
-.. |pointGreyProperties\_BlackFly.png| image:: pointGreyProperties_BlackFly.png
-.. |pointGreyProperties\_Grasshopper3.png| image:: pointGreyProperties_Grasshopper3.png
-.. |pointGreyFrameRate.png| image:: pointGreyFrameRate.png
-.. |pointGreyPixelFormat.png| image:: pointGreyPixelFormat.png

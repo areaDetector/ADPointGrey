@@ -36,7 +36,7 @@ and in
 `ADArrayDriver.h <../areaDetectorDoxygenHTML/_a_d_driver_8h.html>`__. It
 also implements a number of parameters that are specific to the
 Point Grey cameras. The `pointGrey class
-documentation <areaDetectorDoxygenHTML/classpoint_grey.html>`__
+documentation <../areaDetectorDoxygenHTML/classpoint_grey.html>`__
 describes this class in detail.
 
 The Point Grey cameras use the `IIDC/DCAM
@@ -479,8 +479,8 @@ are in pointGreyProperty.template.
   * - PGVideoMode
     - asynInt32
     - r/w
-    - The video mode. All possible values are listed in the <a href="#VideoModes">Video
-      modes</a> section above. The actual enum choices for this record will only include
+    - The video mode. All possible values are listed in the `Video modes`_
+      section above. The actual enum choices for this record will pnly include
       the video modes supported by the camera in use.
     - PG_VIDEO_MODE
     - $(P)$(R)VideoMode, $(P)$(R)VideoMode_RBV
@@ -490,7 +490,7 @@ are in pointGreyProperty.template.
     - asynInt32
     - r/w
     - The Format7 mode when the camera is in VideoMode=Format7. This is discussed in the
-      <a href="#Format7Modes">Format7 modes</a> section above. The actual enum choices
+      `Format7 Modes`_ section above. The actual enum choices
       for this record will only include the Format7 modes supported by the camera in use.
     - PG_FORMAT7_MODE
     - $(P)$(R)Format7Mode, $(P)$(R)Format7Mode_RBV
@@ -500,7 +500,7 @@ are in pointGreyProperty.template.
     - asynInt32
     - r/w
     - The pixel format when the camera is in VideoMode=Format7. This is discussed in the
-      <a href="#PixelFormats">Pixel formats</a> section above. The actual enum choices
+      `Pixel formats`_ section above. The actual enum choices
       for this record will only include the pixel formats supported by the camera in use
       for the Format7Mode currently selected.
     - PG_PIXEL_FORMAT
@@ -540,7 +540,7 @@ are in pointGreyProperty.template.
     - asynInt32
     - r/w
     - The frame rate choice when the VideoMode is not Format7. This is discussed in the
-      <a href="#FrameRates">Frame rates</a> section above. The actual enum choices for
+      `Frame rates`_ section above. The actual enum choices for
       this record will only include the frame rates supported by the camera in use for
       the VideoMode currently selected.
     - PG_FRAME_RATE
@@ -558,9 +558,10 @@ are in pointGreyProperty.template.
   * -
     -
     - **Property parameters, These parameters apply to each of the 18 Point Grey properties discussed in the
-      <a href="#Properties">Properties</a> section above.
-      , The $(PROPERTY) macro in this table is the EPICS record base name listed in that
-      section., These records are defined in pointGreyProperty.template.**
+      `Properties`_ section above. |br|
+      The $(PROPERTY) macro in this table is the EPICS record base name listed in that
+      section. |br|
+      These records are defined in pointGreyProperty.template.**
   * - PGPropertyAvail
     - asynInt32
     - r/o
@@ -712,9 +713,10 @@ are in pointGreyProperty.template.
   * -
     -
     - **GigE Property parameters, These parameters apply to each of the 4 Point Grey GigE properties discussed in
-      the <a href="#GigEProperties">GigE Properties</a> section above.
-      , The $(PROPERTY) macro in this table is the EPICS record base name listed in that
-      section., These records are defined in pointGreyProperty.template.**
+      the `GigE Properties`_ section above. |br|
+      The $(PROPERTY) macro in this table is the EPICS record base name listed in that
+      section. |br|
+      These records are defined in pointGreyProperty.template.**
   * - PGPropertyValue
     - asynInt32
     - r/w
@@ -724,8 +726,7 @@ are in pointGreyProperty.template.
     - PG_PROP_VAL
     - $(P)$(R)$(PROPERTY)Val
       , $(P)$(R)$(PROPERTY)Val_RBV
-    - ao
-      , ai
+    - ao, ai
   * - PGPropertyValueMin
     - asynInt32
     - r/o
@@ -968,9 +969,9 @@ available) or the serial number of the camera to use. For additional
 details on the meaning of the parameters to this function refer to the
 detailed documentation on the pointGreyConfigConfig function in the
 `pointGrey.cpp
-documentation <areaDetectorDoxygenHTML/point_grey_8cpp.html>`__ and in
+documentation <../areaDetectorDoxygenHTML/point_grey_8cpp.html>`__ and in
 the documentation for the constructor for the `pointGrey
-class <areaDetectorDoxygenHTML/classpoint_grey.html>`__.
+class <../areaDetectorDoxygenHTML/classpoint_grey.html>`__.
 
 The traceMask can be set to a value > 1 to enable asynTrace debugging
 during initialization, before the value can be set from the IOC shell or
@@ -990,12 +991,15 @@ with a default set. Since the EPICS IOC sets nearly all the camera
 settings to save/restore values at startup anyway, this is not a serious
 limitation.
 
-There an example IOC boot directory and startup script
-::doc:`st_cmd` provided with
-areaDetector.
+Example st.cmd startup file
+---------------------------
+The following startup script is provided with ADPointGrey.
+
+.. literalinclude:: ../../../ADPointGrey/iocs/pointGreyIOC/iocBoot/iocPointGrey/st.cmd
+
 
 MEDM screens
-============
+------------
 
 The following show the MEDM screens that are used to control the Point
 Grey cameras.

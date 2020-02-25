@@ -19,10 +19,12 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-9 (XXX-January-2019)
+R2-9 (24-February-2019)
 ----
 * Added new ResendEnable record to control whether GigE packets should be resent on error.
   Thanks to Oksana Ivashkevych for this.
+* Converted documentation to .rst files on areaDetector.github.io.
+* Added .bob files for Phoebus Display Manager
 
 R2-8 (3-December-2018)
 ----

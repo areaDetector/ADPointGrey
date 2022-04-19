@@ -4,6 +4,7 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
 
+ifneq (, $(filter $(OS_CLASS), Linux WIN32))
 INC += AVIRecorder.h
 INC += BusManager.h
 INC += Camera.h
@@ -17,6 +18,7 @@ INC += Image.h
 INC += ImageStatistics.h
 INC += TopologyNode.h
 INC += Utilities.h
+endif
 
 # Note, the following files were manually copied from the Point Grey distribution lib directories on Windows
 # and from /usr/lib on Linux.

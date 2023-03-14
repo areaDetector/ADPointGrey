@@ -8,5 +8,5 @@ driver for cameras from
 These include IEEE 1394 Firewire DCAM, GigE, USB 2.0, and USB 3.0 cameras.
 
 Additional information:
-* [Documentation](https://areadetector.github.io/master/ADPointGrey/PointGreyDoc.html)
+* [Documentation](https://areadetector.github.io/areaDetector/ADPointGrey/PointGreyDoc.html)
 * [Release notes and links to source and binary releases](RELEASE.md)
